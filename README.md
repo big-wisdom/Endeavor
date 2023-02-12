@@ -71,6 +71,8 @@ I'd like to use type annotations everywhere possible.
 ## Tools
 I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual environment because that was the easiest setup on my computer.
 
+## Notes for later
+* In section number 4 [here](https://firebase.flutter.dev/docs/firestore/overview), there is a tip for reducing building time on iOS and macOS, I should keep that in mind when I'm building on those regularly
 
 ### What kind of tool do I want?
 * I kinda like the idea of a progressive tool. One that can be used for the simplest use case. In this case just a to-do list and you can add in whatever fancy features you want for the given task.
@@ -79,22 +81,19 @@ I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual en
 
 
 ## Task Brainstorming
-* Why shouldn't I just start working this out in flutter and firebase?
-    * Starting here got me going, but now I think I should just make the jump early. I could start testing basic functionality earlier that way.
+* I will start with authentication to build that structure into the database early
+* Then I will find a way to automatically log myself in while I'm testing
+* Then I'm going to start with the planning mode endeavor list and get that synced with the cloud for any given user
+* Planning mode Calendar view
+    * here you can add "endeavor blocks" or blocks of time in which you work on one endeavor. 
 
-
-* What about somewhere to manage endeavors?
-* A planning function that runs through the endeavors and walks you through planning each of them
-    * part of this could be "endeavor blocks" or blocks of time in which you work on one endeavor. 
-    * Another part could be a "top of mind section"
 * An endeavor brain to enforce continuity of planning
     * I could make building this planning thing my first use case.
-* Calendar or something to put plans on
-    * I could extend the calendar class. [Here](https://pybit.es/articles/python-subclasses/) is an article on subclasses in general [Here](https://www.geeksforgeeks.org/extend-class-method-in-python/) is an article on how to extend a class 
+
 * In physics there's this concept of de-dimensionalizing. Or rather, usefulizing units. You could understand your time in units of time/rent-payment by dividing time up into units of amount of time you have to work to pay for rent. Then a useless number, like an "8-hour" shift becomes a useful number. Like if rent is $700 and you make $13/hour, then 54 hours is one rent payment. So your shift is about 1/7th of a rent payment. Or if a meal is $20, then an 8-hour shift is a 5-meal shift which is an "eat for almost two days" shift. You could even average how much you spend per day from your budget and measure how much you make compared to that. You could make a unit that is (% of monthly expenses), like if you spend $1200/month, your % unit would be $12. Then an 8 hour shift would be about an 8% shift.
 
 
 
 
 ## What I'm working on now
-Okay I now have a basic flutter app that is associated with a firebase project through a registered IOS, android, and web app. Possibly a MacOS app.
+* I'm going to start with authentication so that I can get that structure into the ground floor.
