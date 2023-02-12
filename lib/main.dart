@@ -1,6 +1,15 @@
+import 'package:endeavor/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  debugPrint("A");
+  WidgetsFlutterBinding.ensureInitialized();
+  debugPrint("B");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  debugPrint("C");
   runApp(const MyApp());
 }
 
