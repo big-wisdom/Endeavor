@@ -96,4 +96,6 @@ I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual en
 
 
 ## What I'm working on now
-* I'm going to start with authentication so that I can get that structure into the ground floor.
+I'm following [this](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/19510418#search) tutorial and just created a basic auth page.
+
+Next, to hook it up to the backend.
