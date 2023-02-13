@@ -29,6 +29,13 @@
             {
               "client_id": "550787291975-48p7lqfr9u6ub04fguk3pslfusqtendo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "550787291975-1ib9pelrjlmlri27gku1i8nhgqcpkvfu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.endeavor"
+              }
             }
           ]
         }
