@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm({super.key});
+  const AuthForm(this.submitFn, this.isLoading, {super.key});
+
+  final bool isLoading;
+
+  final void Function(
+    String email,
+    String password,
+    String username,
+    bool isLogin,
+    BuildContext ctx,
+  ) submitFn;
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -20,9 +30,13 @@ class _AuthFormState extends State<AuthForm> {
 
     if (isValid != null && isValid) {
       _formKey.currentState?.save();
-      debugPrint(_userEmail);
-      debugPrint(_userName);
-      debugPrint(_userPassword);
+      widget.submitFn(
+        _userEmail.trim(),
+        _userPassword,
+        _userName,
+        _isLoginMode,
+        context,
+      );
 
       // use these values to send our auth request ...
     }
@@ -92,24 +106,27 @@ class _AuthFormState extends State<AuthForm> {
                     },
                   ),
                   const SizedBox(height: 12),
-                  ElevatedButton(
-                    child: Text(_isLoginMode ? "Login" : "Signup"),
-                    onPressed: () {
-                      _trySubmit();
-                    },
-                  ),
-                  TextButton(
-                    child: Text(
-                      _isLoginMode
-                          ? "Create Account"
-                          : "I Already Have an Account",
+                  if (widget.isLoading) const CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    ElevatedButton(
+                      child: Text(_isLoginMode ? "Login" : "Signup"),
+                      onPressed: () {
+                        _trySubmit();
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isLoginMode = !_isLoginMode;
-                      });
-                    },
-                  )
+                  if (!widget.isLoading)
+                    TextButton(
+                      child: Text(
+                        _isLoginMode
+                            ? "Create Account"
+                            : "I Already Have an Account",
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isLoginMode = !_isLoginMode;
+                        });
+                      },
+                    )
                 ],
               ),
             ),
