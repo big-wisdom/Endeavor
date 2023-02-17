@@ -160,6 +160,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_week_view:
+    dependency: "direct main"
+    description:
+      name: flutter_week_view
+      sha256: "2fcf5947396824c82f2d2dda9b54d3e63ea0d0e054e44ec380b900dc4c0ea3a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   http_parser:
     dependency: transitive
     description:
@@ -269,6 +277,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "33141f9073c607bd113898d241aa6a03ccc1856a314bd061015180c35d47012f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.50"
+  syncfusion_flutter_datepicker:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datepicker
+      sha256: "19f90a9e70c9edf5c23f900af224dea1e12fd9b2108ab528098c3cfd7508c57a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.50"
   term_glyph:
     dependency: transitive
     description:
@@ -303,4 +327,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=2.19.0-444.6.beta <4.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=3.0.0"
