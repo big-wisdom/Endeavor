@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:endeavor/screens/planning/calendar.dart';
+import 'package:endeavor/screens/planning/calendar/calendar.dart';
 import 'package:endeavor/screens/planning/endeavors.dart';
 import 'package:endeavor/screens/planning/tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +16,16 @@ class PlanningScreen extends StatefulWidget {
 
 class _PlanningScreenState extends State<PlanningScreen> {
   var currentPageIndex = 0;
+  var calendarView = CalendarView.month;
+  DateTime selectedDate = DateTime.now();
+  void setCalendarView(CalendarView view, [DateTime? date]) {
+    setState(() {
+      calendarView = view;
+      if (date != null) {
+        selectedDate = date;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +33,18 @@ class _PlanningScreenState extends State<PlanningScreen> {
       appBar: AppBar(
         title: const Text("Planning"),
         actions: [
+          DropdownButton(
+            value: calendarView,
+            items: const [
+              DropdownMenuItem(value: CalendarView.month, child: Text("Month")),
+              DropdownMenuItem(value: CalendarView.week, child: Text("Week")),
+            ],
+            onChanged: (value) {
+              if (value != null) {
+                setCalendarView(value);
+              }
+            },
+          ),
           DropdownButton(
             icon: const Icon(Icons.more_vert),
             items: [
@@ -46,7 +68,10 @@ class _PlanningScreenState extends State<PlanningScreen> {
       body: [
         Endeavors(user: widget.user),
         const Tasks(),
-        const Calendar(),
+        Calendar(
+            mode: calendarView,
+            selectedDate: selectedDate,
+            setCalendarView: setCalendarView),
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         destinations: const [
@@ -118,3 +143,5 @@ class _PlanningScreenState extends State<PlanningScreen> {
     );
   }
 }
+
+enum CalendarView { month, week }

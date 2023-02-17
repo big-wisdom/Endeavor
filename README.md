@@ -28,6 +28,8 @@ When asking myself what I needed to do, I used to go through the major things in
 ## Ecosystem
 Eventually, this app will contain much of the central data for other important applications. For example, this app will contain the info for exactly how much time you plan to spend working for the next month. That data, combined with your hourly rate contains the income half of your budget. These two apps will need to be deeply linked.
 
+I believe this means that I will need to use a router?
+
 
 ## 15 minutes
 I always envision this plan of building it little bits at a time so that over the course of the next two years it comes together. But I only ever put 15 minutes toward it and then start fresh again.
@@ -61,9 +63,7 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 
 ## Task Brainstorming
-* Then I'm going to start with the planning mode endeavor list and get that synced with the cloud for any given user
-* Planning mode Calendar view
-    * here you can add "endeavor blocks" or blocks of time in which you work on one endeavor. 
+* If I do calendar, then I can start making calendar blocks and then if I make tasks I can have them be auto scheduled.
 
 * An endeavor brain to enforce continuity of planning
     * I could make building this planning thing my first use case.
@@ -74,5 +74,19 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 ## UI Notes
 * NAVIGATION BAR: So I'm thinkin that the bottom selector might be a [NavigationBar](https://api.flutter.dev/flutter/material/NavigationBar-class.html) bar that goes into the [Scaffold's](https://api.flutter.dev/flutter/material/Scaffold-class.html) bottomNavigationBar property
 
+## Calendar View Notes
+* I found [this](https://github.com/Skyost/FlutterWeekView/blob/master/lib/src/widgets/week_view.dart) package out there, and I think I could either use and fork it or learn from it to make my own from scratch. I'm tempted to make it from scratch because I would need so much freedom with it. 
+
+### Use then Fork
+* I could set my blocks as just events at first then just schedule things next to them.
+* Then eventually I could figure out how to color the background.
+
+### From Scratch
+* So it looks like he does a horizontal Listview where each takes up a whole screen and custom physics to snap to the nearest day. I'd like to fit 3 days on the screen like google calendars. 
+* Then each List item must be a scroll view where you can see the whole day.
+
+
 ## What I'm working on now
-I'm following [this](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/19510418#search) tutorial.
+* I just got a list of endeavors that you can add to and delete from for any user.
+
+I found a good [package](https://github.com/Skyost/FlutterWeekView/) that I'm going to try and use then fork
