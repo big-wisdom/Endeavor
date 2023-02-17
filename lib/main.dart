@@ -1,9 +1,9 @@
 import 'package:endeavor/firebase_options.dart';
 import 'package:endeavor/screens/auth_screen.dart';
-import 'package:endeavor/screens/planning_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:endeavor/screens/planning/planning_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const PlanningScreen();
+            return PlanningScreen(user: snapshot.data!);
           } else {
             return const AuthScreen();
           }

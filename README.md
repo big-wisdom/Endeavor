@@ -46,30 +46,10 @@ So now this README.md is the central documentation for me to review what's going
 
 
 ## Server
-If I could have a centralized server where the data models run, I could make all sorts of client side apps that access the central data. This is down the road. Right now I'm just making a quick and dirty prototype here locally on my computer.
-
-## Class Structure
-I'd like to use type annotations everywhere possible.
-
-* Classes
-    * for the calendar
-        * Calendar
-            * Okay this is a tough one. I'm thinking that I can extend the calendar module to have it return more of what I'm looking for. 
-        * CalendarStorage
-            * I'm going to store calendar events using sqlite3. This also handles the persistence. I'm following [this](https://www.sqlitetutorial.net/sqlite-python/creating-database/) tutorial
-    * Person
-        * name (str)
-        * endeavors (List[Endeavor])
-    * Endeavor
-        * Title (str)
-        * List of Tasks (List[str])
-    * Task
-        * Title (str)
-* Functions
-    * show_calendar in CalendarGUI module
+If I could have a centralized server where the data models run, I could make all sorts of client side apps that access the central data. 
 
 ## Tools
-I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual environment because that was the easiest setup on my computer.
+I'm using Flutter version _______, dart version _______, and firebase for the backend.
 
 ## Notes for later
 * In section number 4 [here](https://firebase.flutter.dev/docs/firestore/overview), there is a tip for reducing building time on iOS and macOS, I should keep that in mind when I'm building on those regularly
@@ -81,8 +61,6 @@ I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual en
 
 
 ## Task Brainstorming
-* I will start with authentication to build that structure into the database early
-* Then I will find a way to automatically log myself in while I'm testing
 * Then I'm going to start with the planning mode endeavor list and get that synced with the cloud for any given user
 * Planning mode Calendar view
     * here you can add "endeavor blocks" or blocks of time in which you work on one endeavor. 
@@ -93,10 +71,8 @@ I'm using pycharm on my windows computer and the 3.8 interpreter in a virtual en
 * In physics there's this concept of de-dimensionalizing. Or rather, usefulizing units. You could understand your time in units of time/rent-payment by dividing time up into units of amount of time you have to work to pay for rent. Then a useless number, like an "8-hour" shift becomes a useful number. Like if rent is $700 and you make $13/hour, then 54 hours is one rent payment. So your shift is about 1/7th of a rent payment. Or if a meal is $20, then an 8-hour shift is a 5-meal shift which is an "eat for almost two days" shift. You could even average how much you spend per day from your budget and measure how much you make compared to that. You could make a unit that is (% of monthly expenses), like if you spend $1200/month, your % unit would be $12. Then an 8 hour shift would be about an 8% shift.
 
 
-
+## UI Notes
+* NAVIGATION BAR: So I'm thinkin that the bottom selector might be a [NavigationBar](https://api.flutter.dev/flutter/material/NavigationBar-class.html) bar that goes into the [Scaffold's](https://api.flutter.dev/flutter/material/Scaffold-class.html) bottomNavigationBar property
 
 ## What I'm working on now
 I'm following [this](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/19510418#search) tutorial.
-
-I just created a basic login/create user page and now I think I'm ready to start prototyping the working pages.
-[here](https://firebase.flutter.dev/docs/firestore-odm/overview) is something on the object document model. I think its a way to serialize classes into firestore. That may be useful
