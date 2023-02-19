@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:endeavor/screens/planning/add_endeavor.dart';
 import 'package:endeavor/screens/planning/calendar/calendar.dart';
+import 'package:endeavor/screens/planning/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/endeavors.dart';
 import 'package:endeavor/screens/planning/tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,24 +28,43 @@ class _PlanningScreenState extends State<PlanningScreen> {
     });
   }
 
+  void addEndeavor() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (ctx) {
+          return AddEndeavor(user: widget.user);
+        });
+  }
+
+  void addEndeavorBlock() {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return CreateEndeavorBlock(uid: widget.user.uid);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Planning"),
         actions: [
-          DropdownButton(
-            value: calendarView,
-            items: const [
-              DropdownMenuItem(value: CalendarView.month, child: Text("Month")),
-              DropdownMenuItem(value: CalendarView.week, child: Text("Week")),
-            ],
-            onChanged: (value) {
-              if (value != null) {
-                setCalendarView(value);
-              }
-            },
-          ),
+          if (currentPageIndex == 2)
+            DropdownButton(
+              value: calendarView,
+              items: const [
+                DropdownMenuItem(
+                    value: CalendarView.month, child: Text("Month")),
+                DropdownMenuItem(value: CalendarView.week, child: Text("Week")),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  setCalendarView(value);
+                }
+              },
+            ),
           DropdownButton(
             icon: const Icon(Icons.more_vert),
             items: [
@@ -90,54 +110,13 @@ class _PlanningScreenState extends State<PlanningScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (ctx) {
-                var text = '';
-                final formKey = GlobalKey<FormState>();
-
-                return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(ctx).viewInsets.bottom),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextFormField(
-                          autofocus: true,
-                          decoration: const InputDecoration(labelText: 'Text:'),
-                          validator: (value) {
-                            if (value == null || value == "") {
-                              return "Can't be empty";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            if (value != null) text = value;
-                          },
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            final isValid = formKey.currentState?.validate();
-                            FocusScope.of(context).unfocus();
-                            if (isValid != null && isValid) {
-                              formKey.currentState?.save();
-                              FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(widget.user.uid)
-                                  .collection('endeavors')
-                                  .add({"text": text});
-                            }
-                          },
-                          child: const Text("Add"),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              });
+          if (currentPageIndex == 0) {
+            addEndeavor();
+          } else if (currentPageIndex == 1) {
+            debugPrint("Add Task");
+          } else if (currentPageIndex == 2) {
+            addEndeavorBlock();
+          }
         },
       ),
     );

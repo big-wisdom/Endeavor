@@ -63,7 +63,10 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 
 ## Task Brainstorming
-* If I do calendar, then I can start making calendar blocks and then if I make tasks I can have them be auto scheduled.
+* Endeavor Blocks
+* Tasks with duration
+* Assign tasks to endeavors
+* Auto Plan
 
 * An endeavor brain to enforce continuity of planning
     * I could make building this planning thing my first use case.
@@ -87,6 +90,12 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 
 ## What I'm working on now
-* I just got a list of endeavors that you can add to and delete from for any user.
+* You can create an endeavor block that shows in the server, but I'm thinking it needs some major rework to even be workable
+    * I think repeating endeavor blocks is a must
+    * You also need to be able to delete
+    * They also need to show on the calendar
+    * When you create one it should drop down the bottom drawer and take you to at least the first instance.
 
-I found a good [package](https://github.com/Skyost/FlutterWeekView/) that I'm going to try and use then fork
+* First I need a routing system so that I can push pages and eventually deep link to pages
+* Then I need to get all pages I have so far working with it
+* Then I need to make a "Create/Edit Endeavor Block" page where you're taken if you click the plus button or you click on a block from the calendar
