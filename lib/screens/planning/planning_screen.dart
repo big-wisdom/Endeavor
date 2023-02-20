@@ -1,8 +1,8 @@
-import 'package:endeavor/screens/planning/add_endeavor.dart';
+import 'package:endeavor/screens/planning/endeavors/add_endeavor.dart';
 import 'package:endeavor/screens/planning/calendar/calendar.dart';
-import 'package:endeavor/screens/planning/create_endeavor_block.dart';
-import 'package:endeavor/screens/planning/endeavors.dart';
-import 'package:endeavor/screens/planning/tasks.dart';
+import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
+import 'package:endeavor/screens/planning/endeavors/endeavors.dart';
+import 'package:endeavor/screens/planning/tasks/tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -38,11 +38,15 @@ class _PlanningScreenState extends State<PlanningScreen> {
   }
 
   void addEndeavorBlock() {
-    showModalBottomSheet(
-        context: context,
-        builder: (ctx) {
-          return CreateEndeavorBlock(uid: widget.user.uid);
-        });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return CreateEndeavorBlock(
+              uid: widget.user.uid, setCalendarView: setCalendarView);
+        },
+      ),
+    );
   }
 
   @override
