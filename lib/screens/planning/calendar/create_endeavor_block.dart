@@ -79,6 +79,12 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                         }
                       });
                     },
+                    setFirstValue: (value) {
+                      if (!editing) {
+                        endeavorBlock.endeavorId =
+                            value; // sets the initial value for when creating
+                      }
+                    },
                   ),
                 ],
               ),
@@ -148,6 +154,22 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                   },
                   child: const Text("Add Block"),
                 ),
+              if (editing)
+                ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red),
+                  ),
+                  onPressed: () {
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(widget.uid)
+                        .collection('endeavorBlocks')
+                        .doc(endeavorBlock.id)
+                        .delete();
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Delete"),
+                )
             ],
           ),
         ),
