@@ -26,7 +26,10 @@ class OneTimeEndeavorBlock extends EndeavorBlock {
 
   @override
   bool validate() {
-    return type != null && event != null && event!.validate();
+    return type != null &&
+        endeavorId != null &&
+        event != null &&
+        event!.validate();
   }
 
   @override

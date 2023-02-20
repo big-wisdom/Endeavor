@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 class EndeavorsDropdownButton extends StatefulWidget {
   const EndeavorsDropdownButton(
-      {required this.uid, required this.onChanged, super.key});
+      {required this.uid,
+      required this.onChanged,
+      required this.setFirstValue,
+      super.key});
 
   final String uid;
   final Function(String) onChanged;
+  final Function(String) setFirstValue;
 
   @override
   State<EndeavorsDropdownButton> createState() =>
@@ -35,7 +39,13 @@ class _EndeavorsDropdownButtonState extends State<EndeavorsDropdownButton> {
             return data;
           }).toList();
 
-          String value = selectedId ?? endeavors[0]['id'];
+          String value;
+          if (selectedId == null) {
+            value = endeavors[0]['id'];
+            widget.setFirstValue(endeavors[0]['id']);
+          } else {
+            value = selectedId!;
+          }
           return DropdownButton(
             value: value, // What about the scenario when there are no endeavors
             items: endeavors.map((item) {
