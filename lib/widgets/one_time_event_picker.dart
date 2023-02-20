@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class OneTimeEventPicker extends StatefulWidget {
-  const OneTimeEventPicker({required this.event, super.key});
+  const OneTimeEventPicker({required this.event, this.onChanged, super.key});
 
   final Event event;
+  final Function(String, dynamic)? onChanged;
 
   @override
   State<OneTimeEventPicker> createState() => _OneTimeEventPickerState();
@@ -32,18 +33,25 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
           onSelectionChanged: (dateRangePickerSelectionChangedArgs) {
             DateTime selection =
                 (dateRangePickerSelectionChangedArgs.value as DateTime);
+            DateTime newStart = event.start!.copyWith(
+              day: selection.day,
+              year: selection.year,
+              month: selection.month,
+            );
+            DateTime newEnd = event.end!.copyWith(
+              day: selection.day,
+              year: selection.year,
+              month: selection.month,
+            );
+
             setState(() {
-              event.start = event.start!.copyWith(
-                day: selection.day,
-                year: selection.year,
-                month: selection.month,
-              );
-              event.end = event.end!.copyWith(
-                day: selection.day,
-                year: selection.year,
-                month: selection.month,
-              );
+              event.start = newStart;
+              event.end = newEnd;
             });
+            if (widget.onChanged != null) {
+              widget.onChanged!('start', newStart);
+              widget.onChanged!('end', newEnd);
+            }
           },
           monthViewSettings:
               const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
@@ -62,10 +70,17 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
                         ? TimeOfDay.now()
                         : TimeOfDay.fromDateTime(event.start!));
                 if (selection != null) {
-                  setState(() {
-                    event.start = event.start!.copyWith(
-                        hour: selection.hour, minute: selection.minute);
-                  });
+                  DateTime newStart = event.start!
+                      .copyWith(hour: selection.hour, minute: selection.minute);
+
+                  setState(
+                    () {
+                      event.start = newStart;
+                    },
+                  );
+                  if (widget.onChanged != null) {
+                    widget.onChanged!('start', newStart);
+                  }
                 }
               },
               child: Text(event.start?.toString() ?? "Select Time"),
@@ -87,10 +102,14 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
                             DateTime.now().add(const Duration(hours: 1)))
                         : TimeOfDay.fromDateTime(event.end!));
                 if (selection != null) {
+                  DateTime newEnd = event.end!
+                      .copyWith(hour: selection.hour, minute: selection.minute);
                   setState(() {
-                    event.end = event.end!.copyWith(
-                        hour: selection.hour, minute: selection.minute);
+                    event.end = newEnd;
                   });
+                  if (widget.onChanged != null) {
+                    widget.onChanged!('end', newEnd);
+                  }
                 }
               },
               child: Text(event.end?.toString() ?? "Select Time"),
