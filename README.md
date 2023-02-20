@@ -96,6 +96,5 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
     * They also need to show on the calendar
     * When you create one it should drop down the bottom drawer and take you to at least the first instance.
 
-* First I need a routing system so that I can push pages and eventually deep link to pages
-* Then I need to get all pages I have so far working with it
-* Then I need to make a "Create/Edit Endeavor Block" page where you're taken if you click the plus button or you click on a block from the calendar
+
+* Okay so should I should be able to support endeavor blocks that span days? 
