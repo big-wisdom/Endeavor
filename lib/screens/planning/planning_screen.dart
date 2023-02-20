@@ -95,7 +95,8 @@ class _PlanningScreenState extends State<PlanningScreen> {
         Calendar(
             mode: calendarView,
             selectedDate: selectedDate,
-            setCalendarView: setCalendarView),
+            setCalendarView: setCalendarView,
+            uid: widget.user.uid),
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         destinations: const [

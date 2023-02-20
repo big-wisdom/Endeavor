@@ -6,6 +6,17 @@ class OneTimeEndeavorBlock extends EndeavorBlock {
 
   OneTimeEndeavorBlock({this.event}) : super(type: EndeavorBlockType.single);
 
+  OneTimeEndeavorBlock.fromDocSnap(Map<String, dynamic> docSnapData)
+      : super(
+          endeavorId: docSnapData['endeavorId'],
+          type: EndeavorBlockType.single,
+        ) {
+    event = Event(
+      start: DateTime.parse(docSnapData['start']),
+      end: DateTime.parse(docSnapData['end']),
+    );
+  }
+
   @override
   bool validate() {
     return event != null && event!.validate();
