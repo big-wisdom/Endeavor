@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
 import 'package:endeavor/Models/event.dart';
 
@@ -6,19 +7,35 @@ class OneTimeEndeavorBlock extends EndeavorBlock {
 
   OneTimeEndeavorBlock({this.event}) : super(type: EndeavorBlockType.single);
 
-  OneTimeEndeavorBlock.fromDocSnap(Map<String, dynamic> docSnapData)
+  OneTimeEndeavorBlock.fromDocSnap(
+      {required Map<String, dynamic> docSnapData, required String id})
       : super(
+          id: id,
           endeavorId: docSnapData['endeavorId'],
           type: EndeavorBlockType.single,
         ) {
     event = Event(
-      start: DateTime.parse(docSnapData['start']),
-      end: DateTime.parse(docSnapData['end']),
+      start: DateTime.fromMicrosecondsSinceEpoch(
+        (docSnapData['start'] as Timestamp).microsecondsSinceEpoch,
+      ),
+      end: DateTime.fromMicrosecondsSinceEpoch(
+        (docSnapData['end'] as Timestamp).microsecondsSinceEpoch,
+      ),
     );
   }
 
   @override
   bool validate() {
-    return event != null && event!.validate();
+    return type != null && event != null && event!.validate();
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == runtimeType &&
+        (other as OneTimeEndeavorBlock).type == type &&
+        other.event == event;
+  }
+
+  @override
+  int get hashCode => event.hashCode;
 }

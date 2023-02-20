@@ -27,6 +27,7 @@ class _CalendarState extends State<Calendar> {
       return CalendarWeekView(
         selectedDate: widget.selectedDate,
         uid: widget.uid,
+        setCalendarView: widget.setCalendarView,
       );
     } else {
       return CalendarMonthView(setCalendarView: widget.setCalendarView);

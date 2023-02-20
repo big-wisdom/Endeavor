@@ -25,14 +25,25 @@ class CreateEndeavorBlock extends StatefulWidget {
 
 class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
   late EndeavorBlock endeavorBlock;
+  late bool editing;
+  bool isUnsaved = false;
 
   @override
   void initState() {
-    endeavorBlock = widget.endeavorBlock ??
-        OneTimeEndeavorBlock(
-            event: Event(
-                start: DateTime.now(),
-                end: DateTime.now().add(const Duration(hours: 1))));
+    if (widget.endeavorBlock == null) {
+      endeavorBlock = OneTimeEndeavorBlock(
+        event: Event(
+          start: DateTime.now(),
+          end: DateTime.now().add(
+            const Duration(hours: 1),
+          ),
+        ),
+      );
+      editing = false;
+    } else {
+      endeavorBlock = widget.endeavorBlock!;
+      editing = true;
+    }
 
     super.initState();
   }
@@ -60,7 +71,12 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                     uid: widget.uid,
                     onChanged: (value) {
                       setState(() {
-                        endeavorBlock.endeavorId = value;
+                        if (value != endeavorBlock.endeavorId) {
+                          endeavorBlock.endeavorId = value;
+                          if (editing) {
+                            updateDataOnServer('endeavorId', value);
+                          }
+                        }
                       });
                     },
                   ),
@@ -85,7 +101,12 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                     ],
                     onChanged: (value) {
                       setState(() {
-                        endeavorBlock.type = value;
+                        if (value != endeavorBlock.type) {
+                          endeavorBlock.type = value;
+                          if (editing) {
+                            updateDataOnServer('type', value);
+                          }
+                        }
                       });
                     },
                   )
@@ -94,42 +115,52 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
               // One time endeavor block picker
               if (endeavorBlock.type == EndeavorBlockType.single)
                 OneTimeEventPicker(
-                    event: (endeavorBlock as OneTimeEndeavorBlock).event!),
+                  event: (endeavorBlock as OneTimeEndeavorBlock).event!,
+                  onChanged: editing ? updateDataOnServer : null,
+                ),
               // repeating endeavor block picker
               // Submit button
-              ElevatedButton(
-                onPressed: () {
-                  // make sure end is after beginning
-                  if (endeavorBlock.validate()) {
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(widget.uid)
-                        .collection('endeavorBlocks')
-                        .add(
-                      {
-                        'endeavorId': endeavorBlock.endeavorId,
-                        'type': endeavorBlock.type.toString(),
-                        'start': (endeavorBlock as OneTimeEndeavorBlock)
-                            .event!
-                            .start!
-                            .toString(),
-                        'end': (endeavorBlock as OneTimeEndeavorBlock)
-                            .event!
-                            .end!
-                            .toString(),
-                      },
-                    );
-                  }
-                  widget.setCalendarView(CalendarView.week,
-                      (endeavorBlock as OneTimeEndeavorBlock).event!.start!);
-                  Navigator.pop(context);
-                },
-                child: const Text("Add Block"),
-              ),
+              if (!editing)
+                ElevatedButton(
+                  onPressed: () {
+                    // make sure end is after beginning
+                    if (endeavorBlock.validate()) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(widget.uid)
+                          .collection('endeavorBlocks')
+                          .add(
+                        {
+                          'endeavorId': endeavorBlock.endeavorId,
+                          'type': endeavorBlock.type.toString(),
+                          'start': (endeavorBlock as OneTimeEndeavorBlock)
+                              .event!
+                              .start!,
+                          'end': (endeavorBlock as OneTimeEndeavorBlock)
+                              .event!
+                              .end!,
+                        },
+                      );
+                    }
+                    widget.setCalendarView(CalendarView.week,
+                        (endeavorBlock as OneTimeEndeavorBlock).event!.start!);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Add Block"),
+                ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void updateDataOnServer(String dataField, dynamic value) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .collection('endeavorBlocks')
+        .doc(endeavorBlock.id)
+        .update({dataField: value});
   }
 }

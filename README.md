@@ -1,5 +1,6 @@
 # endeavor
 
+
 A new Flutter project.
 
 ## Getting Started
@@ -97,5 +98,4 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
     * When you create one it should drop down the bottom drawer and take you to at least the first instance.
 
 
-* Okay so my endeavor block creation/editing screen works with the backend, it doesn't do repeating endeavor blocks yet though
-* Next I'm going to make it so they show on the calendar and you can edit them by clicking on them there
+* Finally I need to make it so you can delete the endeavor block after you click on it
