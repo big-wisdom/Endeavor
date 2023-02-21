@@ -120,7 +120,10 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
     * Combine EndeavorBlock and OneTimeEndeavorBlock -- DONE
     * Make a RepeatingEvent model
     * Make EndeavorBlocks accept a RepeatingEndeavorId
-    * make a RepeatingEndeavor model that uses a repeating event model to generate a list of Endeavor models tied to the RepeatingEndeavor models id
+        * I think I now actually need to address why type data isn't making it back from the cloud
+            * Actually I might have accidentally fixed this
+    * Make a RepeatingEndeavor model that uses a repeating event model to generate a list of Endeavor models tied to the RepeatingEndeavor models id
+    * Make the UI
 
 
 
