@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:endeavor/Models/endeavor_block/one_time_endeavor_block.dart';
+import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
 import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
@@ -41,7 +41,7 @@ class CalendarWeekView extends StatelessWidget {
         // convert the docs into a list of FlutterWeekView futures
         if (snapshot.hasData) {
           endeavorBlocks = snapshot.data!.docs
-              .map((docSnap) => OneTimeEndeavorBlock.fromDocSnap(
+              .map((docSnap) => EndeavorBlock.fromDocSnap(
                   docSnapData: docSnap.data(), id: docSnap.id))
               .map((block) async {
             String title = (await FirebaseFirestore.instance

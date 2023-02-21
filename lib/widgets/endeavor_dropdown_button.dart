@@ -5,12 +5,12 @@ class EndeavorsDropdownButton extends StatefulWidget {
   const EndeavorsDropdownButton(
       {required this.uid,
       required this.onChanged,
-      required this.setFirstValue,
+      required this.firstValue,
       super.key});
 
   final String uid;
   final Function(String) onChanged;
-  final Function(String) setFirstValue;
+  final Function(String) firstValue;
 
   @override
   State<EndeavorsDropdownButton> createState() =>
@@ -39,15 +39,15 @@ class _EndeavorsDropdownButtonState extends State<EndeavorsDropdownButton> {
             return data;
           }).toList();
 
-          String value;
+          String currentValue;
           if (selectedId == null) {
-            value = endeavors[0]['id'];
-            widget.setFirstValue(endeavors[0]['id']);
+            currentValue = endeavors[0]['id'];
+            widget.firstValue(endeavors[0]['id']);
           } else {
-            value = selectedId!;
+            currentValue = selectedId!;
           }
           return DropdownButton(
-            value: value, // What about the scenario when there are no endeavors
+            value: currentValue,
             items: endeavors.map((item) {
               return DropdownMenuItem<String>(
                 value: item['id'],

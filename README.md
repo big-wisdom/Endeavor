@@ -74,6 +74,7 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 * In physics there's this concept of de-dimensionalizing. Or rather, usefulizing units. You could understand your time in units of time/rent-payment by dividing time up into units of amount of time you have to work to pay for rent. Then a useless number, like an "8-hour" shift becomes a useful number. Like if rent is $700 and you make $13/hour, then 54 hours is one rent payment. So your shift is about 1/7th of a rent payment. Or if a meal is $20, then an 8-hour shift is a 5-meal shift which is an "eat for almost two days" shift. You could even average how much you spend per day from your budget and measure how much you make compared to that. You could make a unit that is (% of monthly expenses), like if you spend $1200/month, your % unit would be $12. Then an 8 hour shift would be about an 8% shift.
 
+* the concept of a repeating endeavor block as an endeavor block generator is interesting. Just thinking of generators is interesting. What generates endeavors? What generates tasks? a generator could be an API that I reach out to to get new tasks like Canvas or something
 
 ## UI Notes
 * NAVIGATION BAR: So I'm thinkin that the bottom selector might be a [NavigationBar](https://api.flutter.dev/flutter/material/NavigationBar-class.html) bar that goes into the [Scaffold's](https://api.flutter.dev/flutter/material/Scaffold-class.html) bottomNavigationBar property
@@ -91,11 +92,39 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 
 ## What I'm working on now
-* You can create an endeavor block that shows in the server, but I'm thinking it needs some major rework to even be workable
-    * I think repeating endeavor blocks is a must
-    * You also need to be able to delete
-    * They also need to show on the calendar
-    * When you create one it should drop down the bottom drawer and take you to at least the first instance.
+* You can create an endeavor block and delete it, but I'm thinking it needs some major rework to even be workable
+    * When you create one you should be taken to the only or first instance.
+    * when you delete an endeavor, all of it's endeavor blocks should be deleted
+
+* I think repeating endeavor blocks is a must
+    * This requires
+        * Start Date
+        * End Date
+        * selected days
+        * Start Time
+        * End Time
+        * When I integrate a brain I'd like to have one for the repeating event and for the single event
+    * Then How am I going to store it?
+        * It would be nice to have individual storage for each event
+        * I could have a repeating endeavor blocks collection in the endeavorBlocks collection where each repeating endeavor block has it's own collection of endeavor blocks
+        * I could have a repeating endeavorBlocks section where each just holds a list of references to blocks in the endeavor blocks collection and each block that belongs to a repeating could store a bool that says so
+
+* steps to take
+    * Do I need to restructure existing classes?
+        * I could merge EndeavorBlock and one_time_endeavor_block to just EndeavorBlock
+        * Then I could create a RepeatingEndeavorBlock that uses a repeating event to create a list of endeavor blocks each of which would have a reference to the RepeatingEndeavorBlock
+    * Do I need to pull out the code where an endeavor block is produced so that the create_endeavor_block screen can just call that however many times it needs?
+    * Should I just make a repeating event because I will need to do that for tasks anyway?
+
+* Plan
+    * Combine EndeavorBlock and OneTimeEndeavorBlock -- DONE
+    * Make a RepeatingEvent model
+    * Make EndeavorBlocks accept a RepeatingEndeavorId
+    * make a RepeatingEndeavor model that uses a repeating event model to generate a list of Endeavor models tied to the RepeatingEndeavor models id
 
 
-* Finally I need to make it so you can delete the endeavor block after you click on it
+
+* Big Steps
+    * Deleting endeavor deletes all of it's endeavor blocks
+    * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
+    * Auto planning algorithm
