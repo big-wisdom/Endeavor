@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
-import 'package:endeavor/Models/endeavor_block/one_time_endeavor_block.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
@@ -31,7 +30,8 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
   @override
   void initState() {
     if (widget.endeavorBlock == null) {
-      endeavorBlock = OneTimeEndeavorBlock(
+      endeavorBlock = EndeavorBlock(
+        type: EndeavorBlockType.single,
         event: Event(
           start: DateTime.now(),
           end: DateTime.now().add(
@@ -79,7 +79,7 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                         }
                       });
                     },
-                    setFirstValue: (value) {
+                    firstValue: (value) {
                       if (!editing) {
                         endeavorBlock.endeavorId =
                             value; // sets the initial value for when creating
@@ -121,7 +121,7 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
               // One time endeavor block picker
               if (endeavorBlock.type == EndeavorBlockType.single)
                 OneTimeEventPicker(
-                  event: (endeavorBlock as OneTimeEndeavorBlock).event!,
+                  event: endeavorBlock.event!,
                   onChanged: editing ? updateDataOnServer : null,
                 ),
               // repeating endeavor block picker
@@ -139,17 +139,13 @@ class _CreateEndeavorBlockState extends State<CreateEndeavorBlock> {
                         {
                           'endeavorId': endeavorBlock.endeavorId,
                           'type': endeavorBlock.type.toString(),
-                          'start': (endeavorBlock as OneTimeEndeavorBlock)
-                              .event!
-                              .start!,
-                          'end': (endeavorBlock as OneTimeEndeavorBlock)
-                              .event!
-                              .end!,
+                          'start': endeavorBlock.event!.start!,
+                          'end': endeavorBlock.event!.end!,
                         },
                       );
                     }
-                    widget.setCalendarView(CalendarView.week,
-                        (endeavorBlock as OneTimeEndeavorBlock).event!.start!);
+                    widget.setCalendarView(
+                        CalendarView.week, endeavorBlock.event!.start!);
                     Navigator.pop(context);
                   },
                   child: const Text("Add Block"),

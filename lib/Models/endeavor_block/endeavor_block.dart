@@ -1,16 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:endeavor/Models/event.dart';
 
-abstract class EndeavorBlock {
+class EndeavorBlock {
   String? id;
   String? endeavorId;
   EndeavorBlockType? type;
+  Event? event;
 
-  EndeavorBlock({this.id, this.type, this.endeavorId});
+  EndeavorBlock({this.id, this.endeavorId, this.type, this.event});
 
   EndeavorBlock.fromDocSnap(
-      QueryDocumentSnapshot<Map<String, dynamic>> docSnap);
+      {required Map<String, dynamic> docSnapData, required String this.id}) {
+    endeavorId = docSnapData['endeavorId'];
+    event = Event(
+      start: DateTime.fromMicrosecondsSinceEpoch(
+        (docSnapData['start'] as Timestamp).microsecondsSinceEpoch,
+      ),
+      end: DateTime.fromMicrosecondsSinceEpoch(
+        (docSnapData['end'] as Timestamp).microsecondsSinceEpoch,
+      ),
+    );
+  }
 
-  bool validate();
+  bool validate() {
+    return endeavorId != null &&
+        event != null &&
+        type != null &&
+        event!.validate();
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == runtimeType &&
+        (other as EndeavorBlock).event == event &&
+        other.type == type;
+  }
+
+  @override
+  int get hashCode => event.hashCode;
 }
 
 enum EndeavorBlockType { single, repeating }
