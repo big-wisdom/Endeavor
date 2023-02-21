@@ -1,4 +1,4 @@
-import 'package:endeavor/Models/event.dart';
+import 'package:endeavor/Models/event/event.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 

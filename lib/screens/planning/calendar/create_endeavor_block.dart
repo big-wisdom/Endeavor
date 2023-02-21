@@ -5,7 +5,7 @@ import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Models/event.dart';
+import '../../../Models/event/event.dart';
 
 class CreateEndeavorBlock extends StatefulWidget {
   const CreateEndeavorBlock(
