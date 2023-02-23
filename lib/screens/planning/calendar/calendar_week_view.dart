@@ -62,7 +62,7 @@ class CalendarWeekView extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return CreateEndeavorBlock(
+                      return CreateOrEditEndeavorBlock.edit(
                         endeavorBlock: block,
                         uid: uid,
                         setCalendarView: setCalendarView,
