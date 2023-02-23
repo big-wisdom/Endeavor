@@ -104,11 +104,6 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Possible scenarios
-    //      Creating a new endeavor block, repeating or single
-    //      editing a single
-    //      editing a repeating
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -130,26 +125,29 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                     uid: widget.uid,
                     onChanged: (value) {
                       setState(() {
-                        if (value != endeavorBlock.endeavorId) {
-                          // if creating, or editing single just change it
-                          if ((editing &&
-                                  endeavorBlock.type ==
-                                      EndeavorBlockType.single) ||
-                              !editing) {
-                            endeavorBlock.endeavorId = value;
-                            if (editing) {
-                              // if editing a single, just change it on the server too
-                              updateDataOnServer('endeavorId', value);
+                        // if editing
+                        if (editing) {
+                          // if single change it and update server
+                          if (value != endeavorBlock.endeavorId) {
+                            if (endeavorBlock.type ==
+                                EndeavorBlockType.single) {
+                              endeavorBlock.endeavorId = value;
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    // TODO: Implement this
+                                    return const ChangeForThisOrAllDialogue();
+                                  });
                             }
-                          } else {
-                            // If editing a repeating, we need to ask if we
-                            // are changing them all or just this one
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  // TODO: Implement this
-                                  return const ChangeForThisOrAllDialogue();
-                                });
+                          }
+                          // if repeating, show dialogue to change one or all
+                        } else {
+                          // if creating just change it
+                          if (value != endeavorBlock.endeavorId) {
+                            endeavorBlock.endeavorId = value;
+                            repeatingEndeavorBlock
+                                .then((reb) => reb.endeavorId = value);
                           }
                         }
                       });
@@ -243,19 +241,41 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                           List<EndeavorBlock>? blocks = reb.endeavorBlocks;
                           if (blocks != null) {
                             final batch = FirebaseFirestore.instance.batch();
+
+                            // Create a doc to connect all the repeated blocks
+                            final repeatingDocRef = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid)
+                                .collection('repeatingEndeavorBlocks')
+                                .doc(); // no specific doc because we're creating
+                            reb.endeavorBlockIds = [];
+
+                            // Create a doc for each block
                             for (EndeavorBlock block in blocks) {
                               final docRef = FirebaseFirestore.instance
                                   .collection('users')
                                   .doc(widget.uid)
                                   .collection('endeavorBlocks')
                                   .doc();
+                              reb.endeavorBlockIds!.add(docRef.id);
                               batch.set(docRef, {
                                 'endeavorId': block.endeavorId,
                                 'type': block.type.toString(),
                                 'start': block.event!.start!,
                                 'end': block.event!.end!,
+                                // this connects each repeated block back to the
+                                // RepeatingEndeavorBlock
+                                'repeatingEndeavorBlockId': repeatingDocRef.id,
                               });
                             }
+
+                            batch.set(repeatingDocRef, {
+                              // this links from the RepeatingEndeavorBlock
+                              // to all the individual blocks
+                              'endeavorBlockIds': reb.endeavorBlockIds,
+                              'endeavorId': reb.endeavorId,
+                            });
+
                             batch.commit();
                           }
                         }
