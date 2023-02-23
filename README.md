@@ -117,13 +117,15 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
     * Should I just make a repeating event because I will need to do that for tasks anyway?
 
 * Plan
-    * Combine EndeavorBlock and OneTimeEndeavorBlock -- DONE
-    * Make a RepeatingEvent model
-    * Make EndeavorBlocks accept a RepeatingEndeavorId
-        * I think I now actually need to address why type data isn't making it back from the cloud
-            * Actually I might have accidentally fixed this
-    * Make a RepeatingEndeavor model that uses a repeating event model to generate a list of Endeavor models tied to the RepeatingEndeavor models id
     * Make the UI
+        * I will need to create the form element for a RepeatingEventPicker
+            * I'm immaining that it could just be 4 lines. Start date, and a button that shows the date or "select date", same for end date, and start and end times exactly the same as the single event picker
+                * start date could default to either today or the selected date
+                * I'm immagining the date ones just pop up a date picker
+                * This means I could make a start and end time picker that I use in both
+        * I will need to button to have two submit functions
+            * I have the single endeavor block one done
+            * I will need the other to create the RepeatingEndeavorBlock on the server, then all of it's EndeavorBlocks in the server
 
 
 

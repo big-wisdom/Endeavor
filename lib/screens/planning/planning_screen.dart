@@ -37,12 +37,12 @@ class _PlanningScreenState extends State<PlanningScreen> {
         });
   }
 
-  void addEndeavorBlock() {
+  void createEndeavorBlock() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreateEndeavorBlock(
+          return CreateOrEditEndeavorBlock.create(
               uid: widget.user.uid, setCalendarView: setCalendarView);
         },
       ),
@@ -120,7 +120,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
           } else if (currentPageIndex == 1) {
             debugPrint("Add Task");
           } else if (currentPageIndex == 2) {
-            addEndeavorBlock();
+            createEndeavorBlock();
           }
         },
       ),
