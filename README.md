@@ -55,7 +55,6 @@ If I could have a centralized server where the data models run, I could make all
 I'm using Flutter version _______, dart version _______, and firebase for the backend.
 
 ## Notes for later
-* In section number 4 [here](https://firebase.flutter.dev/docs/firestore/overview), there is a tip for reducing building time on iOS and macOS, I should keep that in mind when I'm building on those regularly
 
 ### What kind of tool do I want?
 * I kinda like the idea of a progressive tool. One that can be used for the simplest use case. In this case just a to-do list and you can add in whatever fancy features you want for the given task.
