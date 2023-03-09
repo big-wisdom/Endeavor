@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 
 class EndeavorsDropdownButton extends StatefulWidget {
   const EndeavorsDropdownButton(
-      {required this.uid,
+      {this.firstValue,
+      required this.uid,
       required this.onChanged,
-      required this.firstValue,
+      required this.returnFirstValue,
       super.key});
 
   final String uid;
   final Function(String) onChanged;
-  final Function(String) firstValue;
+  final Function(String) returnFirstValue;
+  final String? firstValue;
 
   @override
   State<EndeavorsDropdownButton> createState() =>
@@ -19,6 +21,13 @@ class EndeavorsDropdownButton extends StatefulWidget {
 
 class _EndeavorsDropdownButtonState extends State<EndeavorsDropdownButton> {
   String? selectedId;
+
+  @override
+  void initState() {
+    selectedId = widget.firstValue;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +51,7 @@ class _EndeavorsDropdownButtonState extends State<EndeavorsDropdownButton> {
           String currentValue;
           if (selectedId == null) {
             currentValue = endeavors[0]['id'];
-            widget.firstValue(endeavors[0]['id']);
+            widget.returnFirstValue(endeavors[0]['id']);
           } else {
             currentValue = selectedId!;
           }
