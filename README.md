@@ -95,40 +95,15 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
     * When you create one you should be taken to the only or first instance.
     * when you delete an endeavor, all of it's endeavor blocks should be deleted
 
-* I think repeating endeavor blocks is a must
-    * This requires
-        * Start Date
-        * End Date
-        * selected days
-        * Start Time
-        * End Time
-        * When I integrate a brain I'd like to have one for the repeating event and for the single event
-    * Then How am I going to store it?
-        * It would be nice to have individual storage for each event
-        * I could have a repeating endeavor blocks collection in the endeavorBlocks collection where each repeating endeavor block has it's own collection of endeavor blocks
-        * I could have a repeating endeavorBlocks section where each just holds a list of references to blocks in the endeavor blocks collection and each block that belongs to a repeating could store a bool that says so
-
-* steps to take
-    * Do I need to restructure existing classes?
-        * I could merge EndeavorBlock and one_time_endeavor_block to just EndeavorBlock
-        * Then I could create a RepeatingEndeavorBlock that uses a repeating event to create a list of endeavor blocks each of which would have a reference to the RepeatingEndeavorBlock
-    * Do I need to pull out the code where an endeavor block is produced so that the create_endeavor_block screen can just call that however many times it needs?
-    * Should I just make a repeating event because I will need to do that for tasks anyway?
 
 * Plan
-    * Make the UI
-        * I will need to create the form element for a RepeatingEventPicker
-            * I'm immaining that it could just be 4 lines. Start date, and a button that shows the date or "select date", same for end date, and start and end times exactly the same as the single event picker
-                * start date could default to either today or the selected date
-                * I'm immagining the date ones just pop up a date picker
-                * This means I could make a start and end time picker that I use in both
-        * I will need to button to have two submit functions
-            * I have the single endeavor block one done
-            * I will need the other to create the RepeatingEndeavorBlock on the server, then all of it's EndeavorBlocks in the server
-
-
-
-* Big Steps
-    * Deleting endeavor deletes all of it's endeavor blocks
-    * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * Auto planning algorithm
+  * Deleting endeavor deletes all of it's endeavor blocks
+    * I'm going to implement a cloud function to do the following
+      * Delete all relevant endeavor blocks
+      * For each document deleted, also remove it from it's repeating endeavor block
+      * If this empties out a repeating endeavor block, delete that repeating endeavor block
+    * So far I have added the dependency to my project and updated my firebase account to blaze pay as you go so that I can use it.
+    * I'm trying to use the flutterfire command on my laptop, I've already set it up on my desktop
+      * I'm actually switching to desktop for today, and I've got a big work day ahead of me, so I might be able to get it all done there
+  * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
+  * Auto planning algorithm
