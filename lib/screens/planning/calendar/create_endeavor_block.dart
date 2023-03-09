@@ -122,6 +122,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                 children: [
                   const Text("Endeavor:"),
                   EndeavorsDropdownButton(
+                    firstValue: endeavorBlock.endeavorId,
                     uid: widget.uid,
                     onChanged: (value) {
                       setState(() {
@@ -137,7 +138,39 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                                   context: context,
                                   builder: (context) {
                                     // TODO: Implement this
-                                    return const ChangeForThisOrAllDialogue();
+                                    return ChangeForThisOrAllDialogue(
+                                      onThis: () {
+                                        endeavorBlock.endeavorId = value;
+                                      },
+                                      onFollowing: () {
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(widget.uid)
+                                            .collection("endeavorBlocks")
+                                            .where("repeatingEndeavorBlockId",
+                                                isEqualTo: endeavorBlock
+                                                    .repeatingEndeavorBlockId)
+                                            .where("start",
+                                                isGreaterThanOrEqualTo:
+                                                    endeavorBlock.event!.start!)
+                                            .get()
+                                            .then((result) {
+                                          final batch = FirebaseFirestore
+                                              .instance
+                                              .batch();
+                                          for (var doc in result.docs) {
+                                            if (doc.exists) {
+                                              batch.update(
+                                                doc.reference,
+                                                {'endeavorId': value},
+                                              );
+                                            }
+                                          }
+                                          batch.commit();
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    );
                                   });
                             }
                           }
@@ -152,7 +185,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                         }
                       });
                     },
-                    firstValue: (value) {
+                    returnFirstValue: (value) {
                       if (!editing) {
                         // sets the initial value when creating
                         endeavorBlock.endeavorId = value;
@@ -194,14 +227,14 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                 ),
 
               // One time endeavor block picker
-              if (endeavorBlock.type == EndeavorBlockType.single)
+              if (endeavorBlock.type == EndeavorBlockType.single || editing)
                 OneTimeEventPicker(
                   event: endeavorBlock.event!,
                   onChanged: editing ? updateDataOnServer : null,
                 ),
 
               // repeating endeavor block picker
-              if (endeavorBlock.type == EndeavorBlockType.repeating)
+              if (endeavorBlock.type == EndeavorBlockType.repeating && !editing)
                 FutureBuilder<RepeatingEndeavorBlock>(
                   future: repeatingEndeavorBlock,
                   builder: (context, snapshot) {
@@ -210,6 +243,8 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                         repeatingEvent: snapshot.data!.repeatingEvent!,
                         onChanged: editing ? updateDataOnServer : null,
                       );
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
                     } else {
                       return const Text("Loading...");
                     }
@@ -269,12 +304,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                               });
                             }
 
-                            batch.set(repeatingDocRef, {
-                              // this links from the RepeatingEndeavorBlock
-                              // to all the individual blocks
-                              'endeavorBlockIds': reb.endeavorBlockIds,
-                              'endeavorId': reb.endeavorId,
-                            });
+                            batch.set(repeatingDocRef, reb.toDocData());
 
                             batch.commit();
                           }

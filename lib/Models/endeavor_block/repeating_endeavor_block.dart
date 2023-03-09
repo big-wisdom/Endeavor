@@ -15,9 +15,9 @@ class RepeatingEndeavorBlock {
     id = docSnap.id;
     Map<String, dynamic>? data = docSnap.data();
     if (data != null) {
-      endeavorId = data['endeavorId'];
-      endeavorBlockIds = data['endeavorBlockIds'];
-      repeatingEvent = RepeatingEvent.fromDocData(data);
+      endeavorBlockIds = (data['endeavorBlockIds'] as List)
+          .map((blockId) => blockId as String)
+          .toList();
     } else {
       throw Exception("Doc Snap came back empty");
     }
@@ -31,16 +31,10 @@ class RepeatingEndeavorBlock {
   }
 
   Map<String, dynamic>? toDocData() {
-    if (repeatingEvent != null &&
-        endeavorBlockIds != null &&
-        endeavorId != null) {
-      Map<String, dynamic>? repEventData = repeatingEvent!.toDocData();
-      Map<String, dynamic> thisDocData = {
+    if (endeavorBlockIds != null) {
+      return {
         'endeavorBlockIds': endeavorBlockIds,
-        'endeavorId': endeavorId,
       };
-      if (repEventData == null) return null;
-      return thisDocData..addAll(repEventData);
     } else {
       return null;
     }
