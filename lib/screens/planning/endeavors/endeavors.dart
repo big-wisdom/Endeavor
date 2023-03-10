@@ -38,30 +38,6 @@ class Endeavors extends StatelessWidget {
                 return Dismissible(
                   key: Key(itemData['text']),
                   onDismissed: (direction) {
-                    // Delete all of the endeavor blocks
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(user.uid)
-                        .collection('endeavorBlocks')
-                        .where('endeavorId', isEqualTo: item.id)
-                        .get()
-                        .then((querySnap) {
-                      if (querySnap.docs.isNotEmpty) {
-                        // remove each doc from repeating endeavor blocks
-                        // if repeating endeavor block is empty, delete it.
-                        // delete docs
-                        final batch = FirebaseFirestore.instance.batch();
-                        for (var doc in querySnap.docs) {
-                          if (doc.exists) {
-                            batch.delete(doc.reference);
-                          }
-                        }
-                        batch.commit();
-                      }
-                    });
-
-                    // Delete repeating endeavor blocks
-
                     // delete the endeavor
                     FirebaseFirestore.instance
                         .collection('users')
