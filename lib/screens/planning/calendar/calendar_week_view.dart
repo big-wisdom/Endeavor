@@ -45,12 +45,13 @@ class CalendarWeekView extends StatelessWidget {
                   docSnapData: docSnap.data(), id: docSnap.id))
               .map((block) async {
             String title = (await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(uid)
-                    .collection('endeavors')
-                    .doc(block.endeavorId)
-                    .get())
-                .data()!['text'];
+                        .collection('users')
+                        .doc(uid)
+                        .collection('endeavors')
+                        .doc(block.endeavorId)
+                        .get())
+                    .data()?['text'] ??
+                "Loading...";
             String description = "";
             return FlutterWeekViewEvent(
               title: title,

@@ -52,7 +52,10 @@ So now this README.md is the central documentation for me to review what's going
 If I could have a centralized server where the data models run, I could make all sorts of client side apps that access the central data. 
 
 ## Tools
-I'm using Flutter version _______, dart version _______, and firebase for the backend.
+Front end: flutter
+Back End: Firebase
+* Firebase CLI
+* flutterfire CLI
 
 ## Notes for later
 
@@ -91,19 +94,11 @@ I'm using Flutter version _______, dart version _______, and firebase for the ba
 
 
 ## What I'm working on now
-* You can create an endeavor block and delete it, but I'm thinking it needs some major rework to even be workable
-    * When you create one you should be taken to the only or first instance.
-    * when you delete an endeavor, all of it's endeavor blocks should be deleted
-
-
 * Plan
-  * Deleting endeavor deletes all of it's endeavor blocks
-    * I'm going to implement a cloud function to do the following
-      * Delete all relevant endeavor blocks
-      * For each document deleted, also remove it from it's repeating endeavor block
-      * If this empties out a repeating endeavor block, delete that repeating endeavor block
-    * So far I have added the dependency to my project and updated my firebase account to blaze pay as you go so that I can use it.
-    * I'm trying to use the flutterfire command on my laptop, I've already set it up on my desktop
-      * I'm actually switching to desktop for today, and I've got a big work day ahead of me, so I might be able to get it all done there
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
   * Auto planning algorithm
+
+* You can create an endeavor block and delete it, but I'm thinking it needs some major rework to even be workable
+    * When you create one you should be taken to the only or first instance.
+
+
