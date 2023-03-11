@@ -94,11 +94,15 @@ Back End: Firebase
 
 
 ## What I'm working on now
+* Right now I'm working on the tasks view
+
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
+    * I'm thinking that the tasks page will be a listview of collapsable tiles, each tile will be for one endeavor and will contain a reorderable list view for tasks
+    * There will be one option at the top of the page to plan all endeavors, one option per endeavor to plan that endeavor and one option for each task to plan it
+
   * Auto planning algorithm
 
-* You can create an endeavor block and delete it, but I'm thinking it needs some major rework to even be workable
-    * When you create one you should be taken to the only or first instance.
+  * When you create one you should be taken to the only or first instance.
 
 

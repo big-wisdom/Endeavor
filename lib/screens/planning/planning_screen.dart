@@ -2,6 +2,7 @@ import 'package:endeavor/screens/planning/endeavors/add_endeavor.dart';
 import 'package:endeavor/screens/planning/calendar/calendar.dart';
 import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavors.dart';
+import 'package:endeavor/screens/planning/tasks/create_or_edit_task.dart';
 import 'package:endeavor/screens/planning/tasks/tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,13 +38,26 @@ class _PlanningScreenState extends State<PlanningScreen> {
         });
   }
 
+  void addTask() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return CreateOrEditTask.create(uid: widget.user.uid);
+        },
+      ),
+    );
+  }
+
   void createEndeavorBlock() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return CreateOrEditEndeavorBlock.create(
-              uid: widget.user.uid, setCalendarView: setCalendarView);
+            uid: widget.user.uid,
+            setCalendarView: setCalendarView,
+          );
         },
       ),
     );
@@ -91,7 +105,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
       ),
       body: [
         Endeavors(user: widget.user),
-        const Tasks(),
+        Tasks(user: widget.user),
         Calendar(
             mode: calendarView,
             selectedDate: selectedDate,
@@ -118,7 +132,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
           if (currentPageIndex == 0) {
             addEndeavor();
           } else if (currentPageIndex == 1) {
-            debugPrint("Add Task");
+            addTask();
           } else if (currentPageIndex == 2) {
             createEndeavorBlock();
           }
