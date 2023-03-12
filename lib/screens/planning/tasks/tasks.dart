@@ -57,10 +57,12 @@ class Tasks extends StatelessWidget {
                 if (index < endeavorTasks.length) {
                   return const EndeavorTaskList();
                 } else {
-                  return ListTile(
-                    title: Text(
-                      tasksWithNoEndeavor[index - endeavorTasks.length].title!,
-                    ),
+                  Task thisTask =
+                      tasksWithNoEndeavor[index - endeavorTasks.length];
+                  return CheckboxListTile(
+                    title: Text(thisTask.title!),
+                    value: false,
+                    onChanged: (value) {},
                   );
                 }
               },

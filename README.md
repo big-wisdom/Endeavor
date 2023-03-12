@@ -98,10 +98,18 @@ Back End: Firebase
 
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * I'm thinking that the tasks page will be a listview of collapsable tiles, each tile will be for one endeavor and will contain a reorderable list view for tasks
-    * There will be one option at the top of the page to plan all endeavors, one option per endeavor to plan that endeavor and one option for each task to plan it
+    * I got the simplest task working, now I think I'll make it deletable and check offable
+    * Then I'll add the endeavor switcher
+    * Then I'll make them orderable
+    * Then I'll add an estimated duration
+    * Then I'll make them schedulable
+    * Then I'll make a due date
+    * Then I'll add divisibility
 
   * Auto planning algorithm
+    * To plan an endeavor I'll need to grab each of its tasks and each of it's endeavor blocks, each in order, then fill endeavor blocks with tasks in order
+    * Then I'd like to update each tasks color to show that it is scheduled
+    * Then I'd like functionality to tell you when you don't have enough endeavor block time scheduled and how much more you need to schedule all your tasks
 
   * When you create one you should be taken to the only or first instance.
 
