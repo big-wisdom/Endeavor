@@ -6,13 +6,15 @@ class EndeavorsDropdownButton extends StatefulWidget {
       {this.firstValue,
       required this.uid,
       required this.onChanged,
-      required this.returnFirstValue,
+      this.returnFirstValue,
+      required this.nullOption,
       super.key});
 
   final String uid;
-  final Function(String) onChanged;
-  final Function(String) returnFirstValue;
+  final Function(String?) onChanged;
+  final Function(String)? returnFirstValue;
   final String? firstValue;
+  final bool nullOption;
 
   @override
   State<EndeavorsDropdownButton> createState() =>
@@ -48,28 +50,46 @@ class _EndeavorsDropdownButtonState extends State<EndeavorsDropdownButton> {
             return data;
           }).toList();
 
+          // options
+          var options = endeavors.map((item) {
+            return DropdownMenuItem<String>(
+              value: item['id'],
+              child: Text(
+                (item['text']),
+              ),
+            );
+          }).toList();
+          if (widget.nullOption) {
+            options.insert(
+              0,
+              const DropdownMenuItem<String>(
+                value: "none",
+                child: Text("None"),
+              ),
+            );
+          }
+
+          // TODO: figure out what to do when there are no endeavors
+          // Initialize first value
           String currentValue;
           if (selectedId == null) {
-            currentValue = endeavors[0]['id'];
-            widget.returnFirstValue(endeavors[0]['id']);
+            currentValue = options[0].value!;
+            if (widget.returnFirstValue != null) {
+              widget.returnFirstValue!(endeavors[0]['id']);
+            }
           } else {
             currentValue = selectedId!;
           }
+
           return DropdownButton(
             value: currentValue,
-            items: endeavors.map((item) {
-              return DropdownMenuItem<String>(
-                value: item['id'],
-                child: Text(
-                  (item['text']),
-                ),
-              );
-            }).toList(),
+            items: options,
             onChanged: (value) {
-              if (value != null) {
+              if (value == "none") value = null;
+              setState(() {
                 selectedId = value;
                 widget.onChanged(value);
-              }
+              });
             },
           );
         } else {

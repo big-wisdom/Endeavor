@@ -56,7 +56,12 @@ class Tasks extends StatelessWidget {
               itemCount: endeavorTasks.length + tasksWithNoEndeavor.length,
               itemBuilder: (context, index) {
                 if (index < endeavorTasks.length) {
-                  return const EndeavorTaskList();
+                  String endeavorId = endeavorTasks.keys.toList()[index];
+                  return EndeavorTaskList(
+                    uid: user.uid,
+                    endeavorId: endeavorId,
+                    tasks: endeavorTasks[endeavorId]!,
+                  );
                 } else {
                   return TaskListTile(
                     task: tasksWithNoEndeavor[index - endeavorTasks.length],

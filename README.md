@@ -98,8 +98,9 @@ Back End: Firebase
 
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * I got the simplest task working, now I think I'll make it deletable and check offable
     * Then I'll add the endeavor switcher
+      * I will need to make none an option but only for tasks not endeavor blocks
+      * Then I will need to make sure that null value will be okay wherever it's used
     * Then I'll make them orderable
     * Then I'll add an estimated duration
     * Then I'll make them schedulable
