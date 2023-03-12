@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task {
+  String? id;
   String? title;
   Duration? duration;
   String? endeavorId;
@@ -16,6 +17,7 @@ class Task {
   });
 
   Task.fromDocSnap(QueryDocumentSnapshot docSnap) {
+    id = docSnap.id;
     final data = docSnap.data() as Map<String, dynamic>;
     title = data['title'];
     endeavorId = data['endeavorId'];

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/endeavor_task_list.dart';
+import 'package:endeavor/screens/planning/tasks/task_list_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -57,12 +58,10 @@ class Tasks extends StatelessWidget {
                 if (index < endeavorTasks.length) {
                   return const EndeavorTaskList();
                 } else {
-                  Task thisTask =
-                      tasksWithNoEndeavor[index - endeavorTasks.length];
-                  return CheckboxListTile(
-                    title: Text(thisTask.title!),
-                    value: false,
-                    onChanged: (value) {},
+                  return TaskListTile(
+                    task: tasksWithNoEndeavor[index - endeavorTasks.length],
+                    uid: user.uid,
+                    key: UniqueKey(),
                   );
                 }
               },
