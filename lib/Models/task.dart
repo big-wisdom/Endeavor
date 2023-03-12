@@ -33,6 +33,7 @@ class Task {
   Map<String, dynamic> toDoc() {
     return {
       "title": title,
+      "endeavorId": endeavorId,
     };
   }
 

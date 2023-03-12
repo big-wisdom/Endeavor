@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/task.dart';
+import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {
@@ -82,6 +83,20 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                   onChanged: (value) {
                     task.title = value;
                   },
+                ),
+                // Endeavor switcher
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Endeavor"),
+                    EndeavorsDropdownButton(
+                      uid: widget.uid,
+                      onChanged: (endeavorId) {
+                        task.endeavorId = endeavorId;
+                      },
+                      nullOption: true,
+                    ),
+                  ],
                 ),
                 // Add button
                 ElevatedButton(

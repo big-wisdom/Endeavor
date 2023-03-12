@@ -3,7 +3,8 @@ import 'package:endeavor/Models/task.dart';
 import 'package:flutter/material.dart';
 
 class TaskListTile extends StatefulWidget {
-  const TaskListTile({required this.task, required this.uid, super.key});
+  const TaskListTile(
+      {required this.task, required this.uid, required super.key});
 
   final Task task;
   final String uid;

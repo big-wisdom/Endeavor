@@ -122,6 +122,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                 children: [
                   const Text("Endeavor:"),
                   EndeavorsDropdownButton(
+                    nullOption: false,
                     firstValue: endeavorBlock.endeavorId,
                     uid: widget.uid,
                     onChanged: (value) {
