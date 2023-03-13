@@ -75,14 +75,15 @@ class _TaskListTileState extends State<TaskListTile> {
               .collection('endeavors')
               .doc(widget.task.endeavorId));
           // get current list
-          final currentList = endeavorDoc.data()!['tasks']
-              as List<String>; // doc should have data
+          final currentList = (endeavorDoc.data()!['taskIds'] as List)
+              .map((taskId) => taskId as String)
+              .toList(); // doc should have data
 
           // remove this tasks id from the list
           currentList.remove(widget.task.id);
 
           // update the list
-          t.update(endeavorDoc.reference, {"tasks": currentList});
+          t.update(endeavorDoc.reference, {"taskIds": currentList});
         },
       );
     }
