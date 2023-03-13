@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/task.dart';
+import 'package:endeavor/screens/planning/tasks/create_or_edit_task.dart';
 import 'package:flutter/material.dart';
 
 class TaskListTile extends StatefulWidget {
@@ -26,6 +27,16 @@ class _TaskListTileState extends State<TaskListTile> {
       child: ListTile(
         key: widget.key!,
         title: Text(widget.task.title!),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return CreateOrEditTask.edit(
+                    task: widget.task, uid: widget.uid);
+              },
+            ),
+          );
+        },
         trailing: IconButton(
           icon: Icon(checked
               ? Icons.radio_button_checked

@@ -85,10 +85,10 @@ class _PlanningScreenState extends State<PlanningScreen> {
             ),
           DropdownButton(
             icon: const Icon(Icons.more_vert),
-            items: const [
+            items: [
               DropdownMenuItem(
                 value: 'logout',
-                child: Row(children: [
+                child: Row(children: const [
                   Icon(Icons.exit_to_app),
                   SizedBox(width: 8),
                   Text("Logout")

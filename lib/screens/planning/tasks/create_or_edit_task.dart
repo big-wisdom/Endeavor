@@ -27,13 +27,16 @@ class CreateOrEditTask extends StatefulWidget {
 class _CreateOrEditTaskState extends State<CreateOrEditTask> {
   final _formKey = GlobalKey<FormState>();
   late Task task;
+  late bool editing;
 
   @override
   void initState() {
     if (widget.task != null) {
       task = widget.task!;
+      editing = true;
     } else {
       task = Task();
+      editing = false;
     }
 
     super.initState();
@@ -81,6 +84,53 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
     }
   }
 
+  void _endeavorChanged(String? endeavorId) {
+    String? oldEndeavorId = task.endeavorId;
+    task.endeavorId = endeavorId;
+    if (editing) {
+      FirebaseFirestore.instance.runTransaction<bool>((t) async {
+        // if it was part of an endeavor, remove it
+        if (oldEndeavorId != null) {
+          t.update(
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(widget.uid)
+                .collection('endeavors')
+                .doc(oldEndeavorId),
+            {
+              'taskIds': FieldValue.arrayRemove([task.id])
+            },
+          );
+        }
+
+        // change the endeavorId on a task
+        t.update(
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(widget.uid)
+              .collection('tasks')
+              .doc(task.id),
+          {'endeavorId': task.endeavorId},
+        );
+
+        // add it to the endeavor it is now a part of
+        if (task.endeavorId != null) {
+          t.update(
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(widget.uid)
+                .collection('endeavors')
+                .doc(task.endeavorId),
+            {
+              'taskIds': FieldValue.arrayUnion([task.id])
+            },
+          );
+        }
+        return true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +146,7 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
               children: [
                 // Title field
                 TextFormField(
+                  initialValue: task.title,
                   decoration: const InputDecoration(
                     labelText: "Title",
                   ),
@@ -108,6 +159,16 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                   onChanged: (value) {
                     task.title = value;
                   },
+                  onTapOutside: editing
+                      ? (event) {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(widget.uid)
+                              .collection('tasks')
+                              .doc(task.id)
+                              .update({'title': task.title});
+                        }
+                      : null,
                 ),
                 // Endeavor switcher
                 Row(
@@ -116,22 +177,21 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                     const Text("Endeavor"),
                     EndeavorsDropdownButton(
                       uid: widget.uid,
-                      onChanged: (endeavorId) {
-                        task.endeavorId = endeavorId;
-                      },
+                      onChanged: (endeavorId) => _endeavorChanged(endeavorId),
                       nullOption: true,
                     ),
                   ],
                 ),
                 // Add button
-                ElevatedButton(
-                  onPressed: () {
-                    if (_tryCreate()) {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: const Text("Add"),
-                ),
+                if (!editing)
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_tryCreate()) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text("Add"),
+                  ),
               ],
             ),
           ),
