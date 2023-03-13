@@ -34,6 +34,7 @@ class Task {
     return {
       "title": title,
       "endeavorId": endeavorId,
+      "duration": duration?.inMinutes,
     };
   }
 

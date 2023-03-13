@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:flutter/material.dart';
@@ -182,6 +183,33 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                       uid: widget.uid,
                       onChanged: (endeavorId) => _endeavorChanged(endeavorId),
                       nullOption: true,
+                    ),
+                  ],
+                ),
+                // Duration selector
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Duration"),
+                    TextButton(
+                      onPressed: () async {
+                        final resultingDuration = await showDurationPicker(
+                            context: context,
+                            initialTime: task.duration ?? Duration.zero);
+                        setState(() {
+                          task.duration = resultingDuration;
+                        });
+                        if (editing && resultingDuration != null) {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(widget.uid)
+                              .collection('tasks')
+                              .doc(task.id)
+                              .update(
+                                  {'duration': resultingDuration.inMinutes});
+                        }
+                      },
+                      child: Text(task.duration?.toString() ?? "Add duration"),
                     ),
                   ],
                 ),
