@@ -41,6 +41,7 @@ dependencies:
   flutter_week_view: ^1.2.2
   syncfusion_flutter_datepicker: ^20.4.50
   cloud_functions: ^4.0.12
+  duration_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:
