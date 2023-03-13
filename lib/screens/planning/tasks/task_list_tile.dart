@@ -21,12 +21,7 @@ class _TaskListTileState extends State<TaskListTile> {
     return Dismissible(
       key: widget.key!,
       onDismissed: (direction) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.uid)
-            .collection('tasks')
-            .doc(widget.task.id)
-            .delete();
+        deleteTask();
       },
       child: ListTile(
         key: widget.key!,
@@ -40,17 +35,45 @@ class _TaskListTileState extends State<TaskListTile> {
             setState(() {
               checked = !checked;
               Future.delayed(const Duration(milliseconds: 500)).then((value) {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(widget.uid)
-                    .collection('tasks')
-                    .doc(widget.task.id)
-                    .delete();
+                deleteTask();
               });
             });
           },
         ),
       ),
     );
+  }
+
+  void deleteTask() {
+    // Delete task document
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .collection('tasks')
+        .doc(widget.task.id)
+        .delete();
+
+    // Delete task from endeavor list if necessary
+    if (widget.task.endeavorId != null) {
+      FirebaseFirestore.instance.runTransaction(
+        (t) async {
+          // get endeavor document
+          final endeavorDoc = await t.get(FirebaseFirestore.instance
+              .collection('users')
+              .doc(widget.uid)
+              .collection('endeavors')
+              .doc(widget.task.endeavorId));
+          // get current list
+          final currentList = endeavorDoc.data()!['tasks']
+              as List<String>; // doc should have data
+
+          // remove this tasks id from the list
+          currentList.remove(widget.task.id);
+
+          // update the list
+          t.update(endeavorDoc.reference, {"tasks": currentList});
+        },
+      );
+    }
   }
 }
