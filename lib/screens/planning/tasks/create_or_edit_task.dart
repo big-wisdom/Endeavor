@@ -70,7 +70,9 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
           final docSnapData = docSnap.data()!;
           List<String> taskIds;
           if (docSnapData['taskIds'] != null) {
-            taskIds = docSnapData['taskIds'];
+            taskIds = (docSnapData['taskIds'] as List)
+                .map((taskId) => taskId as String)
+                .toList();
             taskIds.add(taskDoc.id);
           } else {
             taskIds = [taskDoc.id];
@@ -176,6 +178,7 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                   children: [
                     const Text("Endeavor"),
                     EndeavorsDropdownButton(
+                      firstValue: task.endeavorId,
                       uid: widget.uid,
                       onChanged: (endeavorId) => _endeavorChanged(endeavorId),
                       nullOption: true,

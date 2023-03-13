@@ -98,8 +98,6 @@ Back End: Firebase
 
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * I will make the tasks editable
-      * Edit should affect the endeavor document
     * Then I'll make them orderable
       * I think only the endeavor ones really need to be orderable
       * Therefore, I will store the ordered list of tasks on the endeavor document which will make it easy as the EndeavorTaskList is already pulling the endeavor document

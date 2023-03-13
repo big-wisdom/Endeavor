@@ -22,15 +22,15 @@ class EndeavorTaskList extends StatefulWidget {
 class _EndeavorTaskListState extends State<EndeavorTaskList> {
   @override
   Widget build(BuildContext context) {
-    final docFuture = FirebaseFirestore.instance
+    final docStream = FirebaseFirestore.instance
         .collection('users')
         .doc(widget.uid)
         .collection('endeavors')
         .doc(widget.endeavorId)
-        .get();
+        .snapshots();
 
-    return FutureBuilder(
-      future: docFuture,
+    return StreamBuilder(
+      stream: docStream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ListTile(
@@ -39,15 +39,47 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
         }
 
         if (snapshot.hasData) {
+          List<String> taskIds = (snapshot.data!['taskIds'] as List)
+              .map((taskId) => taskId as String)
+              .toList();
+
           return ExpansionTile(
+            initiallyExpanded: true,
             title: Text(snapshot.data!['text']),
             controlAffinity: ListTileControlAffinity.leading,
-            children: widget.tasks.map(
-              (task) {
-                return TaskListTile(
-                    key: UniqueKey(), task: task, uid: widget.uid);
-              },
-            ).toList(),
+            children: [
+              ReorderableListView(
+                shrinkWrap: true,
+                onReorder: ((oldIndex, newIndex) {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  // remove the item from its present index
+                  final String itemToMove = taskIds.removeAt(oldIndex);
+
+                  // insert it at the new index
+                  taskIds.insert(newIndex, itemToMove);
+
+                  // make change to document
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(widget.uid)
+                      .collection('endeavors')
+                      .doc(widget.endeavorId)
+                      .update({'taskIds': taskIds});
+                }),
+                // this is some fancy footwork
+                // get the order of the ids from the endeavor doc
+                // then get the task object from the list given
+                children: taskIds.map((taskId) {
+                  return TaskListTile(
+                    task: widget.tasks.firstWhere((task) => task.id == taskId),
+                    uid: widget.uid,
+                    key: UniqueKey(),
+                  );
+                }).toList(),
+              )
+            ],
           );
         } else {
           return const Text("Error");
