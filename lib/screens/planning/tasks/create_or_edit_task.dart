@@ -45,11 +45,36 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
     FocusScope.of(context).unfocus();
 
     if (formIsValid != null && formIsValid && taskIsValid) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.uid)
-          .collection('tasks')
-          .add(task.toDoc());
+      FirebaseFirestore.instance.runTransaction((t) async {
+        // add the task to the task collection and save the docRef
+        final taskDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.uid)
+            .collection('tasks')
+            .add(task.toDoc());
+
+        // if it is assigned to an endeavor, add it to its tasks
+        if (task.endeavorId != null) {
+          // get endeavor doc
+          final endeavorDocRef = FirebaseFirestore.instance
+              .collection('users')
+              .doc(widget.uid)
+              .collection('endeavors')
+              .doc(task.endeavorId);
+          final docSnap = await t.get(endeavorDocRef);
+
+          // add to tasks list or create it
+          final docSnapData = docSnap.data()!;
+          List<String> taskIds;
+          if (docSnapData['taskIds'] != null) {
+            taskIds = docSnapData['taskIds'];
+            taskIds.add(taskDoc.id);
+          } else {
+            taskIds = [taskDoc.id];
+          }
+          t.update(endeavorDocRef, {'taskIds': taskIds});
+        }
+      });
       return true;
     } else {
       return false;
