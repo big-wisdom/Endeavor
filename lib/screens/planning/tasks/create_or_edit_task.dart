@@ -213,6 +213,16 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                     ),
                   ],
                 ),
+                // Schedule
+                Row(
+                  children: [
+                    const Text("Schedule"),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(task.start?.toString() ?? "Schedule task"),
+                    ),
+                  ],
+                ),
                 // Add button
                 if (!editing)
                   ElevatedButton(
