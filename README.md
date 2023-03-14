@@ -98,7 +98,6 @@ Back End: Firebase
 
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * Then I'll add an estimated duration
     * Then I'll make them schedulable
     * Then I'll make a due date
     * Then I'll add divisibility
