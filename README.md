@@ -99,6 +99,9 @@ Back End: Firebase
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
     * Then I'll make them schedulable
+      * I need to make a starting DateTime
+        * I'll piece together my own date and time pickers on the create or edit page
+          * I'll even create my own DateTimePicker widget
     * Then I'll make a due date
     * Then I'll add divisibility
 
