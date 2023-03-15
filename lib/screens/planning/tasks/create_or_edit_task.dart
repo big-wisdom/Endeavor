@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duration_picker/duration_picker.dart';
+import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
+import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {
@@ -214,15 +216,29 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                   ],
                 ),
                 // Schedule
-                Row(
-                  children: [
-                    const Text("Schedule"),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(task.start?.toString() ?? "Schedule task"),
-                    ),
-                  ],
-                ),
+                if (task.event == null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Schedule"),
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              task.event = Event.generic();
+                            });
+                          },
+                          child: const Text("Add Date and Time"))
+                    ],
+                  ),
+                if (task.event != null)
+                  OneTimeEventPicker(
+                    event: task.event!,
+                    onChanged: (newEvent) {
+                      setState(() {
+                        task.event = newEvent;
+                      });
+                    },
+                  ),
                 // Add button
                 if (!editing)
                   ElevatedButton(

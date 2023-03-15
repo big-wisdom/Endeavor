@@ -4,6 +4,18 @@ class Event {
 
   Event({this.start, this.end});
 
+  Event.generic() {
+    start = DateTime.now();
+    end = DateTime.now().add(const Duration(hours: 1));
+  }
+
+  Map<String, dynamic> toDocData() {
+    return {
+      'start': start,
+      'end': end,
+    };
+  }
+
   bool validate() {
     return start != null && end != null && end!.isAfter(start!);
   }

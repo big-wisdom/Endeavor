@@ -231,7 +231,9 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
               if (endeavorBlock.type == EndeavorBlockType.single || editing)
                 OneTimeEventPicker(
                   event: endeavorBlock.event!,
-                  onChanged: editing ? updateDataOnServer : null,
+                  onChanged: editing
+                      ? (newEvent) => updateDataOnServer(newEvent.toDocData())
+                      : null,
                 ),
 
               // repeating endeavor block picker
@@ -242,7 +244,10 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                     if (snapshot.hasData) {
                       return RepeatingEventPicker(
                         repeatingEvent: snapshot.data!.repeatingEvent!,
-                        onChanged: editing ? updateDataOnServer : null,
+                        onChanged: editing
+                            ? (repeatingEvent) =>
+                                updateDataOnServer(repeatingEvent.toDocData()!)
+                            : null,
                       );
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
@@ -347,12 +352,12 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
     );
   }
 
-  void updateDataOnServer(String dataField, dynamic value) {
+  void updateDataOnServer(Map<String, dynamic> data) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(widget.uid)
         .collection('endeavorBlocks')
         .doc(endeavorBlock.id)
-        .update({dataField: value});
+        .update(data);
   }
 }
