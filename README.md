@@ -96,18 +96,12 @@ Back End: Firebase
 ## What I'm working on now
 * Right now I'm working on the tasks view
 
-* Plan
-  * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * Then I'll make them schedulable
-      * I'll give the one_time_event_picker a flag bool to switch to start time picking
-      * I will also add a remove schedule option and it will return null to onChanged
-    * Then I'll make a due date
-    * Then I'll add divisibility
-
-  * Auto planning algorithm
+  * Then I'll make a planning algorithm
     * To plan an endeavor I'll need to grab each of its tasks and each of it's endeavor blocks, each in order, then fill endeavor blocks with tasks in order
-    * Then I'd like to update each tasks color to show that it is scheduled
-    * Then I'd like functionality to tell you when you don't have enough endeavor block time scheduled and how much more you need to schedule all your tasks
+    * Then to show that they're scheduled, I'd like to update each tasks color to show that it is scheduled
+  * Then I'll make a due date
+  * Then I'd like functionality to tell you when you don't have enough endeavor block time scheduled and how much more you need to schedule all your tasks
+  * Then I'll add divisibility
 
   * When you create one you should be taken to the only or first instance.
 
