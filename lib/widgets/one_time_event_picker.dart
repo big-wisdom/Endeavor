@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class OneTimeEventPicker extends StatefulWidget {
-  const OneTimeEventPicker({required this.event, this.onChanged, super.key});
+  const OneTimeEventPicker(
+      {required this.event, this.onChanged, this.startOnly = false, super.key});
 
   final Event event;
-  final Function(Event value)? onChanged;
+  final Function(Event? value)? onChanged;
+  final bool startOnly;
 
   @override
   State<OneTimeEventPicker> createState() => _OneTimeEventPickerState();
@@ -87,34 +89,47 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
           ],
         ),
         // End time picker
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("End Time: "),
-            TextButton(
-              onPressed: () async {
-                TimeOfDay? selection = await _selectTime(
-                    context,
-                    event.end == null
-                        ? TimeOfDay.fromDateTime(
-                            DateTime.now().add(const Duration(hours: 1)))
-                        : TimeOfDay.fromDateTime(event.end!));
-                if (selection != null) {
-                  DateTime newEnd = event.end!
-                      .copyWith(hour: selection.hour, minute: selection.minute);
-                  setState(() {
-                    event.end = newEnd;
-                  });
-                  if (widget.onChanged != null) {
-                    widget.onChanged!(event);
+        if (!widget.startOnly)
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("End Time: "),
+              TextButton(
+                onPressed: () async {
+                  TimeOfDay? selection = await _selectTime(
+                      context,
+                      event.end == null
+                          ? TimeOfDay.fromDateTime(
+                              DateTime.now().add(const Duration(hours: 1)))
+                          : TimeOfDay.fromDateTime(event.end!));
+                  if (selection != null) {
+                    DateTime newEnd = event.end!.copyWith(
+                        hour: selection.hour, minute: selection.minute);
+                    setState(() {
+                      event.end = newEnd;
+                    });
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(event);
+                    }
                   }
-                }
-              },
-              child: Text(event.end?.toString() ?? "Select Time"),
-            ),
-          ],
-        ),
+                },
+                child: Text(event.end?.toString() ?? "Select Time"),
+              ),
+            ],
+          ),
+        if (widget.startOnly)
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(null);
+                    }
+                  },
+                  child: const Text("Remove Schedule"))
+            ],
+          ),
       ],
     );
   }

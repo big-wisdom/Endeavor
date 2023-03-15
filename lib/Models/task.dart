@@ -33,6 +33,8 @@ class Task {
     if (inputEvent != null) {
       start = inputEvent.start;
       duration = inputEvent.end!.difference(inputEvent.start!);
+    } else {
+      start = null;
     }
   }
 
@@ -43,9 +45,11 @@ class Task {
     endeavorId = data['endeavorId'];
     duration =
         data['duration'] != null ? Duration(minutes: data['duration']) : null;
-    start = DateTime.fromMicrosecondsSinceEpoch(
-      (data['start'] as Timestamp).microsecondsSinceEpoch,
-    );
+    start = data['start'] != null
+        ? DateTime.fromMicrosecondsSinceEpoch(
+            (data['start'] as Timestamp).microsecondsSinceEpoch,
+          )
+        : null;
     dueDate = data['dueDate'] != null
         ? DateTime.fromMicrosecondsSinceEpoch(
             (data['dueDate'] as Timestamp).microsecondsSinceEpoch)

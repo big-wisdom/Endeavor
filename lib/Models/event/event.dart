@@ -4,9 +4,9 @@ class Event {
 
   Event({this.start, this.end});
 
-  Event.generic() {
+  Event.generic(Duration? duration) {
     start = DateTime.now();
-    end = DateTime.now().add(const Duration(hours: 1));
+    end = DateTime.now().add(duration ?? const Duration(hours: 1));
   }
 
   Map<String, dynamic> toDocData() {
