@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
+import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
+import 'package:endeavor/screens/planning/tasks/create_or_edit_task.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
 import 'package:flutter/material.dart';
+import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 
 class CalendarWeekView extends StatelessWidget {
   const CalendarWeekView(
@@ -32,15 +35,23 @@ class CalendarWeekView extends StatelessWidget {
             .collection('endeavorBlocks')
             .snapshots();
 
-    // Stream builder off that stream
-    return StreamBuilder(
-      stream: endeavorBlocksStream,
-      builder: (context, snapshot) {
-        List<Future<FlutterWeekViewEvent>>? endeavorBlocks;
+    Stream<QuerySnapshot<Map<String, dynamic>>> taskStream = FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(uid)
+        .collection('tasks')
+        .snapshots();
 
-        // convert the docs into a list of FlutterWeekView futures
-        if (snapshot.hasData) {
-          endeavorBlocks = snapshot.data!.docs
+    // Stream builder off that stream
+    return StreamBuilder2(
+      streams: StreamTuple2(endeavorBlocksStream, taskStream),
+      builder: (context, snapshots) {
+        List<Future<FlutterWeekViewEvent>>? endeavorBlocks;
+        List<FlutterWeekViewEvent>? scheduledTasks;
+
+        // convert the endeavorBlock docs into a list of FlutterWeekView futures
+        if (snapshots.snapshot1.hasData) {
+          endeavorBlocks = snapshots.snapshot1.data!.docs
               .map((docSnap) => EndeavorBlock.fromDocSnap(
                   docSnapData: docSnap.data(), id: docSnap.id))
               .map((block) async {
@@ -78,7 +89,46 @@ class CalendarWeekView extends StatelessWidget {
           return const Text("Loading...");
         }
 
-        // wrap the list of futures in one future that waits for them all
+        // make a list of FlutterWeekViewEvents for the scheduled tasks
+        if (snapshots.snapshot2.hasData) {
+          for (var taskDocSnap in snapshots.snapshot2.data!.docs) {
+            final docData = taskDocSnap.data();
+            if (docData['start'] != null && docData['duration'] != null) {
+              final start = DateTime.fromMicrosecondsSinceEpoch(
+                  (docData['start'] as Timestamp).microsecondsSinceEpoch);
+              final end = DateTime.fromMicrosecondsSinceEpoch(
+                      (docData['start'] as Timestamp).microsecondsSinceEpoch)
+                  .add(Duration(minutes: docData['duration']));
+              final event = FlutterWeekViewEvent(
+                title: docData['title'],
+                description: "",
+                start: start,
+                end: end,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CreateOrEditTask.edit(
+                          task: Task.fromDocSnap(taskDocSnap),
+                          uid: uid,
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+
+              if (scheduledTasks != null) {
+                scheduledTasks.add(event);
+              } else {
+                scheduledTasks = [event];
+              }
+            }
+          }
+        }
+
+        // Wait for all the endeavorBlock futures then build the week view
         return FutureBuilder(
           future: Future<List<FlutterWeekViewEvent>?>(() async {
             if (endeavorBlocks == null) {
@@ -93,6 +143,18 @@ class CalendarWeekView extends StatelessWidget {
           }),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              // add whatever is in snapshot data
+              List<FlutterWeekViewEvent>? events = snapshot.data;
+
+              if (events == null) {
+                // if there was nothing, add scheduled tasks
+                events = scheduledTasks;
+              } else if (scheduledTasks != null) {
+                // if there was something and there are scheduled tasks, append scheduled tasks
+                events.addAll(scheduledTasks);
+              }
+              // else leave as null and no problem
+
               return LayoutBuilder(builder: (context, constraints) {
                 return WeekView(
                   // generate a list of the days of the week for the selected date
@@ -104,7 +166,7 @@ class CalendarWeekView extends StatelessWidget {
                     },
                     growable: false,
                   ),
-                  events: snapshot.data,
+                  events: events,
                   style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
                 );
               });

@@ -241,13 +241,13 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                           task.event = newEvent;
                         }
                       });
-                      if (editing && newEvent != null) {
+                      if (editing) {
                         FirebaseFirestore.instance
                             .collection('users')
                             .doc(widget.uid)
                             .collection('tasks')
                             .doc(task.id)
-                            .update({'start': newEvent.start});
+                            .update({'start': newEvent?.start});
                       }
                     },
                     startOnly: true,
