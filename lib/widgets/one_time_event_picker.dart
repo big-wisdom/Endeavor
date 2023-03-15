@@ -6,7 +6,7 @@ class OneTimeEventPicker extends StatefulWidget {
   const OneTimeEventPicker({required this.event, this.onChanged, super.key});
 
   final Event event;
-  final Function(String, dynamic)? onChanged;
+  final Function(Event value)? onChanged;
 
   @override
   State<OneTimeEventPicker> createState() => _OneTimeEventPickerState();
@@ -49,8 +49,7 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
               event.end = newEnd;
             });
             if (widget.onChanged != null) {
-              widget.onChanged!('start', newStart);
-              widget.onChanged!('end', newEnd);
+              widget.onChanged!(event);
             }
           },
           monthViewSettings:
@@ -79,7 +78,7 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
                     },
                   );
                   if (widget.onChanged != null) {
-                    widget.onChanged!('start', newStart);
+                    widget.onChanged!(event);
                   }
                 }
               },
@@ -108,7 +107,7 @@ class _OneTimeEventPickerState extends State<OneTimeEventPicker> {
                     event.end = newEnd;
                   });
                   if (widget.onChanged != null) {
-                    widget.onChanged!('end', newEnd);
+                    widget.onChanged!(event);
                   }
                 }
               },

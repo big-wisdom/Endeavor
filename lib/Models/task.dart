@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:endeavor/Models/event/event.dart';
 
 class Task {
   String? id;
   String? title;
-  Duration? duration;
+  // represent as start and duration rather than start and end
+  // the user will only need to put in duration, then the auto-planner
+  // can set the start
   DateTime? start;
+  Duration? duration;
   String? endeavorId;
   DateTime? dueDate;
   bool? divisible;
@@ -12,11 +16,25 @@ class Task {
   Task({
     this.title,
     this.duration,
-    this.start,
     this.endeavorId,
     this.dueDate,
     this.divisible = false,
   });
+
+  Event? get event {
+    if (start != null && duration != null) {
+      return Event(start: start, end: start!.add(duration!));
+    } else {
+      return null;
+    }
+  }
+
+  set event(Event? inputEvent) {
+    if (inputEvent != null) {
+      start = inputEvent.start;
+      duration = inputEvent.end!.difference(inputEvent.start!);
+    }
+  }
 
   Task.fromDocSnap(QueryDocumentSnapshot docSnap) {
     id = docSnap.id;

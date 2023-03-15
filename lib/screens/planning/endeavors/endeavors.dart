@@ -23,7 +23,7 @@ class Endeavors extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return const Text("Something went wrong");
+              return const Text("Something went wrong, you better text Eli");
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {

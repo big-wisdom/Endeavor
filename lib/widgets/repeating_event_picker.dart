@@ -6,7 +6,7 @@ class RepeatingEventPicker extends StatefulWidget {
       {required this.repeatingEvent, this.onChanged, super.key});
 
   final RepeatingEvent repeatingEvent;
-  final Function(String, dynamic)? onChanged;
+  final Function(RepeatingEvent)? onChanged;
 
   @override
   State<RepeatingEventPicker> createState() => _RepeatingEventPickerState();
@@ -57,7 +57,9 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
                   setState(() {
                     startDate = selection;
                   });
-                  widget.repeatingEvent.startDate = selection;
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(getRepeatingEvent());
+                  }
                 }
               },
               child: Text(startDate.toString()),
@@ -76,7 +78,9 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
                   setState(() {
                     endDate = selection;
                   });
-                  widget.repeatingEvent.endDate = selection;
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(getRepeatingEvent());
+                  }
                 }
               },
               child: Text(endDate.toString()),
@@ -92,7 +96,9 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
             setState(() {
               daysOfWeek[index] = !daysOfWeek[index];
             });
-            widget.repeatingEvent.daysOfWeek![index] = daysOfWeek[index];
+            if (widget.onChanged != null) {
+              widget.onChanged!(getRepeatingEvent());
+            }
           },
         ),
         // Start Time
@@ -107,7 +113,9 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
                   setState(() {
                     startTime = selection;
                   });
-                  widget.repeatingEvent.startTime = selection;
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(getRepeatingEvent());
+                  }
                 }
               },
               child: Text(startTime.toString()),
@@ -126,7 +134,9 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
                   setState(() {
                     endTime = selection;
                   });
-                  widget.repeatingEvent.endTime = selection;
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(getRepeatingEvent());
+                  }
                 }
               },
               child: Text(endTime.toString()),
@@ -135,6 +145,15 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
         )
       ],
     );
+  }
+
+  RepeatingEvent getRepeatingEvent() {
+    return RepeatingEvent(
+        startDate: startDate,
+        endDate: endDate,
+        daysOfWeek: daysOfWeek,
+        startTime: startTime,
+        endTime: endTime);
   }
 
   Future<TimeOfDay?> _selectTime(
