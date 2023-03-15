@@ -232,7 +232,9 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                 OneTimeEventPicker(
                   event: endeavorBlock.event!,
                   onChanged: editing
-                      ? (newEvent) => updateDataOnServer(newEvent.toDocData())
+                      ? (newEvent) => newEvent == null
+                          ? null
+                          : updateDataOnServer(newEvent.toDocData())
                       : null,
                 ),
 

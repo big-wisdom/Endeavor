@@ -98,16 +98,9 @@ Back End: Firebase
 
 * Plan
   * Make it so you can add tasks with an estimated time, due date, and endeavor assignment
-    * I gotta adjust my security rules as my security window has moved up.
-      * I just tried to make a rule so that users can only manipulate their own data
-        * But it's saying missing or insufficient permissions. Maybe it's loading and I need to check after class
     * Then I'll make them schedulable
-      * I made tasks with an event getter and setter, now I think I will just use the one_time_event_picker
-        * When to show the OneTimeEventPicker
-          * I think I will make a bar that says "date" and shows a string of the date, or select date
-            * When the date or select date is selected, I will show the one time event picker
-              * I could also just make this a feature of the one time event picker
-                * But most of the time it will be two dates
+      * I'll give the one_time_event_picker a flag bool to switch to start time picking
+      * I will also add a remove schedule option and it will return null to onChanged
     * Then I'll make a due date
     * Then I'll add divisibility
 

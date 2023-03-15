@@ -224,7 +224,7 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                       TextButton(
                           onPressed: () {
                             setState(() {
-                              task.event = Event.generic();
+                              task.event = Event.generic(task.duration);
                             });
                           },
                           child: const Text("Add Date and Time"))
@@ -235,9 +235,22 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                     event: task.event!,
                     onChanged: (newEvent) {
                       setState(() {
-                        task.event = newEvent;
+                        if (newEvent != null) {
+                          task.start = newEvent.start;
+                        } else {
+                          task.event = newEvent;
+                        }
                       });
+                      if (editing && newEvent != null) {
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.uid)
+                            .collection('tasks')
+                            .doc(task.id)
+                            .update({'start': newEvent.start});
+                      }
                     },
+                    startOnly: true,
                   ),
                 // Add button
                 if (!editing)
