@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,19 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
           return ExpansionTile(
             initiallyExpanded: true,
             title: Text(snapshot.data!['text']),
+            trailing: TextButton(
+              onPressed: () async {
+                // call firebase plan cloud function on this endeavor
+                HttpsCallable callable =
+                    FirebaseFunctions.instance.httpsCallable('planEndeavor');
+                final resp = await callable.call(<String, dynamic>{
+                  'userId': widget.uid,
+                  'endeavorId': widget.endeavorId,
+                });
+                debugPrint("Result: ${resp.data}");
+              },
+              child: const Text("Plan"),
+            ),
             controlAffinity: ListTileControlAffinity.leading,
             children: [
               ReorderableListView(

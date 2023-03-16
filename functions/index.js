@@ -11,6 +11,38 @@ const firestore = admin.firestore();
 //   response.send("Hello from Firebase!");
 // });
 
+exports.planEndeavor = functions.https.onCall(async (data, context) => {
+  const endeavorId = data["endeavorId"];
+  const userId = data["userId"];
+
+
+
+  // grab all relevant endeavorBlocks in order
+  const querySnap = await firestore
+      .collection(`users/${userId}/endeavorBlocks`)
+      .where("endeavorId", "==", endeavorId)
+      .orderBy("start")
+      .get();
+  // from that get open time blocks
+  // grab all tasks that can be scheduled in order
+
+  // go through tasks and timeblocks
+  // get next task and next timeblock
+  // if both exist
+  // if next task fits inside next timeblock
+  // schedule task for that time
+  // set starting time
+  // label as planned
+  // cut down the timeblock
+  // else
+  // move onto the next timeblock
+  // else
+  // end planning
+
+  // Just a print for right now to get rid of errors
+  return `Running plan endeavor for: ${endeavorId} by user: ${userId}`;
+});
+
 exports.endeavorDeleted = functions.firestore
     .document("users/{userId}/endeavors/{endeavorId}")
     .onDelete(async (snapshot, context) => {
