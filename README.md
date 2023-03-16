@@ -99,6 +99,18 @@ Back End: Firebase
   * Then I'll make a planning algorithm
     * To plan an endeavor I'll need to grab each of its tasks and each of it's endeavor blocks, each in order, then fill endeavor blocks with tasks in order
     * Then to show that they're scheduled, I'd like to update each tasks color to show that it is scheduled
+    * To show that it couldn't be scheduled, I'd like to update it's color to some form of red to show that it was unschedulable
+
+
+    * I'm working on the planning algorithm now and that's gonna be a beefy boi.
+      * I think because of that, it would be super useful to check out the emulator. I think I'll spend a lot of time revising this one so that might speed it up
+        * I'm having some issue initializing the app in the main function
+      * figure out what firebase is returning instead of datetimes for start and end of endeavorBlocks
+      * figure out how to compare those things
+      * create timeBlock representations
+      * figure out how to loop though and keep track of indicies of timeblocks
+
+
   * Then I'll make a due date
   * Then I'd like functionality to tell you when you don't have enough endeavor block time scheduled and how much more you need to schedule all your tasks
   * Then I'll add divisibility
