@@ -8,7 +8,8 @@ class RepeatingEndeavorBlock {
   List<String>? endeavorBlockIds;
   String? endeavorId;
 
-  RepeatingEndeavorBlock({this.id, this.repeatingEvent, this.endeavorBlockIds});
+  RepeatingEndeavorBlock(
+      {this.id, this.repeatingEvent, this.endeavorBlockIds, this.endeavorId});
 
   RepeatingEndeavorBlock.fromDocSnap(
       DocumentSnapshot<Map<String, dynamic>> docSnap) {

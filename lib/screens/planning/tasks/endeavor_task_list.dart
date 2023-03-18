@@ -40,6 +40,10 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
         }
 
         if (snapshot.hasData) {
+          if (snapshot.data!.data()!['taskIds'] == null) {
+            return const Text("Loading Tasks for this endeavor");
+          }
+
           List<String> taskIds = (snapshot.data!['taskIds'] as List)
               .map((taskId) => taskId as String)
               .toList();

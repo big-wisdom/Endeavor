@@ -9,10 +9,11 @@ import 'package:endeavor/screens/planning/planning_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhose', 8080);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   runApp(const MyApp());
