@@ -58,7 +58,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
 
   @override
   void initState() {
-    // This implys creating
+    // This implies creating
     if (widget.endeavorBlock == null) {
       editing = false;
       // Start the user in single mode
@@ -249,7 +249,16 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                         onChanged: editing
                             ? (repeatingEvent) =>
                                 updateDataOnServer(repeatingEvent.toDocData()!)
-                            : null,
+                            : (repeatingEvent) {
+                                repeatingEndeavorBlock.then((reb) {
+                                  repeatingEndeavorBlock = Future.value(
+                                    RepeatingEndeavorBlock(
+                                      repeatingEvent: repeatingEvent,
+                                      endeavorId: reb.endeavorId,
+                                    ),
+                                  );
+                                });
+                              },
                       );
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
