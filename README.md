@@ -98,10 +98,8 @@ Back End: Firebase
 
   * Then I'll make a planning algorithm
     * get emulator working
-      * making a thorough run through the docs
-        * upgrading to latest firebase-tools, but now I need to upgrade node
-        * I upgraded to a newer firebase-admin and newer firebase-functions in my functions folder, IDK why that would help
       * Let me make sure that the cloud functions are working too
+        * They are, but that awoke me to a realization of another bug, I need to fix the endeavorDeleted cloud function to delete tasks as well
     * write pseudo code
 
 

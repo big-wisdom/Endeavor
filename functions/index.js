@@ -55,6 +55,15 @@ exports.endeavorDeleted = functions.firestore
         batch.delete(doc.ref);
       }
       await batch.commit();
+
+      // delete all tasks associated with this endeavor
+      const taskQuerySnap = await firestore.collection(`users/${context.params.userId}/tasks`).where("endeavorId", "==", context.params.endeavorId).get();
+      const taskBatch = firestore.batch();
+      for (const doc of taskQuerySnap.docs) {
+        taskBatch.delete(doc.ref);
+      }
+      await taskBatch.commit();
+
       return 0;
     });
 
