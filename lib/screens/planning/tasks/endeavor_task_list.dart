@@ -40,6 +40,11 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
         }
 
         if (snapshot.hasData) {
+          DocumentSnapshot docSnap = snapshot.data!;
+          if (docSnap.data() == null) {
+            return const Text("No doc data");
+          }
+
           if (snapshot.data!.data()!['taskIds'] == null) {
             return const Text("Loading Tasks for this endeavor");
           }

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const admin = require("firebase-admin");
+const admin = require("firebase-admin/app");
 const functions = require("firebase-functions");
 admin.initializeApp({projectId: "endeavor-75fc7"});
 const firestore = admin.firestore();
@@ -16,31 +16,88 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   const userId = data["userId"];
 
 
-
   // grab all relevant endeavorBlocks in order
-  const querySnap = await firestore
+  const endeavorBlocksQuery = await firestore
       .collection(`users/${userId}/endeavorBlocks`)
       .where("endeavorId", "==", endeavorId)
       .orderBy("start")
       .get();
   // from that get open time blocks
+  const timeBlocks = [];
+  for (const doc of endeavorBlocksQuery.docs) {
+    const docData = doc.data();
+    timeBlocks.push({
+      start: docData["start"],
+      end: docData["end"],
+      duration: docData["end"] - docData["start"],
+    });
+  }
+
   // grab all tasks that can be scheduled in order
+  const tasksQuery = await firestore
+      .collection(`users/${userId}/tasks`)
+      .where("endeavorId", "==", endeavorId)
+      .get();
+  const tasks = [];
+  for (const doc of tasksQuery.docs) {
+    tasks.push({
+      id: doc.id,
+      data: doc.data(),
+    });
+  }
 
-  // go through tasks and timeblocks
-  // get next task and next timeblock
-  // if both exist
-  // if next task fits inside next timeblock
-  // schedule task for that time
-  // set starting time
-  // label as planned
-  // cut down the timeblock
-  // else
-  // move onto the next timeblock
-  // else
-  // end planning
+  // grab endeavor doc to order the tasks
+  const endeavorDocSnap = await firestore
+      .collection(`users/${userId}/endeavors`)
+      .doc(endeavorId)
+      .get();
+  const endeavorData = endeavorDocSnap.data();
 
-  // Just a print for right now to get rid of errors
-  return `Running plan endeavor for: ${endeavorId} by user: ${userId}`;
+  // Sort tasks by endeavorDocTasksList
+  tasks.sort(function(a, b) {
+    return endeavorData["taskIds"].indexOf(a["id"]) - endeavorData["taskIds"].indexOf(b["id"]);
+  });
+
+  console.log(tasks);
+  console.log(timeBlocks);
+
+  // scheduling loop
+  let taskIndex = 0;
+  let blockIndex = 0;
+  while (taskIndex < tasks.length && blockIndex < timeBlocks.length) {
+    // get next task and next timeblock
+    const task = tasks[taskIndex];
+    const timeBlock = timeBlocks[blockIndex];
+
+    // if task fits inside timeblock
+    if (task["data"]["duration"] <= timeBlock["duration"]/60) {
+      // set start of task to start of block
+      const d = new Date(0);
+      d.setUTCSeconds(timeBlock["start"]["_seconds"]);
+      task["data"]["start"] = d;
+
+      // cut duration of task off the front of timeBlock
+      timeBlock["start"]["_seconds"] += task["data"]["duration"] * 60;
+      timeBlock["duration"] = timeBlock["end"] - timeBlock["start"];
+      taskIndex++; // move onto next task
+    } else {
+      blockIndex++; // move onto next timeBlock
+    }
+  }
+
+  console.log(tasks);
+  for (const task of tasks) {
+    console.log(task["data"]["start"]);
+  }
+  console.log(timeBlocks);
+
+  // affect changes in the docs
+  const batch = firestore.batch();
+  for (const task of tasks) {
+    const docRef = firestore.collection("users").doc(userId).collection("tasks").doc(task["id"]);
+    batch.update(docRef, {"start": task["data"]["start"]});
+  }
+  batch.commit();
 });
 
 exports.endeavorDeleted = functions.firestore

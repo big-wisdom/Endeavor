@@ -92,15 +92,19 @@ Back End: Firebase
 * So it looks like he does a horizontal Listview where each takes up a whole screen and custom physics to snap to the nearest day. I'd like to fit 3 days on the screen like google calendars. 
 * Then each List item must be a scroll view where you can see the whole day.
 
+## Note for future
+* There are annoying logs every time I run an https function. if I add (app check)[https://firebase.google.com/docs/app-check/monitor-functions-metrics] then supposedly it will stop doing that
+
 
 ## What I'm working on now
-* Right now I'm working on the tasks view
 
   * Then I'll make a planning algorithm
+    * I'm having an error trying to deploy the functions
     * get emulator working
       * Let me make sure that the cloud functions are working too
-        * They are, but that awoke me to a realization of another bug, I need to fix the endeavorDeleted cloud function to delete tasks as well
+        * They're working great!
     * write pseudo code
+      * FINALLY!
 
 
   * Then I'll make a due date
