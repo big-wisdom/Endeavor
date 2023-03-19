@@ -12,9 +12,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
+  // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  // FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   runApp(const MyApp());
 }
