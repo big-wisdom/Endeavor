@@ -1,8 +1,10 @@
 /* eslint-disable max-len */
-const admin = require("firebase-admin/app");
+const {initializeApp} = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
+initializeApp({projectId: "endeavor-75fc7"});
+const firestore = getFirestore();
+
 const functions = require("firebase-functions");
-admin.initializeApp({projectId: "endeavor-75fc7"});
-const firestore = admin.firestore();
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
