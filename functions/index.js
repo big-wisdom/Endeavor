@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 const {initializeApp} = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const {getFirestore} = require("firebase-admin/firestore");
 initializeApp({projectId: "endeavor-75fc7"});
 const firestore = getFirestore();
 
@@ -18,16 +18,29 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   const userId = data["userId"];
 
 
+  // get timestamp of right now
+  const now = new Date();
+
   // grab all relevant endeavorBlocks in order
   const endeavorBlocksQuery = await firestore
       .collection(`users/${userId}/endeavorBlocks`)
       .where("endeavorId", "==", endeavorId)
+      .orderBy("end")
+      .where("end", ">=", now)
       .orderBy("start")
       .get();
   // from that get open time blocks
   const timeBlocks = [];
   for (const doc of endeavorBlocksQuery.docs) {
     const docData = doc.data();
+
+    // if block has already started, chop off what has already passed
+    const endeavorBlockStart = docData["start"].toDate();
+    if (endeavorBlockStart < now) {
+      docData["start"]["_seconds"] += Math.floor((now - endeavorBlockStart) / 1000);
+    }
+
+    // add it to timeBlocks
     timeBlocks.push({
       start: docData["start"],
       end: docData["end"],
@@ -60,8 +73,6 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
     return endeavorData["taskIds"].indexOf(a["id"]) - endeavorData["taskIds"].indexOf(b["id"]);
   });
 
-  console.log(tasks);
-  console.log(timeBlocks);
 
   // scheduling loop
   let taskIndex = 0;
@@ -86,12 +97,6 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       blockIndex++; // move onto next timeBlock
     }
   }
-
-  console.log(tasks);
-  for (const task of tasks) {
-    console.log(task["data"]["start"]);
-  }
-  console.log(timeBlocks);
 
   // affect changes in the docs
   const batch = firestore.batch();
