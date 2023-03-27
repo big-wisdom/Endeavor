@@ -53,6 +53,29 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
               .map((taskId) => taskId as String)
               .toList();
 
+          // this is some fancy footwork
+          // get the order of the ids from the endeavor doc
+          // then get the task object from the list given
+          // if the task isn't there, it's because it has recently been deleted
+          // and the endeavor doc isn't in sync with the task stream from this
+          // widgets parent yet
+          List<TaskListTile> tasks = [];
+          for (String taskId in taskIds) {
+            var matchIdList = widget.tasks
+                .where((thisTask) => thisTask.id == taskId)
+                .toList();
+            if (matchIdList.isNotEmpty) {
+              tasks.add(
+                TaskListTile(
+                  // grab the task object given to the widget
+                  task: matchIdList[0],
+                  uid: widget.uid,
+                  key: UniqueKey(),
+                ),
+              );
+            }
+          }
+
           return ExpansionTile(
             initiallyExpanded: true,
             title: Text(snapshot.data!['text']),
@@ -91,16 +114,7 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
                       .doc(widget.endeavorId)
                       .update({'taskIds': taskIds});
                 }),
-                // this is some fancy footwork
-                // get the order of the ids from the endeavor doc
-                // then get the task object from the list given
-                children: taskIds.map((taskId) {
-                  return TaskListTile(
-                    task: widget.tasks.firstWhere((task) => task.id == taskId),
-                    uid: widget.uid,
-                    key: UniqueKey(),
-                  );
-                }).toList(),
+                children: tasks,
               )
             ],
           );

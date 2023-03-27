@@ -98,6 +98,13 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
     }
   }
 
+  // remove the schedule from all tasks that were not scheduled this time
+  let startRemoveIndex = blockIndex >= timeBlocks.length ? taskIndex : taskIndex + 1; // set start remove by what stopped planning loop
+  while (startRemoveIndex < tasks.length) {
+    tasks[startRemoveIndex]["data"]["start"] = null;
+    startRemoveIndex++;
+  }
+
   // affect changes in the docs
   const batch = firestore.batch();
   for (const task of tasks) {

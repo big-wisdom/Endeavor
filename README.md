@@ -106,10 +106,7 @@ Back End: Firebase
 
 
 ## What I'm working on now
-* Planning bugs
-  * start planning from right now
-    * First, I need to get back onto the emulator so I can start developing the cloud functions quickly
-  * remove plans from following tasks after planning loop stops
+* Just finished fixing two planning bugs
 
 
 --------
