@@ -78,8 +78,10 @@ Back End: Firebase
 
 * the concept of a repeating endeavor block as an endeavor block generator is interesting. Just thinking of generators is interesting. What generates endeavors? What generates tasks? a generator could be an API that I reach out to to get new tasks like Canvas or something
 
+-------
 ## UI Notes
 * NAVIGATION BAR: So I'm thinkin that the bottom selector might be a [NavigationBar](https://api.flutter.dev/flutter/material/NavigationBar-class.html) bar that goes into the [Scaffold's](https://api.flutter.dev/flutter/material/Scaffold-class.html) bottomNavigationBar property
+----------
 
 ## Calendar View Notes
 * I found [this](https://github.com/Skyost/FlutterWeekView/blob/master/lib/src/widgets/week_view.dart) package out there, and I think I could either use and fork it or learn from it to make my own from scratch. I'm tempted to make it from scratch because I would need so much freedom with it. 
@@ -91,26 +93,33 @@ Back End: Firebase
 ### From Scratch
 * So it looks like he does a horizontal Listview where each takes up a whole screen and custom physics to snap to the nearest day. I'd like to fit 3 days on the screen like google calendars. 
 * Then each List item must be a scroll view where you can see the whole day.
+--------------
 
-## Note for future
+## Notes for future
 * There are annoying logs every time I run an https function. if I add (app check)[https://firebase.google.com/docs/app-check/monitor-functions-metrics] then supposedly it will stop doing that
+* How to switch back to emulators
+  * uncomment code in main
+  * start local emulators using firebase emulators:start
+  * delete app from emulator
+  * rerun app in emulator
+---------
 
 
 ## What I'm working on now
-
-  * Then I'll make a planning algorithm
-    * I'm having an error trying to deploy the functions
-    * get emulator working
-      * Let me make sure that the cloud functions are working too
-        * They're working great!
-    * write pseudo code
-      * FINALLY!
+* Planning bugs
+  * start planning from right now
+    * First, I need to get back onto the emulator so I can start developing the cloud functions quickly
+  * remove plans from following tasks after planning loop stops
 
 
-  * Then I'll make a due date
-  * Then I'd like functionality to tell you when you don't have enough endeavor block time scheduled and how much more you need to schedule all your tasks
-  * Then I'll add divisibility
-
-  * When you create one you should be taken to the only or first instance.
-
-
+--------
+## Plan before giving to katie and jacob
+* Colors
+* delete repeating endeavor
+* color change when scheduled
+* cross off TODO's
+* when in month view and you click a day, to to that day, not monday
+--------------------------
+* sub endeavors
+* due dates
+  * priority queue by work per day would probably be the implementation of this
