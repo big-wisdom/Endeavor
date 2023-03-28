@@ -106,13 +106,17 @@ Back End: Firebase
 
 
 ## What I'm working on now
-* Just finished fixing two planning bugs
+* delete repeating endeavor
+  * I think this is already a TODO in the code
+    * there will probably be several places where I need to say, just this, or this and following
+      * Endeavor Picker
+      * The one time event picker
+      * delete button DONE
 
 
 --------
 ## Plan before giving to katie and jacob
 * Colors
-* delete repeating endeavor
 * color change when scheduled
 * cross off TODO's
 * when in month view and you click a day, to to that day, not monday
