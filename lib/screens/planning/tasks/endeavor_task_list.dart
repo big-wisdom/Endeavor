@@ -94,27 +94,30 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
             ),
             controlAffinity: ListTileControlAffinity.leading,
             children: [
-              ReorderableListView(
-                shrinkWrap: true,
-                onReorder: ((oldIndex, newIndex) {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  // remove the item from its present index
-                  final String itemToMove = taskIds.removeAt(oldIndex);
+              SingleChildScrollView(
+                child: ReorderableListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  onReorder: ((oldIndex, newIndex) {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    // remove the item from its present index
+                    final String itemToMove = taskIds.removeAt(oldIndex);
 
-                  // insert it at the new index
-                  taskIds.insert(newIndex, itemToMove);
+                    // insert it at the new index
+                    taskIds.insert(newIndex, itemToMove);
 
-                  // make change to document
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(widget.uid)
-                      .collection('endeavors')
-                      .doc(widget.endeavorId)
-                      .update({'taskIds': taskIds});
-                }),
-                children: tasks,
+                    // make change to document
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(widget.uid)
+                        .collection('endeavors')
+                        .doc(widget.endeavorId)
+                        .update({'taskIds': taskIds});
+                  }),
+                  children: tasks,
+                ),
               )
             ],
           );
