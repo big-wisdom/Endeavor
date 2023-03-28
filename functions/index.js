@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 const {initializeApp} = require("firebase-admin/app");
-const {getFirestore} = require("firebase-admin/firestore");
+const {getFirestore, FieldPath} = require("firebase-admin/firestore");
 initializeApp({projectId: "endeavor-75fc7"});
 const firestore = getFirestore();
 
@@ -113,6 +113,44 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   }
   batch.commit();
 });
+
+exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
+  const docSnapList = await getThisAndFollowingEndeavorBlockSnaps(data["userId"], data["repeatingEndeavorBlockId"], data["selectedEndeavorBlockId"]);
+
+  // delete them
+  const batch = firestore.batch();
+  docSnapList.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
+});
+
+/**
+ * gets the selected and following endeavorBlock document snapshots
+ * @param {string} userId the current user's id
+ * @param {string} repeatingEndeavorBlockId the id to query
+ * @param {string} selectedEndeavorBlockId the endeavor block to start from
+ */
+async function getThisAndFollowingEndeavorBlockSnaps(userId, repeatingEndeavorBlockId, selectedEndeavorBlockId) {
+  // grab all relevant endeavorBlocks in order
+  const repeatingEndeavorBlockDocSnap = await firestore
+      .doc(`users/${userId}/repeatingEndeavorBlocks/${repeatingEndeavorBlockId}`).get();
+  const repeatingEndeavorBlockData = repeatingEndeavorBlockDocSnap.data();
+  try {
+    const selectedEndeavorBlockDocSnap = await firestore.doc(`users/${userId}/endeavorBlocks/${selectedEndeavorBlockId}`).get();
+    const selectedEndeavorBlockData = selectedEndeavorBlockDocSnap.data();
+    const selectedStart = selectedEndeavorBlockData["start"];
+    const endeavorBlocksQuerySnapshot = await firestore
+        .collection(`users/${userId}/endeavorBlocks`)
+        .where(FieldPath.documentId(), "in", repeatingEndeavorBlockData["endeavorBlockIds"])
+        .get();
+    // I'm going to have to sort and filter them without the help of firestore due to indexing
+    const docs = endeavorBlocksQuerySnapshot.docs;
+    docs.sort((a, b) => a.data().start - b.data().start);
+    const filteredDocs = docs.filter((doc) => doc.data().start >= selectedStart);
+    return filteredDocs;
+  } catch (error) {
+    console.error(`Error getting repeating endeavor blocks: ${error}`);
+  }
+}
 
 exports.endeavorDeleted = functions.firestore
     .document("users/{userId}/endeavors/{endeavorId}")

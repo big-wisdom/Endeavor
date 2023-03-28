@@ -16,19 +16,21 @@ class _ChangeForThisOrAllDialogueState
     extends State<ChangeForThisOrAllDialogue> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-              "Would you like to change this event or all following repeated events?"),
-          ElevatedButton(
-              onPressed: widget.onThis,
-              child: const Text("Change Only this event")),
-          ElevatedButton(
-              onPressed: widget.onFollowing,
-              child: const Text("Change all following repeated events")),
-        ],
+    return Card(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+                "Would you like to change this event or all following repeated events?"),
+            ElevatedButton(
+                onPressed: widget.onThis,
+                child: const Text("Change Only this event")),
+            ElevatedButton(
+                onPressed: widget.onFollowing,
+                child: const Text("Change all following repeated events")),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
 import 'package:endeavor/Models/endeavor_block/repeating_endeavor_block.dart';
 import 'package:endeavor/Models/event/repeating_event.dart';
@@ -138,7 +139,6 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    // TODO: Implement this
                                     return ChangeForThisOrAllDialogue(
                                       onThis: () {
                                         endeavorBlock.endeavorId = value;
@@ -334,6 +334,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                   },
                   child: const Text("Add Block"),
                 ),
+              // delete button
               if (editing)
                 ElevatedButton(
                   style: const ButtonStyle(
@@ -349,10 +350,43 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                           .doc(endeavorBlock.id)
                           .delete();
                     } else {
-                      // delete repeating
-                      // TODO: implement
+                      debugPrint("delete repeating");
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ChangeForThisOrAllDialogue(
+                            onThis: () {
+                              // delete single
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(widget.uid)
+                                  .collection('endeavorBlocks')
+                                  .doc(endeavorBlock.id)
+                                  .delete();
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            onFollowing: () {
+                              // delete repeating
+                              repeatingEndeavorBlock.then((reb) async {
+                                HttpsCallable callable =
+                                    FirebaseFunctions.instance.httpsCallable(
+                                        'deleteThisAndFollowingEndeavorBlocks');
+                                final resp =
+                                    await callable.call(<String, dynamic>{
+                                  'userId': widget.uid,
+                                  'repeatingEndeavorBlockId': reb.id,
+                                  'selectedEndeavorBlockId': endeavorBlock.id,
+                                });
+                                debugPrint("Result: ${resp.data}");
+                              });
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                      );
                     }
-                    Navigator.pop(context);
                   },
                   child: const Text("Delete"),
                 ),
