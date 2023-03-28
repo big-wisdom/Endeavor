@@ -112,6 +112,12 @@ Back End: Firebase
       * Endeavor Picker
       * The one time event picker
       * delete button DONE
+        * Just gonna try it live
+          * I do get a readout of errors when I delete an endeavor
+          * So I'm going to create a repeating endeavor block starting in the past going into the future
+          * schedule a few tasks
+          delete the endeavor block past a certain point
+        * Then get it on my phone because it's getting much more usable
 
 
 --------
