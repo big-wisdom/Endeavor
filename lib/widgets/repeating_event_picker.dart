@@ -185,11 +185,8 @@ class _RepeatingEventPickerState extends State<RepeatingEventPicker> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: selectedDate.copyWith(day: 1),
-      lastDate:
-          selectedDate.copyWith(month: selectedDate.month + 1, day: 1).subtract(
-                const Duration(days: 1),
-              ),
+      firstDate: selectedDate.copyWith(year: selectedDate.year - 1),
+      lastDate: selectedDate.copyWith(year: selectedDate.year + 1),
     );
 
     return pickedDate;
