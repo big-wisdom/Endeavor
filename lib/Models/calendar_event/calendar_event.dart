@@ -1,13 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/event/event.dart';
 
 class CalendarEvent {
   Event? event;
   String? title;
+  String? id;
   String? endeavorId;
   String? repeatingCalendarEventId;
-  CalendarEventType type;
+  late CalendarEventType type;
 
-  CalendarEvent({this.event, this.title, this.endeavorId, required this.type});
+  CalendarEvent(
+      {this.event, this.title, this.endeavorId, required this.type, this.id});
+
+  CalendarEvent.fromDocSnap(QueryDocumentSnapshot docSnap) {
+    id = docSnap.id;
+    final data = docSnap.data() as Map<String, dynamic>;
+    title = data['title'];
+    endeavorId = data['endeavorId'];
+    final start = data['start'] != null
+        ? DateTime.fromMicrosecondsSinceEpoch(
+            (data['start'] as Timestamp).microsecondsSinceEpoch,
+          )
+        : null;
+    final end = data['end'] != null
+        ? DateTime.fromMicrosecondsSinceEpoch(
+            (data['end'] as Timestamp).microsecondsSinceEpoch,
+          )
+        : null;
+    event = Event(start: start, end: end);
+    repeatingCalendarEventId = data['repeatingCalendarEventId'];
+    type = CalendarEventType.values
+        .firstWhere((type) => type.toString() == data['type']);
+  }
 
   Map<String, dynamic>? toDocData() {
     if (validate()) {

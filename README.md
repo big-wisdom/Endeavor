@@ -109,6 +109,7 @@ Back End: Firebase
 * Events and repeating events
   * Creation screen is looking good and create button is working
   * get the events to show on the calendar
+    
   * get editing the events to work
 
 
