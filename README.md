@@ -106,18 +106,10 @@ Back End: Firebase
 
 
 ## What I'm working on now
-* delete repeating endeavor
-  * I think this is already a TODO in the code
-    * there will probably be several places where I need to say, just this, or this and following
-      * Endeavor Picker
-      * The one time event picker
-      * delete button DONE
-        * Just gonna try it live
-          * I do get a readout of errors when I delete an endeavor
-          * So I'm going to create a repeating endeavor block starting in the past going into the future
-          * schedule a few tasks
-          delete the endeavor block past a certain point
-        * Then get it on my phone because it's getting much more usable
+* Events and repeating events
+  * Creation screen is looking good and create button is working
+  * get the events to show on the calendar
+  * get editing the events to work
 
 
 --------

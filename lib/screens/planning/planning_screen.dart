@@ -1,3 +1,4 @@
+import 'package:endeavor/screens/planning/calendar/create_or_edit_event.dart';
 import 'package:endeavor/screens/planning/endeavors/add_endeavor.dart';
 import 'package:endeavor/screens/planning/calendar/calendar.dart';
 import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
@@ -49,17 +50,52 @@ class _PlanningScreenState extends State<PlanningScreen> {
     );
   }
 
-  void createEndeavorBlock() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return CreateOrEditEndeavorBlock.create(
-            uid: widget.user.uid,
-            setCalendarView: setCalendarView,
-          );
-        },
-      ),
+  void calendarViewAdd() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Card(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("Select what to add"),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return CreateOrEditEndeavorBlock.create(
+                            uid: widget.user.uid,
+                            setCalendarView: setCalendarView,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text("Endeavor Block"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return CreateOrEditCalendarEvent.create(
+                          uid: widget.user.uid,
+                        );
+                      }),
+                    );
+                  },
+                  child: const Text("Event"),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -134,7 +170,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
           } else if (currentPageIndex == 1) {
             addTask();
           } else if (currentPageIndex == 2) {
-            createEndeavorBlock();
+            calendarViewAdd();
           }
         },
       ),
