@@ -114,6 +114,19 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   batch.commit();
 });
 
+exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
+  const docSnapList = await getThisAndFollowingCalendarEventSnaps(data["userId"], data["repeatingCalendarEventId"], data["selectedCalendarEventId"]);
+  data["data"]["start"] = (new Date(0)).setTime(data["data"]["start"]);
+  data["data"]["end"] = (new Date(0)).setTime(data["data"]["end"]);
+
+  // edit them according to changes made
+  const batch = firestore.batch();
+  docSnapList.forEach((docSnap) => {
+    batch.update(docSnap.ref, data["data"]);
+  });
+  await batch.commit();
+});
+
 exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingEndeavorBlockSnaps(data["userId"], data["repeatingEndeavorBlockId"], data["selectedEndeavorBlockId"]);
 
@@ -122,6 +135,35 @@ exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (dat
   docSnapList.forEach((doc) => batch.delete(doc.ref));
   await batch.commit();
 });
+
+/**
+ * gets the selected and following calendar event document snapshots
+ * @param {string} userId the current user's id
+ * @param {string} repeatingCalendarEventId the id to query
+ * @param {string} selectedCalendarEventId the calendar event to start from
+ */
+async function getThisAndFollowingCalendarEventSnaps(userId, repeatingCalendarEventId, selectedCalendarEventId) {
+  // grab all relevant calendar events in order
+  const repeatingCalendarEventDocSnap = await firestore
+      .doc(`users/${userId}/repeatingCalendarEvents/${repeatingCalendarEventId}`).get();
+  const repeatingCalendarEventData = repeatingCalendarEventDocSnap.data();
+  try {
+    const selectedCalendarEventDocSnap = await firestore.doc(`users/${userId}/calendarEvents/${selectedCalendarEventId}`).get();
+    const selectedCalendarEventData = selectedCalendarEventDocSnap.data();
+    const selectedStart = selectedCalendarEventData["start"];
+    const calendarEventsQuerySnapshot = await firestore
+        .collection(`users/${userId}/calendarEvents`)
+        .where(FieldPath.documentId(), "in", repeatingCalendarEventData["calendarEventIds"])
+        .get();
+    // I'm going to have to sort and filter them without the help of firestore due to indexing
+    const docs = calendarEventsQuerySnapshot.docs;
+    docs.sort((a, b) => a.data().start - b.data().start);
+    const filteredDocs = docs.filter((doc) => doc.data().start >= selectedStart);
+    return filteredDocs;
+  } catch (error) {
+    console.error(`Error getting repeating calendar events: ${error}`);
+  }
+}
 
 /**
  * gets the selected and following endeavorBlock document snapshots

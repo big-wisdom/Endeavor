@@ -55,6 +55,20 @@ class CalendarEvent {
         title != null &&
         title!.trim().isNotEmpty;
   }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    other as CalendarEvent;
+    return other.runtimeType == runtimeType &&
+        other.id == id &&
+        other.title == title &&
+        other.event == event &&
+        other.endeavorId == endeavorId &&
+        other.type == type;
+  }
 }
 
 enum CalendarEventType {

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/Models/calendar_event/calendar_event.dart';
 import 'package:endeavor/Models/calendar_event/repeating_calendar_event.dart';
 import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/event/repeating_event.dart';
+import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker.dart';
@@ -35,8 +37,10 @@ class CreateOrEditCalendarEvent extends StatefulWidget {
 
 class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
   late CalendarEvent calendarEvent;
+  late CalendarEvent initialCalendarEvent;
   late RepeatingCalendarEvent repeatingCalendarEvent;
   late bool editing;
+  bool changesMade = false;
 
   @override
   void initState() {
@@ -47,6 +51,13 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
           event: Event.generic(const Duration(hours: 1)),
           type: CalendarEventType.single,
         );
+    initialCalendarEvent = CalendarEvent(
+      event: calendarEvent.event,
+      title: calendarEvent.title,
+      endeavorId: calendarEvent.endeavorId,
+      type: calendarEvent.type,
+      id: calendarEvent.id,
+    );
     repeatingCalendarEvent = RepeatingCalendarEvent(
       repeatingEvent: RepeatingEvent(
         startDate: DateTime.now(),
@@ -81,14 +92,11 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                   initialValue: calendarEvent.title,
                   decoration: const InputDecoration(labelText: "Title"),
                   onChanged: (value) {
-                    if (editing) {
-                      throw UnimplementedError(
-                        "Need to implement what happens when editing a calendar event",
-                      );
-                    } else {
-                      calendarEvent.title = value;
-                      repeatingCalendarEvent.title = value;
-                    }
+                    calendarEvent.title = value;
+                    repeatingCalendarEvent.title = value;
+                    setState(() {
+                      changesMade = initialCalendarEvent != calendarEvent;
+                    });
                   },
                 ),
                 // Endeavor Switcher
@@ -99,8 +107,12 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                     EndeavorsDropdownButton(
                       firstValue: calendarEvent.endeavorId,
                       uid: widget.uid,
-                      onChanged: (endeavorId) =>
-                          calendarEvent.endeavorId = endeavorId,
+                      onChanged: (endeavorId) {
+                        calendarEvent.endeavorId = endeavorId;
+                        setState(() {
+                          changesMade = initialCalendarEvent != calendarEvent;
+                        });
+                      },
                       nullOption: true,
                     ),
                   ],
@@ -128,6 +140,8 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                             if (value != calendarEvent.type && value != null) {
                               // we are creating so we just need to switch the value
                               calendarEvent.type = value;
+                              changesMade =
+                                  initialCalendarEvent != calendarEvent;
                             }
                           });
                         },
@@ -140,9 +154,9 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                     event: calendarEvent.event!,
                     onChanged: (value) {
                       if (editing) {
-                        throw UnimplementedError(
-                          "Need to handle event change while editing",
-                        );
+                        setState(() {
+                          changesMade = initialCalendarEvent != calendarEvent;
+                        });
                       } else {
                         calendarEvent.event = value;
                       }
@@ -173,12 +187,63 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                     },
                     child: const Text("Create"),
                   ),
+                if (editing)
+                  ElevatedButton(
+                    onPressed: changesMade ? _saveChanges : null,
+                    child: const Text("Save"),
+                  )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _saveChanges() {
+    if (calendarEvent.type == CalendarEventType.single) {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.uid)
+          .collection('calendarEvents')
+          .doc(calendarEvent.id)
+          .update(calendarEvent.toDocData()!);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ChangeForThisOrAllDialogue(
+            onThis: () {
+              FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(widget.uid)
+                  .collection('calendarEvents')
+                  .doc(calendarEvent.id)
+                  .update(calendarEvent.toDocData()!);
+            },
+            onFollowing: () {
+              HttpsCallable callable = FirebaseFunctions.instance
+                  .httpsCallable('editThisAndFollowingCalendarEvents');
+              Map<String, dynamic> data = calendarEvent.toDocData()!;
+              data["start"] =
+                  (data["start"] as DateTime).millisecondsSinceEpoch;
+              data["end"] = (data["end"] as DateTime).millisecondsSinceEpoch;
+              callable.call(<String, dynamic>{
+                'userId': widget.uid,
+                'repeatingCalendarEventId':
+                    calendarEvent.repeatingCalendarEventId,
+                'selectedCalendarEventId': calendarEvent.id,
+                'data': {}
+              }).then((resp) {
+                debugPrint("Result: ${resp.data}");
+              });
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          );
+        },
+      );
+    }
   }
 
   void _createSingleEvent() {

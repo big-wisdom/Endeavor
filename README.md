@@ -107,10 +107,7 @@ Back End: Firebase
 
 ## What I'm working on now
 * Events and repeating events
-  * Creation screen is looking good and create button is working
-  * get the events to show on the calendar
-    
-  * get editing the events to work
+  * I've made it so that when you make a change to an event, you have to hit save. If it's a single event, it saves to the server and you're done. If it's a 
 
 
 --------
