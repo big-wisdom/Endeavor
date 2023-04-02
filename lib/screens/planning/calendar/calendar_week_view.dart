@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/calendar_event/calendar_event.dart';
 import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
+import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/calendar/create_or_edit_event.dart';
@@ -106,36 +107,42 @@ class CalendarWeekView extends StatelessWidget {
         if (snapshots.snapshot2.hasData) {
           for (var taskDocSnap in snapshots.snapshot2.data!.docs) {
             final docData = taskDocSnap.data();
-            if (docData['start'] != null && docData['duration'] != null) {
-              final start = DateTime.fromMicrosecondsSinceEpoch(
-                  (docData['start'] as Timestamp).microsecondsSinceEpoch);
-              final end = DateTime.fromMicrosecondsSinceEpoch(
-                      (docData['start'] as Timestamp).microsecondsSinceEpoch)
-                  .add(Duration(minutes: docData['duration']));
-              final event = FlutterWeekViewEvent(
-                title: docData['title'],
-                description: "",
-                start: start,
-                end: end,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CreateOrEditTask.edit(
-                          uid: uid,
-                          task: Task.fromDocSnap(taskDocSnap),
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
+            if (docData["events"] != null) {
+              List<FlutterWeekViewEvent> taskEvents =
+                  (docData['events'] as List).map((e) {
+                e as Map<String, dynamic>;
+                return Event(
+                  start: DateTime.fromMicrosecondsSinceEpoch(
+                      (e["start"] as Timestamp).microsecondsSinceEpoch),
+                  end: DateTime.fromMicrosecondsSinceEpoch(
+                      (e["end"] as Timestamp).microsecondsSinceEpoch),
+                );
+              }).map((e) {
+                return FlutterWeekViewEvent(
+                  title: docData['title'],
+                  description: "",
+                  start: e.start!,
+                  end: e.end!,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return CreateOrEditTask.edit(
+                            uid: uid,
+                            task: Task.fromDocSnap(taskDocSnap),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }).toList();
 
               if (scheduledTasks != null) {
-                scheduledTasks.add(event);
+                scheduledTasks.addAll(taskEvents);
               } else {
-                scheduledTasks = [event];
+                scheduledTasks = taskEvents;
               }
             }
           }
