@@ -52,7 +52,10 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
           type: CalendarEventType.single,
         );
     initialCalendarEvent = CalendarEvent(
-      event: calendarEvent.event,
+      event: Event(
+        start: calendarEvent.event!.start,
+        end: calendarEvent.event!.end,
+      ),
       title: calendarEvent.title,
       endeavorId: calendarEvent.endeavorId,
       type: calendarEvent.type,
@@ -153,8 +156,12 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                   OneTimeEventPicker(
                     event: calendarEvent.event!,
                     onChanged: (value) {
+                      // TODO: Shouldn't offer to change following if just date is changed
+                      // Right now it doesn't hurt anything if they press that, it's just
+                      // Lame to leave the user hanging
                       if (editing) {
                         setState(() {
+                          calendarEvent.event = value;
                           changesMade = initialCalendarEvent != calendarEvent;
                         });
                       } else {
@@ -191,13 +198,61 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                   ElevatedButton(
                     onPressed: changesMade ? _saveChanges : null,
                     child: const Text("Save"),
-                  )
+                  ),
+                if (editing)
+                  ElevatedButton(
+                    onPressed: _delete,
+                    child: const Text("Delete"),
+                  ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _delete() {
+    if (calendarEvent.type == CalendarEventType.single) {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.uid)
+          .collection('calendarEvents')
+          .doc(calendarEvent.id)
+          .delete();
+      Navigator.pop(context);
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return ChangeForThisOrAllDialogue(
+              onThis: () {
+                FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(widget.uid)
+                    .collection('calendarEvents')
+                    .doc(calendarEvent.id)
+                    .delete();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              onFollowing: () {
+                HttpsCallable callable = FirebaseFunctions.instance
+                    .httpsCallable('deleteThisAndFollowingCalendarEvents');
+                callable.call(<String, dynamic>{
+                  'userId': widget.uid,
+                  'repeatingCalendarEventId':
+                      calendarEvent.repeatingCalendarEventId,
+                  'selectedCalendarEventId': calendarEvent.id,
+                }).then((resp) {
+                  debugPrint("Result: ${resp.data}");
+                });
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            );
+          });
+    }
   }
 
   void _saveChanges() {
@@ -220,20 +275,25 @@ class _CreateOrEditCalendarEventState extends State<CreateOrEditCalendarEvent> {
                   .collection('calendarEvents')
                   .doc(calendarEvent.id)
                   .update(calendarEvent.toDocData()!);
+              Navigator.pop(context);
+              Navigator.pop(context);
             },
             onFollowing: () {
-              HttpsCallable callable = FirebaseFunctions.instance
-                  .httpsCallable('editThisAndFollowingCalendarEvents');
+              // get calendar event data in a format that the function can handle
               Map<String, dynamic> data = calendarEvent.toDocData()!;
               data["start"] =
                   (data["start"] as DateTime).millisecondsSinceEpoch;
               data["end"] = (data["end"] as DateTime).millisecondsSinceEpoch;
+
+              // Call the function
+              HttpsCallable callable = FirebaseFunctions.instance
+                  .httpsCallable('editThisAndFollowingCalendarEvents');
               callable.call(<String, dynamic>{
                 'userId': widget.uid,
                 'repeatingCalendarEventId':
                     calendarEvent.repeatingCalendarEventId,
                 'selectedCalendarEventId': calendarEvent.id,
-                'data': {}
+                'data': data,
               }).then((resp) {
                 debugPrint("Result: ${resp.data}");
               });

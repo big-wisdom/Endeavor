@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable max-len */
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore, FieldPath} = require("firebase-admin/firestore");
@@ -114,15 +115,48 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   batch.commit();
 });
 
+exports.deleteThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
+  const docSnapList = await getThisAndFollowingCalendarEventSnaps(data["userId"], data["repeatingCalendarEventId"], data["selectedCalendarEventId"]);
+
+  // delete them
+  const batch = firestore.batch();
+  docSnapList.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
+});
+
 exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingCalendarEventSnaps(data["userId"], data["repeatingCalendarEventId"], data["selectedCalendarEventId"]);
-  data["data"]["start"] = (new Date(0)).setTime(data["data"]["start"]);
-  data["data"]["end"] = (new Date(0)).setTime(data["data"]["end"]);
+  // turn milliseconds back into a date object before passing it to firestore
+  const startAsDate = new Date(0);
+  const endAsDate = new Date(0);
+  startAsDate.setTime(data.data.start);
+  endAsDate.setTime(data.data.end);
+  data.data.start = startAsDate;
+  data.data.end = endAsDate;
 
   // edit them according to changes made
   const batch = firestore.batch();
   docSnapList.forEach((docSnap) => {
-    batch.update(docSnap.ref, data["data"]);
+    // We want to make sure that time changes don't shift date, only time
+    // copy incoming data
+    const copyOfIncomingData = Object.assign({}, data.data);
+    // get current start and end
+    const currentData = docSnap.data();
+    // adjust current hours and minutes to incoming hours and minutes
+    const currentStart = new Date(0);
+    const currentEnd = new Date(0);
+    currentStart.setTime(currentData["start"]["_seconds"]*1000);
+    currentEnd.setTime(currentData["end"]["_seconds"]*1000);
+    currentStart.setHours(copyOfIncomingData["start"].getHours());
+    currentEnd.setHours(copyOfIncomingData["end"].getHours());
+    currentStart.setMinutes(copyOfIncomingData["start"].getMinutes());
+    currentEnd.setMinutes(copyOfIncomingData["end"].getMinutes());
+    // set copy of incoming to that value
+    copyOfIncomingData["start"] = currentStart;
+    copyOfIncomingData["end"] = currentEnd;
+
+    // update with adjusted data
+    batch.update(docSnap.ref, copyOfIncomingData);
   });
   await batch.commit();
 });
