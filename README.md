@@ -102,11 +102,34 @@ Back End: Firebase
   * start local emulators using firebase emulators:start
   * delete app from emulator
   * rerun app in emulator
+
+* Okay editing repeated events is working pretty good, but now I'm wondering, what if they change the event date? It will offer to change all following. How could I prevent that?
+  * I mean right now, it doesn't hurt anything because it doesn't do anything, but this seems like something I should fix
+
+* I end up making a lot of create/edit pages. Some more refined system behind all of these would be good
 ---------
 
 
 ## What I'm working on now
-* Events and repeating events
-  * Okay editing repeated events is working pretty good, but now I'm wondering, what if they change the event date? It will offer to change all following. How could I prevent that?
-    * I mean right now, it doesn't hurt anything because it doesn't do anything, but this seems like something I should fix
-  * You can now also delete this or all following
+* Divisibility
+  * the create/edit task page now has a divisibility check box DONE
+  * If the box is checked, there is a minnimum duration picker DONE
+  * Each task now takes a list of events
+    * This gets tricky because rn it does duration and starting time
+    * I could switch to duration and a list of events.
+      * How am I going to handle manually scheduling?
+        * I could make it so that hand scheduling only works with scheduling the whole thing at once like it has been
+          * This could get messy, like 
+        * I could make it so that you can add a list of events that don't exceed the duration
+          * sounds kinda hard, but I'm gonna go for it.
+          * This should be it's own widget
+          * It's going to maintain a parallel state so that setState can be called on the parent
+          * It will show how much of the duration has been scheduled and how much remains to be scheduled
+          * events will be deletable
+            * I'm going to make this into a seperated dismissable listview
+
+  * the scheduling algorithm will divide up tasks that don't fit into slots perfectly
+    * This will be done by just adding to the tasks list of events for every block that it's put into and reducing the remaining duration by as much
+    * If the whole task doesn't end up getting scheduled, I will put a note on the task's bar that says how long is still unscheduled
+    * What if remaining time is less than the minnimumSchedulingAvailability?
+      * I will start by just leaving that as time unscheduled
