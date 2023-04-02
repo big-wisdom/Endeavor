@@ -107,16 +107,6 @@ Back End: Firebase
 
 ## What I'm working on now
 * Events and repeating events
-  * I've made it so that when you make a change to an event, you have to hit save. If it's a single event, it saves to the server and you're done. If it's a 
-
-
---------
-## Plan before giving to katie and jacob
-* Colors
-* color change when scheduled
-* cross off TODO's
-* when in month view and you click a day, to to that day, not monday
---------------------------
-* sub endeavors
-* due dates
-  * priority queue by work per day would probably be the implementation of this
+  * Okay editing repeated events is working pretty good, but now I'm wondering, what if they change the event date? It will offer to change all following. How could I prevent that?
+    * I mean right now, it doesn't hurt anything because it doesn't do anything, but this seems like something I should fix
+  * You can now also delete this or all following
