@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/task.dart';
+import 'package:endeavor/screens/planning/tasks/task_event_list_editor/one_time_event_picker_view.dart';
+import 'package:endeavor/screens/planning/tasks/task_event_list_editor/task_event_list_editor.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:flutter/material.dart';
@@ -147,122 +149,263 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
           padding: const EdgeInsets.all(8.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                // Title field
-                TextFormField(
-                  initialValue: task.title,
-                  decoration: const InputDecoration(
-                    labelText: "Title",
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Title field
+                  TextFormField(
+                    initialValue: task.title,
+                    decoration: const InputDecoration(
+                      labelText: "Title",
+                    ),
+                    validator: (value) {
+                      if (value == null) {
+                        return "Please enter a title";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      task.title = value;
+                    },
+                    onTapOutside: editing
+                        ? (event) {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid)
+                                .collection('tasks')
+                                .doc(task.id)
+                                .update({'title': task.title});
+                          }
+                        : null,
                   ),
-                  validator: (value) {
-                    if (value == null) {
-                      return "Please enter a title";
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    task.title = value;
-                  },
-                  onTapOutside: editing
-                      ? (event) {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.uid)
-                              .collection('tasks')
-                              .doc(task.id)
-                              .update({'title': task.title});
-                        }
-                      : null,
-                ),
-                // Endeavor switcher
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("Endeavor"),
-                    EndeavorsDropdownButton(
-                      firstValue: task.endeavorId,
-                      uid: widget.uid,
-                      onChanged: (endeavorId) => _endeavorChanged(endeavorId),
-                      nullOption: true,
-                    ),
-                  ],
-                ),
-                // Duration selector
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("Duration"),
-                    TextButton(
-                      onPressed: () async {
-                        final resultingDuration = await showDurationPicker(
-                            context: context,
-                            initialTime: task.duration ?? Duration.zero);
-                        setState(() {
-                          task.duration = resultingDuration;
-                        });
-                        if (editing && resultingDuration != null) {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.uid)
-                              .collection('tasks')
-                              .doc(task.id)
-                              .update(
-                                  {'duration': resultingDuration.inMinutes});
-                        }
-                      },
-                      child: Text(task.duration?.toString() ?? "Add duration"),
-                    ),
-                  ],
-                ),
-                // Schedule
-                if (task.event == null)
+                  // Endeavor switcher
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Schedule"),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              task.event = Event.generic(task.duration);
-                            });
-                          },
-                          child: const Text("Add Date and Time"))
+                      const Text("Endeavor"),
+                      EndeavorsDropdownButton(
+                        firstValue: task.endeavorId,
+                        uid: widget.uid,
+                        onChanged: (endeavorId) => _endeavorChanged(endeavorId),
+                        nullOption: true,
+                      ),
                     ],
                   ),
-                if (task.event != null)
-                  OneTimeEventPicker(
-                    event: task.event!,
-                    onChanged: (newEvent) {
-                      setState(() {
-                        if (newEvent != null) {
-                          task.start = newEvent.start;
-                        } else {
-                          task.event = newEvent;
+                  // Duration selector
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Duration"),
+                      TextButton(
+                        onPressed: () async {
+                          final resultingDuration = await showDurationPicker(
+                              context: context,
+                              initialTime: task.duration ?? Duration.zero);
+                          setState(() {
+                            task.duration = resultingDuration;
+                            if (resultingDuration != null) {
+                              task.divisible = task.divisible ??
+                                  true; // Default divisibility to true
+                            }
+                          });
+                          if (editing && resultingDuration != null) {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid)
+                                .collection('tasks')
+                                .doc(task.id)
+                                .update(
+                              {
+                                'duration': resultingDuration.inMinutes,
+                                'divisible': task.divisible
+                              },
+                            );
+                          }
+                        },
+                        child:
+                            Text(task.duration?.toString() ?? "Add duration"),
+                      ),
+                    ],
+                  ),
+                  // Divisibility checkbox
+                  if (task.duration != null && task.divisible != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Divisible:"),
+                        Checkbox(
+                          value: task.divisible,
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                task.divisible = value;
+                                if (value = false) {
+                                  task.minnimumSchedulingDuration = null;
+                                }
+                              });
+                              if (editing) {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(widget.uid)
+                                    .collection('tasks')
+                                    .doc(task.id)
+                                    .update(
+                                  {
+                                    'divisible': task.divisible,
+                                    'minnimumSchedulingDuration':
+                                        task.minnimumSchedulingDuration,
+                                  },
+                                );
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+
+                  // Minnimum Duration picker
+                  if (task.divisible != null && task.divisible!)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Minnimum Scheduling Duration"),
+                        TextButton(
+                          onPressed: () async {
+                            final resultingDuration = await showDurationPicker(
+                                context: context,
+                                initialTime: task.minnimumSchedulingDuration ??
+                                    Duration.zero);
+                            setState(() {
+                              task.minnimumSchedulingDuration =
+                                  resultingDuration;
+                            });
+                            if (editing && resultingDuration != null) {
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(widget.uid)
+                                  .collection('tasks')
+                                  .doc(task.id)
+                                  .update(
+                                {
+                                  'minnimumSchedulingDuration':
+                                      resultingDuration.inMinutes,
+                                },
+                              );
+                            }
+                          },
+                          child: Text(
+                            task.minnimumSchedulingDuration?.toString() ??
+                                "Add duration",
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  // Schedule
+                  if (task.events == null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Schedule"),
+                        TextButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return OneTimeEventPickerView(
+                                      task: task,
+                                      onDone: (newEvent) {
+                                        setState(() {
+                                          task.events = [newEvent];
+                                        });
+                                        if (editing) {
+                                          FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.uid)
+                                              .collection("tasks")
+                                              .doc(task.id)
+                                              .update(
+                                            {
+                                              "events": task.events == null
+                                                  ? null
+                                                  : task.events!
+                                                      .map(
+                                                        (e) => {
+                                                          "start": e.start,
+                                                          "end": e.end,
+                                                        },
+                                                      )
+                                                      .toList(),
+                                            },
+                                          );
+                                        }
+                                      },
+                                    );
+                                  });
+                            },
+                            child: const Text("Add Date and Time"))
+                      ],
+                    ),
+                  if (task.events != null)
+                    TaskEventListEditor(
+                        task: task,
+                        onChanged: () {
+                          if (editing) {
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(widget.uid)
+                                .collection("tasks")
+                                .doc(task.id)
+                                .update(
+                              {
+                                "events": task.events == null
+                                    ? null
+                                    : task.events!
+                                        .map(
+                                          (e) => {
+                                            "start": e.start,
+                                            "end": e.end,
+                                          },
+                                        )
+                                        .toList(),
+                              },
+                            );
+                          }
+                          setState(() {});
+                        }),
+                  // OneTimeEventPicker(
+                  //   event: task.event!,
+                  //   onChanged: (newEvent) {
+                  //     setState(() {
+                  //       if (newEvent != null) {
+                  //         task.start = newEvent.start;
+                  //       } else {
+                  //         task.event = newEvent;
+                  //       }
+                  //     });
+                  //     if (editing) {
+                  //       FirebaseFirestore.instance
+                  //           .collection('users')
+                  //           .doc(widget.uid)
+                  //           .collection('tasks')
+                  //           .doc(task.id)
+                  //           .update({'start': newEvent?.start});
+                  //     }
+                  //   },
+                  //   startOnly: true,
+                  // ),
+                  // Add button
+                  if (!editing)
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_tryCreate()) {
+                          Navigator.pop(context);
                         }
-                      });
-                      if (editing) {
-                        FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(widget.uid)
-                            .collection('tasks')
-                            .doc(task.id)
-                            .update({'start': newEvent?.start});
-                      }
-                    },
-                    startOnly: true,
-                  ),
-                // Add button
-                if (!editing)
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_tryCreate()) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: const Text("Add"),
-                  ),
-              ],
+                      },
+                      child: const Text("Add"),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

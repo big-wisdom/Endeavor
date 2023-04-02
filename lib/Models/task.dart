@@ -4,39 +4,21 @@ import 'package:endeavor/Models/event/event.dart';
 class Task {
   String? id;
   String? title;
-  // represent as start and duration rather than start and end
-  // the user will only need to put in duration, then the auto-planner
-  // can set the start
-  DateTime? start;
+  List<Event>? events;
   Duration? duration;
   String? endeavorId;
   DateTime? dueDate;
   bool? divisible;
+  Duration? minnimumSchedulingDuration;
 
   Task({
     this.title,
     this.duration,
     this.endeavorId,
     this.dueDate,
-    this.divisible = false,
+    this.divisible,
+    this.minnimumSchedulingDuration,
   });
-
-  Event? get event {
-    if (start != null && duration != null) {
-      return Event(start: start, end: start!.add(duration!));
-    } else {
-      return null;
-    }
-  }
-
-  set event(Event? inputEvent) {
-    if (inputEvent != null) {
-      start = inputEvent.start;
-      duration = inputEvent.end!.difference(inputEvent.start!);
-    } else {
-      start = null;
-    }
-  }
 
   Task.fromDocSnap(QueryDocumentSnapshot docSnap) {
     id = docSnap.id;
@@ -45,16 +27,25 @@ class Task {
     endeavorId = data['endeavorId'];
     duration =
         data['duration'] != null ? Duration(minutes: data['duration']) : null;
-    start = data['start'] != null
-        ? DateTime.fromMicrosecondsSinceEpoch(
-            (data['start'] as Timestamp).microsecondsSinceEpoch,
-          )
-        : null;
+    events = data['events'] == null
+        ? null
+        : (data['events'] as List).map((e) {
+            e as Map<String, dynamic>;
+            return Event(
+              start: DateTime.fromMicrosecondsSinceEpoch(
+                  (e['start'] as Timestamp).microsecondsSinceEpoch),
+              end: DateTime.fromMicrosecondsSinceEpoch(
+                  (e['end'] as Timestamp).microsecondsSinceEpoch),
+            );
+          }).toList();
     dueDate = data['dueDate'] != null
         ? DateTime.fromMicrosecondsSinceEpoch(
             (data['dueDate'] as Timestamp).microsecondsSinceEpoch)
         : null;
     divisible = data['divisible'];
+    minnimumSchedulingDuration = data['minnimumSchedulingDuration'] != null
+        ? Duration(minutes: data['minnimumSchedulingDuration'])
+        : null;
   }
 
   Map<String, dynamic> toDoc() {
@@ -62,11 +53,36 @@ class Task {
       "title": title,
       "endeavorId": endeavorId,
       "duration": duration?.inMinutes,
-      "start": start,
+      "divisible": divisible,
+      "minnimumSchedulingDuration": minnimumSchedulingDuration?.inMinutes,
+      "events": events?.map((e) => e.toDocData()).toList(),
     };
+  }
+
+  Duration? get scheduledDuration {
+    if (duration != null && events != null) {
+      Duration d = Duration.zero;
+      for (Event e in events!) {
+        d += e.end!.difference(e.start!);
+      }
+      return d;
+    } else {
+      return null;
+    }
+  }
+
+  Duration? get unscheduledDuration {
+    if (duration != null && events != null) {
+      Duration diff = duration! - scheduledDuration!;
+      return diff;
+    } else {
+      return null;
+    }
   }
 
   bool validate() {
     return title != null;
+    // TODO: if divisible, should have minnimumSchedulingDuration
+    // and minnimumSchedulingDuration should be less than total time
   }
 }
