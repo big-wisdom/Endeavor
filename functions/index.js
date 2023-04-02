@@ -56,11 +56,16 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       .get();
   const tasks = [];
   for (const doc of tasksQuery.docs) {
-    tasks.push({
-      id: doc.id,
-      data: doc.data(),
-    });
+    const tempDocData = doc.data();
+    if (tempDocData["duration"] != null) { // only keep them if they're schedulable
+      tempDocData["events"] = null; // clear schedule of all tasks
+      tasks.push({
+        id: doc.id,
+        data: tempDocData,
+      });
+    }
   }
+
 
   // grab endeavor doc to order the tasks
   const endeavorDocSnap = await firestore
@@ -85,32 +90,59 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
 
     // if task fits inside timeblock
     if (task["data"]["duration"] <= timeBlock["duration"]/60) {
-      // set start of task to start of block
-      const d = new Date(0);
-      d.setUTCSeconds(timeBlock["start"]["_seconds"]);
-      task["data"]["start"] = d;
+      // add a work block for the whole duration of the task
+      const dStart = new Date(0);
+      dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
+      const dEnd = new Date(dStart.getTime() + (task["data"]["duration"] * 60 * 1000));
+
+      const newWorkBlock = {
+        "start": dStart,
+        "end": dEnd,
+      };
+
+      if (task["data"]["events"] == null) {
+        task["data"]["events"] = [newWorkBlock];
+      } else {
+        task["data"]["events"].push(newWorkBlock);
+      }
 
       // cut duration of task off the front of timeBlock
       timeBlock["start"]["_seconds"] += task["data"]["duration"] * 60;
       timeBlock["duration"] = timeBlock["end"] - timeBlock["start"];
       taskIndex++; // move onto next task
+    } else if (task["data"]["minnimumSchedulingDuration"] <= timeBlock["duration"]/60) {
+      // else if minnimumSchedulingDuration fits inside timeblock
+      // add a work block for it
+      const dStart = new Date(0);
+      dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
+      const dEnd = new Date(dStart.getTime() + (task["data"]["minnimumSchedulingDuration"] * 60 * 1000));
+      const newWorkBlock = {
+        "start": dStart,
+        "end": dEnd,
+      };
+
+      if (task["data"]["events"] == null) {
+        task["data"]["events"] = [newWorkBlock];
+      } else {
+        task["data"]["events"].push(newWorkBlock);
+      }
+      // reduce duration
+      task["data"]["duration"] -= task["data"]["minnimumSchedulingDuration"];
+      // move onto the next timeblock
+      blockIndex++;
+      // cut duration of minnimumSchedulingDuration off the front of timeblock
+      timeBlock["start"]["_seconds"] += task["data"]["minnimumSchedulingDuration"] * 60;
+      timeBlock["duration"] = timeBlock["end"] - timeBlock["start"];
     } else {
       blockIndex++; // move onto next timeBlock
     }
-  }
-
-  // remove the schedule from all tasks that were not scheduled this time
-  let startRemoveIndex = blockIndex >= timeBlocks.length ? taskIndex : taskIndex + 1; // set start remove by what stopped planning loop
-  while (startRemoveIndex < tasks.length) {
-    tasks[startRemoveIndex]["data"]["start"] = null;
-    startRemoveIndex++;
   }
 
   // affect changes in the docs
   const batch = firestore.batch();
   for (const task of tasks) {
     const docRef = firestore.collection("users").doc(userId).collection("tasks").doc(task["id"]);
-    batch.update(docRef, {"start": task["data"]["start"]});
+    batch.update(docRef, {"events": task["data"]["events"]});
   }
   batch.commit();
 });

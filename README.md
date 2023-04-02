@@ -115,8 +115,11 @@ Back End: Firebase
   * the create/edit task page now has a divisibility check box DONE
   * If the box is checked, there is a minnimum duration picker DONE
   * Each task now takes a list of events
-    * I need to make the calendar week view handle lists of events instead of events
   * the scheduling algorithm will divide up tasks that don't fit into slots perfectly
+    * First I'm going to make the old scheduling work again with the list of events rather than start time
+      * It messes up if there's a task in there without a duration, it's not filtering schedulable vs. unschedulable
+
+
     * This will be done by just adding to the tasks list of events for every block that it's put into and reducing the remaining duration by as much
     * If the whole task doesn't end up getting scheduled, I will put a note on the task's bar that says how long is still unscheduled
     * What if remaining time is less than the minnimumSchedulingAvailability?

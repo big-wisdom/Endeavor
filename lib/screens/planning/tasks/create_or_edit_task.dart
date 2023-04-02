@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duration_picker/duration_picker.dart';
-import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/one_time_event_picker_view.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/task_event_list_editor.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
-import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {
