@@ -60,8 +60,19 @@ class Endeavors extends StatelessWidget {
             return ListView.separated(
               itemCount: primaryEndeavorIds.length,
               itemBuilder: (context, index) {
-                final item = snapshots.snapshot2.data!.docs.firstWhere(
-                    (docId) => docId.id == primaryEndeavorIds[index]);
+                QueryDocumentSnapshot<Map<String, dynamic>>? item;
+                for (var doc in snapshots.snapshot2.data!.docs) {
+                  if (doc.id == primaryEndeavorIds[index]) {
+                    item = doc;
+                    break;
+                  }
+                }
+                if (item == null) {
+                  return const ListTile(
+                    title: Text("Deleting..."),
+                  );
+                }
+
                 final itemData = item.data();
 
                 return Dismissible(
@@ -72,7 +83,7 @@ class Endeavors extends StatelessWidget {
                         .collection('users')
                         .doc(user.uid)
                         .collection('endeavors')
-                        .doc(item.id)
+                        .doc(item!.id)
                         .delete();
                   },
                   child: ListTile(
@@ -85,7 +96,7 @@ class Endeavors extends StatelessWidget {
                             // could I just pass the document snapshot here and let this stream handle updates?
                             // as opposed to getting a stream from the id in the endeavorView widget
                             return EndeavorView(
-                                uid: user.uid, endeavorId: item.id);
+                                uid: user.uid, endeavorId: item!.id);
                           },
                         ),
                       );

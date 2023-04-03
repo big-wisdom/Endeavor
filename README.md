@@ -120,8 +120,10 @@ Back End: Firebase
     * Title DONE
     ------
     * Sub-Endeavors
-      * Now instead of text, each sub Endeavor needs to show as a tile that will lead to an endeavor page of it's own
-        * It's useful here to have an Endeavor model
+      * Now I want to be able to edit and delete endeavors
+        * Delete first
+          * fix dismissible on dismiss for primary endeavors DONE
+          * Make other dismissible and make sure that should work for them as well
     ------
 
 
