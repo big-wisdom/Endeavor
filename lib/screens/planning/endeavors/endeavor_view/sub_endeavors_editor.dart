@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:endeavor/Models/Endeavor/endeavor.dart';
 import 'package:endeavor/screens/planning/endeavors/add_endeavor.dart';
+import 'package:endeavor/screens/planning/endeavors/endeavor_view/endeavor_view.dart';
 import 'package:flutter/material.dart';
 
 class SubEndeavorsEditor extends StatefulWidget {
@@ -51,15 +53,36 @@ class _SubEndeavorsEditorState extends State<SubEndeavorsEditor> {
           }
 
           // get list of sub endeavors
-          List<String> subEndeavorNames = snapshot.data!.docs.map((docSnap) {
-            return docSnap.data()['text'] as String;
+          List<Endeavor> subEndeavors = snapshot.data!.docs.map((docSnap) {
+            return Endeavor.fromDocSnap(docSnap);
           }).toList();
 
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text("Sub-Endeavors"),
-              ...subEndeavorNames.map((string) => Text(string)),
+              ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(subEndeavors[index].text!),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EndeavorView(
+                            uid: widget.uid,
+                            endeavorId: subEndeavors[index].id!);
+                      }));
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    thickness: 1,
+                  );
+                },
+                itemCount: subEndeavors.length,
+              ),
               TextButton(
                   onPressed: _addSubEndeavor,
                   child: const Text("Add Sub-Endeavor")),

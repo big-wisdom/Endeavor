@@ -120,8 +120,8 @@ Back End: Firebase
     * Title DONE
     ------
     * Sub-Endeavors
-      * I want to use the same AddEndeavor modal bottom sheet to add a child endeavor
-        * I need to extract out an onAdd function so that it can do something different in the two places
+      * Now instead of text, each sub Endeavor needs to show as a tile that will lead to an endeavor page of it's own
+        * It's useful here to have an Endeavor model
     ------
 
 
