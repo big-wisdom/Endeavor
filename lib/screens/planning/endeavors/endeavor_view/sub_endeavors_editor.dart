@@ -22,7 +22,7 @@ class SubEndeavorsEditor extends StatefulWidget {
 class _SubEndeavorsEditorState extends State<SubEndeavorsEditor> {
   @override
   Widget build(BuildContext context) {
-    if (widget.subEndeavorIds == null) {
+    if (widget.subEndeavorIds == null || widget.subEndeavorIds!.isEmpty) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -64,15 +64,26 @@ class _SubEndeavorsEditorState extends State<SubEndeavorsEditor> {
               ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(subEndeavors[index].text!),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return EndeavorView(
-                            uid: widget.uid,
-                            endeavorId: subEndeavors[index].id!);
-                      }));
+                  return Dismissible(
+                    key: Key(subEndeavors[index].id!),
+                    child: ListTile(
+                      title: Text(subEndeavors[index].text!),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return EndeavorView(
+                              uid: widget.uid,
+                              endeavorId: subEndeavors[index].id!);
+                        }));
+                      },
+                    ),
+                    onDismissed: (direction) {
+                      FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(widget.uid)
+                          .collection("endeavors")
+                          .doc(subEndeavors[index].id)
+                          .delete();
                     },
                   );
                 },

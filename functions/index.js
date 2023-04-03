@@ -267,15 +267,13 @@ exports.endeavorDeleted = functions.firestore
 // if it has children, they could go to their grandparents
     .document("users/{userId}/endeavors/{endeavorId}")
     .onDelete(async (snapshot, context) => {
-      // const deletedValue = snapshot.data();
-
       // delete all endeavorBlocks associated with this endeavor
-      const querySnap = await firestore.collection(`users/${context.params.userId}/endeavorBlocks`).where("endeavorId", "==", context.params.endeavorId).get();
-      const batch = firestore.batch();
-      for (const doc of querySnap.docs) {
-        batch.delete(doc.ref);
+      const endeavorBlocksQuerySnap = await firestore.collection(`users/${context.params.userId}/endeavorBlocks`).where("endeavorId", "==", context.params.endeavorId).get();
+      const endeavorBlocksBatch = firestore.batch();
+      for (const doc of endeavorBlocksQuerySnap.docs) {
+        endeavorBlocksBatch.delete(doc.ref);
       }
-      await batch.commit();
+      await endeavorBlocksBatch.commit();
 
       // delete all tasks associated with this endeavor
       const taskQuerySnap = await firestore.collection(`users/${context.params.userId}/tasks`).where("endeavorId", "==", context.params.endeavorId).get();
@@ -284,6 +282,35 @@ exports.endeavorDeleted = functions.firestore
         taskBatch.delete(doc.ref);
       }
       await taskBatch.commit();
+
+      const referencesBatch = firestore.batch();
+      const deletedDocData = snapshot.data();
+      // delete all child endeavors
+      if (deletedDocData["subEndeavorIds"] != null) {
+        for (const id of deletedDocData["subEndeavorIds"]) {
+          const childDocRef = firestore.doc(`users/${context.params.userId}/endeavors/${id}`);
+          referencesBatch.delete(childDocRef);
+        }
+      }
+
+      // delete all references to this endeavor
+      // check primary endeavors list
+      const userDocSnap = await firestore.doc(`users/${context.params.userId}`).get();
+      const userDocData = userDocSnap.data();
+      if (userDocData["primaryEndeavorIds"] != null && userDocData["primaryEndeavorIds"].includes(snapshot.id)) {
+        const primaryEndeavorIds = userDocData["primaryEndeavorIds"];
+        primaryEndeavorIds.splice(primaryEndeavorIds.indexOf(snapshot.id), 1);
+        referencesBatch.update(userDocSnap.ref, {"primaryEndeavorIds": primaryEndeavorIds});
+      }
+      // query all other endeavors to see if they have this one as a sub-endeavor
+      const querySnap = await firestore.collection(`users/${context.params.userId}/endeavors`).where("subEndeavorIds", "array-contains", snapshot.id).get();
+      for (const docSnap of querySnap.docs) {
+        const subEndeavorIds = docSnap.data()["subEndeavorIds"];
+        subEndeavorIds.splice(subEndeavorIds.indexOf(snapshot.id), 1);
+        referencesBatch.update(docSnap.ref, {"subEndeavorIds": subEndeavorIds});
+      }
+      referencesBatch.commit();
+
 
       return 0;
     });
