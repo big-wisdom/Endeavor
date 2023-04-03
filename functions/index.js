@@ -261,6 +261,10 @@ async function getThisAndFollowingEndeavorBlockSnaps(userId, repeatingEndeavorBl
 }
 
 exports.endeavorDeleted = functions.firestore
+// TODO: When an endeavor is deleted, references to it need to be deleted
+// this could be in the user doc if it's a primary endeavor
+// this could be in it's parent or children
+// if it has children, they could go to their grandparents
     .document("users/{userId}/endeavors/{endeavorId}")
     .onDelete(async (snapshot, context) => {
       // const deletedValue = snapshot.data();

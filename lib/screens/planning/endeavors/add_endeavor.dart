@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddEndeavor extends StatefulWidget {
-  const AddEndeavor({required this.user, super.key});
+  const AddEndeavor({required this.uid, required this.onAdd, super.key});
 
-  final User user;
+  final String uid;
+  final Function(String) onAdd;
 
   @override
   State<AddEndeavor> createState() => _AddEndeavorState();
@@ -39,16 +39,12 @@ class _AddEndeavorState extends State<AddEndeavor> {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final isValid = formKey.currentState?.validate();
                 FocusScope.of(context).unfocus();
                 if (isValid != null && isValid) {
                   formKey.currentState?.save();
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(widget.user.uid)
-                      .collection('endeavors')
-                      .add({"text": text});
+                  widget.onAdd(text);
                 }
               },
               child: const Text("Add"),
