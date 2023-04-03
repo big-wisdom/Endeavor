@@ -107,20 +107,29 @@ Back End: Firebase
   * I mean right now, it doesn't hurt anything because it doesn't do anything, but this seems like something I should fix
 
 * I end up making a lot of create/edit pages. Some more refined system behind all of these would be good
+  * I could have some protocol for when you want to link a create/edit page to a document
+  * Or a widget that in some generic way manipulates a list tied to a document
 ---------
 
 
 ## What I'm working on now
-* Divisibility
-  * the create/edit task page now has a divisibility check box DONE
-  * If the box is checked, there is a minnimum duration picker DONE
-  * Each task now takes a list of events
-  * the scheduling algorithm will divide up tasks that don't fit into slots perfectly
-    * First I'm going to make the old scheduling work again with the list of events rather than start time
-      * It messes up if there's a task in there without a duration, it's not filtering schedulable vs. unschedulable
+* Sub-Endeavors
+  * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
+  * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
+    * Plan option
+    * Title DONE
+    ------
+    * Sub-Endeavors
+      * I want to use the same AddEndeavor modal bottom sheet to add a child endeavor
+        * I need to extract out an onAdd function so that it can do something different in the two places
+    ------
 
 
-    * This will be done by just adding to the tasks list of events for every block that it's put into and reducing the remaining duration by as much
-    * If the whole task doesn't end up getting scheduled, I will put a note on the task's bar that says how long is still unscheduled
-    * What if remaining time is less than the minnimumSchedulingAvailability?
-      * I will start by just leaving that as time unscheduled
+
+    * Tasks
+  * Endeavors need a link to parent endeavor and a list of child endeavors
+  * In the tasks list
+    * I could make collapsable lists within collapsable lists
+  * Planning algorithm
+    * When you click plan, if there are child endeavors, a pop-up will ask if you'd like to plan this endeavor or this and child endeavors
+  

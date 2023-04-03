@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/screens/planning/calendar/create_or_edit_event.dart';
 import 'package:endeavor/screens/planning/endeavors/add_endeavor.dart';
 import 'package:endeavor/screens/planning/calendar/calendar.dart';
@@ -35,7 +36,10 @@ class _PlanningScreenState extends State<PlanningScreen> {
         context: context,
         isScrollControlled: true,
         builder: (ctx) {
-          return AddEndeavor(user: widget.user);
+          return AddEndeavor(
+            uid: widget.user.uid,
+            onAdd: _addPrimaryEndeavor,
+          );
         });
   }
 
@@ -175,6 +179,43 @@ class _PlanningScreenState extends State<PlanningScreen> {
         },
       ),
     );
+  }
+
+  void _addPrimaryEndeavor(String text) async {
+    // Create endeavor document
+    final endeavorDocRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.user.uid)
+        .collection('endeavors')
+        .add({"text": text});
+    // Create reference to it as a primary endeavor on the user doc
+    // get user doc
+    final userDocSnap = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.user.uid)
+        .get();
+    // get current list
+    final docData = userDocSnap.data()!;
+    var primaryEndeavorIds = docData['primaryEndeavorIds'];
+    Map<String, dynamic> newData;
+    if (primaryEndeavorIds == null) {
+      // if no list create one with one entry
+      newData = {
+        "primaryEndeavorIds": [endeavorDocRef.id]
+      };
+    } else {
+      // if there is a list update it locally then on firebase
+      primaryEndeavorIds =
+          (primaryEndeavorIds as List).map((id) => id as String).toList();
+      primaryEndeavorIds.add(endeavorDocRef.id);
+      newData = {
+        "primaryEndeavorIds": primaryEndeavorIds,
+      };
+    }
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.user.uid)
+        .update(newData);
   }
 }
 
