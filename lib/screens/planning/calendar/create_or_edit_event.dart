@@ -5,7 +5,6 @@ import 'package:endeavor/Models/calendar_event/repeating_calendar_event.dart';
 import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/event/repeating_event.dart';
 import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
-import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker.dart';

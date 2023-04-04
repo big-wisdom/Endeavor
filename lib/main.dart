@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/firebase_options.dart';
 import 'package:endeavor/screens/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +10,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
+  // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  // FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   runApp(const MyApp());
 }
