@@ -4,6 +4,7 @@ import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/one_time_event_picker_view.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/task_event_list_editor.dart';
 import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
+import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {
@@ -91,7 +92,9 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
 
   void _endeavorChanged(String? endeavorId) {
     String? oldEndeavorId = task.endeavorId;
-    task.endeavorId = endeavorId;
+    setState(() {
+      task.endeavorId = endeavorId;
+    });
     if (editing) {
       FirebaseFirestore.instance.runTransaction<bool>((t) async {
         // if it was part of an endeavor, remove it
@@ -177,6 +180,11 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                         : null,
                   ),
                   // Endeavor switcher
+                  EndeavorPickerRow(
+                    uid: widget.uid,
+                    initialId: task.endeavorId,
+                    onChanged: (newId) => _endeavorChanged(newId),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
