@@ -118,13 +118,12 @@ Back End: Firebase
   * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
     * Plan option
     * Title DONE
-    ------
+    * color
     * Sub-Endeavors
-      * Now I want to be able to edit and delete endeavors
-        * Delete first
-          * fix dismissible on dismiss for primary endeavors DONE
-          * Make other dismissible and make sure that should work for them as well
-    ------
+      * I'm going to need to update the tasks view
+        * Then I need to make sure that the tasks view shows the endeavors and their tasks correctly
+      * Then I should make it so that you can create tasks from the endeavorView as well
+      * Then I need to add a plan endeavor button
 
 
 

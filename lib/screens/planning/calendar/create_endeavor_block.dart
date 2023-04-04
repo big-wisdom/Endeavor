@@ -5,7 +5,7 @@ import 'package:endeavor/Models/endeavor_block/repeating_endeavor_block.dart';
 import 'package:endeavor/Models/event/repeating_event.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
-import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
+import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
 import 'package:endeavor/widgets/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker.dart';
 import 'package:flutter/material.dart';
@@ -122,9 +122,8 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Endeavor:"),
-                  EndeavorsDropdownButton(
-                    nullOption: false,
-                    firstValue: endeavorBlock.endeavorId,
+                  EndeavorPickerRow(
+                    initialId: endeavorBlock.endeavorId,
                     uid: widget.uid,
                     onChanged: (value) {
                       setState(() {
@@ -185,14 +184,6 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                           }
                         }
                       });
-                    },
-                    returnFirstValue: (value) {
-                      if (!editing) {
-                        // sets the initial value when creating
-                        endeavorBlock.endeavorId = value;
-                        repeatingEndeavorBlock
-                            .then((reb) => reb.endeavorId = value);
-                      }
                     },
                   ),
                 ],
