@@ -116,6 +116,11 @@ Back End: Firebase
 * Sub-Endeavors
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
   * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
+    * Task list/editor
+      * Got tasks to show if there are any
+      -------
+      * I will just modularize the list
+      -------
     * Plan option
     * Title DONE
     * color

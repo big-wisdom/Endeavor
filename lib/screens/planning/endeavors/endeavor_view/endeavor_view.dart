@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:endeavor/Models/task.dart';
+import 'package:endeavor/screens/planning/endeavors/endeavor_view/endeavor_view_task_editor.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavor_view/sub_endeavors_editor.dart';
 import 'package:flutter/material.dart';
+import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 
 class EndeavorView extends StatefulWidget {
   const EndeavorView({required this.uid, required this.endeavorId, super.key});
@@ -22,10 +25,18 @@ class _EndeavorViewState extends State<EndeavorView> {
         .doc(widget.endeavorId)
         .snapshots();
 
-    return StreamBuilder(
-        stream: endeavorDocStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+    final taskStream = FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.uid)
+        .collection('tasks')
+        .where("endeavorId", isEqualTo: widget.endeavorId)
+        .snapshots();
+
+    return StreamBuilder2(
+        streams: StreamTuple2(endeavorDocStream, taskStream),
+        builder: (context, snapshots) {
+          if (snapshots.snapshot1.connectionState == ConnectionState.waiting ||
+              snapshots.snapshot2.connectionState == ConnectionState.waiting) {
             return const Scaffold(
               body: Center(
                 child: Text("Loading..."),
@@ -33,7 +44,10 @@ class _EndeavorViewState extends State<EndeavorView> {
             );
           }
 
-          if (snapshot.hasError || !snapshot.hasData) {
+          if (snapshots.snapshot1.hasError ||
+              snapshots.snapshot2.hasError ||
+              !snapshots.snapshot1.hasData ||
+              !snapshots.snapshot2.hasData) {
             return const Scaffold(
               body: Center(
                 child: Text("Something went wrong here, call Eli plz"),
@@ -41,16 +55,20 @@ class _EndeavorViewState extends State<EndeavorView> {
             );
           }
 
-          final docData = snapshot.data!.data()!;
-          var subEndeavorIds = docData["subEndeavorIds"];
+          final endeavorDocData = snapshots.snapshot1.data!.data()!;
+          var subEndeavorIds = endeavorDocData["subEndeavorIds"];
           if (subEndeavorIds != null) {
             subEndeavorIds =
                 (subEndeavorIds as List).map((e) => e as String).toList();
           }
 
+          final tasks = snapshots.snapshot2.data!.docs.map((taskDocSnap) {
+            return Task.fromDocSnap(taskDocSnap);
+          }).toList();
+
           return Scaffold(
             appBar: AppBar(
-              title: Text(docData['text']),
+              title: Text(endeavorDocData['text']),
             ),
             body: Column(
               children: [
@@ -59,6 +77,11 @@ class _EndeavorViewState extends State<EndeavorView> {
                   uid: widget.uid,
                   endeavorId: widget.endeavorId,
                   subEndeavorIds: subEndeavorIds,
+                ),
+                EndeavorViewTaskEditor(
+                  endeavorId: widget.endeavorId,
+                  uid: widget.uid,
+                  tasks: tasks,
                 ),
               ],
             ),
