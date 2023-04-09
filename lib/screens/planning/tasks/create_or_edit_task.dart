@@ -3,16 +3,17 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/one_time_event_picker_view.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/task_event_list_editor.dart';
-import 'package:endeavor/widgets/endeavor_dropdown_button.dart';
 import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {
-  const CreateOrEditTask._({this.task, required this.uid, super.key});
+  const CreateOrEditTask._(
+      {this.task, this.endeavorId, required this.uid, super.key});
 
-  factory CreateOrEditTask.create({required uid, key}) {
+  factory CreateOrEditTask.create({required uid, endeavorId, key}) {
     return CreateOrEditTask._(
       uid: uid,
+      endeavorId: endeavorId,
       key: key,
     );
   }
@@ -22,6 +23,7 @@ class CreateOrEditTask extends StatefulWidget {
   }
 
   final String uid;
+  final String? endeavorId;
   final Task? task; // we can know whether we are creating or updating by this
 
   @override
@@ -39,7 +41,7 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
       task = widget.task!;
       editing = true;
     } else {
-      task = Task();
+      task = Task(endeavorId: widget.endeavorId);
       editing = false;
     }
 
@@ -180,23 +182,12 @@ class _CreateOrEditTaskState extends State<CreateOrEditTask> {
                         : null,
                   ),
                   // Endeavor switcher
-                  EndeavorPickerRow(
-                    uid: widget.uid,
-                    initialId: task.endeavorId,
-                    onChanged: (newId) => _endeavorChanged(newId),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Endeavor"),
-                      EndeavorsDropdownButton(
-                        firstValue: task.endeavorId,
-                        uid: widget.uid,
-                        onChanged: (endeavorId) => _endeavorChanged(endeavorId),
-                        nullOption: true,
-                      ),
-                    ],
-                  ),
+                  if (widget.endeavorId == null)
+                    EndeavorPickerRow(
+                      uid: widget.uid,
+                      initialId: task.endeavorId,
+                      onChanged: (newId) => _endeavorChanged(newId),
+                    ),
                   // Duration selector
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
