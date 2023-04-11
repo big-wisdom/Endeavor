@@ -113,29 +113,22 @@ Back End: Firebase
 
 
 ## What I'm working on now
+-------
+* Fixing how divisible tasks are scheduled. It was scheduling for their minnimum time, not the remaining time of the block
+-------
+
 * Sub-Endeavors
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
   * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
-    * Task list/editor
-      * Got tasks to show if there are any
-      -------
-      * I will just modularize the list
-      -------
+    * Task list/editor DONE
     * Plan option
     * Title DONE
     * color
-    * Sub-Endeavors
-      * I'm going to need to update the tasks view
-        * Then I need to make sure that the tasks view shows the endeavors and their tasks correctly
-      * Then I should make it so that you can create tasks from the endeavorView as well
-      * Then I need to add a plan endeavor button
+    * Sub-Endeavors DONE
 
 
 
-    * Tasks
-  * Endeavors need a link to parent endeavor and a list of child endeavors
-  * In the tasks list
-    * I could make collapsable lists within collapsable lists
-  * Planning algorithm
-    * When you click plan, if there are child endeavors, a pop-up will ask if you'd like to plan this endeavor or this and child endeavors
+  * Tasks
+    * In the tasks list
+      * I could make collapsable lists within collapsable lists
   

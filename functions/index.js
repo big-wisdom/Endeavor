@@ -115,7 +115,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       // add a work block for it
       const dStart = new Date(0);
       dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
-      const dEnd = new Date(dStart.getTime() + (task["data"]["minnimumSchedulingDuration"] * 60 * 1000));
+      const dEnd = new Date(dStart.getTime() + (timeBlock["duration"]/60));
       const newWorkBlock = {
         "start": dStart,
         "end": dEnd,
@@ -127,12 +127,9 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
         task["data"]["events"].push(newWorkBlock);
       }
       // reduce duration
-      task["data"]["duration"] -= task["data"]["minnimumSchedulingDuration"];
+      task["data"]["duration"] -= timeBlock["duration"]/60;
       // move onto the next timeblock
       blockIndex++;
-      // cut duration of minnimumSchedulingDuration off the front of timeblock
-      timeBlock["start"]["_seconds"] += task["data"]["minnimumSchedulingDuration"] * 60;
-      timeBlock["duration"] = timeBlock["end"] - timeBlock["start"];
     } else {
       blockIndex++; // move onto next timeBlock
     }
