@@ -115,7 +115,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       // add a work block for it
       const dStart = new Date(0);
       dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
-      const dEnd = new Date(dStart.getTime() + (timeBlock["duration"]/60));
+      const dEnd = new Date(dStart.getTime() + (timeBlock["duration"]*1000));
       const newWorkBlock = {
         "start": dStart,
         "end": dEnd,
