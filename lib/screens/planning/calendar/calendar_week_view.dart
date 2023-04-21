@@ -7,6 +7,7 @@ import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/calendar/create_or_edit_event.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:endeavor/screens/planning/tasks/create_or_edit_task.dart';
+import 'package:endeavor/util.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
 import 'package:flutter/material.dart';
 import 'package:multiple_stream_builder/multiple_stream_builder.dart';
@@ -24,12 +25,6 @@ class CalendarWeekView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-    );
-
     // Endeavor blocks stream
     Stream<QuerySnapshot<Map<String, dynamic>>> endeavorBlocksStream =
         FirebaseFirestore.instance
@@ -69,17 +64,26 @@ class CalendarWeekView extends StatelessWidget {
               .map((docSnap) => EndeavorBlock.fromDocSnap(
                   docSnapData: docSnap.data(), id: docSnap.id))
               .map((block) async {
-            String title = (await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(uid)
-                        .collection('endeavors')
-                        .doc(block.endeavorId)
-                        .get())
-                    .data()?['text'] ??
-                "Loading...";
+            final endeavorDocSnapData = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(uid)
+                .collection('endeavors')
+                .doc(block.endeavorId)
+                .get()
+                .then((value) => value.data());
+
+            String title = endeavorDocSnapData!['text'];
+
+            Color? color;
+            if (endeavorDocSnapData['settings'] != null &&
+                endeavorDocSnapData['settings']['color'] != null) {
+              color = Color(
+                  int.parse("0xFF${endeavorDocSnapData['settings']['color']}"));
+            }
             String description = "";
             return FlutterWeekViewEvent(
               title: title,
+              backgroundColor: color,
               description: description,
               start: block.event!.start!,
               end: block.event!.end!,
@@ -222,15 +226,19 @@ class CalendarWeekView extends StatelessWidget {
 
               return LayoutBuilder(builder: (context, constraints) {
                 return WeekView(
-                  // generate a list of the days of the week for the selected date
-                  dates: List<DateTime>.generate(
-                    7,
-                    (index) {
-                      return date
-                          .add(Duration(days: (index + 1) - date.weekday));
-                    },
-                    growable: false,
+                  dayBarStyleBuilder: (date) {
+                    return DayBarStyle(
+                      dateFormatter: (year, month, day) {
+                        return DateTime(year, month, day).toCustomString();
+                      },
+                    );
+                  },
+                  hoursColumnStyle: HoursColumnStyle(
+                    timeFormatter: (time) =>
+                        "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')}",
                   ),
+                  // generate a list of the days of the week for the selected date
+                  dates: getMonthRange(),
                   events: events,
                   style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
                 );
@@ -242,5 +250,22 @@ class CalendarWeekView extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<DateTime> getMonthRange() {
+    final now = DateTime.now();
+    final prevMonth = DateTime(now.year, now.month - 1, 1);
+    final nextMonth = DateTime(now.year, now.month + 1, 1);
+    final daysInPrevMonth = DateTime(now.year, now.month, 0).day;
+
+    final prevMonthDays = List.generate(daysInPrevMonth,
+        (index) => DateTime(now.year, now.month - 1, index + 1));
+    final thisMonthDays = List.generate(nextMonth.difference(prevMonth).inDays,
+        (index) => prevMonth.add(Duration(days: index)));
+    final nextMonthDays = List.generate(
+        DateTime(now.year, now.month + 1, 0).day,
+        (index) => DateTime(now.year, now.month + 1, index + 1));
+
+    return [...prevMonthDays, ...thisMonthDays, ...nextMonthDays];
   }
 }

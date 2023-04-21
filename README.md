@@ -117,9 +117,15 @@ Back End: Firebase
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
   * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
     * Task list/editor DONE
+    * make it scrollable
     * Plan option
     * Title DONE
     * color
+      * I got a color picker in, but now I need to figure out how to store this and update it in firestore
+        * I'm thinking that each endeavor document should have a settings map
+        * I could grab it when the settings page is launched
+          * When do I get the endeavor doc most recently?
+          * What about when there is no settings map, or there is no color set in it?
     * Sub-Endeavors DONE
 
 

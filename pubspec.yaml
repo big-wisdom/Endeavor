@@ -43,6 +43,8 @@ dependencies:
   cloud_functions: ^4.0.12
   duration_picker: ^1.1.1
   multiple_stream_builder: ^3.0.0
+  intl: ^0.17.0
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

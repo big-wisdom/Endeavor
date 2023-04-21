@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/task.dart';
+import 'package:endeavor/screens/planning/endeavors/endeavor_settings_view/endeavor_settings_view.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavor_view/endeavor_view_task_editor.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavor_view/sub_endeavors_editor.dart';
 import 'package:flutter/material.dart';
@@ -69,21 +70,37 @@ class _EndeavorViewState extends State<EndeavorView> {
           return Scaffold(
             appBar: AppBar(
               title: Text(endeavorDocData['text']),
-            ),
-            body: Column(
-              children: [
-                // Sub Endeavors
-                SubEndeavorsEditor(
-                  uid: widget.uid,
-                  endeavorId: widget.endeavorId,
-                  subEndeavorIds: subEndeavorIds,
-                ),
-                EndeavorViewTaskEditor(
-                  endeavorId: widget.endeavorId,
-                  uid: widget.uid,
-                  tasks: tasks,
-                ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EndeavorSettingsView(
+                          uid: widget.uid,
+                          endeavorId: widget.endeavorId,
+                          settingsMap: endeavorDocData['settings'],
+                        );
+                      }));
+                    },
+                    icon: const Icon(Icons.settings))
               ],
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Sub Endeavors
+                  SubEndeavorsEditor(
+                    uid: widget.uid,
+                    endeavorId: widget.endeavorId,
+                    subEndeavorIds: subEndeavorIds,
+                  ),
+                  EndeavorViewTaskEditor(
+                    endeavorId: widget.endeavorId,
+                    uid: widget.uid,
+                    tasks: tasks,
+                  ),
+                ],
+              ),
             ),
           );
         });
