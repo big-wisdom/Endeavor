@@ -74,7 +74,7 @@ class CalendarWeekView extends StatelessWidget {
 
             String title = endeavorDocSnapData!['text'];
 
-            Color? color;
+            Color? color = const Color(0xFF007AFF);
             if (endeavorDocSnapData['settings'] != null &&
                 endeavorDocSnapData['settings']['color'] != null) {
               color = Color(
