@@ -61,8 +61,10 @@ class CalendarWeekView extends StatelessWidget {
         // convert the endeavorBlock docs into a list of FlutterWeekView futures
         if (snapshots.snapshot1.hasData) {
           endeavorBlocks = snapshots.snapshot1.data!.docs
-              .map((docSnap) => EndeavorBlock.fromDocSnap(
-                  docSnapData: docSnap.data(), id: docSnap.id))
+              .map(
+            (docSnap) => EndeavorBlock.fromDocSnap(
+                docSnapData: docSnap.data(), id: docSnap.id),
+          )
               .map((block) async {
             final endeavorDocSnapData = await FirebaseFirestore.instance
                 .collection('users')
@@ -78,7 +80,8 @@ class CalendarWeekView extends StatelessWidget {
             if (endeavorDocSnapData['settings'] != null &&
                 endeavorDocSnapData['settings']['color'] != null) {
               color = Color(
-                  int.parse("0xFF${endeavorDocSnapData['settings']['color']}"));
+                int.parse("0xFF${endeavorDocSnapData['settings']['color']}"),
+              );
             }
             String description = "";
             return FlutterWeekViewEvent(
