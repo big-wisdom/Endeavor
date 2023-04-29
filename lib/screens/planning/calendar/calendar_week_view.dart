@@ -256,19 +256,17 @@ class CalendarWeekView extends StatelessWidget {
   }
 
   List<DateTime> getMonthRange() {
-    final now = DateTime.now();
-    final prevMonth = DateTime(now.year, now.month - 1, 1);
-    final nextMonth = DateTime(now.year, now.month + 1, 1);
-    final daysInPrevMonth = DateTime(now.year, now.month, 0).day;
+    List<DateTime> dates = [];
 
-    final prevMonthDays = List.generate(daysInPrevMonth,
-        (index) => DateTime(now.year, now.month - 1, index + 1));
-    final thisMonthDays = List.generate(nextMonth.difference(prevMonth).inDays,
-        (index) => prevMonth.add(Duration(days: index)));
-    final nextMonthDays = List.generate(
-        DateTime(now.year, now.month + 1, 0).day,
-        (index) => DateTime(now.year, now.month + 1, index + 1));
+    // Start at 30 days ago
+    DateTime date = DateTime.now().subtract(const Duration(days: 30));
 
-    return [...prevMonthDays, ...thisMonthDays, ...nextMonthDays];
+    // Loop until 30 days from now
+    while (date.isBefore(DateTime.now().add(const Duration(days: 30)))) {
+      dates.add(DateTime.utc(date.year, date.month, date.day));
+      date = date.add(const Duration(days: 1));
+    }
+
+    return dates;
   }
 }

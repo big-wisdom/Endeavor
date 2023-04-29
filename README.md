@@ -113,6 +113,10 @@ Back End: Firebase
 
 
 ## What I'm working on now
+* Progress stopping bug, for some reason, Sunday April 30th doesn't show up in my weekview
+  * 
+* I'm also going to have to go through firebase and add in my primary endeavors again because I'm a fool
+
 -----
 * Implementing the BLoC pattern
   * I'm going to use the flutter_bloc package which is wrapper package around the bloc pattern to give it widgets that make it easy to implement
