@@ -126,6 +126,7 @@ Back End: Firebase
         * I could grab it when the settings page is launched
           * When do I get the endeavor doc most recently?
           * What about when there is no settings map, or there is no color set in it?
+        * I need to make the events and tasks colored as well
     * Sub-Endeavors DONE
 
 
