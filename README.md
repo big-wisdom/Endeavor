@@ -113,6 +113,13 @@ Back End: Firebase
 
 
 ## What I'm working on now
+-----
+* Implementing the BLoC pattern
+  * I'm going to use the flutter_bloc package which is wrapper package around the bloc pattern to give it widgets that make it easy to implement
+    * BlockBuilder is similar to Streambuilder with a simpler API
+  * I'm thinking that instead of flutter_bloc, I should use just bloc for lower level control
+-----
+
 * Sub-Endeavors
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
   * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
@@ -121,12 +128,8 @@ Back End: Firebase
     * Plan option
     * Title DONE
     * color
-      * I got a color picker in, but now I need to figure out how to store this and update it in firestore
-        * I'm thinking that each endeavor document should have a settings map
-        * I could grab it when the settings page is launched
-          * When do I get the endeavor doc most recently?
-          * What about when there is no settings map, or there is no color set in it?
-        * I need to make the events and tasks colored as well
+      * I got color in, but now it only works for endeavor blocks, how could I get that data for tasks and events as well?
+        * This might be a good chance to restructure data to be more efficient rather than just patching holes
     * Sub-Endeavors DONE
 
 
