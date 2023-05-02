@@ -118,6 +118,8 @@ Back End: Firebase
 -----
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
+    * I think first thing I'm going to try and follow the authentication with firebase tutorial
+      * I've just created the authentication_repository package, flutter pub get, created the lib folder and what's in it so far
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
 -----
 
