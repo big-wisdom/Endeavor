@@ -113,15 +113,12 @@ Back End: Firebase
 
 
 ## What I'm working on now
-* Progress stopping bug, for some reason, Sunday April 30th doesn't show up in my weekview
-  * 
-* I'm also going to have to go through firebase and add in my primary endeavors again because I'm a fool
+* There is some weird bug with sorting
 
 -----
 * Implementing the BLoC pattern
-  * I'm going to use the flutter_bloc package which is wrapper package around the bloc pattern to give it widgets that make it easy to implement
-    * BlockBuilder is similar to Streambuilder with a simpler API
-  * I'm thinking that instead of flutter_bloc, I should use just bloc for lower level control
+  * [Documentation](https://bloclibrary.dev/) for bloc
+  * [documentation](https://dart.dev/tutorials/language/streams) for streams
 -----
 
 * Sub-Endeavors
