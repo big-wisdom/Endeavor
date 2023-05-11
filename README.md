@@ -109,19 +109,61 @@ Back End: Firebase
 * I end up making a lot of create/edit pages. Some more refined system behind all of these would be good
   * I could have some protocol for when you want to link a create/edit page to a document
   * Or a widget that in some generic way manipulates a list tied to a document
+* I saw mentioned once that I might need to turn on windows developer mode
 ---------
 
 
 ## What I'm working on now
 * There is some weird bug with sorting
 
------
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
     * I think first thing I'm going to try and follow the authentication with firebase tutorial
-      * I've just created the authentication_repository package, flutter pub get, created the lib folder and what's in it so far
+      * Authentication repository
+        * This is a package within my project so as to really encapsulate it. As a package it has it's own pubspec and it's imported into the file that it's used in
+        * stuff I didn't follow exactly
+          * It looks like now it wants me to integrate google_sign_in but I don't think I want to do that rn
+          * I skipped the override_dependencies section of one of the pubspec.yaml files
+      * App
+        * the root app has a repository provider to provide the authentication repository, but it also gives that repository to the AppBloc
+          * I don't really understand what a "repository" is
+        * Stuff I have to do
+          * I will need to add the AppBlocObserver class
+          * I will also need to finish the AppView class creation
+      * App Bloc
+        * Apparentaly each file constitutes it's own library and you can use the "part" and "part of" keywords to extend that library across several files. It had me do this with the app bloc, app bloc state, and the app bloc event.
+      * Models
+        * Now it wants me to create "FormzInput" objects for "Email" and "Password"
+          * I wonder if the formz package could help with all my "create/edit" views
+            * It looks promising
+            * "It allows you to work with a validated object rather than a primitive type like a String"
+        * Email
+      * Felix Angelov uses some directory structure that I don't understand but I'm interested in
+        * It seems like he structures every part of the app like it's a mini package. This rings a bell to when they were talking about mini-libraries in the libraries tutorial
+          * I wonder if I could look up this developer and see his philosophy
+            * Found his medium page where he talks about firebase login and he mentions a VSCode bloc plugin which I installed
+        * I found some other medium article about how this is a feature based folder structure
+        * I think the feature based folder structure sounds appealing so that features act like mini packages.
+        * though, where do I put models that will be used globally?
+          * He might be putting them in packages
+          * in [this](https://www.youtube.com/watch?v=ulbY6QcVzzI) live coding thing, he also puts models into feature folders. I guess it would depend on what the model pertains to.
+        * I'm going to attempt to rearrange my directories as feature based
+          * lib directories
+            * App
+              ----------
+              * I'm almost done with this one, now I'm just going to work the app into the main file
+                * He's got something strange going on where he uses FlowBuilder. I'm assuming in place of router?
+                * It's looking like this could be a simple way to go. I'm going to use the Flow_Builder. Basically, it uses some defined state to control which navtigation stack is used.
+              ----------
+            * Login
+            * Home 
+              * essentially to switch between the 3 main views
+            * Endeavors
+            * Tasks
+            * Calendar
+          * Then I will make an EndeavorDataRepository to get streams of endeavor app specific models
+            * Do I need to do another package to just interact with firebase or should that be done in the EndeavorDataRepository?
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
------
 
 * Sub-Endeavors
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
