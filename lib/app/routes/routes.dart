@@ -1,4 +1,7 @@
 import 'package:endeavor/app/app.dart';
+import 'package:endeavor/screens/planning/planning_screen.dart';
+import 'package:flutter/widgets.dart';
+import 'package:endeavor/login/login.dart';
 
 List<Page<dynamic>> onGenerateAppViewPages(
   AppStatus state,
@@ -6,7 +9,7 @@ List<Page<dynamic>> onGenerateAppViewPages(
 ) {
   switch (state) {
     case AppStatus.authenticated:
-      return [HomePage.page()];
+      return [PlanningScreen.page()];
     case AppStatus.unauthenticated:
       return [LoginPage.page()];
   }

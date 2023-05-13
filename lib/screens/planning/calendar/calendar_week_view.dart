@@ -226,6 +226,7 @@ class CalendarWeekView extends StatelessWidget {
                   }
                 }
               }
+              events ??= [];
 
               return LayoutBuilder(builder: (context, constraints) {
                 return WeekView(
@@ -242,7 +243,7 @@ class CalendarWeekView extends StatelessWidget {
                   ),
                   // generate a list of the days of the week for the selected date
                   dates: getMonthRange(),
-                  events: events,
+                  events: events!,
                   style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
                 );
               });

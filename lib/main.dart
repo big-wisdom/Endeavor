@@ -9,7 +9,7 @@ import 'package:endeavor/app/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc oberver = const AppBlocObserver();
+  Bloc.observer = const AppBlocObserver();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
