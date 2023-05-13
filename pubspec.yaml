@@ -36,11 +36,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   bloc: ^8.1.1
   cupertino_icons: ^1.0.2
-  cloud_firestore: ^4.3.2
+  cloud_firestore: ^4.7.0
   cloud_functions: ^4.0.12
   duration_picker: ^1.1.1
   equatable: ^2.0.3
-  firebase_core: ^2.5.0
+  firebase_core: ^2.12.0
   flow_builder: ^0.0.9
   flutter:
     sdk: flutter
@@ -51,8 +51,10 @@ dependencies:
   # form_inputs:
   #   path: packages/form_inputs
   formz: ^0.4.0
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.4
   intl: ^0.17.0
+  login_form_inputs:
+    path: packages/login_form_inputs
   meta: ^1.7.0
   multiple_stream_builder: ^3.0.0
   syncfusion_flutter_datepicker: ^20.4.50

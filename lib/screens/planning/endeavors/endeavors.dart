@@ -1,26 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavor_view/endeavor_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 
 class Endeavors extends StatelessWidget {
-  const Endeavors({required this.user, super.key});
+  const Endeavors({required this.uid, super.key});
 
-  final User user;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
     Stream<DocumentSnapshot<Map<String, dynamic>>> primaryEndeavorsStream =
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .snapshots();
+        FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
 
     Stream<QuerySnapshot<Map<String, dynamic>>> endeavorsStream =
         FirebaseFirestore.instance
             .collection('users')
-            .doc(user.uid)
+            .doc(uid)
             .collection('endeavors')
             .snapshots();
 
@@ -81,7 +77,7 @@ class Endeavors extends StatelessWidget {
                     // delete the endeavor
                     FirebaseFirestore.instance
                         .collection('users')
-                        .doc(user.uid)
+                        .doc(uid)
                         .collection('endeavors')
                         .doc(item!.id)
                         .delete();
@@ -95,8 +91,7 @@ class Endeavors extends StatelessWidget {
                           builder: (context) {
                             // could I just pass the document snapshot here and let this stream handle updates?
                             // as opposed to getting a stream from the id in the endeavorView widget
-                            return EndeavorView(
-                                uid: user.uid, endeavorId: item!.id);
+                            return EndeavorView(uid: uid, endeavorId: item!.id);
                           },
                         ),
                       );

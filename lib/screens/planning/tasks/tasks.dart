@@ -2,18 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/endeavor_task_list.dart';
 import 'package:endeavor/screens/planning/tasks/task_list_tile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Tasks extends StatelessWidget {
-  final User user;
-  const Tasks({required this.user, super.key});
+  final String uid;
+  const Tasks({required this.uid, super.key});
 
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> tasksStream = FirebaseFirestore.instance
         .collection('users')
-        .doc(user.uid)
+        .doc(uid)
         .collection('tasks')
         .snapshots();
 
@@ -58,14 +57,14 @@ class Tasks extends StatelessWidget {
                 if (index < endeavorTasks.length) {
                   String endeavorId = endeavorTasks.keys.toList()[index];
                   return EndeavorTaskList(
-                    uid: user.uid,
+                    uid: uid,
                     endeavorId: endeavorId,
                     tasks: endeavorTasks[endeavorId]!,
                   );
                 } else {
                   return TaskListTile(
                     task: tasksWithNoEndeavor[index - endeavorTasks.length],
-                    uid: user.uid,
+                    uid: uid,
                     key: UniqueKey(),
                   );
                 }

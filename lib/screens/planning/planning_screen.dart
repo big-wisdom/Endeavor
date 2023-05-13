@@ -6,13 +6,14 @@ import 'package:endeavor/screens/planning/calendar/create_endeavor_block.dart';
 import 'package:endeavor/screens/planning/endeavors/endeavors.dart';
 import 'package:endeavor/screens/planning/tasks/create_or_edit_task.dart';
 import 'package:endeavor/screens/planning/tasks/tasks.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:endeavor/app/app.dart';
 
 class PlanningScreen extends StatefulWidget {
-  const PlanningScreen({required this.user, super.key});
+  const PlanningScreen({super.key});
 
-  final User user;
+  static Page<void> page() => const MaterialPage<void>(child: PlanningScreen());
 
   @override
   State<PlanningScreen> createState() => _PlanningScreenState();
@@ -22,6 +23,8 @@ class _PlanningScreenState extends State<PlanningScreen> {
   var currentPageIndex = 0;
   var calendarView = CalendarView.month;
   DateTime selectedDate = DateTime.now();
+  String? uid;
+
   void setCalendarView(CalendarView view, [DateTime? date]) {
     setState(() {
       calendarView = view;
@@ -37,7 +40,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
         isScrollControlled: true,
         builder: (ctx) {
           return AddEndeavor(
-            uid: widget.user.uid,
+            uid: uid!,
             onAdd: _addPrimaryEndeavor,
           );
         });
@@ -48,7 +51,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreateOrEditTask.create(uid: widget.user.uid);
+          return CreateOrEditTask.create(uid: uid!);
         },
       ),
     );
@@ -72,7 +75,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return CreateOrEditEndeavorBlock.create(
-                            uid: widget.user.uid,
+                            uid: uid!,
                             setCalendarView: setCalendarView,
                           );
                         },
@@ -88,7 +91,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
                       context,
                       MaterialPageRoute(builder: (context) {
                         return CreateOrEditCalendarEvent.create(
-                          uid: widget.user.uid,
+                          uid: uid!,
                         );
                       }),
                     );
@@ -105,6 +108,12 @@ class _PlanningScreenState extends State<PlanningScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (uid == null) {
+      setState(() {
+        uid = context.read<AppBloc>().state.user.id;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Planning"),
@@ -125,10 +134,10 @@ class _PlanningScreenState extends State<PlanningScreen> {
             ),
           DropdownButton(
             icon: const Icon(Icons.more_vert),
-            items: [
+            items: const [
               DropdownMenuItem(
                 value: 'logout',
-                child: Row(children: const [
+                child: Row(children: [
                   Icon(Icons.exit_to_app),
                   SizedBox(width: 8),
                   Text("Logout")
@@ -137,20 +146,20 @@ class _PlanningScreenState extends State<PlanningScreen> {
             ],
             onChanged: (value) {
               if (value == 'logout') {
-                FirebaseAuth.instance.signOut();
+                context.read<AppBloc>().add(const AppLogoutRequested());
               }
             },
           )
         ],
       ),
       body: [
-        Endeavors(user: widget.user),
-        Tasks(user: widget.user),
+        Endeavors(uid: uid!),
+        Tasks(uid: uid!),
         Calendar(
             mode: calendarView,
             selectedDate: selectedDate,
             setCalendarView: setCalendarView,
-            uid: widget.user.uid),
+            uid: uid!),
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         destinations: const [
@@ -185,15 +194,13 @@ class _PlanningScreenState extends State<PlanningScreen> {
     // Create endeavor document
     final endeavorDocRef = await FirebaseFirestore.instance
         .collection('users')
-        .doc(widget.user.uid)
+        .doc(uid)
         .collection('endeavors')
         .add({"text": text});
     // Create reference to it as a primary endeavor on the user doc
     // get user doc
-    final userDocSnap = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.user.uid)
-        .get();
+    final userDocSnap =
+        await FirebaseFirestore.instance.collection("users").doc(uid).get();
     // get current list
     final docData = userDocSnap.data()!;
     var primaryEndeavorIds = docData['primaryEndeavorIds'];
@@ -212,10 +219,7 @@ class _PlanningScreenState extends State<PlanningScreen> {
         "primaryEndeavorIds": primaryEndeavorIds,
       };
     }
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.user.uid)
-        .update(newData);
+    FirebaseFirestore.instance.collection("users").doc(uid).update(newData);
   }
 }
 

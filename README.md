@@ -133,11 +133,16 @@ Back End: Firebase
       * App Bloc
         * Apparentaly each file constitutes it's own library and you can use the "part" and "part of" keywords to extend that library across several files. It had me do this with the app bloc, app bloc state, and the app bloc event.
       * Models
-        * Now it wants me to create "FormzInput" objects for "Email" and "Password"
-          * I wonder if the formz package could help with all my "create/edit" views
-            * It looks promising
-            * "It allows you to work with a validated object rather than a primitive type like a String"
+        * Got all these in place in their own package called login_form_inputs. The Formz package could be really useful in the future
         * Email
+      * Now onto the login and sign-up folders
+        * I've just gone through and copied them exactly how they stand in the tutorial
+      * Having gone through the tutorial, now I just need to hook up the rest of my app to it
+        * for sign-out, I'm going to need to reach out to the authentication_repository. How have I done that before?
+          * I interact with the BLoC with context.read<AppBlock>().add(const AppLogoutRequested());
+        * Now I need to somehow provide the user.uid to the planning page so I can just get this thing running
+          * I got it from the AppBloc in a super janky way. 
+      * I believe I've gotten the authentication working, but now I need to start restructuring the data
       * Felix Angelov uses some directory structure that I don't understand but I'm interested in
         * It seems like he structures every part of the app like it's a mini package. This rings a bell to when they were talking about mini-libraries in the libraries tutorial
           * I wonder if I could look up this developer and see his philosophy
@@ -150,11 +155,7 @@ Back End: Firebase
         * I'm going to attempt to rearrange my directories as feature based
           * lib directories
             * App
-              ----------
-              * I'm almost done with this one, now I'm just going to work the app into the main file
-                * He's got something strange going on where he uses FlowBuilder. I'm assuming in place of router?
-                * It's looking like this could be a simple way to go. I'm going to use the Flow_Builder. Basically, it uses some defined state to control which navtigation stack is used.
-              ----------
+              * I followed his lead and I'll use Flow_Builder to manage my navigation
             * Login
             * Home 
               * essentially to switch between the 3 main views
