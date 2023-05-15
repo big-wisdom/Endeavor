@@ -118,53 +118,9 @@ Back End: Firebase
 
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
-    * I think first thing I'm going to try and follow the authentication with firebase tutorial
-      * Authentication repository
-        * This is a package within my project so as to really encapsulate it. As a package it has it's own pubspec and it's imported into the file that it's used in
-        * stuff I didn't follow exactly
-          * It looks like now it wants me to integrate google_sign_in but I don't think I want to do that rn
-          * I skipped the override_dependencies section of one of the pubspec.yaml files
-      * App
-        * the root app has a repository provider to provide the authentication repository, but it also gives that repository to the AppBloc
-          * I don't really understand what a "repository" is
-        * Stuff I have to do
-          * I will need to add the AppBlocObserver class
-          * I will also need to finish the AppView class creation
-      * App Bloc
-        * Apparentaly each file constitutes it's own library and you can use the "part" and "part of" keywords to extend that library across several files. It had me do this with the app bloc, app bloc state, and the app bloc event.
-      * Models
-        * Got all these in place in their own package called login_form_inputs. The Formz package could be really useful in the future
-        * Email
-      * Now onto the login and sign-up folders
-        * I've just gone through and copied them exactly how they stand in the tutorial
-      * Having gone through the tutorial, now I just need to hook up the rest of my app to it
-        * for sign-out, I'm going to need to reach out to the authentication_repository. How have I done that before?
-          * I interact with the BLoC with context.read<AppBlock>().add(const AppLogoutRequested());
-        * Now I need to somehow provide the user.uid to the planning page so I can just get this thing running
-          * I got it from the AppBloc in a super janky way. 
-      * I believe I've gotten the authentication working, but now I need to start restructuring the data
-      * Felix Angelov uses some directory structure that I don't understand but I'm interested in
-        * It seems like he structures every part of the app like it's a mini package. This rings a bell to when they were talking about mini-libraries in the libraries tutorial
-          * I wonder if I could look up this developer and see his philosophy
-            * Found his medium page where he talks about firebase login and he mentions a VSCode bloc plugin which I installed
-        * I found some other medium article about how this is a feature based folder structure
-        * I think the feature based folder structure sounds appealing so that features act like mini packages.
-        * though, where do I put models that will be used globally?
-          * He might be putting them in packages
-          * in [this](https://www.youtube.com/watch?v=ulbY6QcVzzI) live coding thing, he also puts models into feature folders. I guess it would depend on what the model pertains to.
-        * I'm going to attempt to rearrange my directories as feature based
-          * lib directories
-            * App
-              * I followed his lead and I'll use Flow_Builder to manage my navigation
-            * Login
-            * Home 
-              * essentially to switch between the 3 main views
-            * Endeavors
-            * Tasks
-            * Calendar
-          * Then I will make an EndeavorDataRepository to get streams of endeavor app specific models
-            * Do I need to do another package to just interact with firebase or should that be done in the EndeavorDataRepository?
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
+  * So I've now made an EndeavorsScreen that implements a BLoC architecture and responds to a DataRepository
+  * Next, I need to do the EndeavorScreen that is called from the EndeavorsScreen
 
 * Sub-Endeavors
   * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE

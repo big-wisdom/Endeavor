@@ -1,0 +1,13 @@
+name: data_repository
+description: Dart package which manages the data for endeavor.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.19.0-444.6.beta <3.0.0"
+
+dependencies:
+  authentication_repository:
+    path: ../authentication_repository
+  cloud_firestore: ^4.7.0
+  equatable: ^2.0.5
