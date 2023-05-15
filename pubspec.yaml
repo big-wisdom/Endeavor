@@ -36,8 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   bloc: ^8.1.1
   cupertino_icons: ^1.0.2
-  cloud_firestore: ^4.7.0
   cloud_functions: ^4.0.12
+  data_repository:
+    path: packages/data_repository
   duration_picker: ^1.1.1
   equatable: ^2.0.3
   firebase_core: ^2.12.0
