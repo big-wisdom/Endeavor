@@ -119,24 +119,23 @@ Back End: Firebase
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
-  * So I've now made an EndeavorsScreen that implements a BLoC architecture and responds to a DataRepository
-  * Next, I need to do the EndeavorScreen that is called from the EndeavorsScreen
+  * How should I do navigation?
+    * The PlanningScreen is where the onGenerageAppViewPages should be implemented rather than in the app, that way the app could switch between Planning and Live modes and Live mode could be managed seperately
+    * The flow builder in the planning screen almost seems like overkill? Should I have a state machine to manage that?
+  * CreateOrEditEndeavorScreen
+    * To speed up the calendar view, I am maintaining a seperate settings collection parallel to the endeavors collection. This means that when an endeavor is created or deleted, so must the settings document be
+      * REVISIT: I could make this a listener function that watches for creation or deletion of an endeavor doc and creates or deletes the corresponding settings doc
+      * Created DONE
+        * This could be done in the data repository where the endeavor is created DONE
+                * For Calendar Events, I think I will just leave the planning page and have it launch a dialogue when it see the app state change to "addCalendarItem" clarifying what kind of calendar item they want to create
+      * Deleted
+        * Update the index.js of the cloud function
+          * I should work on this once I have the desktop up and running so that I can use the emulator to make sure it works
+        * Deploy it
+      * Then I will need to manually update the existing database
+    -----------
+    * SubEndeavorsEditor
+      * 
+    -----------
+    * EndeavorViewTaskEditor
 
-* Sub-Endeavors
-  * So each user will have a primaryEndeavors list that says which endeavors will show in the main endeavors list DONE
-  * Clicking on a primary endeavor takes you to an Endeavor View (got the view up, no content though)
-    * Task list/editor DONE
-    * make it scrollable
-    * Plan option
-    * Title DONE
-    * color
-      * I got color in, but now it only works for endeavor blocks, how could I get that data for tasks and events as well?
-        * This might be a good chance to restructure data to be more efficient rather than just patching holes
-    * Sub-Endeavors DONE
-
-
-
-  * Tasks
-    * In the tasks list
-      * I could make collapsable lists within collapsable lists
-  

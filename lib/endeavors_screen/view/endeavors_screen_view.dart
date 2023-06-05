@@ -2,6 +2,7 @@ import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:endeavor/create_or_edit_endeavor_screen/create_or_edit_endeavor_screen.dart';
 
 class EndeavorsScreenView extends StatelessWidget {
   const EndeavorsScreenView({super.key});
@@ -21,7 +22,7 @@ class EndeavorsScreenView extends StatelessWidget {
             endeavorsScreenBloc.add(DeleteEndeavor(endeavor));
           },
           child: ListTile(
-            title: Text(endeavor.title),
+            title: Text(endeavor.title!),
             onTap: () {
               Navigator.push(
                 context,
@@ -29,7 +30,7 @@ class EndeavorsScreenView extends StatelessWidget {
                   builder: (context) {
                     // could I just pass the document snapshot here and let this stream handle updates?
                     // as opposed to getting a stream from the id in the endeavorView widget
-                    return EndeavorView(endeavor: endeavor);
+                    return CreateOrEditEndeavorScreen(endeavor: endeavor);
                   },
                 ),
               );

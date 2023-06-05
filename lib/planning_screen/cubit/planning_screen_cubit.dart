@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'planning_screen_state.dart';
 
 class PlanningScreenCubit extends Cubit<PlanningScreenState> {
-  PlanningScreenCubit()
+  DataRepository _dataRepository;
+  PlanningScreenCubit(this._dataRepository)
       : super(
           const PlanningScreenState(
             navbarItem: NavbarItem.endeavors,

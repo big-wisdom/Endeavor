@@ -1,24 +1,43 @@
 part of 'app_bloc.dart';
 
-enum AppStatus {
+enum AppAuthenticationStatus {
   authenticated,
   unauthenticated,
 }
 
-class AppState extends Equatable {
-  const AppState._({
-    required this.status,
-    this.user = User.empty,
-  });
+enum AppFlowState {
+  planning,
+  createOrEditEndeavor,
+  createOrEditTask,
+  addCalendarItem,
+  createOrEditEvent,
+  createOrEditEndeavorBlock,
+}
 
-  final AppStatus status;
+class AppState extends Equatable {
+  final AppAuthenticationStatus authenticationStatus;
+  final AppFlowState flowState;
   final User user;
 
-  const AppState.authenticated(User user)
-      : this._(status: AppStatus.authenticated, user: user);
+  const AppState.authenticated({
+    required this.user,
+    this.flowState = AppFlowState.planning,
+  }) : authenticationStatus = AppAuthenticationStatus.authenticated;
 
-  const AppState.unauthenticated() : this._(status: AppStatus.unauthenticated);
+  const AppState.unauthenticated({this.flowState = AppFlowState.planning})
+      : authenticationStatus = AppAuthenticationStatus.unauthenticated,
+        user = User.empty;
+
+  AppState copyWithNewFlowState({
+    required AppFlowState newFlowState,
+  }) {
+    if (user.isNotEmpty) {
+      return AppState.authenticated(user: user, flowState: newFlowState);
+    } else {
+      throw Exception("Cannot change flow state when unauthenticated");
+    }
+  }
 
   @override
-  List<Object?> get props => [status, user];
+  List<Object?> get props => [authenticationStatus, flowState, user];
 }
