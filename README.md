@@ -119,6 +119,9 @@ Back End: Firebase
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
+  ----------
+  * I've introduced a whole bunch of errors that need to be cleaned out
+  ----------
   * How should I do navigation?
     * The PlanningScreen is where the onGenerageAppViewPages should be implemented rather than in the app, that way the app could switch between Planning and Live modes and Live mode could be managed seperately
     * The flow builder in the planning screen almost seems like overkill? Should I have a state machine to manage that?
@@ -133,9 +136,6 @@ Back End: Firebase
           * I should work on this once I have the desktop up and running so that I can use the emulator to make sure it works
         * Deploy it
       * Then I will need to manually update the existing database
-    -----------
     * SubEndeavorsEditor
-      * 
-    -----------
     * EndeavorViewTaskEditor
 
