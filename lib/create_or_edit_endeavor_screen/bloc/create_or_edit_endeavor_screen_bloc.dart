@@ -144,7 +144,6 @@ class CreateOrEditEndeavorScreenBloc extends Bloc<
   @override
   Future<void> close() {
     _endeavorStreamSubscription.cancel();
-    _settingsStreamSubscription?.cancel();
     return super.close();
   }
 }

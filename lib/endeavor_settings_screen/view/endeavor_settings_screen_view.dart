@@ -25,7 +25,7 @@ class EndeavorSettingsScreenView extends StatelessWidget {
                 TextButton(
                   child: const Text("Choose Color"),
                   onPressed: () {
-                    launchColorPicker();
+                    launchColorPicker(context, state);
                   },
                 ),
                 Container(
