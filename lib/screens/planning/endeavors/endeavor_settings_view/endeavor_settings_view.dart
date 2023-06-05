@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class EndeavorSettingsView extends StatefulWidget {
-  const EndeavorSettingsView(
-      {required this.uid,
-      required this.endeavorId,
-      required this.settingsMap,
-      super.key});
+  const EndeavorSettingsView({
+    required this.uid,
+    required this.endeavorId,
+    required this.settingsMap,
+    super.key,
+  });
 
   final String uid;
   final String endeavorId;
@@ -77,25 +78,6 @@ class _EndeavorSettingsViewState extends State<EndeavorSettingsView> {
               pickerColor: pickerColor,
               onColorChanged: changeColor,
             ),
-            // Use Material color picker:
-            //
-            // child: MaterialPicker(
-            //   pickerColor: pickerColor,
-            //   onColorChanged: changeColor,
-            //   showLabel: true, // only on portrait mode
-            // ),
-            //
-            // Use Block color picker:
-            //
-            // child: BlockPicker(
-            //   pickerColor: currentColor,
-            //   onColorChanged: changeColor,
-            // ),
-            //
-            // child: MultipleChoiceBlockPicker(
-            //   pickerColors: currentColors,
-            //   onColorsChanged: changeColors,
-            // ),
           ),
           actions: <Widget>[
             ElevatedButton(

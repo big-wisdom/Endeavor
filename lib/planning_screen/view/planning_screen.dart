@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/planning_screen/planning_screen.dart';
 import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
+import 'package:endeavor/app/app.dart';
 
 class PlanningScreen extends StatelessWidget {
   const PlanningScreen({super.key});
@@ -62,6 +63,25 @@ class PlanningScreenView extends StatelessWidget {
             return Calendar();
           }
           return Container();
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          final appBloc = context.read<AppBloc>();
+          final navBarItem =
+              context.read<PlanningScreenCubit>().state.navbarItem;
+          switch (navBarItem) {
+            case NavbarItem.endeavors:
+              appBloc.add(const AddEndeavorRequested());
+              break;
+            case NavbarItem.tasks:
+              appBloc.add(const AddTaskRequested());
+              break;
+            case NavbarItem.calendar:
+              appBloc.add(const AddCalendarItemRequested());
+              break;
+          }
         },
       ),
     );

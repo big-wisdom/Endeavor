@@ -13,3 +13,15 @@ class _AppUserChanged extends AppEvent {
 
   final User user;
 }
+
+class AddEndeavorRequested extends AppEvent {
+  const AddEndeavorRequested();
+}
+
+class AddTaskRequested extends AppEvent {
+  const AddTaskRequested();
+}
+
+class AddCalendarItemRequested extends AppEvent {
+  const AddCalendarItemRequested();
+}
