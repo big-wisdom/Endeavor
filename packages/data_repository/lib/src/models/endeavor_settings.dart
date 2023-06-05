@@ -7,9 +7,7 @@ class EndeavorSettings extends Equatable {
 
   Map<String, dynamic> toData() {
     if (this != empty) {
-      return {
-        'color': color!.value.toRadixString(16)
-      }
+      return {'color': color!.value.toRadixString(16)};
     } else {
       throw Exception("Can't convert empty settings to data");
     }

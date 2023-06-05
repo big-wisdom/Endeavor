@@ -60,6 +60,8 @@ extension EndeavorsData on DataRepository {
           .map((docSnap) {
         if (docSnap.data() != null) {
           return Endeavor.fromDocData(id: docSnap.id, data: docSnap.data()!);
+        } else {
+          throw Exception("No Data!");
         }
       });
     } else {

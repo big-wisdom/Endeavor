@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/event/event.dart';
 
 class EndeavorBlock {
