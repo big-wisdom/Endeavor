@@ -1,14 +1,16 @@
-import 'package:endeavor/create_or_edit_endeavor_screen/create_or_edit_endeavor_screen.dart';
+import 'package:endeavor/endeavor_screen/endeavor_screen.dart';
 import 'package:endeavor/endeavor_settings_screen/endeavor_settings_screen.dart';
+import 'package:endeavor/widgets/endeavor_view_task_editor/endeavor_view_task_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'subendeavors_editor.dart';
 
 class CreateOrEditEndeavorScreenView extends StatelessWidget {
   const CreateOrEditEndeavorScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<CreateOrEditEndeavorScreenBloc>().state;
+    final state = context.read<EndeavorScreenBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -16,25 +18,24 @@ class CreateOrEditEndeavorScreenView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return EndeavorSettingsScreen(context
-                    .read<CreateOrEditEndeavorScreenBloc>()
-                    .settingsStream);
-              }));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return EndeavorSettingsScreen(state.endeavor);
+                  },
+                ),
+              );
             },
             icon: const Icon(Icons.settings),
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
             // Sub Endeavors
-            SubEndeavorsEditor(endeavor: state.endeavor),
-            EndeavorViewTaskEditor(
-              endeavor: state.endeavor,
-              tasks: tasks,
-            ),
+            SubEndeavorsEditor(),
+            EndeavorViewTaskEditor(),
           ],
         ),
       ),

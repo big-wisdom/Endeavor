@@ -15,7 +15,9 @@ class _AppUserChanged extends AppEvent {
 }
 
 class AddEndeavorRequested extends AppEvent {
-  const AddEndeavorRequested();
+  const AddEndeavorRequested(this.title);
+
+  final String title;
 }
 
 class AddTaskRequested extends AppEvent {

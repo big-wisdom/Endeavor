@@ -1,3 +1,4 @@
+import 'package:endeavor/widgets/create_endeavor_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/planning_screen/planning_screen.dart';
@@ -73,7 +74,16 @@ class PlanningScreenView extends StatelessWidget {
               context.read<PlanningScreenCubit>().state.navbarItem;
           switch (navBarItem) {
             case NavbarItem.endeavors:
-              appBloc.add(const AddEndeavorRequested());
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => CreateEndeavorModal(
+                  onAdd: (title) {
+                    appBloc.add(
+                      AddEndeavorRequested(title),
+                    );
+                  },
+                ),
+              );
               break;
             case NavbarItem.tasks:
               appBloc.add(const AddTaskRequested());

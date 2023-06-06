@@ -14,11 +14,6 @@ List<Page<dynamic>> onGenerateAppViewPages(
       switch (state.flowState) {
         case AppFlowState.planning:
           return [PlanningScreen.page()];
-        case AppFlowState.createOrEditEndeavor:
-          return [
-            PlanningScreen.page(),
-            CreateOrEditEndeavorScreen.page(Endeavor.empty)
-          ];
         case AppFlowState.createOrEditTask:
           return [PlanningScreen.page(), CreateOrEditTask.page()];
         case AppFlowState.addCalendarItem:

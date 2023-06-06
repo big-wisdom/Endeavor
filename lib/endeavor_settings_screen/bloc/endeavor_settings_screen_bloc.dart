@@ -12,14 +12,15 @@ class EndeavorSettingsScreenBloc
   late final StreamSubscription<EndeavorSettings> _settingsStreamSubscription;
 
   EndeavorSettingsScreenBloc({
-    required Stream<EndeavorSettings> settingsStream,
+    required DataRepository dataRepository,
+    required Endeavor endeavor,
   }) : super(
           const EndeavorSettingsScreenState(
             state: SettingsScreenState.loading,
             settings: EndeavorSettings.empty,
           ),
         ) {
-    on<NewSettingsFromDatabase>(
+    on<SettingsChangedByServer>(
       (event, emit) => emit(
         EndeavorSettingsScreenState(
           state: SettingsScreenState.loaded,
@@ -28,8 +29,21 @@ class EndeavorSettingsScreenBloc
       ),
     );
 
-    _settingsStreamSubscription = settingsStream.listen((newSettings) {
-      add(NewSettingsFromDatabase(newSettings));
+    on<SettingsChangedByClient>(((event, emit) {
+      // change new settings in the local endeavor object
+      emit(
+        EndeavorSettingsScreenState(
+          state: SettingsScreenState.loaded,
+          settings: event.newSettings,
+        ),
+      );
+    }));
+
+    _settingsStreamSubscription =
+        dataRepository.endeavorSettingsStream(endeavor).listen((newSettings) {
+      add(
+        SettingsChangedByServer(newSettings),
+      );
     });
   }
 
