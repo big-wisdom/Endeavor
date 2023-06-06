@@ -2,6 +2,100 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_repository/data_repository.dart';
 
 extension EndeavorsData on DataRepository {
+  Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
+    if (firestore == null) throw Exception("No user?! Unthinkable!");
+
+    // query tasks for tasks with id in endeavor task ids
+    final tasks = (await firestore!
+            .collection('tasks')
+            .where(FieldPath.documentId, arrayContains: endeavor.taskIds)
+            .get())
+        .docs
+        .map((docSnap) => Task.fromDocData(docSnap.id, docSnap.data()))
+        .toList();
+
+    // sort tasks to be in the same order as the the task ids
+    tasks.sort((a, b) => endeavor.taskIds!
+        .indexOf(a.id)
+        .compareTo(endeavor.taskIds!.indexOf(b.id)));
+
+    return tasks;
+  }
+
+  void deleteTask(Task task) {
+    if (firestore == null)
+      throw Exception("No shoes, no shirt, no user, no service.");
+
+    // Delete task document
+    firestore!.collection('tasks').doc(task.id).delete();
+
+    // Delete task from endeavor list if necessary
+    if (task.endeavorId != null) {
+      FirebaseFirestore.instance.runTransaction(
+        (t) async {
+          // get endeavor document
+          final endeavorDoc = await t
+              .get(firestore!.collection('endeavors').doc(task.endeavorId));
+          // get current list
+          final currentList = (endeavorDoc.data()!['taskIds'] as List)
+              .map((taskId) => taskId as String)
+              .toList(); // doc should have data
+
+          // remove this tasks id from the list
+          currentList.remove(task.id);
+
+          // update the list
+          t.update(endeavorDoc.reference, {"taskIds": currentList});
+        },
+      );
+    }
+  }
+
+  void reorderEndeavorTasks(
+      Endeavor endeavor, int oldIndex, int newIndex) async {
+    if (firestore == null) throw Exception("No User?! No way!");
+
+    final taskIds =
+        ((await firestore!.collection('endeavors').doc(endeavor.id).get())
+                .data()?['taskIds'] as List)
+            .map((taskId) => taskId as String)
+            .toList();
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    // remove the item from its present index
+    final String itemToMove = taskIds.removeAt(oldIndex);
+
+    // insert it at the new index
+    taskIds.insert(newIndex, itemToMove);
+
+    firestore!
+        .collection('endeavors')
+        .doc(endeavor.id)
+        .update({'taskIds': taskIds});
+  }
+
+  Stream<List<Endeavor>> subEndeavorStream(Endeavor endeavor) {
+    if (firestore == null) {
+      throw Exception("No user!?");
+    }
+
+    return firestore!
+        .collection('endeavors')
+        .where('parentEndeavorId', isEqualTo: endeavor.id)
+        .snapshots()
+        .map(
+          (querySnap) => querySnap.docs
+              .map(
+                (docSnap) => Endeavor.fromDocData(
+                  id: endeavor.id,
+                  data: docSnap.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   void changeSettings(EndeavorSettings newSettings, String endeavorId) {
     if (firestore != null) {
       firestore!

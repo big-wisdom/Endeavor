@@ -1,4 +1,3 @@
-import 'package:endeavor/create_or_edit_endeavor_screen/create_or_edit_endeavor_screen.dart';
 import 'package:endeavor/endeavor_settings_screen/endeavor_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,7 +53,7 @@ class EndeavorSettingsScreenView extends StatelessWidget {
               pickerColor:
                   state.settings.color ?? Theme.of(context).primaryColor,
               onColorChanged: (newColor) =>
-                  context.read<CreateOrEditEndeavorScreenBloc>().add(
+                  context.read<EndeavorSettingsScreenBloc>().add(
                         SettingsChangedByClient(
                           state.settings.copyWith(newColor),
                         ),

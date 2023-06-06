@@ -7,6 +7,7 @@ class Endeavor extends Equatable {
     this.title,
     this.subEndeavorIds,
     this.settings,
+    this.taskIds,
   });
 
   Map<String, dynamic> toData() {
@@ -20,6 +21,9 @@ class Endeavor extends Equatable {
       : id = id,
         title = data['text'],
         settings = null,
+        taskIds = data['taskIds'] != null
+            ? (data['taskIds'] as List).map((e) => e as String).toList()
+            : null,
         subEndeavorIds = data['subEndeavorIds'] == null
             ? null
             : (data['subEndeavorIds'] as List)
@@ -30,6 +34,7 @@ class Endeavor extends Equatable {
   final String id;
   final List<String>? subEndeavorIds;
   final EndeavorSettings? settings;
+  final List<String>? taskIds;
 
   Endeavor copyWith({
     String? title,

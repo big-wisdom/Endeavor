@@ -7,8 +7,14 @@ abstract class EndeavorSettingsScreenEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class NewSettingsFromDatabase extends EndeavorSettingsScreenEvent {
-  const NewSettingsFromDatabase(this.newSettings);
+class SettingsChangedByServer extends EndeavorSettingsScreenEvent {
+  const SettingsChangedByServer(this.newSettings);
+
+  final EndeavorSettings newSettings;
+}
+
+class SettingsChangedByClient extends EndeavorSettingsScreenEvent {
+  const SettingsChangedByClient(this.newSettings);
 
   final EndeavorSettings newSettings;
 }

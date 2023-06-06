@@ -18,12 +18,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         ) {
     on<_AppUserChanged>(_onUserChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
-    on<AddEndeavorRequested>(
-      (event, emit) => emit(
-        state.copyWithNewFlowState(
-            newFlowState: AppFlowState.createOrEditEndeavor),
-      ),
-    );
     on<AddTaskRequested>((event, emit) => emit(state.copyWithNewFlowState(
         newFlowState: AppFlowState.createOrEditTask)));
     // TODO: Somehow I need to show a dialogue asking the user whether they

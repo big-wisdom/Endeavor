@@ -4,15 +4,16 @@ import 'package:data_repository/data_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EndeavorSettingsScreen extends StatelessWidget {
-  const EndeavorSettingsScreen(this._settingsStream, {super.key});
+  const EndeavorSettingsScreen(this.endeavor, {super.key});
 
-  final Stream<EndeavorSettings> _settingsStream;
+  final Endeavor endeavor;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EndeavorSettingsScreenBloc(
-        settingsStream: _settingsStream,
+        dataRepository: context.read<DataRepository>(),
+        endeavor: endeavor,
       ),
       child: const EndeavorSettingsScreenView(),
     );

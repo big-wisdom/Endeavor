@@ -7,7 +7,6 @@ enum AppAuthenticationStatus {
 
 enum AppFlowState {
   planning,
-  createOrEditEndeavor,
   createOrEditTask,
   addCalendarItem,
   createOrEditEvent,

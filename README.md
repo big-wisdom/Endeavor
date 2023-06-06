@@ -110,32 +110,53 @@ Back End: Firebase
   * I could have some protocol for when you want to link a create/edit page to a document
   * Or a widget that in some generic way manipulates a list tied to a document
 * I saw mentioned once that I might need to turn on windows developer mode
----------
-
-
-## What I'm working on now
-* There is some weird bug with sorting
 
 * Implementing the BLoC pattern
   * [Documentation](https://bloclibrary.dev/) for bloc
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
-  ----------
-  * I've introduced a whole bunch of errors that need to be cleaned out
-  ----------
-  * How should I do navigation?
-    * The PlanningScreen is where the onGenerageAppViewPages should be implemented rather than in the app, that way the app could switch between Planning and Live modes and Live mode could be managed seperately
-    * The flow builder in the planning screen almost seems like overkill? Should I have a state machine to manage that?
-  * CreateOrEditEndeavorScreen
-    * To speed up the calendar view, I am maintaining a seperate settings collection parallel to the endeavors collection. This means that when an endeavor is created or deleted, so must the settings document be
-      * REVISIT: I could make this a listener function that watches for creation or deletion of an endeavor doc and creates or deletes the corresponding settings doc
-      * Created DONE
-        * This could be done in the data repository where the endeavor is created DONE
-                * For Calendar Events, I think I will just leave the planning page and have it launch a dialogue when it see the app state change to "addCalendarItem" clarifying what kind of calendar item they want to create
-      * Deleted
-        * Update the index.js of the cloud function
-          * I should work on this once I have the desktop up and running so that I can use the emulator to make sure it works
-        * Deploy it
-      * Then I will need to manually update the existing database
-    * SubEndeavorsEditor
-    * EndeavorViewTaskEditor
+  * Interesting [article](https://medium.com/codechai/effective-bloc-pattern-45c36d76d5fe) that made me think I should switch to stateful widgets for initialization and disposing of BLoCs
 
+---------
+
+
+## Theorizing
+* Maybe every BLoC could be thought of as having two stages, loading data and presenting data
+
+## User Profiles
+* Mike
+  * Student
+  * 20 Years old
+  * School is just starting to get really busy and he needs a way to keep track of it all while also managing social life and church duties
+* Clark
+  * Software Developer
+  * 26 Years old
+  * Married, New software developer living in a new place
+* Mary
+  * Teacher
+  * 24 Years old
+  * Married, New teacher living in a new place
+* Amber
+  * Marketing lead
+  * Entreprenuer
+  * Dating
+  * 2 kids
+
+## User Stories
+* First starting the app, trying to sort out your whole life into endeavors
+  * Primary Endeavors View
+    * There should be a central brain to plan the overall endeavor structure
+    * Create Primary Endeavors
+    * Click them to view Endeavor View
+    * Click plus to create primary endeavors
+  * Endeavor View
+    * Endeavor has a brain section to think through structure
+    * Show/Edit Endeavor name
+    * Show/Edit sub-endeavors
+    * Clicking sub-endeavors leads to their endeavor view
+    * Clicking back takes you back up the tree of life
+* Planning at the begining of a week
+* Planning at the begining of a day
+* Thinking in an endeavor brain
+
+## What I'm working on now
+* There is some weird bug with sorting
