@@ -159,4 +159,5 @@ Back End: Firebase
 * Thinking in an endeavor brain
 
 ## What I'm working on now
-* There is some weird bug with sorting
+
+* Next, onto the tasks screen

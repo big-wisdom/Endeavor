@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class Endeavor extends Equatable {
   const Endeavor({
-    required this.id,
+    this.id,
     this.title,
     this.subEndeavorIds,
     this.settings,
@@ -31,7 +31,7 @@ class Endeavor extends Equatable {
                 .toList();
 
   final String? title;
-  final String id;
+  final String? id;
   final List<String>? subEndeavorIds;
   final EndeavorSettings? settings;
   final List<String>? taskIds;

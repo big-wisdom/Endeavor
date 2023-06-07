@@ -18,10 +18,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         ) {
     on<_AppUserChanged>(_onUserChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
-    on<AddTaskRequested>((event, emit) => emit(state.copyWithNewFlowState(
-        newFlowState: AppFlowState.createOrEditTask)));
-    // TODO: Somehow I need to show a dialogue asking the user whether they
-    // want to create an event or a endeavor block
     _userSubscription = _authenticationRepository.user.listen(
       (user) => add(_AppUserChanged(user)),
     );
