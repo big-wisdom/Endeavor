@@ -78,8 +78,13 @@ class PlanningScreenView extends StatelessWidget {
                 context: context,
                 builder: (context) => CreateEndeavorModal(
                   onAdd: (title) {
-                    appBloc.add(
-                      AddEndeavorRequested(title),
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => CreateEndeavorModal(
+                        onAdd: (title) => context
+                            .read<PlanningScreenCubit>()
+                            .addPrimaryEndeavor(title),
+                      ),
                     );
                   },
                 ),
