@@ -161,3 +161,15 @@ Back End: Firebase
 ## What I'm working on now
 
 * Next, onto the tasks screen
+  * When I query tasks, I go through them and keep a dictionary tying endeavor keys to a list of tasks. Then, I go through the keys of endeavors and make an EndeavorTaskList for each, then toss the free floating tasks on afterward.
+    * What about ordering tasks?
+      * Ordering the EndeavorTaskLists, the tasks within them, and the free floating tasks
+    * What about Maintaining state of collapsed or expanded?
+
+  * I could just have the tasks screen get a list of endeavors and free floating tasks that it has to sequence, then each of the individual EndeavorTaskLists could maintain a BLoC of their own that maintains their internal state
+
+  * My current method doesn't take into account the nested endeavors
+    * What if I queried all tasks, then query all endeavors, create the whole tree of life, and whenever it does, it could remove tasks from the list, leaving behind only the free floaters.
+    * How would it react to changes?
+      * If I just stream changes from the tasks query then it would rebuild the whole tree every time, and rebuild the whole UI every time.
+      * I could make an "activeTreeOfLifeStream" on the dataRepository which the UI could swallow more or less whole
