@@ -7,7 +7,6 @@ extension TasksData on DataRepository {
 
     await firestore!.collection('tasks').snapshots();
     await firestore!.collection('endeavors').snapshots();
-    StreamZip
   }
 
   List<Endeavor> createTreeOfLife(List<Endeavor> endeavors, List<Task> tasks) {}
