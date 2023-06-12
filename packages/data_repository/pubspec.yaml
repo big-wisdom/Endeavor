@@ -11,3 +11,4 @@ dependencies:
     path: ../authentication_repository
   cloud_firestore: ^4.7.0
   equatable: ^2.0.5
+  rxdart: ^0.27.7

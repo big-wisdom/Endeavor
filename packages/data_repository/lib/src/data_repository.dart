@@ -3,10 +3,14 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../data_repository.dart';
+
 class DataRepository {
   Stream<User> _userStream;
   late StreamSubscription<User> _userStreamSubscription;
   User _user = User.empty;
+  StreamController<List<Task>> tasksWithNoEndeavorController =
+      StreamController();
 
   DataRepository({required Stream<User> userStream})
       : _userStream = userStream {
