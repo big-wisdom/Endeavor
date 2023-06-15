@@ -1,5 +1,7 @@
+import 'package:endeavor/tasks_screen/bloc/tasks_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'task_list_tile.dart';
 
 class EndeavorTaskList extends StatefulWidget {
@@ -18,7 +20,8 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
       initiallyExpanded: true,
       title: Text(widget.endeavor.title!),
       trailing: TextButton(
-        onPressed: () => _callPlan(),
+        onPressed: () =>
+            context.read<TasksScreenBloc>().add(PlanRequested(widget.endeavor)),
         child: const Text("Plan"),
       ),
       controlAffinity: ListTileControlAffinity.leading,
@@ -42,16 +45,5 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
           ),
       ],
     );
-  }
-
-  void _callPlan() async {
-    // call firebase plan cloud function on this endeavor
-    HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('planEndeavor');
-    final resp = await callable.call(<String, dynamic>{
-      'userId': widget.uid,
-      'endeavorId': widget.endeavorId,
-    });
-    debugPrint("Result: ${resp.data}");
   }
 }

@@ -19,7 +19,7 @@ class SubEndeavorsEditor extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  key: Key(state.subEndeavors[index].id),
+                  key: Key(state.subEndeavors[index].id!),
                   child: ListTile(
                     title: Text(state.subEndeavors[index].title!),
                     onTap: () {

@@ -1,3 +1,4 @@
+import 'package:endeavor/task_screen/task_screen.dart';
 import 'package:endeavor/tasks_screen/bloc/tasks_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:data_repository/data_repository.dart' show Task;
@@ -31,8 +32,7 @@ class _TaskListTileState extends State<TaskListTile> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return CreateOrEditTask.edit(
-                    task: widget.task, uid: widget.uid);
+                return TaskScreen.edit();
               },
             ),
           );

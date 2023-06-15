@@ -1,3 +1,4 @@
+import 'package:endeavor/task_screen/task_screen.dart';
 import 'package:endeavor/widgets/endeavor_view_task_editor/task_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,8 +32,7 @@ class EndeavorViewTaskEditor extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return CreateOrEditTask.create(
-                        endeavorId: widget.endeavorId, uid: widget.uid);
+                    return TaskScreen.create();
                   },
                 ),
               );

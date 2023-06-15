@@ -1,7 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_repository/data_repository.dart';
 
 extension EndeavorsData on DataRepository {
+  void planEndeavor(Endeavor endeavor) async {
+    if (firestore == null)
+      throw Exception("No user?! Unthinkable! No Plan for you!");
+
+    // call firebase plan cloud function on this endeavor
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('planEndeavor');
+    await callable.call(<String, dynamic>{
+      'userId': firestore!.id,
+      'endeavorId': endeavor.id,
+    });
+  }
+
   Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
     if (firestore == null) throw Exception("No user?! Unthinkable!");
 
@@ -88,7 +102,7 @@ extension EndeavorsData on DataRepository {
           (querySnap) => querySnap.docs
               .map(
                 (docSnap) => Endeavor.fromDocData(
-                  id: endeavor.id,
+                  id: endeavor.id!,
                   data: docSnap.data(),
                 ),
               )
