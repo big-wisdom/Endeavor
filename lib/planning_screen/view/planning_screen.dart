@@ -1,3 +1,5 @@
+import 'package:endeavor/task_screen/view/task_screen.dart';
+import 'package:endeavor/tasks_screen/tasks_screen.dart';
 import 'package:endeavor/widgets/create_endeavor_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +61,7 @@ class PlanningScreenView extends StatelessWidget {
           if (state.navbarItem == NavbarItem.endeavors) {
             return const EndeavorsScreen();
           } else if (state.navbarItem == NavbarItem.tasks) {
-            return Tasks();
+            return const TasksScreen();
           } else if (state.navbarItem == NavbarItem.calendar) {
             return Calendar();
           }
@@ -91,7 +93,12 @@ class PlanningScreenView extends StatelessWidget {
               );
               break;
             case NavbarItem.tasks:
-              appBloc.add(const AddTaskRequested());
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: ((context) => TaskScreen.create()
+                )
+              );
               break;
             case NavbarItem.calendar:
               appBloc.add(const AddCalendarItemRequested());

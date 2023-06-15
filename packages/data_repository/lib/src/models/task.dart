@@ -88,6 +88,10 @@ class Task extends Equatable {
     // and minnimumSchedulingDuration should be less than total time
   }
 
+  static const empty = Task(id: '');
+  bool get isEmpty => this == Task.empty;
+  bool get isNotEmpty => this != Task.empty;
+
   @override
   List<Object?> get props => [
         id,

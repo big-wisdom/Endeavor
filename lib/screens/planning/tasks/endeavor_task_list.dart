@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_list.dart';
 import 'package:flutter/material.dart';

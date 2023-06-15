@@ -24,3 +24,9 @@ class DeleteTask extends TasksScreenEvent {
 
   final Task task;
 }
+
+class PlanRequested extends TasksScreenEvent {
+  const PlanRequested(this.endeavor);
+
+  final Endeavor endeavor;
+}

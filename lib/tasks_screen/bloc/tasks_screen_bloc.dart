@@ -30,6 +30,12 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       (event, emit) => _dataRepository.deleteTask(event.task),
     );
 
+    on<PlanRequested>(
+      (event, emit) {
+        _dataRepository.planEndeavor(event.endeavor);
+      },
+    );
+
     _dataRepository.tasksWithNoEndeavor.listen((newTasks) {
       add(EndeavorlessTasksUpdatedByServer(newTasks));
     });

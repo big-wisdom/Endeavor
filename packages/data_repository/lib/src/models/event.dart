@@ -6,6 +6,14 @@ class Event extends Equatable {
   final DateTime? start;
   final DateTime? end;
 
+  Duration? get duration {
+    if (start != null && end != null) {
+      return start!.difference(end!);
+    }
+
+    return null;
+  }
+
   Event.generic(Duration? duration)
       : start = DateTime.now(),
         end = DateTime.now().add(duration ?? const Duration(hours: 1));

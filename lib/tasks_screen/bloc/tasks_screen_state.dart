@@ -9,7 +9,7 @@ class TasksScreenState extends Equatable {
   final List<Task> tasksWithNoEndeavor;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [treeOfLife, tasksWithNoEndeavor];
 }
 
 class TasksScreenInitial extends TasksScreenState {

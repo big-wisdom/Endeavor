@@ -160,4 +160,35 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Tasks screen is theoretically handled. I just made a tree of life data structure by merging an endeavors stream with a tasks screen to create a hierarchical endeavors structure with tasks attached. I then have the UI just swallow this recursively. Should work??
+* I need to refactor the callPlan function within the EndeavorTaskList so that it's not happening within the UI
+
+* On to the TaskScreen. This one does actually need a create or edit task
+  * BLoC structure
+    * polymorphic idea
+      * I kinda want to try this out
+    * state differentiation handle difference based on state
+  * Formz?
+    * I seem to remember thinking that the Formz package might be useful for the create/edit screens. I'm going to look more into that
+      * It looks actually pretty awesome and very thourough 
+      * I'm going to start by creating Formz inputs for all the inputs in the tasks field in a folder with the Task model. If it seems wise, I'll create a composite Formz input that represents the whole task
+        * What about formz inputs that I'll use twice, like hand scheduling an event for a task and a manual event?
+          * I guess that would go next to the event model
+          * Like a date formz input. What about that? That could be used in multiple places.
+          * Maybe it would be a good idea to just create the Formz objects per form?
+
+    * Maybe the screen is responsible for showing the user data, and recieving input, the state, is responsible for managing the state of the screen, and the bloc is responsible to interacting with the DataRepository. So maybe the state shouldn't be a single data property like "task". If I break down to the individual fields of the task, then I can also smartly reload sub widgets off of data fields on the state. Then the BLoC could be the one that sythesizes the fields from the state into something like "task". This would also theoretically allow me to use the Formz mixin on the state.
+
+    * A theory for separation of concerns using BLoC and Formz
+      * If I'm doing a create/edit screen for a task. The bloc should manage the task object. The state should manage all the variables that the view is going to use seperately, and it could use the FormzMixin to validate the object as a whole before the BLoC turns it into the object that the higher level screen wants out of it.
+      
+    * BLoC
+      * Respond to events from the UI by updating relevant state fields
+      * do whatever function the screen as a whole is supposed to perform i.e. create the data object, hand it over to the data repository, etc.
+    * Event
+      * deliver details of what took place on the view
+    * State
+      * manage the data relavant to each portion of the screen seperately
+      * this is where all the Formz types should sit
+      * expose formz validation capabilities to both BLoC side and view side.
+    * Formz
+      * provide validation and error describing capabilities for data fields in a form

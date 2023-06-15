@@ -16,7 +16,7 @@ class EndeavorsScreenView extends StatelessWidget {
         Endeavor endeavor = endeavorsScreenBloc.state.primaryEndeavors[index];
 
         return Dismissible(
-          key: Key(endeavor.id),
+          key: Key(endeavor.id!),
           onDismissed: (direction) {
             // delete the endeavor
             endeavorsScreenBloc.add(DeleteEndeavor(endeavor));
