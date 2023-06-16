@@ -1,10 +1,14 @@
 part of 'week_screen_bloc.dart';
 
-abstract class WeekScreenState extends Equatable {
-  const WeekScreenState();
-  
+class WeekScreenState extends Equatable {
+  const WeekScreenState(this.events);
+
+  final List<WeekViewEvent> events;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [events];
 }
 
-class WeekScreenInitial extends WeekScreenState {}
+class WeekScreenInitial extends WeekScreenState {
+  const WeekScreenInitial(super.events);
+}

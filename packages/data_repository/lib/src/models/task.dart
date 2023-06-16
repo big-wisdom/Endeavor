@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -17,7 +19,7 @@ class Task extends Equatable {
   final String id;
   final String? endeavorId;
   final String? title;
-  final List? events;
+  final List<Event>? events;
   final Duration? duration;
   final Duration? minnimumSchedulingDuration;
   final DateTime? dueDate;
@@ -87,6 +89,22 @@ class Task extends Equatable {
     // TODO: if divisible, should have minnimumSchedulingDuration
     // and minnimumSchedulingDuration should be less than total time
   }
+
+  static final taskListTransformer = StreamTransformer<
+      QuerySnapshot<Map<String, dynamic>>, List<Task>>.fromHandlers(
+    handleData: (snapshot, sink) {
+      sink.add(
+        snapshot.docs
+            .map(
+              (queryDocSnap) => Task.fromDocData(
+                queryDocSnap.id,
+                queryDocSnap.data(),
+              ),
+            )
+            .toList(),
+      );
+    },
+  );
 
   static const empty = Task(id: '');
   bool get isEmpty => this == Task.empty;

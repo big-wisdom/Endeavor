@@ -1,7 +1,11 @@
 export 'src/data_repository.dart';
 export 'src/endeavors/endeavors_data.dart';
+export 'src/calendar/calendar_data.dart';
 export 'src/tasks/tasks_data.dart';
 export 'src/models/endeavor.dart';
 export 'src/models/endeavor_settings.dart';
 export 'src/models/task.dart';
 export 'src/models/event.dart';
+export 'src/models/week_view_event.dart';
+export 'src/models/calendar_event.dart';
+export 'src/models/endeavor_bloc.dart';

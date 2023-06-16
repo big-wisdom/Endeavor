@@ -165,4 +165,5 @@ Back End: Firebase
 * MonthScreen is pretty simple, I don't even have it managed by a BLoC. It just updates the root calendar screen and the planning screen.
 
 * WeekScreen
-  * Let's go see how the old one works. Oh yeah, this is the super complicated one that started this whole refactor shabang in the first place. I'm thinking that I can shift a lot of that weight into the dataRepository. Now should I just get a stream of FlutterWeekViewEvents? Or should I decouple from the WeekView package?. I'm thinking that I should decouple and create my own model even if it has the exact same fields.
+  * CalendarEvent editor
+  * EndeavorBlock editor
