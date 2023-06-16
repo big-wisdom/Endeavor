@@ -10,10 +10,12 @@ class PlanningScreenState extends Equatable {
   const PlanningScreenState({
     required this.navbarItem,
     required this.index,
+    this.calendarMode = CalendarMode.week,
   });
 
   final NavbarItem navbarItem;
   final int index;
+  final CalendarMode calendarMode;
 
   @override
   List<Object> get props => [navbarItem, index];

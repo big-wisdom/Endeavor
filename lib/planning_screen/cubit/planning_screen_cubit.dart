@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import '../view/calendar_view_dropdown.dart';
+
 part 'planning_screen_state.dart';
 
 class PlanningScreenCubit extends Cubit<PlanningScreenState> {
@@ -42,6 +44,16 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
         );
         break;
     }
+  }
+
+  void selectCalendarMode(CalendarMode mode) {
+    emit(
+      PlanningScreenState(
+        index: state.index,
+        navbarItem: state.navbarItem,
+        calendarMode: mode,
+      ),
+    );
   }
 
   void addPrimaryEndeavor(String title) {
