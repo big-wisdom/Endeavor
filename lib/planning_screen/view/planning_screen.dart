@@ -1,3 +1,5 @@
+import 'package:endeavor/calendar_screen/calendar_screen.dart';
+import 'package:endeavor/planning_screen/view/calendar_view_dropdown.dart';
 import 'package:endeavor/task_screen/view/task_screen.dart';
 import 'package:endeavor/tasks_screen/tasks_screen.dart';
 import 'package:endeavor/widgets/create_endeavor_modal.dart';
@@ -24,9 +26,14 @@ class PlanningScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<PlanningScreenCubit>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Planning"),
+        actions: cubit.state.navbarItem == NavbarItem.calendar
+            ? [const CalendarViewDropdown()]
+            : null,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -63,7 +70,7 @@ class PlanningScreenView extends StatelessWidget {
           } else if (state.navbarItem == NavbarItem.tasks) {
             return const TasksScreen();
           } else if (state.navbarItem == NavbarItem.calendar) {
-            return Calendar();
+            return const CalendarScreen();
           }
           return Container();
         },
@@ -94,10 +101,8 @@ class PlanningScreenView extends StatelessWidget {
               break;
             case NavbarItem.tasks:
               Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: ((context) => TaskScreen.create()
-                )
+                context,
+                MaterialPageRoute(builder: ((context) => TaskScreen.create())),
               );
               break;
             case NavbarItem.calendar:
