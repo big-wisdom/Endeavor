@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -7,14 +9,24 @@ part 'week_screen_state.dart';
 
 class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   DateTime selectedDay;
-  DataRepository _dataRepository;
+  final DataRepository _dataRepository;
+  late final StreamSubscription<List<WeekViewEvent>> _weekEventSubscription;
 
   WeekScreenBloc(
       {required DataRepository dataRepository, required this.selectedDay})
       : _dataRepository = dataRepository,
-        super(WeekScreenInitial()) {
-    on<WeekScreenEvent>((event, emit) {
-      throw UnimplementedError();
+        super(const WeekScreenInitial([])) {
+    on<NewEvents>(
+      (event, emit) {
+        emit(
+          WeekScreenState(event.newEvents),
+        );
+      },
+    );
+
+    _weekEventSubscription =
+        _dataRepository.weekViewEventStream().listen((weekViewEvents) {
+      add(NewEvents(weekViewEvents));
     });
   }
 
@@ -31,5 +43,11 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
     }
 
     return dates;
+  }
+
+  @override
+  Future<void> close() {
+    _weekEventSubscription.cancel();
+    return super.close();
   }
 }
