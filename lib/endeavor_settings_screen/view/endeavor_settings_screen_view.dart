@@ -55,7 +55,7 @@ class EndeavorSettingsScreenView extends StatelessWidget {
               onColorChanged: (newColor) =>
                   context.read<EndeavorSettingsScreenBloc>().add(
                         SettingsChangedByClient(
-                          state.settings.copyWith(newColor),
+                          state.settings.copyWith(newColor: newColor),
                         ),
                       ),
             ),
