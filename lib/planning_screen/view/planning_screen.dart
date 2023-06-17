@@ -1,5 +1,6 @@
 import 'package:endeavor/calendar_screen/calendar_screen.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_dropdown.dart';
+import 'package:endeavor/planning_screen/view/calendar_view_plus_dialogue.dart';
 import 'package:endeavor/task_screen/view/task_screen.dart';
 import 'package:endeavor/tasks_screen/tasks_screen.dart';
 import 'package:endeavor/widgets/create_endeavor_modal.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/planning_screen/planning_screen.dart';
 import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
-import 'package:endeavor/app/app.dart';
 
 class PlanningScreen extends StatelessWidget {
   const PlanningScreen({super.key});
@@ -78,7 +78,6 @@ class PlanningScreenView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          final appBloc = context.read<AppBloc>();
           final navBarItem =
               context.read<PlanningScreenCubit>().state.navbarItem;
           switch (navBarItem) {
@@ -106,7 +105,12 @@ class PlanningScreenView extends StatelessWidget {
               );
               break;
             case NavbarItem.calendar:
-              appBloc.add(const AddCalendarItemRequested());
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const CalendarViewPlusDialogue();
+                },
+              );
               break;
           }
         },
