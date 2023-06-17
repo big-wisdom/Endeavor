@@ -165,5 +165,6 @@ Back End: Firebase
 * MonthScreen is pretty simple, I don't even have it managed by a BLoC. It just updates the root calendar screen and the planning screen.
 
 * WeekScreen
+  * Both of the below can be launched from the plus button on the calendar view, so that's where I will start
   * CalendarEvent editor
   * EndeavorBlock editor
