@@ -160,11 +160,6 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Calendar screen simply switches between showing the MonthScreen and the WeekScreen
-
-* MonthScreen is pretty simple, I don't even have it managed by a BLoC. It just updates the root calendar screen and the planning screen.
-
-* WeekScreen
-  * Both of the below can be launched from the plus button on the calendar view, so that's where I will start
-  * CalendarEvent editor
-  * EndeavorBlock editor
+* I'm working on the CalendarEventScreen rn. Next thing in the UI to work on is the endeavor switcher. I'm thinking that it might be worth making a widget that is that row because I also use it on the TaskScreen.
+  * I need to refactor the EndeavorSelectionView and it's tile to remove a parental dependency on the TaskScreen so that I can use the whole thing in the calendar event view
+  * Then I will need to take the row from the task screen and modularize it into the fresh endeavor_picker_row.dart file I just made

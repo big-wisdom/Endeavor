@@ -3,7 +3,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/Models/task.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/one_time_event_picker_view.dart';
 import 'package:endeavor/screens/planning/tasks/task_event_list_editor/task_event_list_editor.dart';
-import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
+import 'package:endeavor/widgets/old_endeavor_selector/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
 
 class CreateOrEditTask extends StatefulWidget {

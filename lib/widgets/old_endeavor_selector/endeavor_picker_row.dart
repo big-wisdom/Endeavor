@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:endeavor/widgets/endeavor_selector/endeavor_selection_view.dart';
+import 'package:endeavor/widgets/old_endeavor_selector/endeavor_selection_view.dart';
 import 'package:flutter/material.dart';
 
 class EndeavorPickerRow extends StatelessWidget {

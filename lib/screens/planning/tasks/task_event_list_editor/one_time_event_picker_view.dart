@@ -1,6 +1,6 @@
 import 'package:endeavor/Models/event/event.dart';
 import 'package:endeavor/Models/task.dart';
-import 'package:endeavor/widgets/one_time_event_picker.dart';
+import 'package:endeavor/widgets/old_one_time_event_picker.dart';
 import 'package:flutter/material.dart';
 
 class OneTimeEventPickerView extends StatefulWidget {
