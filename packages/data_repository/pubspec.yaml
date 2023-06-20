@@ -12,5 +12,6 @@ dependencies:
   cloud_firestore: ^4.7.0
   cloud_functions: ^4.0.12
   equatable: ^2.0.5
+  formz: ^0.4.0
   rxdart: ^0.27.7
   

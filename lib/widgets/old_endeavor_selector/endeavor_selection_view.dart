@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:endeavor/Models/Endeavor/endeavor.dart';
-import 'package:endeavor/widgets/endeavor_selector/endeavor_selection_tile.dart';
+import 'package:endeavor/widgets/old_endeavor_selector/endeavor_selection_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 

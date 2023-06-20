@@ -78,7 +78,7 @@ class _EndeavorSwitcher extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const EndeavorSelectionView();
+                  return const EndeavorSelectionScreenView();
                 },
               ),
             ),

@@ -5,8 +5,8 @@ import 'package:endeavor/Models/endeavor_block/repeating_endeavor_block.dart';
 import 'package:endeavor/Models/event/repeating_event.dart';
 import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
-import 'package:endeavor/widgets/endeavor_selector/endeavor_picker_row.dart';
-import 'package:endeavor/widgets/one_time_event_picker.dart';
+import 'package:endeavor/widgets/old_endeavor_selector/endeavor_picker_row.dart';
+import 'package:endeavor/widgets/old_one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker.dart';
 import 'package:flutter/material.dart';
 

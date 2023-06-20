@@ -7,5 +7,5 @@ export 'src/models/endeavor_settings.dart';
 export 'src/models/task.dart';
 export 'src/models/event.dart';
 export 'src/models/week_view_event.dart';
-export 'src/models/calendar_event.dart';
+export 'src/models/calendar_event/calendar_event.dart';
 export 'src/models/endeavor_bloc.dart';

@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:data_repository/data_repository.dart';
 import 'endeavor_selection_tile.dart';
 
-class EndeavorSelectionView extends StatelessWidget {
-  const EndeavorSelectionView({super.key});
+class EndeavorSelectionScreenView extends StatelessWidget {
+  const EndeavorSelectionScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
