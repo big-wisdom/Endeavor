@@ -179,3 +179,13 @@ Back End: Firebase
       * implement that form model in the TaskScreenState DONE
       * use it in the UI DONE
       * control it with the UI (I will actually take care of this when implement the BLoC listeners after I get the first running version)
+  * solve the problem of initially getting the title of the endeavor that is stored in the EndeavorPickerRowInput formz object
+    * It seems like I'm going to need to make a loading state and react to it in the UI
+      * Make loading state DONE
+      * react to it in the UI DONE
+      * make loading part of initial DONE
+      * make data call that ends loading state DONE
+* Now I need to actually implement the calendar_event_screen.dart file DONE
+  * Make the constructor private
+  * create named constructurs
+  * depending on the state provide the appropriate BLoC to the screen
