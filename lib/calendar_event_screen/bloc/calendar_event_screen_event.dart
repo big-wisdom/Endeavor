@@ -31,3 +31,12 @@ class EndeavorTitleReturned extends CalendarEventScreenEvent {
   @override
   List<Object?> get props => [title];
 }
+
+class TypeChanged extends CalendarEventScreenEvent {
+  const TypeChanged(this.type);
+
+  final CalendarEventType type;
+
+  @override
+  List<Object?> get props => [type];
+}
