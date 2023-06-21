@@ -2,8 +2,8 @@ import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
 
 class CalendarEvent extends Equatable {
-  final Event? event;
-  final String? title;
+  final String title;
+  final Event event;
   final String? id;
   final String? endeavorId;
   final String? repeatingCalendarEventId;
@@ -11,8 +11,8 @@ class CalendarEvent extends Equatable {
 
   CalendarEvent({
     this.repeatingCalendarEventId,
-    this.event,
-    this.title,
+    required this.event,
+    required this.title,
     this.endeavorId,
     required this.type,
     this.id,

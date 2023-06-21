@@ -1,14 +1,13 @@
+import 'package:data_repository/data_repository.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/one_time_event_picker_screen/one_time_event_picker_screen.dart';
 import 'package:endeavor/util.dart';
+import 'package:endeavor/widgets/endeavor_picker_row.dart';
 
 import '../bloc/task_screen_bloc.dart';
 import '../bloc/edit_task_screen_bloc/edit_task_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:endeavor/endeavor_selection_view/endeavor_selection_view.dart';
-
-import '../formz/title.dart';
 
 class TaskScreenView extends StatelessWidget {
   const TaskScreenView({super.key});
@@ -68,23 +67,12 @@ class _EndeavorSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
-      buildWhen: (previous, current) =>
-          previous.endeavorId != current.endeavorId,
-      builder: (context, state) => Row(
-        children: [
-          const Text("Endeavor:"),
-          TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const EndeavorSelectionScreenView();
-                },
-              ),
-            ),
-            child: Text(state.endeavorId.endeavorTitle ?? "Add Endeavor"),
-          )
-        ],
+      buildWhen: (previous, current) => previous.endeavor != current.endeavor,
+      builder: (context, state) => EndeavorPickerRow(
+        endeavorInput: state.endeavor,
+        endeavorTreeOfLife: state.treeOfLife,
+        onChanged: (endeavor) =>
+            context.read<TaskScreenBloc>().add(EndeavorSelected(endeavor)),
       ),
     );
   }
@@ -94,8 +82,7 @@ class _DurationSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
-      buildWhen: (previous, current) =>
-          previous.durationField != current.durationField,
+      buildWhen: (previous, current) => previous.duration != current.duration,
       builder: (context, state) {
         final bloc = context.read<TaskScreenBloc>();
         return Row(
@@ -106,7 +93,7 @@ class _DurationSelector extends StatelessWidget {
               onPressed: () async {
                 final resultingDuration = await showDurationPicker(
                   context: context,
-                  initialTime: state.durationField.value ?? Duration.zero,
+                  initialTime: state.duration.value ?? Duration.zero,
                   snapToMins: 5.0,
                 );
 
@@ -114,8 +101,7 @@ class _DurationSelector extends StatelessWidget {
                   bloc.add(DurationChanged(resultingDuration));
                 }
               },
-              child:
-                  Text(state.durationField.value?.toString() ?? "Add duration"),
+              child: Text(state.duration.value?.toString() ?? "Add duration"),
             ),
           ],
         );
@@ -246,7 +232,7 @@ class _TaskEventListEditor extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Dismissible(
                   key: Key(state
-                      .scheduledEvents[index].start!.millisecondsSinceEpoch
+                      .scheduledEvents[index].start.millisecondsSinceEpoch
                       .toString()),
                   onDismissed: (direction) {
                     context.read<TaskScreenBloc>().add(
@@ -255,7 +241,7 @@ class _TaskEventListEditor extends StatelessWidget {
                   },
                   child: ListTile(
                     title: Text(
-                        "${state.scheduledEvents[index].duration?.inMinutes} minutes"),
+                        "${state.scheduledEvents[index].duration.inMinutes} minutes"),
                     subtitle: Text(
                       getEventDescription(state.scheduledEvents[index]),
                     ),

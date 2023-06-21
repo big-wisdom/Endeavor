@@ -54,6 +54,10 @@ class Endeavor extends Equatable {
     EndeavorSettings? settings,
     List<Task>? tasks,
   }) {
+    if (subEndeavors != null) {
+      subEndeavorIds = subEndeavors.map((e) => e.id!).toList();
+    }
+
     return Endeavor(
       id: id,
       title: title ?? this.title,

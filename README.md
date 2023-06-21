@@ -160,6 +160,22 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I'm working on the CalendarEventScreen rn. Next thing in the UI to work on is the endeavor switcher. I'm thinking that it might be worth making a widget that is that row because I also use it on the TaskScreen.
-  * I need to refactor the EndeavorSelectionView and it's tile to remove a parental dependency on the TaskScreen so that I can use the whole thing in the calendar event view
-  * Then I will need to take the row from the task screen and modularize it into the fresh endeavor_picker_row.dart file I just made
+* Endeavor Picker Row
+  * refactor EndeavorSelectionScreen to be tree agnostic DONE
+    * give it onChanged
+    * maybe give it a cubit that reaches out and gets the endeavors?
+    * optionally pass in the tree of life and don't make the data service query it again
+  * Make EndeavorPickerRow use the screen right DONE
+  * make the CalendarEventScreen use the EndeavorPickerRow DONE
+  * make the TasksScreen use the EndeavorPickerRow
+    * I still have the formz stuff in the folder with the tasks screen, I'm thinking I should move that to the model
+      * create basic file structure next to model DONE
+      * move stuff into it DONE
+        * I'll start by moving the firestore stuff into it's own extension done
+          * Now what about the data service that uses that? Done
+        * Now stuff from the TaskScreen
+          * just pulled it in and dropped it. I guess not much else to do here
+      * create a form model like I did for the CalendarEvent DONE
+      * implement that form model in the TaskScreenState DONE
+      * use it in the UI DONE
+      * control it with the UI (I will actually take care of this when implement the BLoC listeners after I get the first running version)
