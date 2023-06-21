@@ -34,7 +34,7 @@ class CalendarEventScreenView extends StatelessWidget {
                     children: [
                       const Text('Type:'),
                       DropdownButton(
-                        value: calendarEvent.type,
+                        value: bloc.state.type,
                         items: const [
                           DropdownMenuItem(
                             value: CalendarEventType.single,
@@ -46,14 +46,9 @@ class CalendarEventScreenView extends StatelessWidget {
                           )
                         ],
                         onChanged: (value) {
-                          setState(() {
-                            if (value != calendarEvent.type && value != null) {
-                              // we are creating so we just need to switch the value
-                              calendarEvent.type = value;
-                              changesMade =
-                                  initialCalendarEvent != calendarEvent;
+                            if (value != bloc.state.type && value != null) {
+                              bloc.add(TypeChanged(value));
                             }
-                          });
                         },
                       )
                     ],
