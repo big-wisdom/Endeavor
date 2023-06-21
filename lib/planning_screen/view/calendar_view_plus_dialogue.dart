@@ -33,7 +33,7 @@ class CalendarViewPlusDialogue extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return CalendarEventScreen.create();
+                    return const CalendarEventScreen.create();
                   }),
                 );
               },

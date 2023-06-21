@@ -13,7 +13,7 @@ class TaskScreen extends StatelessWidget {
     return const TaskScreen._(editing: false);
   }
 
-  factory TaskScreen.edit(List<Endeavor> treeOfLife) {
+  factory TaskScreen.edit(List<Endeavor>? treeOfLife) {
     return TaskScreen._(
       editing: true,
       treeOfLife: treeOfLife,
