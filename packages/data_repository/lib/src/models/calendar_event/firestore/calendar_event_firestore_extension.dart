@@ -5,18 +5,14 @@ import 'package:data_repository/data_repository.dart';
 
 extension CalendarEventFirestoreExtension on CalendarEvent {
   static CalendarEvent fromDocData(String id, Map<String, dynamic> docData) {
-    final String? title = docData['title'];
+    final String title = docData['title'];
     final String? endeavorId = docData['endeavorId'];
-    final DateTime? start = docData['start'] != null
-        ? DateTime.fromMicrosecondsSinceEpoch(
-            (docData['start'] as Timestamp).microsecondsSinceEpoch,
-          )
-        : null;
-    final DateTime? end = docData['end'] != null
-        ? DateTime.fromMicrosecondsSinceEpoch(
-            (docData['end'] as Timestamp).microsecondsSinceEpoch,
-          )
-        : null;
+    final DateTime start = DateTime.fromMicrosecondsSinceEpoch(
+      (docData['start'] as Timestamp).microsecondsSinceEpoch,
+    );
+    final DateTime end = DateTime.fromMicrosecondsSinceEpoch(
+      (docData['end'] as Timestamp).microsecondsSinceEpoch,
+    );
     final Event event = Event(start: start, end: end);
     final String repeatingCalendarEventId = docData['repeatingCalendarEventId'];
     final type = CalendarEventType.values
@@ -38,8 +34,8 @@ extension CalendarEventFirestoreExtension on CalendarEvent {
       "endeavorId": endeavorId,
       "repeatingCalendarEventId": repeatingCalendarEventId,
       "type": type.toString(),
-      "start": event!.start!,
-      "end": event!.end!,
+      "start": event.start,
+      "end": event.end,
     };
   }
 

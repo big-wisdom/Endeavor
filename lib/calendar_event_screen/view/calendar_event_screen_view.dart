@@ -14,7 +14,7 @@ class CalendarEventScreenView extends StatelessWidget {
       appBar: AppBar(
         title: Text("${bloc.state.isEdit ? "Edit" : "Create"} Event"),
       ),
-      body: SafeArea(
+      body: bloc.state.loadingState == CalendarEventScreenLoadingState.loading ? const Center(child: CircularProgressIndicator()) : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: SingleChildScrollView(

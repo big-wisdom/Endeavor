@@ -82,6 +82,10 @@ extension EndeavorsData on DataRepository {
     });
   }
 
+  Future<String> getEndeavorTitle() {
+    throw UnimplementedError();
+  }
+
   Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
     if (firestore == null) throw Exception("No user?! Unthinkable!");
 
@@ -97,8 +101,8 @@ extension EndeavorsData on DataRepository {
 
     // sort tasks to be in the same order as the the task ids
     tasks.sort((a, b) => endeavor.taskIds!
-        .indexOf(a.id)
-        .compareTo(endeavor.taskIds!.indexOf(b.id)));
+        .indexOf(a.id!)
+        .compareTo(endeavor.taskIds!.indexOf(b.id!)));
 
     return tasks;
   }
