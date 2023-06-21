@@ -3,6 +3,72 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_repository/data_repository.dart';
 
 extension EndeavorsData on DataRepository {
+  Future<List<Endeavor>> getEndeavorsTreeOfLife() async {
+    if (firestore == null)
+      throw Exception("Don't even try this without a user ,homie");
+
+    final endeavors = (await firestore!.collection('endeavors').get())
+        .docs
+        .map(
+          (e) => Endeavor.fromDocData(id: e.id, data: e.data()),
+        )
+        .toList();
+
+    final List<Endeavor> endeavorsTreeOfLife = [];
+
+    // sort endeavors by parent endeavor (if none, add to working tree of life)
+    Map<String, List<Endeavor>> parentIdToSubEndeavors = {};
+    Map<String, Endeavor> idToEndeavor = {};
+    for (final e in endeavors) {
+      if (e.parentEndeavorId == null) {
+        endeavorsTreeOfLife.add(e);
+      } else {
+        idToEndeavor[e.id!] = e;
+        if (parentIdToSubEndeavors[e.parentEndeavorId] == null) {
+          parentIdToSubEndeavors[e.parentEndeavorId!] = [e];
+        } else {
+          parentIdToSubEndeavors[e.parentEndeavorId]!.add(e);
+        }
+      }
+    }
+
+    // construct tree from what's in the list
+    List<Endeavor> resultEndeavorsTreeOfLife = [];
+    for (final e in endeavorsTreeOfLife) {
+      resultEndeavorsTreeOfLife.add(
+        _recurseBuildTree(
+          e,
+          parentIdToSubEndeavors,
+          idToEndeavor,
+        ),
+      );
+    }
+
+    return endeavorsTreeOfLife;
+  }
+
+  Endeavor _recurseBuildTree(
+    Endeavor e,
+    Map<String, List<Endeavor>> parentIdToSubEndeavors,
+    Map<String, Endeavor> idToEndeavor,
+  ) {
+    // no child endeavors
+    if (parentIdToSubEndeavors[e.id] == null) {
+      return e;
+    } else {
+      return e.copyWith(
+          subEndeavors: e.subEndeavorIds!
+              .map(
+                (e) => _recurseBuildTree(
+                  idToEndeavor[e]!,
+                  parentIdToSubEndeavors,
+                  idToEndeavor,
+                ),
+              )
+              .toList());
+    }
+  }
+
   void planEndeavor(Endeavor endeavor) async {
     if (firestore == null)
       throw Exception("No user?! Unthinkable! No Plan for you!");
@@ -25,7 +91,8 @@ extension EndeavorsData on DataRepository {
             .where(FieldPath.documentId, arrayContains: endeavor.taskIds)
             .get())
         .docs
-        .map((docSnap) => Task.fromDocData(docSnap.id, docSnap.data()))
+        .map((docSnap) =>
+            TaskFirestoreExtension.fromDocData(docSnap.id, docSnap.data()))
         .toList();
 
     // sort tasks to be in the same order as the the task ids

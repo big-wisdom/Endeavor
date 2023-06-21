@@ -11,16 +11,10 @@ extension TasksData on DataRepository {
     if (firestore == null) throw Exception("No user, don't call this yo");
 
     return CombineLatestStream.combine2(
-      firestore!.collection('tasks').snapshots().map<List<Task>>(
-            (querySnap) => querySnap.docs
-                .map(
-                  (docSnap) => Task.fromDocData(
-                    docSnap.id,
-                    docSnap.data(),
-                  ),
-                )
-                .toList(),
-          ),
+      firestore!
+          .collection('tasks')
+          .snapshots()
+          .transform(TaskFirestoreExtension.taskListTransformer),
       firestore!.collection('endeavors').snapshots().map<List<Endeavor>>(
             (querySnap) => querySnap.docs
                 .map(

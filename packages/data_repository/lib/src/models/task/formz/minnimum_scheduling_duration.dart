@@ -24,7 +24,8 @@ class MinnimumSchedulingDuration
   }
 }
 
-extension ErrorText on MinnimumSchedulingDurationError {
+extension MinnimumSchedulingDurationErrorText
+    on MinnimumSchedulingDurationError {
   String text() {
     switch (this) {
       case MinnimumSchedulingDurationError.longerThanDuration:

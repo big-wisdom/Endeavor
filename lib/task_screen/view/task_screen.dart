@@ -5,14 +5,19 @@ import 'task_screen_view.dart';
 import 'package:endeavor/task_screen/task_screen.dart';
 
 class TaskScreen extends StatelessWidget {
-  const TaskScreen._({required this.editing});
+  const TaskScreen._({required this.editing, this.treeOfLife});
+
+  final List<Endeavor>? treeOfLife;
 
   factory TaskScreen.create() {
     return const TaskScreen._(editing: false);
   }
 
-  factory TaskScreen.edit() {
-    return const TaskScreen._(editing: true);
+  factory TaskScreen.edit(List<Endeavor> treeOfLife) {
+    return TaskScreen._(
+      editing: true,
+      treeOfLife: treeOfLife,
+    );
   }
 
   final bool editing;
@@ -22,7 +27,8 @@ class TaskScreen extends StatelessWidget {
     final dataRepository = context.read<DataRepository>();
     return BlocProvider(
       create: (context) => editing
-          ? EditTaskScreenBloc(dataRepository: dataRepository)
+          ? EditTaskScreenBloc(
+              dataRepository: dataRepository, treeOfLife: treeOfLife)
           : CreateTaskScreenBloc(dataRepository: dataRepository),
       child: const TaskScreenView(),
     );

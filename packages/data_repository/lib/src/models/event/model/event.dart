@@ -1,17 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class Event extends Equatable {
-  const Event({this.start, this.end});
+  const Event({required this.start, required this.end});
 
-  final DateTime? start;
-  final DateTime? end;
+  final DateTime start;
+  final DateTime end;
 
-  Duration? get duration {
-    if (start != null && end != null) {
-      return start!.difference(end!);
-    }
-
-    return null;
+  Duration get duration {
+    return start.difference(end);
   }
 
   Event.generic(Duration? duration)
@@ -23,10 +19,6 @@ class Event extends Equatable {
       'start': start,
       'end': end,
     };
-  }
-
-  bool validate() {
-    return start != null && end != null && end!.isAfter(start!);
   }
 
   @override

@@ -22,7 +22,7 @@ extension CalendarData on DataRepository {
           .transform(EndeavorSettings.transformListToMap),
       endeavorBlocksStream
           .transform(EndeavorBlock.endeavorBlockListTransformer),
-      taskStream.transform(Task.taskListTransformer),
+      taskStream.transform(TaskFirestoreExtension.taskListTransformer),
       calendarEventStream.transform(
           CalendarEventFirestoreExtension.calendarEventListTransformer),
       (a, b, c, d) => _listWeekViewEvents(a, b, c, d),

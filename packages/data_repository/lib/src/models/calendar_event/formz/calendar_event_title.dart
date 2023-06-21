@@ -1,28 +1,30 @@
 import 'package:formz/formz.dart';
 
-enum CalendarEventTitleError {
+enum CalendarEventTitleInputError {
   empty,
 }
 
-class CalendarEventTitle extends FormzInput<String, CalendarEventTitleError> {
-  const CalendarEventTitle.pure() : super.pure('');
+class CalendarEventTitleInput
+    extends FormzInput<String, CalendarEventTitleInputError> {
+  const CalendarEventTitleInput.pure(String? initialValue)
+      : super.pure(initialValue ?? '');
 
-  const CalendarEventTitle.dirty(super.value) : super.dirty();
+  const CalendarEventTitleInput.dirty(super.value) : super.dirty();
 
   @override
-  CalendarEventTitleError? validator(String value) {
+  CalendarEventTitleInputError? validator(String value) {
     if (value.isEmpty) {
-      return CalendarEventTitleError.empty;
+      return CalendarEventTitleInputError.empty;
     }
 
     return null;
   }
 }
 
-extension ErrorText on CalendarEventTitleError {
+extension ErrorText on CalendarEventTitleInputError {
   String text() {
     switch (this) {
-      case CalendarEventTitleError.empty:
+      case CalendarEventTitleInputError.empty:
         return "You gotta name the event";
     }
   }

@@ -24,17 +24,11 @@ class CalendarEventScreenView extends StatelessWidget {
                 _TitleField(),
                 // Endeavor Switcher
                 EndeavorPickerRow(
-                  uid: widget.uid,
-                  initialId: calendarEvent.endeavorId,
-                  onChanged: (endeavorId) {
-                    calendarEvent.endeavorId = endeavorId;
-                    setState(() {
-                      changesMade = initialCalendarEvent != calendarEvent;
-                    });
-                  },
+                  endeavorInput: bloc.state.endeavorInput,
+                  onChanged: (endeavor) => ,
                 ),
                 // Type picker
-                if (!editing)
+                if (!bloc.state.isEdit)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
