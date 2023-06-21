@@ -21,7 +21,7 @@ class CalendarEventTitleInput
   }
 }
 
-extension ErrorText on CalendarEventTitleInputError {
+extension CalendarEventTitleErrorText on CalendarEventTitleInputError {
   String text() {
     switch (this) {
       case CalendarEventTitleInputError.empty:
