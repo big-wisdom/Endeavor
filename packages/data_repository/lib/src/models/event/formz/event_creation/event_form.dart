@@ -2,11 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter/material.dart' show TimeOfDay;
 
-import '../formz/event_date_input.dart';
-import '../formz/event_start_time_input.dart';
-import '../formz/event_end_time_input.dart';
-
-import '../model/event.dart';
+import '../../event.dart';
 
 abstract class EventForm extends Equatable with FormzMixin {
   const EventForm({

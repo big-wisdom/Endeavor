@@ -49,6 +49,15 @@ class MinnimumSchedulingDurationChanged extends TaskScreenEvent {
   List<Object?> get props => [newDuration];
 }
 
+class EventCreated extends TaskScreenEvent {
+  const EventCreated(this.event);
+
+  final Event event;
+
+  @override
+  List<Object?> get props => [event];
+}
+
 class EventDeleted extends TaskScreenEvent {
   const EventDeleted(this.event);
 
