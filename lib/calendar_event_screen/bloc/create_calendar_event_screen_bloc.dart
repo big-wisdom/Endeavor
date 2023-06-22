@@ -18,5 +18,9 @@ class CreateCalendarEventScreenBloc extends CalendarEventScreenBloc {
     on<TypeChanged>(
       (event, emit) => throw UnimplementedError(),
     );
+
+    on<EventChanged>(
+      (event, emit) => throw UnimplementedError(),
+    );
   }
 }

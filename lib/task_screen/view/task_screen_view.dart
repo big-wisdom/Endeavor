@@ -32,8 +32,9 @@ class TaskScreenView extends StatelessWidget {
                 _DurationSelector(),
                 _DivisibilityCheckbox(),
                 _MinnimumDurationPicker(),
-                _Schedule(),
-                _TaskEventListEditor(),
+                if (bloc.state.scheduledEvents.isEmpty) _Schedule(),
+                if (bloc.state.scheduledEvents.isNotEmpty)
+                  _TaskEventListEditor(),
               ],
             ),
           ),
@@ -186,7 +187,11 @@ class _Schedule extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const OneTimeEventPickerScreen();
+                        return OneTimeEventPickerScreen(
+                          onEvent: (newEvent) => context
+                              .read<TaskScreenBloc>()
+                              .add(EventCreated(newEvent)),
+                        );
                       },
                     ),
                   );
@@ -261,7 +266,11 @@ class _TaskEventListEditor extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const OneTimeEventPickerScreen();
+                      return OneTimeEventPickerScreen(
+                        onEvent: (event) => context
+                            .read<TaskScreenBloc>()
+                            .add(EventCreated(event)),
+                      );
                     },
                   ),
                 );

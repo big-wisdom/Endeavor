@@ -30,5 +30,9 @@ class EditCalendarEventScreenBloc extends CalendarEventScreenBloc {
     on<EndeavorChanged>(
       (event, emit) => throw UnimplementedError(),
     );
+
+    on<EventChanged>(
+      (event, emit) => throw UnimplementedError(),
+    );
   }
 }

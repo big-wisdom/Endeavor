@@ -19,7 +19,6 @@ class EndeavorChanged extends CalendarEventScreenEvent {
   final Endeavor endeavor;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [endeavor];
 }
 
@@ -39,4 +38,13 @@ class TypeChanged extends CalendarEventScreenEvent {
 
   @override
   List<Object?> get props => [type];
+}
+
+class EventChanged extends CalendarEventScreenEvent {
+  const EventChanged(this.newEvent);
+
+  final Event newEvent;
+
+  @override
+  List<Object?> get props => [newEvent];
 }

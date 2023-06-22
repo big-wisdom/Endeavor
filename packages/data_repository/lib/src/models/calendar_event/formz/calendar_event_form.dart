@@ -4,7 +4,7 @@ import 'package:formz/formz.dart';
 
 abstract class CalendarEventForm extends Equatable with FormzMixin {
   const CalendarEventForm({
-    this.event,
+    required this.event,
     required this.title,
     required this.endeavorInput,
     this.repeatingCalendarEventId,
@@ -13,7 +13,7 @@ abstract class CalendarEventForm extends Equatable with FormzMixin {
             : CalendarEventType.repeating;
 
   final CalendarEventTitleInput title;
-  final Event? event;
+  final EventInput event;
   final EndeavorPickerRowInput endeavorInput;
   final String? repeatingCalendarEventId;
   final CalendarEventType type;

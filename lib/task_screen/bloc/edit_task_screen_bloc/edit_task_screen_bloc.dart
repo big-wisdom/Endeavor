@@ -33,6 +33,10 @@ class EditTaskScreenBloc extends TaskScreenBloc {
       (event, emit) => throw UnimplementedError(),
     );
 
+    on<EventCreated>(
+      (event, emit) => throw UnimplementedError(),
+    );
+
     on<EventDeleted>(
       (event, emit) => throw UnimplementedError(),
     );
