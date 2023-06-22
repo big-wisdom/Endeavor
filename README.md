@@ -189,3 +189,24 @@ Back End: Firebase
   * Make the constructor private
   * create named constructurs
   * depending on the state provide the appropriate BLoC to the screen
+* CalendarEventScreen
+  * OneTimeEventPicker
+    * I made a OneTimeEventPickerScreen, but I'd still rather just have an embedded widget. I'll go check how the screen works
+    * I think that I could make a widget with a simple cubit that that I could put in both the OneTimeEventPickerScreen and embed in the CalendarEventScreen as well
+      ----------
+      * Make a OneTimeEventPicker widget folder with a "widget" sub-folder and a cubit sub-folder DONE
+      * move the appropriate components into the widget itself DONE
+      * Move the FormzInput items into a form in the model section next to the event as I've previously done
+        * I already have the whole thing working as one "event_input" but it's only being used by the CalendarEventScreen which is the very thing I'm working on now, so I'll feel free to change that 
+        * I will need to move the copy with functionality into whatever class extends this abstract class
+      * move the widget functionality into the widget piece
+        <--
+        * Extend the form DONE (I think)
+        <--
+        * put in other functionality
+        * include an onChanged() method
+      * implement that widget into the full screen
+        * including in the screens bloc
+      * implement that widget in the CalendarEventScreen
+      ----------
+* I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
