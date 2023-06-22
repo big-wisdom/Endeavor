@@ -20,39 +20,13 @@ class CalendarEventScreenView extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Title field
                 _TitleField(),
-                // Endeavor Switcher
                 EndeavorPickerRow(
                   endeavorInput: bloc.state.endeavorInput,
                   onChanged: (endeavor) => ,
                 ),
-                // Type picker
                 if (!bloc.state.isEdit)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Type:'),
-                      DropdownButton(
-                        value: bloc.state.type,
-                        items: const [
-                          DropdownMenuItem(
-                            value: CalendarEventType.single,
-                            child: Text("One Time"),
-                          ),
-                          DropdownMenuItem(
-                            value: CalendarEventType.repeating,
-                            child: Text("Repeated"),
-                          )
-                        ],
-                        onChanged: (value) {
-                            if (value != bloc.state.type && value != null) {
-                              bloc.add(TypeChanged(value));
-                            }
-                        },
-                      )
-                    ],
-                  ),
+                  _TypePicker(),
                 // One time event picker
                 if (calendarEvent.type == CalendarEventType.single || editing)
                   OneTimeEventPicker(
@@ -132,5 +106,41 @@ class _TitleField extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _TypePicker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+                  return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
+                    buildWhen: (previous, current) => previous.type != current.type,
+                    builder: (context, state) {
+                      return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text('Type:'),
+                                        DropdownButton(
+                                          value: state.type,
+                                          items: const [
+                                            DropdownMenuItem(
+                                              value: CalendarEventType.single,
+                                              child: Text("One Time"),
+                                            ),
+                                            DropdownMenuItem(
+                                              value: CalendarEventType.repeating,
+                                              child: Text("Repeated"),
+                                            )
+                                          ],
+                                          onChanged: (value) {
+                                              if (value != state.type && value != null) {
+                                                context.read<CalendarEventScreenBloc>().add(TypeChanged(value));
+                                              }
+                                          },
+                                        )
+                                      ],
+                                    );
+                    },
+                  );
   }
 }
