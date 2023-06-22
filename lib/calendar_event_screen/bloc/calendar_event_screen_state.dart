@@ -8,7 +8,7 @@ enum CalendarEventScreenLoadingState {
 class CalendarEventScreenState extends CalendarEventForm {
   const CalendarEventScreenState({
     required this.isEdit,
-    required super.event,
+    super.event,
     required super.title,
     required super.endeavorInput,
     super.repeatingCalendarEventId,
@@ -20,7 +20,7 @@ class CalendarEventScreenState extends CalendarEventForm {
 
   CalendarEventScreenState copyWith({
     CalendarEventTitleInput? title,
-    EventInput? event,
+    Event? event,
     EndeavorPickerRowInput? endeavorInput,
     CalendarEventType? type,
     CalendarEventScreenLoadingState? loadingState,
@@ -51,7 +51,6 @@ class CalendarEventScreenInitial extends CalendarEventScreenState {
           isEdit: false,
           title: const CalendarEventTitleInput.pure(null),
           endeavorInput: EndeavorPickerRowInput.pure(null, null),
-          event: EventInput.pure(null),
           loadingState: CalendarEventScreenLoadingState.loaded,
         );
 
@@ -61,7 +60,7 @@ class CalendarEventScreenInitial extends CalendarEventScreenState {
           title: CalendarEventTitleInput.pure(calendarEvent.title),
           endeavorInput:
               EndeavorPickerRowInput.pure(null, calendarEvent.endeavorId),
-          event: EventInput.pure(calendarEvent.event),
+          event: calendarEvent.event,
           repeatingCalendarEventId: calendarEvent.repeatingCalendarEventId,
           loadingState: CalendarEventScreenLoadingState.loading,
         );

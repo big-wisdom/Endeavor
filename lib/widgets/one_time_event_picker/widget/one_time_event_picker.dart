@@ -6,14 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OneTimeEventPicker extends StatelessWidget {
-  const OneTimeEventPicker({super.key});
+  const OneTimeEventPicker(
+      {this.startingEvent, required this.onEvent, super.key});
 
   final Event? startingEvent;
+  final void Function(Event newEvent) onEvent;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OneTimeEventPickerCubit(startingEvent),
+      create: (context) => OneTimeEventPickerCubit(
+        initialEvent: startingEvent,
+        onChanged: onEvent,
+      ),
       child: _OneTimeEventPickerWidget(),
     );
   }
@@ -78,8 +83,8 @@ class _TimePicker extends StatelessWidget {
                 TimeOfDay? selection = await showTimePicker(
                   context: context,
                   initialTime: type == _TimePickerType.start
-                      ? state.start.value
-                      : state.end.value,
+                      ? state.startTimeInput.value
+                      : state.endTimeInput.value,
                   builder: (context, child) {
                     if (child != null) {
                       return MediaQuery(
@@ -100,7 +105,7 @@ class _TimePicker extends StatelessWidget {
                   }
                 }
               },
-              child: Text(state.start.value.toString()),
+              child: Text(state.startTimeInput.value.toString()),
             ),
           ],
         );

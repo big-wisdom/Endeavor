@@ -1,4 +1,5 @@
-import 'package:endeavor/one_time_event_picker_screen/one_time_event_picker_screen.dart';
+import 'package:endeavor/widgets/one_time_event_picker/one_time_event_picker.dart';
+import '../cubit/one_time_event_picker_screen_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,18 +12,26 @@ class OneTimeEventPickerView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Add Work Block"),
       ),
-      body: Column(children: [
-        _DatePicker(),
-        const _TimePicker(_TimePickerType.start),
-        const _TimePicker(_TimePickerType.end),
-        ElevatedButton(
-          onPressed: () {
-            context.read<OneTimeEventPickerCubit>().done();
-            Navigator.pop(context);
-          },
-          child: const Text("Done"),
-        )
-      ]),
+      body: BlocBuilder<OneTimeEventPickerScreenCubit,
+          OneTimeEventPickerScreenState>(
+        builder: (context, state) {
+          return Column(children: [
+            OneTimeEventPicker(
+              onEvent: (newEvent) => context
+                  .read<OneTimeEventPickerScreenCubit>()
+                  .eventChanged(newEvent),
+              startingEvent: state.event,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.read<OneTimeEventPickerScreenCubit>().done();
+                Navigator.pop(context);
+              },
+              child: const Text("Done"),
+            )
+          ]);
+        },
+      ),
     );
   }
 }
