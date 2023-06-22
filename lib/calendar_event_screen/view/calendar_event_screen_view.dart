@@ -1,6 +1,7 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/calendar_event_screen/calendar_event_screen.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
+import 'package:endeavor/widgets/one_time_event_picker/widget/one_time_event_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,23 +29,8 @@ class CalendarEventScreenView extends StatelessWidget {
                 if (!bloc.state.isEdit)
                   _TypePicker(),
                 // One time event picker
-                if (calendarEvent.type == CalendarEventType.single || editing)
-                  OneTimeEventPicker(
-                    event: calendarEvent.event!,
-                    onChanged: (value) {
-                      // TODO: Shouldn't offer to change following if just date is changed
-                      // Right now it doesn't hurt anything if they press that, it's just
-                      // Lame to leave the user hanging
-                      if (editing) {
-                        setState(() {
-                          calendarEvent.event = value;
-                          changesMade = initialCalendarEvent != calendarEvent;
-                        });
-                      } else {
-                        calendarEvent.event = value;
-                      }
-                    },
-                  ),
+                if (bloc.state.type == CalendarEventType.single || bloc.state.isEdit)
+                  OneTimeEventPicker(onEvent: (event) => , startingEvent: s,);
 
                 // repeating event picker
                 if (calendarEvent.type == CalendarEventType.repeating &&
