@@ -48,3 +48,15 @@ class EventChanged extends CalendarEventScreenEvent {
   @override
   List<Object?> get props => [newEvent];
 }
+
+class CreateButtonPressed extends CalendarEventScreenEvent {
+  const CreateButtonPressed();
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteThisCalendarEvent extends CalendarEventScreenEvent {
+  const DeleteThisCalendarEvent();
+  @override
+  List<Object?> get props => [];
+}
