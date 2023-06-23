@@ -29,49 +29,11 @@ class CalendarEventScreenView extends StatelessWidget {
                         onChanged: (endeavor) =>
                             bloc.add(EndeavorChanged(endeavor)),
                       ),
-                      if (!bloc.state.isEdit) _TypePicker(),
-                      // One time event picker
-                      if (bloc.state.type == CalendarEventType.single ||
-                          bloc.state.isEdit)
-                        _OneTimeEventPickerBuilder(),
-
-                      // repeating event picker
-                      if (calendarEvent.type == CalendarEventType.repeating &&
-                          !editing)
-                        RepeatingEventPicker(
-                          repeatingEvent:
-                              repeatingCalendarEvent.repeatingEvent!,
-                          onChanged: (repeatingEvent) {
-                            repeatingCalendarEvent.repeatingEvent =
-                                repeatingEvent;
-                          },
-                        ),
+                      _OneTimeEventPickerBuilder(),
 
                       // Create button
-                      if (!editing)
-                        ElevatedButton(
-                          onPressed: () {
-                            if (calendarEvent.type ==
-                                CalendarEventType.single) {
-                              _createSingleEvent();
-                            } else {
-                              _createRepeatingEvent();
-                            }
-                            // TODO: implement something to tell the user when they messed up
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Create"),
-                        ),
-                      if (editing)
-                        ElevatedButton(
-                          onPressed: changesMade ? _saveChanges : null,
-                          child: const Text("Save"),
-                        ),
-                      if (editing)
-                        ElevatedButton(
-                          onPressed: _delete,
-                          child: const Text("Delete"),
-                        ),
+                      if (bloc.state.isEdit) _CreateButton(),
+                      if (bloc.state.isEdit) _DeleteButton(),
                     ],
                   ),
                 ),
@@ -142,15 +104,40 @@ class _OneTimeEventPickerBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
-      buildWhen: (previous, current) => previous.event != current.event,
       builder: (context, state) {
         return OneTimeEventPicker(
-          onEvent: (newEvent) => context.read<CalendarEventScreenBloc>().add(
-                EventChanged(newEvent),
-              ),
+          onEvent: (event) =>
+              context.read<CalendarEventScreenBloc>().add(EventChanged(event)),
           startingEvent: state.event.value,
         );
       },
+    );
+  }
+}
+
+class _CreateButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context
+            .read<CalendarEventScreenBloc>()
+            .add(const CreateButtonPressed());
+        Navigator.pop(context);
+      },
+      child: const Text("Create"),
+    );
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => context
+          .read<CalendarEventScreenBloc>()
+          .add(const DeleteThisCalendarEvent()),
+      child: const Text("Delete"),
     );
   }
 }

@@ -22,7 +22,6 @@ class CalendarEventScreenState extends CalendarEventForm {
     CalendarEventTitleInput? title,
     EventInput? event,
     EndeavorPickerRowInput? endeavorInput,
-    CalendarEventType? type,
     CalendarEventScreenLoadingState? loadingState,
   }) {
     return CalendarEventScreenState(
