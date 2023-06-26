@@ -163,6 +163,8 @@ Back End: Firebase
 * EndeavorBlockScreen
   * create a form and all the form inputs for an EndeavorBlock model
     * So far all I've done is move the firestore stuff into a sub-folder of the model folder
+    * Make form
+    * Make each form input
   * create a bloc for the EndeavorBlock screen
   * extend the form with the state
   * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
