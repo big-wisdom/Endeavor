@@ -1,105 +1,9 @@
-import 'package:endeavor/Models/endeavor_block/endeavor_block.dart';
-import 'package:endeavor/Models/endeavor_block/repeating_endeavor_block.dart';
-import 'package:endeavor/Models/event/repeating_event.dart';
-import 'package:endeavor/screens/planning/planning_screen.dart';
-import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
-import 'package:endeavor/widgets/old_endeavor_selector/endeavor_picker_row.dart';
-import 'package:endeavor/widgets/old_one_time_event_picker.dart';
-import 'package:endeavor/widgets/repeating_event_picker.dart';
+import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Models/event/event.dart';
-
-class CreateOrEditEndeavorBlock extends StatefulWidget {
-  // I use multiple facorty constructors here to help clarify what the page is
-  // currently being used for
-
-  // The user has no way of accessing a repeating endeavor block except through
-  // one of it's child endeavor blocks, so I will never pass in a
-  // RepeatingEndeavorBlock
-  const CreateOrEditEndeavorBlock._(
-      {this.endeavorBlock,
-      required this.uid,
-      required this.setCalendarView,
-      super.key});
-
-  factory CreateOrEditEndeavorBlock.edit(
-      {required endeavorBlock, required uid, required setCalendarView, key}) {
-    return CreateOrEditEndeavorBlock._(
-      uid: uid,
-      setCalendarView: setCalendarView,
-      endeavorBlock: endeavorBlock,
-      key: key,
-    );
-  }
-
-  factory CreateOrEditEndeavorBlock.create(
-      {required uid, required setCalendarView}) {
-    return CreateOrEditEndeavorBlock._(
-      uid: uid,
-      setCalendarView: setCalendarView,
-    );
-  }
-
-  final EndeavorBlock? endeavorBlock;
-  final String uid;
-  final Function(CalendarView, DateTime) setCalendarView;
-
-  @override
-  State<CreateOrEditEndeavorBlock> createState() =>
-      _CreateOrEditEndeavorBlockState();
-}
-
-class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
-  late EndeavorBlock endeavorBlock;
-  late Future<RepeatingEndeavorBlock> repeatingEndeavorBlock;
-  late bool editing;
-
-  @override
-  void initState() {
-    // This implies creating
-    if (widget.endeavorBlock == null) {
-      editing = false;
-      // Start the user in single mode
-      endeavorBlock = EndeavorBlock(
-        type: EndeavorBlockType.single,
-        event: Event(
-          start: DateTime.now(),
-          end: DateTime.now().add(const Duration(hours: 1)),
-        ),
-      );
-      // Create a repeating in case the user switches to repeating
-      repeatingEndeavorBlock = Future.value(
-        RepeatingEndeavorBlock(
-          repeatingEvent: RepeatingEvent(
-            startDate: DateTime.now(),
-            endDate: DateTime.now(),
-            startTime: TimeOfDay.now(),
-            endTime: TimeOfDay.fromDateTime(
-              DateTime.now().add(
-                const Duration(hours: 1),
-              ),
-            ),
-            daysOfWeek: [false, false, false, false, false, false, false],
-          ),
-        ),
-      );
-    } else {
-      editing = true;
-      endeavorBlock = widget.endeavorBlock!;
-      if (endeavorBlock.type == EndeavorBlockType.repeating) {
-        repeatingEndeavorBlock = FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.uid)
-            .collection('repeatingEndeavorBlocks')
-            .doc(endeavorBlock.repeatingEndeavorBlockId)
-            .get()
-            .then((docSnap) => RepeatingEndeavorBlock.fromDocSnap(docSnap));
-      }
-    }
-
-    super.initState();
-  }
+class EndeavorBlockScreenView extends StatelessWidget {
+  const EndeavorBlockScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -116,75 +20,11 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Endeavor picker
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Endeavor:"),
-                  EndeavorPickerRow(
-                    initialId: endeavorBlock.endeavorId,
-                    uid: widget.uid,
-                    onChanged: (value) {
-                      setState(() {
-                        // if editing
-                        if (editing) {
-                          // if single change it and update server
-                          if (value != endeavorBlock.endeavorId) {
-                            if (endeavorBlock.type ==
-                                EndeavorBlockType.single) {
-                              endeavorBlock.endeavorId = value;
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return ChangeForThisOrAllDialogue(
-                                      onThis: () {
-                                        endeavorBlock.endeavorId = value;
-                                      },
-                                      onFollowing: () {
-                                        FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(widget.uid)
-                                            .collection("endeavorBlocks")
-                                            .where("repeatingEndeavorBlockId",
-                                                isEqualTo: endeavorBlock
-                                                    .repeatingEndeavorBlockId)
-                                            .where("start",
-                                                isGreaterThanOrEqualTo:
-                                                    endeavorBlock.event!.start!)
-                                            .get()
-                                            .then((result) {
-                                          final batch = FirebaseFirestore
-                                              .instance
-                                              .batch();
-                                          for (var doc in result.docs) {
-                                            if (doc.exists) {
-                                              batch.update(
-                                                doc.reference,
-                                                {'endeavorId': value},
-                                              );
-                                            }
-                                          }
-                                          batch.commit();
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                    );
-                                  });
-                            }
-                          }
-                          // if repeating, show dialogue to change one or all
-                        } else {
-                          // if creating just change it
-                          if (value != endeavorBlock.endeavorId) {
-                            endeavorBlock.endeavorId = value;
-                            repeatingEndeavorBlock
-                                .then((reb) => reb.endeavorId = value);
-                          }
-                        }
-                      });
-                    },
-                  ),
-                ],
+              EndeavorPickerRow(
+                endeavorInput: endeavorInput,
+                onChanged: (endeavor) => context
+                    .read<EndeavorBlockScreenBloc>()
+                    .add(EndeavorChanged(endeavor)),
               ),
               // Type picker, I could make this show to convert single to repeating
               if (!editing)
@@ -384,14 +224,5 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
         ),
       ),
     );
-  }
-
-  void updateDataOnServer(Map<String, dynamic> data) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.uid)
-        .collection('endeavorBlocks')
-        .doc(endeavorBlock.id)
-        .update(data);
   }
 }

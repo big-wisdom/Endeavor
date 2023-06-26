@@ -160,64 +160,13 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Endeavor Picker Row
-  * refactor EndeavorSelectionScreen to be tree agnostic DONE
-    * give it onChanged
-    * maybe give it a cubit that reaches out and gets the endeavors?
-    * optionally pass in the tree of life and don't make the data service query it again
-  * Make EndeavorPickerRow use the screen right DONE
-  * make the CalendarEventScreen use the EndeavorPickerRow DONE
-  * make the TasksScreen use the EndeavorPickerRow
-    * I still have the formz stuff in the folder with the tasks screen, I'm thinking I should move that to the model
-      * create basic file structure next to model DONE
-      * move stuff into it DONE
-        * I'll start by moving the firestore stuff into it's own extension done
-          * Now what about the data service that uses that? Done
-        * Now stuff from the TaskScreen
-          * just pulled it in and dropped it. I guess not much else to do here
-      * create a form model like I did for the CalendarEvent DONE
-      * implement that form model in the TaskScreenState DONE
-      * use it in the UI DONE
-      * control it with the UI (I will actually take care of this when implement the BLoC listeners after I get the first running version)
-  * solve the problem of initially getting the title of the endeavor that is stored in the EndeavorPickerRowInput formz object
-    * It seems like I'm going to need to make a loading state and react to it in the UI
-      * Make loading state DONE
-      * react to it in the UI DONE
-      * make loading part of initial DONE
-      * make data call that ends loading state DONE
-* Now I need to actually implement the calendar_event_screen.dart file DONE
-  * Make the constructor private
-  * create named constructurs
-  * depending on the state provide the appropriate BLoC to the screen
-* CalendarEventScreen
-  * OneTimeEventPicker
-    * I made a OneTimeEventPickerScreen, but I'd still rather just have an embedded widget. I'll go check how the screen works
-    * I think that I could make a widget with a simple cubit that that I could put in both the OneTimeEventPickerScreen and embed in the CalendarEventScreen as well
-    
-      ----------
-      * Make a OneTimeEventPicker widget folder with a "widget" sub-folder and a cubit sub-folder DONE
-      * move the appropriate components into the widget itself DONE
-      * Move the FormzInput items into a form in the model section next to the event as I've previously done
-        * I already have the whole thing working as one "event_input" but it's only being used by the CalendarEventScreen which is the very thing I'm working on now, so I'll feel free to change that 
-        * I will need to move the copy with functionality into whatever class extends this abstract class
-      * move the widget functionality into the widget piece
-        * Extend the form DONE
-        * put in other functionality DONE
-        * include an onChanged() method if the result is a valid event DONE
-      * implement that widget into the full screen DONE
-        * I just ended up throwing unimplemented so that I can move on and hook this up later
-      * implement that widget in the CalendarEventScreen DONE
-        * So now I'm bumping up against the issue that I have an event form for the widget, and that widget is now selecting the event for another form
-          * Only problem with the solution below is that I'm maintaining validation logic for the event in two places.
-            * I'm going with, I don't care for now.
-            * maybe I could maintain validation logic on the object that way when the form creates it, it can validate it on the way out and the formz object that takes in the whole event can run the same logic. This could even lead to form unit tests that make sure that the form can never throw an exception for creating an invalid event. That could also lead to some abstraction of my system of interplay between model and form. Or maybe the Form widget already does this?
-          * Within the model formz folder, I could have a sub-folder for event_creation, then an EventInput so that the event can be used as an input to a super-form
-            * create folder structure
-            * create EventInput
-      * Reimplement the OneTimeEventPickerScreen in the TaskScreen DONE
-  * RepeatingEventPicker
-    * I'm thinking that I will make a seperate create repeating event button and make it it's own screen
-      * This means that I will need to rip functionality for repeating events out of this screen
+* EndeavorBlockScreen
+  * create a form and all the form inputs for an EndeavorBlock model
+    * So far all I've done is move the firestore stuff into a sub-folder of the model folder
+  * create a bloc for the EndeavorBlock screen
+  * extend the form with the state
+  * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
+
 
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
 * Create a RepeatingEventScreen that only has to handle the creation of a repeating event, not editing
