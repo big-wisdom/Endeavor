@@ -161,13 +161,23 @@ Back End: Firebase
 ## What I'm working on now
 
 * EndeavorBlockScreen
-  * create a form and all the form inputs for an EndeavorBlock model
+  * create a form and all the form inputs for an EndeavorBlock model DONE
     * So far all I've done is move the firestore stuff into a sub-folder of the model folder
     * Make form
     * Make each form input
-  * create a bloc for the EndeavorBlock screen
-  * extend the form with the state
+  * create a bloc for the EndeavorBlock screen DONE
+  * extend the form with the state DONE
+  ----------
+  * How am I going to handle repeating? I know for the CalendarEvent, I decided to make the repeating a whole separate page, but was that the best call? Should I do that again?
   * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
+    * EndeavorPickerRow DONE
+    * Type picker
+    * OneTimeEventPicker
+    * RepeatingEventPicker
+    * Create button
+    * Delete button
+  ----------
+
 
 
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well

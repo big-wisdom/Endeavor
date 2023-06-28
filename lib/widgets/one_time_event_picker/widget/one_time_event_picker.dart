@@ -69,8 +69,10 @@ class _TimePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OneTimeEventPickerCubit, OneTimeEventPickerState>(
       buildWhen: (previous, current) =>
-          (type == _TimePickerType.start && previous.start != current.start) ||
-          (type == _TimePickerType.end && previous.end != current.end),
+          (type == _TimePickerType.start &&
+              previous.startTimeInput != current.startTimeInput) ||
+          (type == _TimePickerType.end &&
+              previous.endTimeInput != current.endTimeInput),
       builder: (context, state) {
         final cubit = context.read<OneTimeEventPickerCubit>();
         return Row(
