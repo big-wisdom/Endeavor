@@ -1,3 +1,4 @@
+import '../bloc/endeavor_block_screen_bloc.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +10,7 @@ class EndeavorBlockScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "${editing ? "Edit" : "Create"} Endeavor Block",
-        ),
+        title: _TitleText(),
       ),
       body: SafeArea(
         child: Padding(
@@ -19,13 +18,7 @@ class EndeavorBlockScreenView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Endeavor picker
-              EndeavorPickerRow(
-                endeavorInput: endeavorInput,
-                onChanged: (endeavor) => context
-                    .read<EndeavorBlockScreenBloc>()
-                    .add(EndeavorChanged(endeavor)),
-              ),
+              _EndeavorPickerRow(),
               // Type picker, I could make this show to convert single to repeating
               if (!editing)
                 Row(
@@ -223,6 +216,34 @@ class EndeavorBlockScreenView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _TitleText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      buildWhen: (previous, current) => previous.isEdit != current.isEdit,
+      builder: (context, state) {
+        return Text("${state.isEdit ? "Edit" : "Create"} Endeavor Block");
+      },
+    );
+  }
+}
+
+class _EndeavorPickerRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      builder: (context, state) {
+        return EndeavorPickerRow(
+          endeavorInput: state.endeavor,
+          onChanged: (endeavor) => context
+              .read<EndeavorBlockScreenBloc>()
+              .add(EndeavorChanged(endeavor)),
+        );
+      },
     );
   }
 }
