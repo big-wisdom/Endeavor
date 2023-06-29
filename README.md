@@ -1,21 +1,3 @@
-# endeavor
-
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
 # Endeavor
 I always ache for this centralized thing or place to which I can turn. Almost like a wizards wand or JARVIS for Iron Man or Joseph Smiths seer stone. I think increasingly smart phones have become that thing for everyone. I want to build an ecosystem of applications that help structure my life.
 
@@ -31,57 +13,31 @@ Eventually, this app will contain much of the central data for other important a
 
 I believe this means that I will need to use a router?
 
-
-## 15 minutes
-I always envision this plan of building it little bits at a time so that over the course of the next two years it comes together. But I only ever put 15 minutes toward it and then start fresh again.
-
-
-
-This could be a **documentation problem**.
-
-
-
-Forgetting what’s going on with the project is huge. Something that takes 5 minutes to read that gets me back up to date on the project could allow me to spend the other 10 on the project itself.
-
-
-
-So now this README.md is the central documentation for me to review what's going on in the project and get myself back up to speed.
-
-
-## Server
-If I could have a centralized server where the data models run, I could make all sorts of client side apps that access the central data. 
-
 ## Tools
-Front end: flutter
+Front end:
+* Flutter
+* BLoC Architecture
+* Models extend Equatable
+* Forms made with Formz
+
 Back End: Firebase
-* Firebase CLI
+* Firebase
+  * With Firebase CLI
 * flutterfire CLI
 
 ## Notes for later
 
-### What kind of tool do I want?
+### Philosophy
+* I'm thinking that objects should be what they're called, and that if an object needs to be treated differently on whether a field is populated maybe it should be called something else when it is populated. For example, I'm going to have UnidentifiedTask and Task. An Unidentified task is a Task but without an ID, likely because it's just been created. The DataRepository can't update or delete an UnidentifiedTask, so they must be treated differently. However in many instances they can be treated the same so I'm abstracting them together under the AbstractTask class. Similarly, I'd like to rid the app of "empty" objects. I don't think that something should be called a "Task" if it's "empty" meaning there's actually no data to call a task and it's just a placeholder for future data.
 * I kinda like the idea of a progressive tool. One that can be used for the simplest use case. In this case just a to-do list and you can add in whatever fancy features you want for the given task.
 * The opposing point of view is making a super powerful tool that you have to LEARN learn like the Adobe applications.
 * Maybe instead of flows like turbotax, I could use the photoshop model of a giant array of tools
 
 
 ## Task Brainstorming
-* Endeavor Blocks
-* Tasks with duration
-* Assign tasks to endeavors
-* Auto Plan
-
-* An endeavor brain to enforce continuity of planning
-    * I could make building this planning thing my first use case.
-
 * In physics there's this concept of de-dimensionalizing. Or rather, usefulizing units. You could understand your time in units of time/rent-payment by dividing time up into units of amount of time you have to work to pay for rent. Then a useless number, like an "8-hour" shift becomes a useful number. Like if rent is $700 and you make $13/hour, then 54 hours is one rent payment. So your shift is about 1/7th of a rent payment. Or if a meal is $20, then an 8-hour shift is a 5-meal shift which is an "eat for almost two days" shift. You could even average how much you spend per day from your budget and measure how much you make compared to that. You could make a unit that is (% of monthly expenses), like if you spend $1200/month, your % unit would be $12. Then an 8 hour shift would be about an 8% shift.
 
 * the concept of a repeating endeavor block as an endeavor block generator is interesting. Just thinking of generators is interesting. What generates endeavors? What generates tasks? a generator could be an API that I reach out to to get new tasks like Canvas or something
-
--------
-## UI Notes
-* NAVIGATION BAR: So I'm thinkin that the bottom selector might be a [NavigationBar](https://api.flutter.dev/flutter/material/NavigationBar-class.html) bar that goes into the [Scaffold's](https://api.flutter.dev/flutter/material/Scaffold-class.html) bottomNavigationBar property
-----------
 
 ## Calendar View Notes
 * I found [this](https://github.com/Skyost/FlutterWeekView/blob/master/lib/src/widgets/week_view.dart) package out there, and I think I could either use and fork it or learn from it to make my own from scratch. I'm tempted to make it from scratch because I would need so much freedom with it. 
@@ -123,15 +79,15 @@ Back End: Firebase
 * Maybe every BLoC could be thought of as having two stages, loading data and presenting data
 
 ## User Profiles
-* Mike
+* Student Eli
   * Student
   * 20 Years old
   * School is just starting to get really busy and he needs a way to keep track of it all while also managing social life and church duties
-* Clark
+* Eli
   * Software Developer
   * 26 Years old
   * Married, New software developer living in a new place
-* Mary
+* Katie
   * Teacher
   * 24 Years old
   * Married, New teacher living in a new place
@@ -168,7 +124,7 @@ Back End: Firebase
   * create a bloc for the EndeavorBlock screen DONE
   * extend the form with the state DONE
   ----------
-  * How am I going to handle repeating? I know for the CalendarEvent, I decided to make the repeating a whole separate page, but was that the best call? Should I do that again?
+  * I've actually been doing a lot of thinking here about typing, and I've changed some philosophy.
   * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
     * EndeavorPickerRow DONE
     * Type picker
@@ -180,5 +136,6 @@ Back End: Firebase
 
 
 
+* instead of just passing and storing an endeavorId, I should make an EndeavorReference object
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
 * Create a RepeatingEventScreen that only has to handle the creation of a repeating event, not editing
