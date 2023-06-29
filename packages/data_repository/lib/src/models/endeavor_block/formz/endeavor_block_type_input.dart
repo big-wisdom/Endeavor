@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-import '../model/endeavor_block.dart';
+import '../abstract_endeavor_block/abstract_single_endeavor_block/endeavor_block.dart';
 
 class EndeavorBlockTypeInputError {}
 
