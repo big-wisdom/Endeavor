@@ -116,6 +116,10 @@ Back End: Firebase
 
 ## What I'm working on now
 
+* Reworking modeling.
+  * I've just added a section to the philosophy section of this document about "calling an object what it is"
+  * I'm going to start doing that with the EndeavorBlock model, then move on to the screen
+
 * EndeavorBlockScreen
   * create a form and all the form inputs for an EndeavorBlock model DONE
     * So far all I've done is move the firestore stuff into a sub-folder of the model folder

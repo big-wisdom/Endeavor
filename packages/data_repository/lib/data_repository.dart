@@ -9,3 +9,4 @@ export 'src/models/event/event.dart';
 export 'src/models/week_view_event.dart';
 export 'src/models/calendar_event/calendar_event.dart';
 export 'src/models/endeavor_block/endeavor_block.dart';
+export 'src/models/scheduled/scheduled.dart';

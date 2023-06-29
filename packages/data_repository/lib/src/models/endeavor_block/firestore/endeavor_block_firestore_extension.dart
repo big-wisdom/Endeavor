@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_repository/data_repository.dart' show Event;
 
-import '../model/endeavor_block.dart';
+import '../abstract_endeavor_block/abstract_single_endeavor_block/endeavor_block.dart';
 
 extension EndeavorBlockFirestoreExtension on EndeavorBlock {
   static EndeavorBlock fromDocData({

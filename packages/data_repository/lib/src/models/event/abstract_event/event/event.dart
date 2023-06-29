@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
+import 'package:data_repository/data_repository.dart';
 
-class Event extends Equatable {
-  const Event({required this.start, required this.end});
+class Event extends AbstractEvent {
+  Event({required this.start, required this.end});
 
   final DateTime start;
   final DateTime end;
@@ -23,4 +23,8 @@ class Event extends Equatable {
 
   @override
   List<Object?> get props => [start, end];
+
+  @override
+  // TODO: implement events
+  List<Event> get events => [this];
 }
