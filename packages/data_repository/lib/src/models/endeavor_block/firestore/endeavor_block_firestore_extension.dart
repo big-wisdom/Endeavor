@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_repository/data_repository.dart' show Event;
+import 'package:data_repository/data_repository.dart'
+    show EndeavorReference, Event;
 
 import '../abstract_endeavor_block/abstract_single_endeavor_block/endeavor_block.dart';
 
@@ -12,14 +13,11 @@ extension EndeavorBlockFirestoreExtension on EndeavorBlock {
   }) {
     return EndeavorBlock(
       id: id,
-      endeavorId: data['endeavorId'],
-      type: EndeavorBlockType.values
-          .firstWhere((t) => t.toString() == data['type']),
-      repeatingEndeavorBlockId: EndeavorBlockType.values
-                  .firstWhere((t) => t.toString() == data['type']) ==
-              EndeavorBlockType.repeating
-          ? data['repeatingEndeavorBlockId']
-          : null,
+      endeavorReference: EndeavorReference(
+        endeavorTitle: data['endeavorTitle'],
+        endeavorId: data['endeavorId'],
+      ),
+      repeatingEndeavorBlockId: data['repeatingEndeavorBlockId'],
       event: Event(
         start: DateTime.fromMicrosecondsSinceEpoch(
           (data['start'] as Timestamp).microsecondsSinceEpoch,

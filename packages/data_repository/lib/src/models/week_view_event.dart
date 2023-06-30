@@ -35,8 +35,8 @@ class WeekViewEvent extends Equatable {
     return WeekViewEvent(
       title: title,
       backgroundColor: backgroundColor,
-      start: endeavorBlock.event!.start!,
-      end: endeavorBlock.event!.end!,
+      start: endeavorBlock.event.start,
+      end: endeavorBlock.event.end,
       originalObject: endeavorBlock,
     );
   }
@@ -46,10 +46,10 @@ class WeekViewEvent extends Equatable {
     required Color? backgroundColor,
   }) {
     return WeekViewEvent(
-      title: calendarEvent.title!,
+      title: calendarEvent.title,
       backgroundColor: backgroundColor,
-      start: calendarEvent.event!.start!,
-      end: calendarEvent.event!.end!,
+      start: calendarEvent.event.start,
+      end: calendarEvent.event.end,
       originalObject: calendarEvent,
     );
   }
@@ -65,8 +65,8 @@ class WeekViewEvent extends Equatable {
           (e) => WeekViewEvent(
             title: task.title!,
             backgroundColor: backgroundColor,
-            start: e.start!,
-            end: e.end!,
+            start: e.start,
+            end: e.end,
             originalObject: task,
           ),
         )

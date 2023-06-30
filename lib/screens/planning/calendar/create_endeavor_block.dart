@@ -5,7 +5,7 @@ import 'package:endeavor/screens/planning/planning_screen.dart';
 import 'package:endeavor/widgets/change_for_this_or_all_dialogue.dart';
 import 'package:endeavor/widgets/old_endeavor_selector/endeavor_picker_row.dart';
 import 'package:endeavor/widgets/old_one_time_event_picker.dart';
-import 'package:endeavor/widgets/repeating_event_picker.dart';
+import 'package:endeavor/widgets/old_repeating_event_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/event/event.dart';
@@ -233,7 +233,7 @@ class _CreateOrEditEndeavorBlockState extends State<CreateOrEditEndeavorBlock> {
                   future: repeatingEndeavorBlock,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return RepeatingEventPicker(
+                      return OldRepeatingEventPicker(
                         repeatingEvent: snapshot.data!.repeatingEvent!,
                         onChanged: editing
                             ? (repeatingEvent) =>

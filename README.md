@@ -121,14 +121,13 @@ Back End: Firebase
   * I'm going to start doing that with the EndeavorBlock model, then move on to the screen
 
 * EndeavorBlockScreen
-  * create a form and all the form inputs for an EndeavorBlock model DONE
-    * So far all I've done is move the firestore stuff into a sub-folder of the model folder
-    * Make form
-    * Make each form input
+  * create a form and all the form inputs for an EndeavorBlock model
+    * check on form <--------
+      * This now involves creating a RepeatingEndeavorBlockForm, and a RepeatingEventForm
+        * I think this will be easier if I first create the RepeatingEventSelector widget whose state will implement the form
+    * check each form input 
   * create a bloc for the EndeavorBlock screen DONE
-  * extend the form with the state DONE
-  ----------
-  * I've actually been doing a lot of thinking here about typing, and I've changed some philosophy.
+  * make sure the state still extends the form
   * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
     * EndeavorPickerRow DONE
     * Type picker
@@ -136,7 +135,6 @@ Back End: Firebase
     * RepeatingEventPicker
     * Create button
     * Delete button
-  ----------
 
 
 
