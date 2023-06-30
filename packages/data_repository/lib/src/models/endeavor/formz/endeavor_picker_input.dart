@@ -1,23 +1,15 @@
+import 'package:data_repository/data_repository.dart';
 import 'package:formz/formz.dart';
 
 class EndeavorPickerRowInputError {}
 
-// the value is supposed to be the endeavorId
 class EndeavorPickerRowInput
-    extends FormzInput<String?, EndeavorPickerRowInputError> {
-  EndeavorPickerRowInput.pure(this.title, String? value) : super.pure(value);
-  EndeavorPickerRowInput.dirty(super.value, String endeavorTitle)
-      : title = endeavorTitle,
-        super.dirty();
-
-  String? title;
-
-  EndeavorPickerRowInput copyWithTitle(String title) {
-    return EndeavorPickerRowInput.pure(title, value);
-  }
+    extends FormzInput<EndeavorReference?, EndeavorPickerRowInputError> {
+  EndeavorPickerRowInput.pure(super.value) : super.pure();
+  EndeavorPickerRowInput.dirty(super.value) : super.dirty();
 
   @override
-  EndeavorPickerRowInputError? validator(String? value) {
+  EndeavorPickerRowInputError? validator(EndeavorReference? value) {
     return null;
   }
 }

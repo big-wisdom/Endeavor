@@ -4,19 +4,16 @@ import 'package:formz/formz.dart';
 
 abstract class EndeavorBlockForm extends Equatable with FormzMixin {
   const EndeavorBlockForm({
-    required this.endeavor,
-    required this.type,
+    required this.endeavorReference,
     required this.event,
   });
 
-  final EndeavorPickerRowInput endeavor;
-  final EndeavorBlockTypeInput type;
+  final EndeavorPickerRowInput endeavorReference;
   final EventInput event;
 
   @override
   List<FormzInput> get inputs => [
-        endeavor,
-        type,
+        endeavorReference,
         event,
       ];
 }
