@@ -5,28 +5,20 @@ class EndeavorBlock extends AbstractSingleEndeavorBlock {
 
   EndeavorBlock({
     required this.id,
+    required super.title,
     required super.event,
     super.repeatingEndeavorBlockId,
+    required super.endeavorReference,
   });
 
   @override
-  List<Object?> get props =>
-      [id, endeavorId, type, repeatingEndeavorBlockId, event];
+  List<Object?> get props => [
+        id,
+        title,
+        event,
+      ];
 
   @override
-  // TODO: implement abstractEvent
-  AbstractEvent get abstractEvent => throw UnimplementedError();
-
-  @override
-  // TODO: implement endeavorReference
-  EndeavorReference get endeavorReference => throw UnimplementedError();
-
-  @override
-  // TODO: implement title
-  String get title => throw UnimplementedError();
-
-  @override
-  // TODO: implement weekViewEvents
   List<WeekViewEvent> get weekViewEvents => throw UnimplementedError();
 }
 
