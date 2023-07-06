@@ -9,6 +9,15 @@ class EndeavorReference extends Equatable {
   final String endeavorTitle;
   final String endeavorId;
 
+  EndeavorReference copyWithNewTitle({
+    required String newEndeavorTitle,
+  }) {
+    return EndeavorReference(
+      endeavorTitle: newEndeavorTitle,
+      endeavorId: endeavorId,
+    );
+  }
+
   @override
   List<Object?> get props => [
         endeavorTitle,

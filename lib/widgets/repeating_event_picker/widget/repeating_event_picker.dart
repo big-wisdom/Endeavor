@@ -1,5 +1,6 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/widgets/repeating_event_picker/cubit/repeating_event_picker_cubit.dart';
+import 'package:endeavor/widgets/time_picker_row/time_picker_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -35,47 +36,18 @@ class _RepeatingEventPickerWidget extends StatelessWidget {
         _DateRangePicker(),
         _DaysOfWeekPicker(),
         // Start Time
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Start Time:"),
-            TextButton(
-              onPressed: () async {
-                TimeOfDay? selection = await _selectTime(context, startTime);
-                if (selection != null) {
-                  setState(() {
-                    startTime = selection;
-                  });
-                  if (widget.onChanged != null) {
-                    widget.onChanged!(getRepeatingEvent());
-                  }
-                }
-              },
-              child: Text(startTime.toString()),
-            ),
-          ],
+        TimePickerRow(
+          type: TimePickerRowType.start,
+          onTimeSelected: (time) => context
+              .read<RepeatingEventPickerCubit>()
+              .onStartTimeChanged(time),
         ),
         // End Time
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("End Time:"),
-            TextButton(
-              onPressed: () async {
-                TimeOfDay? selection = await _selectTime(context, endTime);
-                if (selection != null) {
-                  setState(() {
-                    endTime = selection;
-                  });
-                  if (widget.onChanged != null) {
-                    widget.onChanged!(getRepeatingEvent());
-                  }
-                }
-              },
-              child: Text(endTime.toString()),
-            ),
-          ],
-        )
+        TimePickerRow(
+          type: TimePickerRowType.end,
+          onTimeSelected: (time) =>
+              context.read<RepeatingEventPickerCubit>().onEndTimeChanged(time),
+        ),
       ],
     );
   }

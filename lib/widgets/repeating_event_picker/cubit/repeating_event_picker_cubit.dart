@@ -20,4 +20,12 @@ class RepeatingEventPickerCubit extends Cubit<RepeatingEventPickerState> {
   void dayOfWeekTapped(int index) {
     throw UnimplementedError();
   }
+
+  void onStartTimeChanged(TimeOfDay time) {
+    throw UnimplementedError();
+  }
+
+  void onEndTimeChanged(TimeOfDay time) {
+    throw UnimplementedError();
+  }
 }

@@ -10,3 +10,4 @@ export './abstract_endeavor_block/abstract_repeating_endeavor_block/unidentified
 
 export 'formz/endeavor_block_form.dart';
 export 'formz/endeavor_block_type_input.dart';
+export 'formz/repeating_endeavor_block_form.dart';

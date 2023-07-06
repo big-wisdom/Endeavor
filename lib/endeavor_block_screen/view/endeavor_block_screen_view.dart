@@ -1,3 +1,5 @@
+import 'package:data_repository/data_repository.dart';
+
 import '../bloc/endeavor_block_screen_bloc.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class EndeavorBlockScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<EndeavorBlockScreenBloc>().state;
     return Scaffold(
       appBar: AppBar(
         title: _TitleText(),
@@ -19,35 +22,8 @@ class EndeavorBlockScreenView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _EndeavorPickerRow(),
-              // Type picker, I could make this show to convert single to repeating
-              if (!editing)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Type:'),
-                    DropdownButton(
-                      value: endeavorBlock.type,
-                      items: const [
-                        DropdownMenuItem(
-                          value: EndeavorBlockType.single,
-                          child: Text("One Time"),
-                        ),
-                        DropdownMenuItem(
-                          value: EndeavorBlockType.repeating,
-                          child: Text("Repeated"),
-                        )
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          if (value != endeavorBlock.type) {
-                            // we are creating so we just need to switch the value
-                            endeavorBlock.type = value;
-                          }
-                        });
-                      },
-                    )
-                  ],
-                ),
+              if (state is SingleEndeavorBlockScreenState && state.isEdit)
+                _TypePicker(),
 
               // One time endeavor block picker
               if (endeavorBlock.type == EndeavorBlockType.single || editing)
@@ -242,6 +218,44 @@ class _EndeavorPickerRow extends StatelessWidget {
           onChanged: (endeavor) => context
               .read<EndeavorBlockScreenBloc>()
               .add(EndeavorChanged(endeavor)),
+        );
+      },
+    );
+  }
+}
+
+class _TypePicker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Type:'),
+            DropdownButton(
+              value: state is SingleEndeavorBlockScreenState
+                  ? EndeavorBlockType.single
+                  : EndeavorBlockType.repeating,
+              items: const [
+                DropdownMenuItem(
+                  value: EndeavorBlockType.single,
+                  child: Text("One Time"),
+                ),
+                DropdownMenuItem(
+                  value: EndeavorBlockType.repeating,
+                  child: Text("Repeated"),
+                )
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<EndeavorBlockScreenBloc>().add(
+                        TypeChanged(value),
+                      );
+                }
+              },
+            )
+          ],
         );
       },
     );
