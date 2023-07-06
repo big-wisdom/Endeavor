@@ -21,3 +21,35 @@ class TypeChanged extends EndeavorBlockScreenEvent {
   @override
   List<Object?> get props => [newType];
 }
+
+class EventChanged extends EndeavorBlockScreenEvent {
+  const EventChanged(this.newEvent);
+
+  final Event newEvent;
+
+  @override
+  List<Object?> get props => [newEvent];
+}
+
+class RepeatingEventChanged extends EndeavorBlockScreenEvent {
+  const RepeatingEventChanged(this.newRepeatingEvent);
+
+  final RepeatingEvent newRepeatingEvent;
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CreateRequested extends EndeavorBlockScreenEvent {
+  const CreateRequested();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteRequested extends EndeavorBlockScreenEvent {
+  const DeleteRequested();
+
+  @override
+  List<Object?> get props => [];
+}

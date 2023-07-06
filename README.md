@@ -142,7 +142,7 @@ Back End: Firebase
     * Create button
     * Delete button
 
-* EndeavorBlockScreen
+* EndeavorBlockScreen DONE FOR NOW (it at least wont error out)
   * So I've just gone through and redone the model type inheritance to make different subtypes of AbstractEndeavorBlock. Now I need to make the EndeavorBlockScreenView create different types depending on what type it's trying to create.
     * First issue here is that the state needs to extend two different types, the RepeatingEndeavorBlockForm and the EndeavorBlockForm, but it also needs to extend the EndeavorBlockScreenState DONE
       * SOLUTION: I think my solution is going to work, I still have two different state types that extend their various forms, but I unite them polymorphically with an interface.
@@ -151,7 +151,6 @@ Back End: Firebase
       * Could I use a mixin or interface instead of inheritance?
         * This could be on either the state or the form
           * State might be a good idea because the state doesn't really have functionality
-    * 
 
 
 * instead of just passing and storing an endeavorId, I should make an EndeavorReference object
