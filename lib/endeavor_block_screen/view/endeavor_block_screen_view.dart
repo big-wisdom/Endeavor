@@ -1,9 +1,12 @@
 import 'package:data_repository/data_repository.dart';
-
-import '../bloc/endeavor_block_screen_bloc.dart';
-import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:endeavor/widgets/one_time_event_picker/one_time_event_picker.dart';
+import 'package:endeavor/widgets/repeating_event_picker/repeating_event_picker.dart';
+import 'package:endeavor/widgets/endeavor_picker_row.dart';
+
+import '../bloc/endeavor_block_screen_bloc.dart';
 
 class EndeavorBlockScreenView extends StatelessWidget {
   const EndeavorBlockScreenView({super.key});
@@ -22,172 +25,22 @@ class EndeavorBlockScreenView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _EndeavorPickerRow(),
+
               if (state is SingleEndeavorBlockScreenState && state.isEdit)
                 _TypePicker(),
 
-              // One time endeavor block picker
-              if (endeavorBlock.type == EndeavorBlockType.single || editing)
-                OneTimeEventPicker(
-                  event: endeavorBlock.event!,
-                  onChanged: editing
-                      ? (newEvent) => newEvent == null
-                          ? null
-                          : updateDataOnServer(newEvent.toDocData())
-                      : null,
-                ),
+              if (state is SingleEndeavorBlockScreenState)
+                _OneTimeEventPicker(),
 
-              // repeating endeavor block picker
-              if (endeavorBlock.type == EndeavorBlockType.repeating && !editing)
-                FutureBuilder<RepeatingEndeavorBlock>(
-                  future: repeatingEndeavorBlock,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return RepeatingEventPicker(
-                        repeatingEvent: snapshot.data!.repeatingEvent!,
-                        onChanged: editing
-                            ? (repeatingEvent) =>
-                                updateDataOnServer(repeatingEvent.toDocData()!)
-                            : (repeatingEvent) {
-                                repeatingEndeavorBlock.then((reb) {
-                                  repeatingEndeavorBlock = Future.value(
-                                    RepeatingEndeavorBlock(
-                                      repeatingEvent: repeatingEvent,
-                                      endeavorId: reb.endeavorId,
-                                    ),
-                                  );
-                                });
-                              },
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    } else {
-                      return const Text("Loading...");
-                    }
-                  },
-                ),
-              // Create button
-              if (!editing)
-                ElevatedButton(
-                  onPressed: () {
-                    // Single
-                    if (endeavorBlock.type == EndeavorBlockType.single &&
-                        endeavorBlock.validate()) {
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(widget.uid)
-                          .collection('endeavorBlocks')
-                          .add(
-                        {
-                          'endeavorId': endeavorBlock.endeavorId,
-                          'type': endeavorBlock.type.toString(),
-                          'start': endeavorBlock.event!.start!,
-                          'end': endeavorBlock.event!.end!,
-                        },
-                      );
-                    } else {
-                      // Repeating
-                      repeatingEndeavorBlock.then((reb) {
-                        if (reb.validate()) {
-                          List<EndeavorBlock>? blocks = reb.endeavorBlocks;
-                          if (blocks != null) {
-                            final batch = FirebaseFirestore.instance.batch();
+              if (state is RepeatingEndeavorBlockScreenState)
+                _RepeatingEventPicker(),
 
-                            // Create a doc to connect all the repeated blocks
-                            final repeatingDocRef = FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(widget.uid)
-                                .collection('repeatingEndeavorBlocks')
-                                .doc(); // no specific doc because we're creating
-                            reb.endeavorBlockIds = [];
+              if (state is SingleEndeavorBlockScreenState && !state.isEdit)
+                _CreateButton(),
 
-                            // Create a doc for each block
-                            for (EndeavorBlock block in blocks) {
-                              final docRef = FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(widget.uid)
-                                  .collection('endeavorBlocks')
-                                  .doc();
-                              reb.endeavorBlockIds!.add(docRef.id);
-                              batch.set(docRef, {
-                                'endeavorId': block.endeavorId,
-                                'type': block.type.toString(),
-                                'start': block.event!.start!,
-                                'end': block.event!.end!,
-                                // this connects each repeated block back to the
-                                // RepeatingEndeavorBlock
-                                'repeatingEndeavorBlockId': repeatingDocRef.id,
-                              });
-                            }
-
-                            batch.set(repeatingDocRef, reb.toDocData());
-
-                            batch.commit();
-                          }
-                        }
-                      });
-                    }
-                    // widget.setCalendarView(
-                    //    CalendarView.week, endeavorBlock.event!.start!);
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Add Block"),
-                ),
               // delete button
-              if (editing)
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.red),
-                  ),
-                  onPressed: () {
-                    if (endeavorBlock.type == EndeavorBlockType.single) {
-                      // delete single
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(widget.uid)
-                          .collection('endeavorBlocks')
-                          .doc(endeavorBlock.id)
-                          .delete();
-                    } else {
-                      debugPrint("delete repeating");
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return ChangeForThisOrAllDialogue(
-                            onThis: () {
-                              // delete single
-                              FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(widget.uid)
-                                  .collection('endeavorBlocks')
-                                  .doc(endeavorBlock.id)
-                                  .delete();
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            onFollowing: () {
-                              // delete repeating
-                              repeatingEndeavorBlock.then((reb) async {
-                                HttpsCallable callable =
-                                    FirebaseFunctions.instance.httpsCallable(
-                                        'deleteThisAndFollowingEndeavorBlocks');
-                                final resp =
-                                    await callable.call(<String, dynamic>{
-                                  'userId': widget.uid,
-                                  'repeatingEndeavorBlockId': reb.id,
-                                  'selectedEndeavorBlockId': endeavorBlock.id,
-                                });
-                                debugPrint("Result: ${resp.data}");
-                              });
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                          );
-                        },
-                      );
-                    }
-                  },
-                  child: const Text("Delete"),
-                ),
+              if (state is SingleEndeavorBlockScreenState && state.isEdit)
+                _DeleteButton(),
             ],
           ),
         ),
@@ -200,8 +53,13 @@ class _TitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      buildWhen: (previous, current) => previous.isEdit != current.isEdit,
+      buildWhen: (previous, current) {
+        previous as SingleEndeavorBlockScreenState;
+        current as SingleEndeavorBlockScreenState;
+        return previous.isEdit != current.isEdit;
+      },
       builder: (context, state) {
+        state as SingleEndeavorBlockScreenState;
         return Text("${state.isEdit ? "Edit" : "Create"} Endeavor Block");
       },
     );
@@ -214,7 +72,7 @@ class _EndeavorPickerRow extends StatelessWidget {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
       builder: (context, state) {
         return EndeavorPickerRow(
-          endeavorInput: state.endeavor,
+          endeavorInput: state.endeavorReference,
           onChanged: (endeavor) => context
               .read<EndeavorBlockScreenBloc>()
               .add(EndeavorChanged(endeavor)),
@@ -258,6 +116,79 @@ class _TypePicker extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _OneTimeEventPicker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      buildWhen: (previous, current) {
+        previous as SingleEndeavorBlockScreenState;
+        current as SingleEndeavorBlockScreenState;
+        return previous.event != current.event;
+      },
+      builder: (context, state) {
+        state as SingleEndeavorBlockScreenState;
+        return OneTimeEventPicker(
+          startingEvent: state.event.value,
+          onEvent: (newEvent) => context
+              .read<EndeavorBlockScreenBloc>()
+              .add(EventChanged(newEvent)),
+        );
+      },
+    );
+  }
+}
+
+class _RepeatingEventPicker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      buildWhen: (previous, current) {
+        previous as RepeatingEndeavorBlockScreenState;
+        current as RepeatingEndeavorBlockScreenState;
+        return previous.repeatingEventInput != current.repeatingEventInput;
+      },
+      builder: (context, state) {
+        state as RepeatingEndeavorBlockScreenState;
+        return RepeatingEventPicker(
+          initialRepeatingEvent: state.repeatingEventInput.value,
+          onChanged: (repeatingEvent) =>
+              context.read<EndeavorBlockScreenBloc>().add(
+                    RepeatingEventChanged(repeatingEvent),
+                  ),
+        );
+      },
+    );
+  }
+}
+
+class _CreateButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<EndeavorBlockScreenBloc>().add(const CreateRequested());
+        Navigator.pop(context);
+      },
+      child: const Text("Add Block"),
+    );
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Colors.red),
+      ),
+      onPressed: () {
+        context.read<EndeavorBlockScreenBloc>().add(const DeleteRequested());
+      },
+      child: const Text("Delete"),
     );
   }
 }

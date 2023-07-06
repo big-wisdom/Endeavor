@@ -1,6 +1,10 @@
 part of 'endeavor_block_screen_bloc.dart';
 
-abstract class EndeavorBlockScreenState {}
+abstract class EndeavorBlockScreenState {
+  final EndeavorPickerRowInput endeavorReference;
+
+  EndeavorBlockScreenState({required this.endeavorReference});
+}
 
 class SingleEndeavorBlockScreenState extends EndeavorBlockForm
     implements EndeavorBlockScreenState {
