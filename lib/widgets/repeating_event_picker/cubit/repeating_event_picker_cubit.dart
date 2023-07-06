@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'repeating_event_picker_state.dart';
 
@@ -11,5 +11,13 @@ class RepeatingEventPickerCubit extends Cubit<RepeatingEventPickerState> {
   RepeatingEventPickerCubit({
     this.initialRepeatingEvent,
     required this.onChanged,
-  }) : super(RepeatingEventPickerInitial());
+  }) : super(RepeatingEventPickerInitial(initialRepeatingEvent));
+
+  void onDateRangeChanged(DateTime? startDate, DateTime? endDate) {
+    throw UnimplementedError();
+  }
+
+  void dayOfWeekTapped(int index) {
+    throw UnimplementedError();
+  }
 }

@@ -122,9 +122,16 @@ Back End: Firebase
 
 * EndeavorBlockScreen
   * create a form and all the form inputs for an EndeavorBlock model
-    * check on form <--------
-      * This now involves creating a RepeatingEndeavorBlockForm, and a RepeatingEventForm
-        * I think this will be easier if I first create the RepeatingEventSelector widget whose state will implement the form
+    * check on form 
+      * Create a repeating event form DONE
+      * Implement the repeating event form into the picker widget <--------- 
+        * I'm wondering if I should just have a generalized date picker row. I use it several times. How do I do it on the event form? I actually just jam the SfDateRangePicker right into the form, but I want a row for the repeating_event_picker.
+          * I just realized that the Sf package whatever that is, also has a date range picker that I should probably use
+        * Now I need to put the Day of week section into it DONE
+        * Start and End Time Pickers.
+          * I don't really want to have to recreate the time picker row again. Maybe I can yank the row out to be it's own parameterized widget that both event pickers could use.
+      * Create a RepeatingEventInput to be used by the RepeatingEndeavorBlockForm
+      * This now involves creating a RepeatingEndeavorBlockForm, and a RepeatingEventForm 
     * check each form input 
   * create a bloc for the EndeavorBlock screen DONE
   * make sure the state still extends the form
@@ -139,5 +146,6 @@ Back End: Firebase
 
 
 * instead of just passing and storing an endeavorId, I should make an EndeavorReference object
+* Build out the RepeatingEventPicker that I started
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
 * Create a RepeatingEventScreen that only has to handle the creation of a repeating event, not editing
