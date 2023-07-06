@@ -7,24 +7,18 @@ class EditEndeavorBlockScreenBloc extends EndeavorBlockScreenBloc {
     required DataRepository dataRepository,
     required EndeavorBlock endeavorBlock,
   }) : super(
-          EndeavorBlockScreenState(
-            endeavor:
-                EndeavorPickerRowInput.pure(null, endeavorBlock.endeavorId),
-            type: EndeavorBlockTypeInput.pure(endeavorBlock.type!),
+          SingleEndeavorBlockScreenState(
+            endeavorReference:
+                EndeavorPickerRowInput.pure(endeavorBlock.endeavorReference),
             event: EventInput.pure(endeavorBlock.event),
             isEdit: true,
-            isLoading:
-                true, // start in loading state to make time to load endeavor title
           ),
         ) {
-    dataRepository.getEndeavorTitle().then((value) => add(TitleLoaded(value)));
-
-    on<TitleLoaded>((event, emit) => emit(state.copyWith(
-          endeavorTitle: event.title,
-          isLoading: false,
-        )));
-
     on<EndeavorChanged>(
+      (event, emit) => throw UnimplementedError(),
+    );
+
+    on<TypeChanged>(
       (event, emit) => throw UnimplementedError(),
     );
   }

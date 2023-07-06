@@ -31,8 +31,16 @@ class _OneTimeEventPickerWidget extends StatelessWidget {
     return Column(
       children: [
         _DatePicker(),
-        const TimePickerRow(TimePickerRowType.start),
-        const TimePickerRow(TimePickerRowType.end),
+        TimePickerRow(
+          type: TimePickerRowType.start,
+          onTimeSelected: (time) =>
+              context.read<OneTimeEventPickerCubit>().newStartTimePicked(time),
+        ),
+        TimePickerRow(
+          type: TimePickerRowType.end,
+          onTimeSelected: (time) =>
+              context.read<OneTimeEventPickerCubit>().newEndTimePicked(time),
+        ),
       ],
     );
   }
