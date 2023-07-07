@@ -36,8 +36,10 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
       EndeavorSelectionScreenState(
         endeavorTreeOfLife: state.endeavorTreeOfLife,
         endeavorInput: EndeavorPickerRowInput.dirty(
-          endeavor.id,
-          endeavor.title!,
+          EndeavorReference(
+            endeavorId: endeavor.id!,
+            endeavorTitle: endeavor.title!,
+          ),
         ),
       ),
     );

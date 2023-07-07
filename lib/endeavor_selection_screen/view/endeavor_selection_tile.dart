@@ -40,7 +40,8 @@ class EndeavorSelectionTile extends StatelessWidget {
                 .read<EndeavorSelectionScreenCubit>()
                 .state
                 .endeavorInput
-                .value;
+                .value
+                ?.endeavorId;
             final bool selected =
                 selectedId == null ? false : selectedId == e.id!;
             return EndeavorSelectionTile(

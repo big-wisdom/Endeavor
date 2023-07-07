@@ -58,7 +58,7 @@ class TaskScreenInitial extends TaskScreenState {
   TaskScreenInitial(List<Endeavor>? treeOfLife)
       : super(
           title: const TaskTitle.pure(),
-          endeavor: EndeavorPickerRowInput.pure(null, null),
+          endeavor: EndeavorPickerRowInput.pure(null),
           divisible: DivisibilityBox.pure(const DurationField.pure().value),
           duration: const DurationField.pure(),
           minnimumSchedulingDuration:

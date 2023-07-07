@@ -1,4 +1,5 @@
 import 'package:data_repository/data_repository.dart';
+import 'package:data_repository/src/models/endeavor_block/firestore/endeavor_block_firestore_extension.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension CalendarData on DataRepository {
@@ -20,8 +21,8 @@ extension CalendarData on DataRepository {
     return CombineLatestStream.combine4(
       allEndeavorSettingsStream()
           .transform(EndeavorSettings.transformListToMap),
-      endeavorBlocksStream
-          .transform(EndeavorBlock.endeavorBlockListTransformer),
+      endeavorBlocksStream.transform(
+          EndeavorBlockFirestoreExtension.endeavorBlockListTransformer),
       taskStream.transform(TaskFirestoreExtension.taskListTransformer),
       calendarEventStream.transform(
           CalendarEventFirestoreExtension.calendarEventListTransformer),
@@ -41,8 +42,9 @@ extension CalendarData on DataRepository {
           .map(
             (e) => WeekViewEvent.fromEndeavorBlock(
               endeavorBlock: e,
-              backgroundColor: endeavorSettings[e.endeavorId!]?.color,
-              title: endeavorSettings[e.endeavorId!]!.title!,
+              backgroundColor:
+                  endeavorSettings[e.endeavorReference.endeavorId]?.color,
+              title: endeavorSettings[e.endeavorReference.endeavorId]!.title!,
             ),
           )
           .toList(),
@@ -61,8 +63,9 @@ extension CalendarData on DataRepository {
       calendarEvents
           .map((calendarEvent) => WeekViewEvent.fromCalendarEvent(
                 calendarEvent: calendarEvent,
-                backgroundColor:
-                    endeavorSettings[calendarEvent.endeavorId]?.color,
+                backgroundColor: endeavorSettings[
+                        calendarEvent.endeavorReference?.endeavorId]
+                    ?.color,
               ))
           .toList(),
     );

@@ -33,7 +33,7 @@ class EndeavorPickerRow extends StatelessWidget {
               },
             ),
           ),
-          child: Text(endeavorInput.title ?? "Add Endeavor"),
+          child: Text(endeavorInput.value?.endeavorTitle ?? "Add Endeavor"),
         )
       ],
     );
