@@ -122,7 +122,7 @@ Back End: Firebase
     * Go build model structure DONE
     * Fix formz DONE
     * Fix firestore DONE
-    * Make the CalendarEventScreen implement that model
+    * Make the CalendarEventScreen implement that model DONE
     * clean up other screens
   ------------
   * Rework Task model

@@ -52,7 +52,7 @@ class WeekScreenView extends StatelessWidget {
     MaterialPageRoute route;
     if (originalObject is EndeavorBlock) {
       route = MaterialPageRoute(
-        builder: (context) => const EndeavorBlockScreen(),
+        builder: (context) => EndeavorBlockScreen.edit(originalObject),
       );
     } else if (originalObject is CalendarEvent) {
       route = MaterialPageRoute(
