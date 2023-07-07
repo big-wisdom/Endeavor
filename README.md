@@ -116,15 +116,6 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* New modeling philosophy
-  ------------
-  * Rework CalendarEvent model
-    * Go build model structure DONE
-    * Fix formz DONE
-    * Fix firestore DONE
-    * Make the CalendarEventScreen implement that model DONE
-    * clean up other screens
-  ------------
-  * Rework Task model
-* Build out the RepeatingEventPicker that I started
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
+* First run
+* Rework Task model to include repeating tasks

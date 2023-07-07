@@ -11,6 +11,8 @@ dependencies:
     path: ../authentication_repository
   cloud_firestore: ^4.7.0
   cloud_functions: ^4.0.12
+  date_and_time_utilities:
+    path: ../date_and_time_utilities
   equatable: ^2.0.5
   formz: ^0.4.0
   rxdart: ^0.27.7

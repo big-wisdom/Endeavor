@@ -1,0 +1,12 @@
+name: date_and_time_utilities
+description: just compiling some utilities to make dates and times easier for my endeavor project
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <=3.10.4'
+
+dependencies:
+  intl: ^0.17.0
+  flutter:
+    sdk: flutter

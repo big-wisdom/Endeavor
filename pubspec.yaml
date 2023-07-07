@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   data_repository:
     path: packages/data_repository
+  date_and_time_utilities:
+    path: packages/date_and_time_utilities
   duration_picker: ^1.1.1
   equatable: ^2.0.3
   firebase_core: ^2.12.0
