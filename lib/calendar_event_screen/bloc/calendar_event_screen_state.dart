@@ -1,35 +1,37 @@
 part of 'calendar_event_screen_bloc.dart';
 
-enum CalendarEventScreenLoadingState {
-  loading,
-  loaded,
+abstract class CalendarEventScreenState {
+  CalendarEventScreenState({
+    required this.endeavorInput,
+    required this.title,
+  });
+
+  final EndeavorPickerRowInput endeavorInput;
+  final CalendarEventTitleInput title;
 }
 
-class CalendarEventScreenState extends CalendarEventForm {
-  const CalendarEventScreenState({
+class SingleCalendarEventScreenState extends CalendarEventForm
+    implements CalendarEventScreenState {
+  const SingleCalendarEventScreenState({
     required this.isEdit,
     required super.event,
     required super.title,
     required super.endeavorInput,
     super.repeatingCalendarEventId,
-    required this.loadingState,
   });
 
   final bool isEdit;
-  final CalendarEventScreenLoadingState loadingState;
 
-  CalendarEventScreenState copyWith({
+  SingleCalendarEventScreenState copyWith({
     CalendarEventTitleInput? title,
     EventInput? event,
     EndeavorPickerRowInput? endeavorInput,
-    CalendarEventScreenLoadingState? loadingState,
   }) {
-    return CalendarEventScreenState(
+    return SingleCalendarEventScreenState(
       isEdit: isEdit,
       event: event ?? this.event,
       title: title ?? this.title,
       endeavorInput: endeavorInput ?? this.endeavorInput,
-      loadingState: loadingState ?? this.loadingState,
       repeatingCalendarEventId: repeatingCalendarEventId,
     );
   }
@@ -44,24 +46,17 @@ class CalendarEventScreenState extends CalendarEventForm {
       ];
 }
 
-class CalendarEventScreenInitial extends CalendarEventScreenState {
-  CalendarEventScreenInitial.create()
-      : super(
-          isEdit: false,
-          title: const CalendarEventTitleInput.pure(null),
-          event: EventInput.pure(null),
-          endeavorInput: EndeavorPickerRowInput.pure(null, null),
-          loadingState: CalendarEventScreenLoadingState.loaded,
-        );
+class RepeatingCalendarEventScreenState extends RepeatingCalendarEventForm {
+  const RepeatingCalendarEventScreenState({
+    required super.titleInput,
+    required super.repeatingEventInput,
+    required super.endeavorReference,
+  });
 
-  CalendarEventScreenInitial.edit(CalendarEvent calendarEvent)
-      : super(
-          isEdit: true,
-          title: CalendarEventTitleInput.pure(calendarEvent.title),
-          endeavorInput:
-              EndeavorPickerRowInput.pure(null, calendarEvent.endeavorId),
-          event: EventInput.pure(calendarEvent.event),
-          repeatingCalendarEventId: calendarEvent.repeatingCalendarEventId,
-          loadingState: CalendarEventScreenLoadingState.loading,
-        );
+  @override
+  List<Object?> get props => [
+        titleInput,
+        repeatingEventInput,
+        endeavorReference,
+      ];
 }

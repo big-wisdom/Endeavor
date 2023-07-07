@@ -116,44 +116,15 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Reworking modeling.
-  * I've just added a section to the philosophy section of this document about "calling an object what it is"
-  * I'm going to start doing that with the EndeavorBlock model, then move on to the screen
-
-* EndeavorBlockScreen
-  * create a form and all the form inputs for an EndeavorBlock model
-    * check on form 
-      * Create a repeating event form DONE
-      * Implement the repeating event form into the picker widget
-        * I'm wondering if I should just have a generalized date picker row. I use it several times. How do I do it on the event form? I actually just jam the SfDateRangePicker right into the form, but I want a row for the repeating_event_picker.
-          * I just realized that the Sf package whatever that is, also has a date range picker that I should probably use
-        * Now I need to put the Day of week section into it DONE
-        * I made a TimePickerRow widget that I now use in the RepeatingEventPicker and the OneTimeEventPicker
-      * Create a RepeatingEventInput to be used by the RepeatingEndeavorBlockForm DONE
-      * This now involves creating a RepeatingEndeavorBlockForm, and a RepeatingEventForm  DONE
-    * check each form input 
-  * create a bloc for the EndeavorBlock screen DONE
-  * make sure the state still extends the form
-  * on the EndeavorBlockScreenView turn each input item into it's own widget in a BlocBuilder that plugs into the state
-    * EndeavorPickerRow DONE
-    * Type picker
-    * OneTimeEventPicker
-    * RepeatingEventPicker
-    * Create button
-    * Delete button
-
-* EndeavorBlockScreen DONE FOR NOW (it at least wont error out)
-  * So I've just gone through and redone the model type inheritance to make different subtypes of AbstractEndeavorBlock. Now I need to make the EndeavorBlockScreenView create different types depending on what type it's trying to create.
-    * First issue here is that the state needs to extend two different types, the RepeatingEndeavorBlockForm and the EndeavorBlockForm, but it also needs to extend the EndeavorBlockScreenState DONE
-      * SOLUTION: I think my solution is going to work, I still have two different state types that extend their various forms, but I unite them polymorphically with an interface.
-      * I solved this somehow, but I don't remember how. I think it had something to do with just changing type?
-      * One solution would be to create two different types of BLoCs and switch them out from under the screen?
-      * Could I use a mixin or interface instead of inheritance?
-        * This could be on either the state or the form
-          * State might be a good idea because the state doesn't really have functionality
-
-
-* instead of just passing and storing an endeavorId, I should make an EndeavorReference object
+* New modeling philosophy
+  ------------
+  * Rework CalendarEvent model
+    * Go build model structure DONE
+    * Fix formz DONE
+    * Fix firestore DONE
+    * Make the CalendarEventScreen implement that model
+    * clean up other screens
+  ------------
+  * Rework Task model
 * Build out the RepeatingEventPicker that I started
 * I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
-* Create a RepeatingEventScreen that only has to handle the creation of a repeating event, not editing
