@@ -23,7 +23,7 @@ class EndeavorSelectionScreenView extends StatelessWidget {
             endeavor: primaryEndeavor,
             selected: state.endeavorInput.value == null
                 ? false
-                : state.endeavorInput.value! == primaryEndeavor.id,
+                : state.endeavorInput.value!.endeavorId == primaryEndeavor.id,
           );
         },
         separatorBuilder: (context, index) {

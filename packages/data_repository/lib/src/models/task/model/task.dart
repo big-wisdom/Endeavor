@@ -26,7 +26,7 @@ class Task extends Equatable {
     if (duration != null && events != null) {
       Duration d = Duration.zero;
       for (Event e in events!) {
-        d += e.end!.difference(e.start!);
+        d += e.end.difference(e.start);
       }
       return d;
     } else {

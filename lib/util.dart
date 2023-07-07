@@ -35,38 +35,38 @@ String getEventDescription(Event event) {
 
   // Write start time
   // Write today if today
-  if (now.year == event.start!.year &&
-      now.month == event.start!.month &&
-      now.day == event.start!.day) {
+  if (now.year == event.start.year &&
+      now.month == event.start.month &&
+      now.day == event.start.day) {
     buffer.write("Today ");
   } else {
     // write the day
-    buffer.write("${days[event.start!.weekday - 1]} ");
+    buffer.write("${days[event.start.weekday - 1]} ");
 
-    if (!_thisWeek(event.start!)) {
+    if (!_thisWeek(event.start)) {
       // if not this week, write the date too
-      buffer.write("${event.start!.day} ");
+      buffer.write("${event.start.day} ");
     }
   }
   // Write start time
-  _writeTime(event.start!, buffer);
+  _writeTime(event.start, buffer);
 
   buffer.write("- ");
 
   // if different day, write the day out
-  if (event.end!.year != event.start!.year ||
-      event.end!.month != event.start!.month ||
-      event.end!.day != event.start!.day) {
+  if (event.end.year != event.start.year ||
+      event.end.month != event.start.month ||
+      event.end.day != event.start.day) {
     // write the day
-    buffer.write("${days[event.end!.weekday - 1]} ");
+    buffer.write("${days[event.end.weekday - 1]} ");
 
-    if (!_thisWeek(event.end!)) {
+    if (!_thisWeek(event.end)) {
       // if not this week, write the date too
-      buffer.write("${event.end!.day} ");
+      buffer.write("${event.end.day} ");
     }
   }
   // Write end time
-  _writeTime(event.end!, buffer);
+  _writeTime(event.end, buffer);
 
   return buffer.toString();
 }

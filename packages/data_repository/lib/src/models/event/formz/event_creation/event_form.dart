@@ -16,7 +16,6 @@ abstract class EventForm extends Equatable with FormzMixin {
   final EventEndTimeInput endTimeInput;
 
   @override
-  // TODO: implement inputs
   List<FormzInput> get inputs => [
         dateInput,
         startTimeInput,
