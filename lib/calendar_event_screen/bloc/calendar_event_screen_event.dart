@@ -22,15 +22,6 @@ class EndeavorChanged extends CalendarEventScreenEvent {
   List<Object?> get props => [endeavor];
 }
 
-class EndeavorTitleReturned extends CalendarEventScreenEvent {
-  const EndeavorTitleReturned(this.title);
-
-  final String title;
-
-  @override
-  List<Object?> get props => [title];
-}
-
 class TypeChanged extends CalendarEventScreenEvent {
   const TypeChanged(this.type);
 
@@ -47,6 +38,15 @@ class EventChanged extends CalendarEventScreenEvent {
 
   @override
   List<Object?> get props => [newEvent];
+}
+
+class RepeatingEventChanged extends CalendarEventScreenEvent {
+  const RepeatingEventChanged(this.newRepeatingEvent);
+
+  final RepeatingEvent newRepeatingEvent;
+
+  @override
+  List<Object?> get props => [newRepeatingEvent];
 }
 
 class CreateButtonPressed extends CalendarEventScreenEvent {

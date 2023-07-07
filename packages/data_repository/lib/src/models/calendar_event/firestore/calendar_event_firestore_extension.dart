@@ -6,6 +6,7 @@ import 'package:data_repository/data_repository.dart';
 extension CalendarEventFirestoreExtension on CalendarEvent {
   static CalendarEvent fromDocData(String id, Map<String, dynamic> docData) {
     final String title = docData['title'];
+    final String? endeavorTitle = docData['endeavorTitle'];
     final String? endeavorId = docData['endeavorId'];
     final DateTime start = DateTime.fromMicrosecondsSinceEpoch(
       (docData['start'] as Timestamp).microsecondsSinceEpoch,
@@ -15,15 +16,17 @@ extension CalendarEventFirestoreExtension on CalendarEvent {
     );
     final Event event = Event(start: start, end: end);
     final String repeatingCalendarEventId = docData['repeatingCalendarEventId'];
-    final type = CalendarEventType.values
-        .firstWhere((type) => type.toString() == docData['type']);
 
     return CalendarEvent(
       title: title,
       event: event,
       repeatingCalendarEventId: repeatingCalendarEventId,
-      type: type,
-      endeavorId: endeavorId,
+      endeavorReference: endeavorTitle != null
+          ? EndeavorReference(
+              endeavorTitle: endeavorTitle,
+              endeavorId: endeavorId!,
+            )
+          : null,
       id: id,
     );
   }
@@ -31,9 +34,9 @@ extension CalendarEventFirestoreExtension on CalendarEvent {
   Map<String, dynamic> toDocData() {
     return {
       "title": title,
-      "endeavorId": endeavorId,
+      "endeavorId": endeavorReference?.endeavorId,
+      "endeavorTitle": endeavorReference?.endeavorTitle,
       "repeatingCalendarEventId": repeatingCalendarEventId,
-      "type": type.toString(),
       "start": event.start,
       "end": event.end,
     };

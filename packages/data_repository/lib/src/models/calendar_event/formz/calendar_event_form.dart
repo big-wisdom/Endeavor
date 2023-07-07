@@ -8,26 +8,23 @@ abstract class CalendarEventForm extends Equatable with FormzMixin {
     required this.title,
     required this.endeavorInput,
     this.repeatingCalendarEventId,
-  }) : type = repeatingCalendarEventId == null
-            ? CalendarEventType.single
-            : CalendarEventType.repeating;
+  });
 
   final CalendarEventTitleInput title;
   final EventInput event;
   final EndeavorPickerRowInput endeavorInput;
   final String? repeatingCalendarEventId;
-  final CalendarEventType type;
 
   @override
   List<FormzInput> get inputs => [title, event, endeavorInput];
 
-  CalendarEvent? get createCalendarEvent {
+  UnidentifiedCalendarEvent? get createUnidentifiedCalendarEvent {
     if (status.isValid) {
-      return CalendarEvent(
-        event: event.value,
+      return UnidentifiedCalendarEvent(
         title: title.value,
-        endeavorId: endeavorInput.value,
-        type: type,
+        event: event.value,
+        endeavorReference: endeavorInput.value,
+        repeatingCalendarEventId: null,
       );
     }
     return null;

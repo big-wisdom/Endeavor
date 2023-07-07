@@ -6,7 +6,19 @@ import '../bloc/create/create_endeavor_block_screen_bloc.dart';
 import '../bloc/edit/edit_endeavor_block_screen_bloc.dart';
 
 class EndeavorBlockScreen extends StatelessWidget {
-  const EndeavorBlockScreen({this.endeavorBlock, super.key});
+  factory EndeavorBlockScreen.create() {
+    return const EndeavorBlockScreen._(
+      endeavorBlock: null,
+    );
+  }
+
+  factory EndeavorBlockScreen.edit(EndeavorBlock endeavorBlock) {
+    return EndeavorBlockScreen._(
+      endeavorBlock: endeavorBlock,
+    );
+  }
+
+  const EndeavorBlockScreen._({this.endeavorBlock});
 
   final EndeavorBlock? endeavorBlock;
 

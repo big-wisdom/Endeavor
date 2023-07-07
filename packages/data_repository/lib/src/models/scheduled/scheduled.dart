@@ -2,7 +2,7 @@ import 'package:data_repository/data_repository.dart';
 
 abstract class Scheduled {
   final String title;
-  final EndeavorReference endeavorReference;
+  final EndeavorReference? endeavorReference;
   final AbstractEvent abstractEvent;
 
   Scheduled({

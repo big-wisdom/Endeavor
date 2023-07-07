@@ -4,7 +4,12 @@ import 'package:endeavor/calendar_event_screen/bloc/calendar_event_screen_bloc.d
 class CreateCalendarEventScreenBloc extends CalendarEventScreenBloc {
   CreateCalendarEventScreenBloc(DataRepository dataRepository)
       : super(
-          CalendarEventScreenInitial.create(),
+          SingleCalendarEventScreenState(
+            isEdit: false,
+            event: EventInput.pure(null),
+            title: const CalendarEventTitleInput.pure(null),
+            endeavorInput: EndeavorPickerRowInput.pure(null),
+          ),
           dataRepository: dataRepository,
         ) {
     on<TitleChanged>(
