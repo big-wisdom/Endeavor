@@ -10,37 +10,42 @@ class EndeavorsScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final endeavorsScreenBloc = context.read<EndeavorsScreenBloc>();
-    return ListView.separated(
-      itemCount: endeavorsScreenBloc.state.primaryEndeavors.length,
-      itemBuilder: (context, index) {
-        Endeavor endeavor = endeavorsScreenBloc.state.primaryEndeavors[index];
+    return BlocBuilder<EndeavorsScreenBloc, EndeavorsScreenState>(
+      builder: (context, state) {
+        return ListView.separated(
+          itemCount: endeavorsScreenBloc.state.primaryEndeavors.length,
+          itemBuilder: (context, index) {
+            Endeavor endeavor =
+                endeavorsScreenBloc.state.primaryEndeavors[index];
 
-        return Dismissible(
-          key: Key(endeavor.id!),
-          onDismissed: (direction) {
-            // delete the endeavor
-            endeavorsScreenBloc.add(DeleteEndeavor(endeavor));
+            return Dismissible(
+              key: Key(endeavor.id!),
+              onDismissed: (direction) {
+                // delete the endeavor
+                endeavorsScreenBloc.add(DeleteEndeavor(endeavor));
+              },
+              child: ListTile(
+                title: Text(endeavor.title!),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        // could I just pass the document snapshot here and let this stream handle updates?
+                        // as opposed to getting a stream from the id in the endeavorView widget
+                        return EndeavorScreen(endeavor: endeavor);
+                      },
+                    ),
+                  );
+                },
+              ),
+            );
           },
-          child: ListTile(
-            title: Text(endeavor.title!),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    // could I just pass the document snapshot here and let this stream handle updates?
-                    // as opposed to getting a stream from the id in the endeavorView widget
-                    return EndeavorScreen(endeavor: endeavor);
-                  },
-                ),
-              );
-            },
-          ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const Divider(
-          thickness: 1,
+          separatorBuilder: (context, index) {
+            return const Divider(
+              thickness: 1,
+            );
+          },
         );
       },
     );

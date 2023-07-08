@@ -22,7 +22,9 @@ class EndeavorsScreenBloc
         _dataRepository.deleteEndeavor(event.endeavor);
       },
     );
-    _dataRepository.primaryEndeavorStream().listen((newPrimaryEndeavorList) {
+    _streamSubscription = _dataRepository
+        .primaryEndeavorStream()
+        .listen((newPrimaryEndeavorList) {
       add(NewPrimaryEndeavorList(newPrimaryEndeavorList));
     });
   }

@@ -65,6 +65,8 @@ class PlanningScreenView extends StatelessWidget {
         },
       ),
       body: BlocBuilder<PlanningScreenCubit, PlanningScreenState>(
+        buildWhen: (previous, current) =>
+            previous.navbarItem != current.navbarItem,
         builder: (context, state) {
           if (state.navbarItem == NavbarItem.endeavors) {
             return const EndeavorsScreen();
@@ -86,16 +88,9 @@ class PlanningScreenView extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) => CreateEndeavorModal(
-                  onAdd: (title) {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => CreateEndeavorModal(
-                        onAdd: (title) => context
-                            .read<PlanningScreenCubit>()
-                            .addPrimaryEndeavor(title),
-                      ),
-                    );
-                  },
+                  onAdd: (title) => context
+                      .read<PlanningScreenCubit>()
+                      .addPrimaryEndeavor(title),
                 ),
               );
               break;
