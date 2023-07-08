@@ -116,6 +116,8 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I'm thinking that I will need to disband the util.dart. Date and time related stuff I will put into a DateAndTimeUtilities package and anything that can be moved into the DataRepository should be. The DataRepository and Endeavor should both depend on the utility package. The Event model formz stuff in particulary will use it in the data repository and the UI of the Endeavor package will need it as well
-* First run
+* I need to have the authentication repository send off to the dataRepository to create the document to the user in the 'users' collection
+  * The DataRepository already takes in the User stream, and I seem to remember that the User object from Firestore stores whether the user was just created or not. I could have the data repository create the doc when it's a new user
+    * This wont work, AdditionalUserInfo is contained on the AuthResult, not on the Stream<User>.
+
 * Rework Task model to include repeating tasks

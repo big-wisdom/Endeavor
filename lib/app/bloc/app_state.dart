@@ -5,17 +5,28 @@ enum AppAuthenticationStatus {
   unauthenticated,
 }
 
-class AppState extends Equatable {
+abstract class AppState extends Equatable {
+  const AppState({
+    required this.authenticationStatus,
+  });
+
   final AppAuthenticationStatus authenticationStatus;
+}
+
+class AuthenticatedAppState extends AppState {
   final User user;
 
-  const AppState.authenticated({
+  const AuthenticatedAppState({
     required this.user,
-  }) : authenticationStatus = AppAuthenticationStatus.authenticated;
+  }) : super(authenticationStatus: AppAuthenticationStatus.unauthenticated);
 
-  const AppState.unauthenticated()
-      : authenticationStatus = AppAuthenticationStatus.unauthenticated,
-        user = User.empty;
+  @override
+  List<Object?> get props => [user, authenticationStatus];
+}
+
+class UnauthenticatedAppState extends AppState {
+  const UnauthenticatedAppState()
+      : super(authenticationStatus: AppAuthenticationStatus.unauthenticated);
 
   @override
   List<Object?> get props => [authenticationStatus];
