@@ -116,8 +116,15 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I need to have the authentication repository send off to the dataRepository to create the document to the user in the 'users' collection
-  * The DataRepository already takes in the User stream, and I seem to remember that the User object from Firestore stores whether the user was just created or not. I could have the data repository create the doc when it's a new user
-    * This wont work, AdditionalUserInfo is contained on the AuthResult, not on the Stream<User>.
+* The EndeavorsScreen is now up and running, time to fix it up
+  * creation of primary endeavors DONE
+  * Deletion of primary endeavors is not deleting the settings
+    * Where do I do the deleting? DONE
+      * I just delete the endeavor document straight up, then I must do the rest on the cloud function front. That's where I will include deleting the settings
+    * Time to get the firestore emulator up and running again DONE
+    * Now the primaryEndeavorsStream is erroring as the document is deleted before the document ID is from the primaryEndeavorIds
+      * build a transaction in the data service to delete both the reference to the primary endeavor and the primary endeavor itself at the same time 
+      * restore the cloud function that reacts to the delete
+      * Make sure that it deletes the Tasks DONE, calendarEvents NOT DONE, EndeavorBlocks DONE, and Settings DONE associated because they aren't at risk of being called quickly
 
 * Rework Task model to include repeating tasks

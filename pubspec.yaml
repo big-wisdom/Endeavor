@@ -35,6 +35,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   bloc: ^8.1.1
+  cloud_firestore: ^4.8.2 # this should only be used for the emulator
+  cloud_functions: ^4.3.3 # this should only be used for the emulator
   cupertino_icons: ^1.0.2
   data_repository:
     path: packages/data_repository
@@ -42,6 +44,7 @@ dependencies:
     path: packages/date_and_time_utilities
   duration_picker: ^1.1.1
   equatable: ^2.0.3
+  firebase_auth: ^4.6.3 # this should only be used for the emulator
   firebase_core: ^2.12.0
   flow_builder: ^0.0.9
   flutter:

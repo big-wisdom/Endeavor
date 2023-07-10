@@ -89,7 +89,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
     const timeBlock = timeBlocks[blockIndex];
 
     // if task fits inside timeblock
-    if (task["data"]["duration"] <= timeBlock["duration"]/60) {
+    if (task["data"]["duration"] <= timeBlock["duration"] / 60) {
       // add a work block for the whole duration of the task
       const dStart = new Date(0);
       dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
@@ -110,12 +110,12 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       timeBlock["start"]["_seconds"] += task["data"]["duration"] * 60;
       timeBlock["duration"] = timeBlock["end"] - timeBlock["start"];
       taskIndex++; // move onto next task
-    } else if (task["data"]["minnimumSchedulingDuration"] <= timeBlock["duration"]/60) {
+    } else if (task["data"]["minnimumSchedulingDuration"] <= timeBlock["duration"] / 60) {
       // else if minnimumSchedulingDuration fits inside timeblock
       // add a work block for it
       const dStart = new Date(0);
       dStart.setUTCSeconds(timeBlock["start"]["_seconds"]);
-      const dEnd = new Date(dStart.getTime() + (timeBlock["duration"]*1000));
+      const dEnd = new Date(dStart.getTime() + (timeBlock["duration"] * 1000));
       const newWorkBlock = {
         "start": dStart,
         "end": dEnd,
@@ -127,7 +127,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
         task["data"]["events"].push(newWorkBlock);
       }
       // reduce duration
-      task["data"]["duration"] -= timeBlock["duration"]/60;
+      task["data"]["duration"] -= timeBlock["duration"] / 60;
       // move onto the next timeblock
       blockIndex++;
     } else {
@@ -174,8 +174,8 @@ exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data,
     // adjust current hours and minutes to incoming hours and minutes
     const currentStart = new Date(0);
     const currentEnd = new Date(0);
-    currentStart.setTime(currentData["start"]["_seconds"]*1000);
-    currentEnd.setTime(currentData["end"]["_seconds"]*1000);
+    currentStart.setTime(currentData["start"]["_seconds"] * 1000);
+    currentEnd.setTime(currentData["end"]["_seconds"] * 1000);
     currentStart.setHours(copyOfIncomingData["start"].getHours());
     currentEnd.setHours(copyOfIncomingData["end"].getHours());
     currentStart.setMinutes(copyOfIncomingData["start"].getMinutes());
@@ -280,6 +280,8 @@ exports.endeavorDeleted = functions.firestore
       }
       await taskBatch.commit();
 
+      // TODO: delete CalendarEvents associated with an endeavor when it's deleted
+
       const referencesBatch = firestore.batch();
       const deletedDocData = snapshot.data();
       // delete all child endeavors
@@ -290,15 +292,10 @@ exports.endeavorDeleted = functions.firestore
         }
       }
 
+      // delete settings
+      firestore.doc(`users/${context.params.userId}/settings/${context.params.endeavorId}`).delete();
+
       // delete all references to this endeavor
-      // check primary endeavors list
-      const userDocSnap = await firestore.doc(`users/${context.params.userId}`).get();
-      const userDocData = userDocSnap.data();
-      if (userDocData["primaryEndeavorIds"] != null && userDocData["primaryEndeavorIds"].includes(snapshot.id)) {
-        const primaryEndeavorIds = userDocData["primaryEndeavorIds"];
-        primaryEndeavorIds.splice(primaryEndeavorIds.indexOf(snapshot.id), 1);
-        referencesBatch.update(userDocSnap.ref, {"primaryEndeavorIds": primaryEndeavorIds});
-      }
       // query all other endeavors to see if they have this one as a sub-endeavor
       const querySnap = await firestore.collection(`users/${context.params.userId}/endeavors`).where("subEndeavorIds", "array-contains", snapshot.id).get();
       for (const docSnap of querySnap.docs) {

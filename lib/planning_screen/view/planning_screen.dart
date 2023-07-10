@@ -36,34 +36,7 @@ class PlanningScreenView extends StatelessWidget {
             ? [const CalendarViewDropdown()]
             : null,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.explore), label: "Endeavors"),
-          BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: "Tasks"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month), label: "Calendar"),
-        ],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              context
-                  .read<PlanningScreenCubit>()
-                  .getNavBarItem(NavbarItem.endeavors);
-              break;
-            case 1:
-              context
-                  .read<PlanningScreenCubit>()
-                  .getNavBarItem(NavbarItem.tasks);
-              break;
-            case 2:
-              context
-                  .read<PlanningScreenCubit>()
-                  .getNavBarItem(NavbarItem.calendar);
-              break;
-          }
-        },
-      ),
+      bottomNavigationBar: _BottomNavBar(),
       body: BlocBuilder<PlanningScreenCubit, PlanningScreenState>(
         buildWhen: (previous, current) =>
             previous.navbarItem != current.navbarItem,
@@ -87,7 +60,7 @@ class PlanningScreenView extends StatelessWidget {
             case NavbarItem.endeavors:
               showModalBottomSheet(
                 context: context,
-                builder: (context) => CreateEndeavorModal(
+                builder: (modalContext) => CreateEndeavorModal(
                   onAdd: (title) => context
                       .read<PlanningScreenCubit>()
                       .addPrimaryEndeavor(title),
@@ -111,6 +84,47 @@ class PlanningScreenView extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class _BottomNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PlanningScreenCubit, PlanningScreenState>(
+      buildWhen: (previous, current) =>
+          previous.navbarItem != current.navbarItem,
+      builder: (context, state) {
+        return BottomNavigationBar(
+          currentIndex: state.index,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.explore), label: "Endeavors"),
+            BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: "Tasks"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_month), label: "Calendar"),
+          ],
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                context
+                    .read<PlanningScreenCubit>()
+                    .getNavBarItem(NavbarItem.endeavors);
+                break;
+              case 1:
+                context
+                    .read<PlanningScreenCubit>()
+                    .getNavBarItem(NavbarItem.tasks);
+                break;
+              case 2:
+                context
+                    .read<PlanningScreenCubit>()
+                    .getNavBarItem(NavbarItem.calendar);
+                break;
+            }
+          },
+        );
+      },
     );
   }
 }
