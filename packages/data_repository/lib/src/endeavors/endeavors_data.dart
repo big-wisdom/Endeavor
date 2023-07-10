@@ -249,27 +249,30 @@ extension EndeavorsData on DataRepository {
   }
 
   Stream<List<Endeavor>> primaryEndeavorStream() async* {
-    if (firestore != null) {
-      final userDocSnap = await firestore!.get();
-      final docSnapData = userDocSnap.data();
-      if (docSnapData != null) {
-        final primaryEndeavorIds = (docSnapData['primaryEndeavorIds'] as List)
-            .map((primaryEndeavorId) => primaryEndeavorId as String);
-        final primaryEndeavorsStream = await firestore!
-            .collection('endeavors')
-            .where(FieldPath.documentId, whereIn: primaryEndeavorIds)
-            .snapshots()
-            .map<List<Endeavor>>((querySnap) {
-          return querySnap.docs.map((docSnap) {
-            return Endeavor.fromDocData(id: docSnap.id, data: docSnap.data());
-          }).toList();
-        });
-        yield* primaryEndeavorsStream;
+    if (firestore == null) {
+      throw Exception("No user dawg! go get one then we will talk");
+    }
+
+    final userDocStream = firestore!.snapshots();
+    await for (var doc in userDocStream) {
+      final docData = doc.data()?['primaryEndeavorIds'];
+      if (docData != null) {
+        final primaryEndeavorIds = (docData as List).map((e) => e as String);
+        if (primaryEndeavorIds.isNotEmpty) {
+          final querySnap = await firestore!
+              .collection('endeavors')
+              .where(FieldPath.documentId, whereIn: primaryEndeavorIds)
+              .get();
+          yield querySnap.docs
+              .map((endeavorDocSnap) => Endeavor.fromDocData(
+                  id: endeavorDocSnap.id, data: endeavorDocSnap.data()))
+              .toList();
+        } else {
+          yield [];
+        }
       } else {
-        // TODO: do something when there is no primary endeavor data yet
+        yield [];
       }
-    } else {
-      throw Exception("No user! Cant get data");
     }
   }
 
@@ -317,8 +320,35 @@ extension EndeavorsData on DataRepository {
         .update(endeavor.toData());
   }
 
-  void deleteEndeavor(Endeavor endeavor) {
-    // get doc ref
-    firestore?.collection('endeavors').doc(endeavor.id).delete();
+  Future<bool> deleteEndeavor(Endeavor endeavor) {
+    if (firestore == null) {
+      throw Exception("No user, dummy!");
+    }
+
+    return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+      // delete the reference to the endeavor if it is primary
+      if (endeavor.parentEndeavorId == null) {
+        final userDocData = (await transaction.get(firestore!)).data();
+        if (userDocData == null) {
+          throw Exception("this was not a primary endeavor!");
+        }
+        final primaryEndeavorIds = (userDocData['primaryEndeavorIds'] as List)
+            .map((e) => e as String)
+            .toList();
+        if (primaryEndeavorIds.remove(endeavor.id)) {
+          transaction
+              .update(firestore!, {'primaryEndeavorIds': primaryEndeavorIds});
+        } else {
+          throw Exception("this was not a primary endeavor!");
+        }
+      }
+
+      // delete the endeavor document itself
+      transaction.delete(firestore!.collection("endeavors").doc(endeavor.id));
+
+      return true;
+      // all other associated data will be cleaned up by a cloud function
+      // that responds when an endeavor is deleted
+    });
   }
 }

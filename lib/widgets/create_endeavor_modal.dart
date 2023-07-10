@@ -38,6 +38,7 @@ class CreateEndeavorModal extends StatelessWidget {
                 if (isValid != null && isValid) {
                   formKey.currentState?.save();
                   onAdd(text);
+                  Navigator.pop(context);
                 }
               },
               child: const Text("Add"),
