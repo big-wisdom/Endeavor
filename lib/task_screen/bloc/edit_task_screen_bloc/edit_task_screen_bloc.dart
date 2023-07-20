@@ -5,7 +5,7 @@ part 'edit_task_screen_event.dart';
 
 class EditTaskScreenBloc extends TaskScreenBloc {
   EditTaskScreenBloc(
-      {required DataRepository dataRepository, List<Endeavor>? treeOfLife})
+      {required DataRepository dataRepository, TreeOfLife? treeOfLife})
       : super(dataRepository: dataRepository, treeOfLife: treeOfLife) {
     on<TaskChangedByServer>(
       (event, emit) {

@@ -27,7 +27,7 @@ abstract class TaskForm extends Equatable with FormzMixin {
         title: title.value,
         divisible: divisible.value,
         duration: duration.value,
-        endeavorId: endeavor.value?.endeavorId,
+        endeavorId: endeavor.value?.id,
         minnimumSchedulingDuration: minnimumSchedulingDuration.value,
       );
     }

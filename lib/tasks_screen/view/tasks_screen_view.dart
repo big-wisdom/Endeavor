@@ -1,3 +1,4 @@
+import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/tasks_screen/bloc/tasks_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,17 +12,26 @@ class TasksScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TasksScreenBloc, TasksScreenState>(
       builder: (context, state) {
+        if (state is LoadingTasksScreenState) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        state as LoadedTasksScreenState;
         return ListView.separated(
-          itemCount: state.treeOfLife.length + state.tasksWithNoEndeavor.length,
+          itemCount: state.treeOfLife.primaryEndeavorNodes.length +
+              state.tasksWithNoEndeavor.length,
           itemBuilder: (context, index) {
-            if (index < state.treeOfLife.length) {
+            if (index < state.treeOfLife.primaryEndeavorNodes.length) {
               return EndeavorTaskList(
-                endeavor: state.treeOfLife[index],
+                endeavorNode: state.treeOfLife.primaryEndeavorNodes[index],
               );
             } else {
+              final task = state.tasksWithNoEndeavor[
+                  index - state.treeOfLife.primaryEndeavorNodes.length];
+              final ref = TaskReference(id: task.id!, title: task.title!);
               return TaskListTile(
-                task:
-                    state.tasksWithNoEndeavor[index - state.treeOfLife.length],
+                taskReference: ref,
                 key: UniqueKey(),
               );
             }

@@ -10,7 +10,7 @@ class EndeavorSelectionScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.read<EndeavorSelectionScreenCubit>().state;
-    if (state.endeavorTreeOfLife == null) {
+    if (state.treeOfLife == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -18,12 +18,14 @@ class EndeavorSelectionScreenView extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          Endeavor primaryEndeavor = state.endeavorTreeOfLife![index];
+          EndeavorNode primaryEndeavorNode =
+              state.treeOfLife!.primaryEndeavorNodes[index];
           return EndeavorSelectionTile(
-            endeavor: primaryEndeavor,
-            selected: state.endeavorInput.value == null
+            endeavorNode: primaryEndeavorNode,
+            selected: state.selectedEndeavorInput.value == null
                 ? false
-                : state.endeavorInput.value!.endeavorId == primaryEndeavor.id,
+                : state.selectedEndeavorInput.value!.id ==
+                    primaryEndeavorNode.endeavor.id,
           );
         },
         separatorBuilder: (context, index) {
@@ -31,7 +33,7 @@ class EndeavorSelectionScreenView extends StatelessWidget {
             thickness: 1,
           );
         },
-        itemCount: state.endeavorTreeOfLife!.length,
+        itemCount: state.treeOfLife!.primaryEndeavorNodes.length,
       ),
     );
   }

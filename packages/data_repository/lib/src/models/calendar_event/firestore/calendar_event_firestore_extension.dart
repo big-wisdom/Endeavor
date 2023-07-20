@@ -23,8 +23,8 @@ extension CalendarEventFirestoreExtension on CalendarEvent {
       repeatingCalendarEventId: repeatingCalendarEventId,
       endeavorReference: endeavorTitle != null
           ? EndeavorReference(
-              endeavorTitle: endeavorTitle,
-              endeavorId: endeavorId!,
+              title: endeavorTitle,
+              id: endeavorId!,
             )
           : null,
       id: id,
@@ -34,8 +34,8 @@ extension CalendarEventFirestoreExtension on CalendarEvent {
   Map<String, dynamic> toDocData() {
     return {
       "title": title,
-      "endeavorId": endeavorReference?.endeavorId,
-      "endeavorTitle": endeavorReference?.endeavorTitle,
+      "endeavorId": endeavorReference?.id,
+      "endeavorTitle": endeavorReference?.title,
       "repeatingCalendarEventId": repeatingCalendarEventId,
       "start": event.start,
       "end": event.end,

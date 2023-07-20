@@ -6,42 +6,26 @@ part 'tasks_screen_event.dart';
 part 'tasks_screen_state.dart';
 
 class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
-  final DataRepository _dataRepository;
-  TasksScreenBloc(this._dataRepository) : super(const TasksScreenInitial()) {
-    on<TreeOfLifeUpdatedByServer>((event, emit) {
-      emit(
-        TasksScreenState(
-          treeOfLife: event.newTreeOfLife,
-          tasksWithNoEndeavor: state.tasksWithNoEndeavor,
-        ),
-      );
-    });
-
-    on<EndeavorlessTasksUpdatedByServer>((event, emit) {
-      emit(
-        TasksScreenState(
-          treeOfLife: state.treeOfLife,
-          tasksWithNoEndeavor: event.newTasks,
-        ),
-      );
-    });
-
+  TasksScreenBloc(DataRepository dataRepository)
+      : super(LoadingTasksScreenState()) {
+    on<ServerUpdate>(
+      (event, emit) => emit(LoadedTasksScreenState(
+        treeOfLife: event.treeOfLife,
+        tasksWithNoEndeavor: event.endeavorlessTasks,
+      )),
+    );
     on<DeleteTask>(
-      (event, emit) => _dataRepository.deleteTask(event.task),
+      (event, emit) => dataRepository.deleteTask(event.taskReference),
     );
 
     on<PlanRequested>(
       (event, emit) {
-        _dataRepository.planEndeavor(event.endeavor);
+        dataRepository.planEndeavor(event.endeavor);
       },
     );
 
-    _dataRepository.tasksWithNoEndeavor.listen((newTasks) {
-      add(EndeavorlessTasksUpdatedByServer(newTasks));
-    });
-
-    _dataRepository.activeTreeOfLife().listen((newTree) {
-      add(TreeOfLifeUpdatedByServer(newTree));
+    dataRepository.tasksScreenStream().listen((event) {
+      add(ServerUpdate(treeOfLife: event.$1, endeavorlessTasks: event.$2));
     });
   }
 }

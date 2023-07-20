@@ -1,5 +1,5 @@
 import 'package:data_repository/data_repository.dart'
-    show Endeavor, EndeavorPickerRowInput;
+    show Endeavor, EndeavorPickerRowInput, TreeOfLife;
 import 'package:endeavor/endeavor_selection_screen/view/endeavor_selection_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class EndeavorPickerRow extends StatelessWidget {
   });
 
   final EndeavorPickerRowInput endeavorInput;
-  final List<Endeavor>? endeavorTreeOfLife;
+  final TreeOfLife? endeavorTreeOfLife;
   final void Function(Endeavor endeavor) onChanged;
 
   @override
@@ -26,14 +26,14 @@ class EndeavorPickerRow extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 return EndeavorSelectionScreen(
-                  endeavorTreeOfLife: endeavorTreeOfLife,
-                  endeavorInput: endeavorInput,
+                  treeOfLife: endeavorTreeOfLife,
+                  initiallySelectedEndeavorInput: endeavorInput,
                   onChanged: onChanged,
                 );
               },
             ),
           ),
-          child: Text(endeavorInput.value?.endeavorTitle ?? "Add Endeavor"),
+          child: Text(endeavorInput.value?.title ?? "Add Endeavor"),
         )
       ],
     );

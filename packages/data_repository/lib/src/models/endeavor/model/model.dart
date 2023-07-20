@@ -1,2 +1,2 @@
-export './endeavor.dart';
-export './endeavor_reference.dart';
+export 'endeavor.dart';
+export 'endeavor_reference.dart';

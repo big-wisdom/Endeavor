@@ -2,18 +2,18 @@ part of 'endeavor_selection_screen_cubit.dart';
 
 class EndeavorSelectionScreenState extends Equatable {
   const EndeavorSelectionScreenState({
-    required this.endeavorTreeOfLife,
-    required this.endeavorInput,
+    required this.treeOfLife,
+    required this.selectedEndeavorInput,
   });
 
-  final List<Endeavor>? endeavorTreeOfLife;
-  final EndeavorPickerRowInput endeavorInput;
+  final TreeOfLife? treeOfLife;
+  final EndeavorPickerRowInput selectedEndeavorInput;
 
   @override
-  List<Object?> get props => [endeavorTreeOfLife, endeavorInput];
+  List<Object?> get props => [treeOfLife, selectedEndeavorInput];
 }
 
 class EndeavorSelectionScreenInitial extends EndeavorSelectionScreenState {
   const EndeavorSelectionScreenInitial(
-      {required super.endeavorTreeOfLife, required super.endeavorInput});
+      {required super.treeOfLife, required super.selectedEndeavorInput});
 }

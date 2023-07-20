@@ -10,7 +10,7 @@ abstract class AbstractEndeavorBlock extends Equatable implements Scheduled {
   final EndeavorReference endeavorReference;
   final AbstractEvent abstractEvent;
 
-  String get title => endeavorReference.endeavorTitle;
+  String get title => endeavorReference.title;
 
   @override
   List<WeekViewEvent> get weekViewEvents => throw UnimplementedError();

@@ -122,7 +122,7 @@ class _DivisibilityCheckbox extends StatelessWidget {
           children: [
             const Text("Divisible:"),
             Checkbox(
-              value: state.divisible.value,
+              value: state.divisible.value ?? false,
               onChanged: (value) {
                 if (value != null) {
                   context

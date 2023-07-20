@@ -7,13 +7,13 @@ import 'package:endeavor/task_screen/task_screen.dart';
 class TaskScreen extends StatelessWidget {
   const TaskScreen._({required this.editing, this.treeOfLife});
 
-  final List<Endeavor>? treeOfLife;
+  final TreeOfLife? treeOfLife;
 
   factory TaskScreen.create() {
     return const TaskScreen._(editing: false);
   }
 
-  factory TaskScreen.edit(List<Endeavor>? treeOfLife) {
+  factory TaskScreen.edit(TreeOfLife? treeOfLife) {
     return TaskScreen._(
       editing: true,
       treeOfLife: treeOfLife,

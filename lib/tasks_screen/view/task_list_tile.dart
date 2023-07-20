@@ -1,13 +1,13 @@
 import 'package:endeavor/task_screen/task_screen.dart';
 import 'package:endeavor/tasks_screen/bloc/tasks_screen_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:data_repository/data_repository.dart' show Task;
+import 'package:data_repository/data_repository.dart' show TaskReference;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskListTile extends StatefulWidget {
-  const TaskListTile({required this.task, super.key});
+  const TaskListTile({required this.taskReference, super.key});
 
-  final Task task;
+  final TaskReference taskReference;
 
   @override
   State<TaskListTile> createState() => _TaskListTileState();
@@ -23,16 +23,17 @@ class _TaskListTileState extends State<TaskListTile> {
     return Dismissible(
       key: widget.key!,
       onDismissed: (direction) {
-        bloc.add(DeleteTask(widget.task));
+        bloc.add(DeleteTask(widget.taskReference));
       },
       child: ListTile(
         key: widget.key!,
-        title: Text(widget.task.title!),
+        title: Text(widget.taskReference.title),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return TaskScreen.edit(bloc.state.treeOfLife);
+                return TaskScreen.edit(
+                    (bloc.state as LoadedTasksScreenState).treeOfLife);
               },
             ),
           );
@@ -46,7 +47,7 @@ class _TaskListTileState extends State<TaskListTile> {
             setState(() {
               checked = !checked;
               Future.delayed(const Duration(milliseconds: 500)).then((value) {
-                bloc.add(DeleteTask(widget.task));
+                bloc.add(DeleteTask(widget.taskReference));
               });
             });
           },

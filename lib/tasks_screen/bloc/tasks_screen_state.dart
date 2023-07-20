@@ -1,18 +1,22 @@
 part of 'tasks_screen_bloc.dart';
 
-class TasksScreenState extends Equatable {
-  const TasksScreenState({
+abstract class TasksScreenState {
+  const TasksScreenState();
+}
+
+class LoadingTasksScreenState extends Equatable implements TasksScreenState {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadedTasksScreenState extends Equatable implements TasksScreenState {
+  const LoadedTasksScreenState({
     required this.treeOfLife,
     required this.tasksWithNoEndeavor,
   });
-  final List<Endeavor> treeOfLife;
+  final TreeOfLife treeOfLife;
   final List<Task> tasksWithNoEndeavor;
 
   @override
   List<Object> get props => [treeOfLife, tasksWithNoEndeavor];
-}
-
-class TasksScreenInitial extends TasksScreenState {
-  const TasksScreenInitial()
-      : super(treeOfLife: const [], tasksWithNoEndeavor: const []);
 }
