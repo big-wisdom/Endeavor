@@ -57,6 +57,6 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
   }
 
   void addPrimaryEndeavor(String title) {
-    _dataRepository.createPrimaryEndeavor(Endeavor(title: title));
+    _dataRepository.createPrimaryEndeavor(title);
   }
 }

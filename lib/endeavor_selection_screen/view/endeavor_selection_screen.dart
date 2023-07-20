@@ -6,14 +6,14 @@ import '../cubit/endeavor_selection_screen_cubit.dart';
 
 class EndeavorSelectionScreen extends StatelessWidget {
   const EndeavorSelectionScreen({
-    this.endeavorTreeOfLife,
-    required this.endeavorInput,
+    this.treeOfLife,
+    required this.initiallySelectedEndeavorInput,
     required this.onChanged,
     super.key,
   });
 
-  final List<Endeavor>? endeavorTreeOfLife;
-  final EndeavorPickerRowInput endeavorInput;
+  final TreeOfLife? treeOfLife;
+  final EndeavorPickerRowInput initiallySelectedEndeavorInput;
   final void Function(Endeavor) onChanged;
 
   @override
@@ -21,8 +21,8 @@ class EndeavorSelectionScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => EndeavorSelectionScreenCubit(
         dataRepository: context.read<DataRepository>(),
-        endeavorTreeOfLife: endeavorTreeOfLife,
-        endeavorInput: endeavorInput,
+        treeOfLife: treeOfLife,
+        initiallySelectedEndeavorInput: initiallySelectedEndeavorInput,
         onChanged: onChanged,
       ),
       child: const EndeavorSelectionScreenView(),

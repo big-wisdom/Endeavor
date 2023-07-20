@@ -32,7 +32,7 @@ Back End: Firebase
 * I kinda like the idea of a progressive tool. One that can be used for the simplest use case. In this case just a to-do list and you can add in whatever fancy features you want for the given task.
 * The opposing point of view is making a super powerful tool that you have to LEARN learn like the Adobe applications.
 * Maybe instead of flows like turbotax, I could use the photoshop model of a giant array of tools
-
+* There's an interesting tension when you want to structure an object a different way than you want to store it. The tree of life for example. I'm storing it flat, but it's really a graph
 
 ## Task Brainstorming
 * In physics there's this concept of de-dimensionalizing. Or rather, usefulizing units. You could understand your time in units of time/rent-payment by dividing time up into units of amount of time you have to work to pay for rent. Then a useless number, like an "8-hour" shift becomes a useful number. Like if rent is $700 and you make $13/hour, then 54 hours is one rent payment. So your shift is about 1/7th of a rent payment. Or if a meal is $20, then an 8-hour shift is a 5-meal shift which is an "eat for almost two days" shift. You could even average how much you spend per day from your budget and measure how much you make compared to that. You could make a unit that is (% of monthly expenses), like if you spend $1200/month, your % unit would be $12. Then an 8 hour shift would be about an 8% shift.
@@ -116,15 +116,48 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* The EndeavorsScreen is now up and running, time to fix it up
-  * creation of primary endeavors DONE
-  * Deletion of primary endeavors is not deleting the settings
-    * Where do I do the deleting? DONE
-      * I just delete the endeavor document straight up, then I must do the rest on the cloud function front. That's where I will include deleting the settings
-    * Time to get the firestore emulator up and running again DONE
-    * Now the primaryEndeavorsStream is erroring as the document is deleted before the document ID is from the primaryEndeavorIds
-      * build a transaction in the data service to delete both the reference to the primary endeavor and the primary endeavor itself at the same time 
-      * restore the cloud function that reacts to the delete
-      * Make sure that it deletes the Tasks DONE, calendarEvents NOT DONE, EndeavorBlocks DONE, and Settings DONE associated because they aren't at risk of being called quickly
+* refactor Endeavor model <---------
+  * shit. I was working on this to-do-list when I realized, that I don't even need an UnidentifiedEndeavor object because when I create, I just get a name from a modal and create the object.
+    * just abstract between an Endeavor and an UnidentifiedEndeavor DONE
+    * create endeavor form DONE
+    * Implement the endeavor screen correctly
+      * Okay now the screen and the form are meeting in the middle and I'm realizing that the form needs a list of actual Endeavor objects not id's and same with tasks.
+  * Now I need to pare back my refactor DONE
+  * Thought: I already have a lightweight version of the Endeavor, it's called the EndeavorReference, and I already have a DataRepository method to get the whole tree of life that I should run at the EndeavorsScreen, then make the EndeavorModel take only a "List<Endeavor> subEndeavors" rather than a list of ids too.
+  * refactor so that an Endeavor has property "List<Endeavor> subEndeavors" only, rather than maintaining a "List<String> ids" and a "List<Endeavor>?" DONE
+  * Refactor the EndeavorsScreen to use the treeOfLife stream (ordered by the user doc primaryEndeavorIds property)
+    * Writting the treeOfLifeStream endpoint on the DataRepository
+      * I just commented out a bunch of other DataRepository methods that now seem obselete, now to remove all compile time errors and see if that was bad
+  * Refactor the EditEndeavorScreen
+    * rename the folder and files to represent the "edit" component DONE
+    * refactor to account for the fact that the Endeavor should come whole with all the data it needs now.
+      * I think this page should now just be entirely rebuilt everytime the treeOfLifeStream emits another value which should simplify a lot.
+      * Now to handle the settings page
+        * Does the Endeavor object store settings? I forgot
+        * I'm thinking now that settings should be integrated into the endeavor itself even on the backend. I think separating them is going to be more of a headache than it's worth. I'm not going to try prematurely optimizing. Time to make some changes.
+    * a couple things might be unimplemented but I want to get it running again before I implement them. DONE
+      * part of getting it running is getting the colors in the calendar view DONE
+        * create an "EndeavorDatabaseDocument" which is much skinnier and just contains what is stored in each endeavors database document, a stream of these can be grabbed and the color can be strained out. DONE
+    * First unimplemented thing, createSubEndeavor
+      * This is making me realize that I made a mistake earlier. line 134 actually. The endeavor screen will in fact not rebuild when the endeavor tree rebuilds and now I'm thinking that 
+
+
+* refactor Endeavor model attempt #2
+  * The Endeavor model should really only have "List<EndeavorReference> subEndeavors" rather than "List<Endeavor> subEndeavors". Then the EditEndeavorScreen and the EndeavorsScreen can have seperate data streams and they should react appropriately.
+    * I will need to fix the DataRepository accordingly DONE
+      * This is calling for a TaskReference object as well
+    * fixing the EndeavorsScreen DONE
+    * Fixing the EditEndeavorScreen DONE
+      * I think this will necessitate a loading screen DONE
+      * I will need to implement a deleteEndeavorFromReference data method that gets the endeavor doc before deleting it DONE
+    * Fix the EndeavorSelectionScreen DONE
+      * I've hit a snag where the EndeavorSelectionScreen wants a tree of life structure, but I've destroyed that possibility by making each endeavor only hold references to other endeavors which can therefore never have subEndeavors of their own
+      * One way out is to create a tree of life structure along side a node structure for it where each node contains an Endeavor and a "List<Endeavor> subEndeavors" property
+        * I ended up doing this
+    * Fix the TasksScreen DONE
+
+* Everywhere it says "subEndeavorIds" I will need to change to references, this includes the cloud functions
+
+
 
 * Rework Task model to include repeating tasks

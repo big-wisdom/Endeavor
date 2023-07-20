@@ -2,31 +2,35 @@ part of 'tasks_screen_bloc.dart';
 
 abstract class TasksScreenEvent extends Equatable {
   const TasksScreenEvent();
+}
+
+class ServerUpdate extends TasksScreenEvent {
+  const ServerUpdate({
+    required this.treeOfLife,
+    required this.endeavorlessTasks,
+  });
+
+  final TreeOfLife treeOfLife;
+  final List<Task> endeavorlessTasks;
 
   @override
-  List<Object> get props => [];
-}
-
-class TreeOfLifeUpdatedByServer extends TasksScreenEvent {
-  const TreeOfLifeUpdatedByServer(this.newTreeOfLife);
-
-  final List<Endeavor> newTreeOfLife;
-}
-
-class EndeavorlessTasksUpdatedByServer extends TasksScreenEvent {
-  const EndeavorlessTasksUpdatedByServer(this.newTasks);
-
-  final List<Task> newTasks;
+  List<Object?> get props => [treeOfLife, endeavorlessTasks];
 }
 
 class DeleteTask extends TasksScreenEvent {
-  const DeleteTask(this.task);
+  const DeleteTask(this.taskReference);
 
-  final Task task;
+  final TaskReference taskReference;
+
+  @override
+  List<Object?> get props => [taskReference];
 }
 
 class PlanRequested extends TasksScreenEvent {
   const PlanRequested(this.endeavor);
 
   final Endeavor endeavor;
+
+  @override
+  List<Object?> get props => [endeavor];
 }

@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'task_list_tile.dart';
 
 class EndeavorTaskList extends StatefulWidget {
-  const EndeavorTaskList({required this.endeavor, super.key});
+  const EndeavorTaskList({required this.endeavorNode, super.key});
 
-  final Endeavor endeavor;
+  final EndeavorNode endeavorNode;
 
   @override
   State<EndeavorTaskList> createState() => _EndeavorTaskListState();
@@ -18,31 +18,33 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
   Widget build(BuildContext context) {
     return ExpansionTile(
       initiallyExpanded: true,
-      title: Text(widget.endeavor.title!),
+      title: Text(widget.endeavorNode.endeavor.title),
       trailing: TextButton(
-        onPressed: () =>
-            context.read<TasksScreenBloc>().add(PlanRequested(widget.endeavor)),
+        onPressed: () => context
+            .read<TasksScreenBloc>()
+            .add(PlanRequested(widget.endeavorNode.endeavor)),
         child: const Text("Plan"),
       ),
       controlAffinity: ListTileControlAffinity.leading,
       children: [
         // subendeavors
-        if (widget.endeavor.subEndeavors != null)
-          ListView.builder(
-            itemCount: widget.endeavor.subEndeavors!.length,
-            itemBuilder: (context, index) {
-              return EndeavorTaskList(
-                  endeavor: widget.endeavor.subEndeavors![index]);
-            },
-          ),
+        ListView.builder(
+          itemCount: widget.endeavorNode.endeavor.subEndeavorReferences.length,
+          itemBuilder: (context, index) {
+            return EndeavorTaskList(
+              endeavorNode: widget.endeavorNode.subEndeavors[index],
+            );
+          },
+        ),
         // tasks
-        if (widget.endeavor.tasks != null)
-          ListView.builder(
-            itemCount: widget.endeavor.tasks!.length,
-            itemBuilder: (context, index) {
-              return TaskListTile(task: widget.endeavor.tasks![index]);
-            },
-          ),
+        ListView.builder(
+          itemCount: widget.endeavorNode.endeavor.taskReferences.length,
+          itemBuilder: (context, index) {
+            return TaskListTile(
+                taskReference:
+                    widget.endeavorNode.endeavor.taskReferences[index]);
+          },
+        ),
       ],
     );
   }

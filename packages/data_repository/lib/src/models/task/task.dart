@@ -1,4 +1,5 @@
 export 'model/task.dart';
+export 'model/task_reference.dart';
 export 'firestore/task_firestore_extension.dart';
 export 'formz/task_form.dart';
 export 'formz/divisibilityBox.dart';

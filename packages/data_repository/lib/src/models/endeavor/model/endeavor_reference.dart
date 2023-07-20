@@ -2,25 +2,25 @@ import 'package:equatable/equatable.dart';
 
 class EndeavorReference extends Equatable {
   const EndeavorReference({
-    required this.endeavorTitle,
-    required this.endeavorId,
+    required this.title,
+    required this.id,
   });
 
-  final String endeavorTitle;
-  final String endeavorId;
+  final String title;
+  final String id;
 
   EndeavorReference copyWithNewTitle({
     required String newEndeavorTitle,
   }) {
     return EndeavorReference(
-      endeavorTitle: newEndeavorTitle,
-      endeavorId: endeavorId,
+      title: newEndeavorTitle,
+      id: id,
     );
   }
 
   @override
   List<Object?> get props => [
-        endeavorTitle,
-        endeavorId,
+        title,
+        id,
       ];
 }

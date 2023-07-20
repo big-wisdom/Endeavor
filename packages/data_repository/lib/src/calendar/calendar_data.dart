@@ -19,8 +19,8 @@ extension CalendarData on DataRepository {
 
     // merge streams
     return CombineLatestStream.combine4(
-      allEndeavorSettingsStream()
-          .transform(EndeavorSettings.transformListToMap),
+      allEndeavorsStream().transform(EndeavorDatabaseDocumentFirestoreExtension
+          .listOfDatabaseDocToMapTransformer),
       endeavorBlocksStream.transform(
           EndeavorBlockFirestoreExtension.endeavorBlockListTransformer),
       taskStream.transform(TaskFirestoreExtension.taskListTransformer),
@@ -31,7 +31,7 @@ extension CalendarData on DataRepository {
   }
 
   List<WeekViewEvent> _listWeekViewEvents(
-    Map<String, EndeavorSettings> endeavorSettings,
+    Map<String, EndeavorDatabaseDocument> endeavorDatabaseDocuments,
     List<EndeavorBlock> endeavorBlocks,
     List<Task> tasks,
     List<CalendarEvent> calendarEvents,
@@ -43,8 +43,8 @@ extension CalendarData on DataRepository {
             (e) => WeekViewEvent.fromEndeavorBlock(
               endeavorBlock: e,
               backgroundColor:
-                  endeavorSettings[e.endeavorReference.endeavorId]?.color,
-              title: endeavorSettings[e.endeavorReference.endeavorId]!.title!,
+                  endeavorDatabaseDocuments[e.endeavorReference.id]?.color,
+              title: endeavorDatabaseDocuments[e.endeavorReference.id]!.title,
             ),
           )
           .toList(),
@@ -54,7 +54,7 @@ extension CalendarData on DataRepository {
       weekViewEvents.addAll(
         WeekViewEvent.listFromTask(
           task: task,
-          backgroundColor: endeavorSettings[task.endeavorId]?.color,
+          backgroundColor: endeavorDatabaseDocuments[task.endeavorId]?.color,
         ),
       );
     }
@@ -63,8 +63,8 @@ extension CalendarData on DataRepository {
       calendarEvents
           .map((calendarEvent) => WeekViewEvent.fromCalendarEvent(
                 calendarEvent: calendarEvent,
-                backgroundColor: endeavorSettings[
-                        calendarEvent.endeavorReference?.endeavorId]
+                backgroundColor: endeavorDatabaseDocuments[
+                        calendarEvent.endeavorReference?.id]
                     ?.color,
               ))
           .toList(),

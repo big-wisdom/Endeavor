@@ -1,72 +1,120 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 extension EndeavorsData on DataRepository {
-  Future<List<Endeavor>> getEndeavorsTreeOfLife() async {
+  Stream<List<String>> _orderedPrimaryEndeavorIdsStream() {
+    if (firestore == null) throw Exception("No user dogg");
+    return firestore!.snapshots().map<List<String>>(
+      (userDocSnap) {
+        final docSnapData = userDocSnap.data();
+        if (docSnapData != null && docSnapData['primaryEndeavorIds'] != null) {
+          return (docSnapData['primaryEndeavorIds'] as List)
+              .map((e) => e as String)
+              .toList();
+        }
+        return [];
+      },
+    );
+  }
+
+  Stream<TreeOfLife> treeOfLifeStream() {
+    if (firestore == null) throw Exception("No user, don't call this yo");
+
+    return CombineLatestStream.combine2(
+      _orderedPrimaryEndeavorIdsStream(),
+      firestore!
+          .collection('endeavors')
+          .snapshots()
+          .transform(EndeavorFirestoreExtension.querySnapToEndeavorTransformer),
+      (
+        orderedPrimaryEndeavorIds,
+        endeavors,
+      ) =>
+          _createTreeOfLife(orderedPrimaryEndeavorIds, endeavors),
+    );
+  }
+
+  TreeOfLife _createTreeOfLife(
+    List<String> orderedPrimaryEndeavorIds,
+    List<Endeavor> endeavors,
+  ) {
+    if (firestore == null) throw Exception("No user silly");
+
+    return TreeOfLife.fromEndeavorsList(orderedPrimaryEndeavorIds, endeavors);
+  }
+
+  // List<Endeavor> _createTreeOfLife(
+  //   List<String> orderedPrimaryEndeavorIds,
+  //   List<Task> tasks,
+  //   List<QueryDocumentSnapshot<Map<String, dynamic>>> endeavorDocSnapList,
+  // ) {
+
+  //   // call recursive subtree function on each primary endeavor
+  //   final List<Endeavor> treeOfLife = [];
+  //   for (final e in primaryEndeavorDocSnaps) {
+  //     treeOfLife.add(
+  //       _getSubtreeFromDocSnapData(
+  //         e,
+  //         parentEndeavorIdToData,
+  //         endeavorIdToTask,
+  //       ),
+  //     );
+  //   }
+
+  //   // order primary endeavors from orderedPrimaryEndeavorIds
+  //   // Note: this will just pile up any not in the orderedPrimaryEndeavorIds
+  //   // at the end. I may want to remove them if that becomes a problem
+  //   treeOfLife.sort((e1, e2) {
+  //     final index1 = orderedPrimaryEndeavorIds.indexOf(e1.id);
+  //     final index2 = orderedPrimaryEndeavorIds.indexOf(e2.id);
+
+  //     if (index1 == -1 && index2 == -1) {
+  //       return 0;
+  //     } else if (index1 == -1) {
+  //       return 1;
+  //     } else if (index2 == -1) {
+  //       return -1;
+  //     } else {
+  //       return index1.compareTo(index2);
+  //     }
+  //   });
+
+  //   return treeOfLife;
+  // }
+
+  // recursively build the tree of life from some sorted data
+  // Endeavor _getSubtreeFromDocSnapData(
+  //   QueryDocumentSnapshot<Map<String, dynamic>> docSnap,
+  //   Map<String, List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+  //       parentIdToData,
+  //   Map<String, List<Task>> endeavorIdToTask,
+  // ) {
+  //   final docSnapData = docSnap.data();
+  //   return Endeavor(
+  //     id: docSnap.id,
+  //     title: docSnapData['title'],
+  //     subEndeavors: parentIdToData[docSnap.id]
+  //             ?.map(
+  //               (subDocSnap) => _getSubtreeFromDocSnapData(
+  //                 subDocSnap,
+  //                 parentIdToData,
+  //                 endeavorIdToTask,
+  //               ),
+  //             )
+  //             .toList() ??
+  //         [],
+  //     tasks: endeavorIdToTask[docSnap.id] ?? [],
+  //     color: docSnapData['color'],
+  //   );
+  // }
+
+  Future<TreeOfLife> getEndeavorsTreeOfLife() async {
     if (firestore == null)
       throw Exception("Don't even try this without a user ,homie");
 
-    final endeavors = (await firestore!.collection('endeavors').get())
-        .docs
-        .map(
-          (e) => Endeavor.fromDocData(id: e.id, data: e.data()),
-        )
-        .toList();
-
-    final List<Endeavor> endeavorsTreeOfLife = [];
-
-    // sort endeavors by parent endeavor (if none, add to working tree of life)
-    Map<String, List<Endeavor>> parentIdToSubEndeavors = {};
-    Map<String, Endeavor> idToEndeavor = {};
-    for (final e in endeavors) {
-      if (e.parentEndeavorId == null) {
-        endeavorsTreeOfLife.add(e);
-      } else {
-        idToEndeavor[e.id!] = e;
-        if (parentIdToSubEndeavors[e.parentEndeavorId] == null) {
-          parentIdToSubEndeavors[e.parentEndeavorId!] = [e];
-        } else {
-          parentIdToSubEndeavors[e.parentEndeavorId]!.add(e);
-        }
-      }
-    }
-
-    // construct tree from what's in the list
-    List<Endeavor> resultEndeavorsTreeOfLife = [];
-    for (final e in endeavorsTreeOfLife) {
-      resultEndeavorsTreeOfLife.add(
-        _recurseBuildTree(
-          e,
-          parentIdToSubEndeavors,
-          idToEndeavor,
-        ),
-      );
-    }
-
-    return endeavorsTreeOfLife;
-  }
-
-  Endeavor _recurseBuildTree(
-    Endeavor e,
-    Map<String, List<Endeavor>> parentIdToSubEndeavors,
-    Map<String, Endeavor> idToEndeavor,
-  ) {
-    // no child endeavors
-    if (parentIdToSubEndeavors[e.id] == null) {
-      return e;
-    } else {
-      return e.copyWith(
-          subEndeavors: e.subEndeavorIds!
-              .map(
-                (e) => _recurseBuildTree(
-                  idToEndeavor[e]!,
-                  parentIdToSubEndeavors,
-                  idToEndeavor,
-                ),
-              )
-              .toList());
-    }
+    return treeOfLifeStream().first;
   }
 
   void planEndeavor(Endeavor endeavor) async {
@@ -86,48 +134,71 @@ extension EndeavorsData on DataRepository {
     throw UnimplementedError();
   }
 
-  Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
-    if (firestore == null) throw Exception("No user?! Unthinkable!");
+  // Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
+  //   if (firestore == null) throw Exception("No user?! Unthinkable!");
 
-    // query tasks for tasks with id in endeavor task ids
-    final tasks = (await firestore!
-            .collection('tasks')
-            .where(FieldPath.documentId, arrayContains: endeavor.taskIds)
-            .get())
-        .docs
-        .map((docSnap) =>
-            TaskFirestoreExtension.fromDocData(docSnap.id, docSnap.data()))
-        .toList();
+  //   // query tasks for tasks with id in endeavor task ids
+  //   final tasks = (await firestore!
+  //           .collection('tasks')
+  //           .where(FieldPath.documentId, arrayContains: endeavor.taskIds)
+  //           .get())
+  //       .docs
+  //       .map((docSnap) =>
+  //           TaskFirestoreExtension.fromDocData(docSnap.id, docSnap.data()))
+  //       .toList();
 
-    // sort tasks to be in the same order as the the task ids
-    tasks.sort((a, b) => endeavor.taskIds!
-        .indexOf(a.id!)
-        .compareTo(endeavor.taskIds!.indexOf(b.id!)));
+  //   // sort tasks to be in the same order as the the task ids
+  //   tasks.sort((a, b) => endeavor.taskIds!
+  //       .indexOf(a.id!)
+  //       .compareTo(endeavor.taskIds!.indexOf(b.id!)));
 
-    return tasks;
+  //   return tasks;
+  // }
+
+  Stream<Endeavor> endeavorStreamFromReference(
+    EndeavorReference endeavorReference,
+  ) {
+    if (firestore == null) throw Exception("There's no user bruh");
+
+    return firestore!
+        .collection('endeavors')
+        .doc(endeavorReference.id)
+        .snapshots()
+        .transform(EndeavorFirestoreExtension.docSnapToEndeavorTransformer);
   }
 
-  void deleteTask(Task task) {
+  Stream<List<Endeavor>> primaryEndeavorStream() {
+    if (firestore == null) throw Exception("No user bruh");
+
+    return firestore!
+        .collection('endeavors')
+        .snapshots()
+        .transform<List<Endeavor>>(
+          EndeavorFirestoreExtension.querySnapToPrimaryEndeavorsTransformer,
+        );
+  }
+
+  void deleteTask(TaskReference taskReference) {
     if (firestore == null)
       throw Exception("No shoes, no shirt, no user, no service.");
 
     // Delete task document
-    firestore!.collection('tasks').doc(task.id).delete();
+    firestore!.collection('tasks').doc(taskReference.id).delete();
 
     // Delete task from endeavor list if necessary
-    if (task.endeavorId != null) {
+    if (taskReference.endeavorId != null) {
       FirebaseFirestore.instance.runTransaction(
         (t) async {
           // get endeavor document
-          final endeavorDoc = await t
-              .get(firestore!.collection('endeavors').doc(task.endeavorId));
+          final endeavorDoc = await t.get(
+              firestore!.collection('endeavors').doc(taskReference.endeavorId));
           // get current list
           final currentList = (endeavorDoc.data()!['taskIds'] as List)
               .map((taskId) => taskId as String)
               .toList(); // doc should have data
 
           // remove this tasks id from the list
-          currentList.remove(task.id);
+          currentList.remove(taskReference.id);
 
           // update the list
           t.update(endeavorDoc.reference, {"taskIds": currentList});
@@ -160,129 +231,137 @@ extension EndeavorsData on DataRepository {
         .update({'taskIds': taskIds});
   }
 
-  Stream<List<Endeavor>> subEndeavorStream(Endeavor endeavor) {
-    if (firestore == null) {
-      throw Exception("No user!?");
-    }
+  Stream<List<EndeavorDatabaseDocument>> allEndeavorsStream() {
+    if (firestore == null) throw Exception("No user user user user user");
 
-    return firestore!
-        .collection('endeavors')
-        .where('parentEndeavorId', isEqualTo: endeavor.id)
-        .snapshots()
-        .map(
-          (querySnap) => querySnap.docs
-              .map(
-                (docSnap) => Endeavor.fromDocData(
-                  id: endeavor.id!,
-                  data: docSnap.data(),
-                ),
-              )
-              .toList(),
+    return firestore!.collection('endeavors').snapshots().transform(
+        EndeavorDatabaseDocumentFirestoreExtension
+            .endeavorDatabaseDocumentTransformer);
+  }
+
+  // Stream<List<Endeavor>> subEndeavorStream(Endeavor endeavor) {
+  //   if (firestore == null) {
+  //     throw Exception("No user!?");
+  //   }
+
+  //   return firestore!
+  //       .collection('endeavors')
+  //       .where('parentEndeavorId', isEqualTo: endeavor.id)
+  //       .snapshots()
+  //       .map(
+  //         (querySnap) => querySnap.docs
+  //             .map(
+  //               (docSnap) => EndeavorFirestoreExtension.fromDocData(
+  //                 id: endeavor.id,
+  //                 data: docSnap.data(),
+  //               ),
+  //             )
+  //             .toList(),
+  //       );
+  // }
+
+  // Stream<Endeavor> endeavorStream(Endeavor endeavor) {
+  //   if (firestore != null) {
+  //     return firestore!
+  //         .collection('endeavors')
+  //         .doc(endeavor.id)
+  //         .snapshots()
+  //         .map((docSnap) {
+  //       if (docSnap.data() != null) {
+  //         return EndeavorFirestoreExtension.fromDocData(
+  //             id: docSnap.id, data: docSnap.data()!);
+  //       } else {
+  //         throw Exception("No Data!");
+  //       }
+  //     });
+  //   } else {
+  //     throw Exception("No user! Can't get data");
+  //   }
+  // }
+
+  // Stream<List<Endeavor>> primaryEndeavorStream() async* {
+  //   if (firestore == null) {
+  //     throw Exception("No user dawg! go get one then we will talk");
+  //   }
+
+  //   final userDocStream = firestore!.snapshots();
+  //   await for (var doc in userDocStream) {
+  //     final docData = doc.data()?['primaryEndeavorIds'];
+  //     if (docData != null) {
+  //       final primaryEndeavorIds = (docData as List).map((e) => e as String);
+  //       if (primaryEndeavorIds.isNotEmpty) {
+  //         final querySnap = await firestore!
+  //             .collection('endeavors')
+  //             .where(FieldPath.documentId, whereIn: primaryEndeavorIds)
+  //             .get();
+  //         yield querySnap.docs
+  //             .map((endeavorDocSnap) => EndeavorFirestoreExtension.fromDocData(
+  //                 id: endeavorDocSnap.id, data: endeavorDocSnap.data()))
+  //             .toList();
+  //       } else {
+  //         yield [];
+  //       }
+  //     } else {
+  //       yield [];
+  //     }
+  //   }
+  // }
+
+  void addSubEndeavor({
+    required Endeavor parentEndeavor,
+    required String endeavorTitle,
+  }) async {
+    if (firestore == null)
+      throw Exception("no use dummy. Dumby? Dummby?. No user idiot!");
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      // get parent document data
+      final parentDocSnapData = (await transaction
+              .get(firestore!.collection('endeavors').doc(parentEndeavor.id)))
+          .data();
+      // create new endeavor doc
+      final newEndeavorDoc = firestore!.collection('endeavors').doc();
+      transaction.set(newEndeavorDoc, {
+        "title": endeavorTitle,
+        "parentEndeavorId": parentEndeavor.id,
+      });
+      // create reference to new endeavor doc in parent doc
+      if (parentDocSnapData != null) {
+        var subEndeavorsIdList;
+        if (parentDocSnapData['subEndeavorReferences'] == null) {
+          subEndeavorsIdList = [
+            {
+              "id": newEndeavorDoc.id,
+              "title": endeavorTitle,
+            }
+          ];
+        } else {
+          subEndeavorsIdList =
+              (parentDocSnapData['subEndeavorReferences'] as List)
+                  .map((e) => e as Map<String, dynamic>)
+                  .toList();
+          subEndeavorsIdList.add({
+            "id": newEndeavorDoc.id,
+            "title": endeavorTitle,
+          });
+        }
+        transaction.update(
+          firestore!.collection('endeavors').doc(parentEndeavor.id),
+          {'subEndeavorReferences': subEndeavorsIdList},
         );
-  }
-
-  void changeSettings(EndeavorSettings newSettings, String endeavorId) {
-    if (firestore != null) {
-      firestore!
-          .collection('settings')
-          .doc(endeavorId)
-          .update(newSettings.toData());
-    } else {
-      throw Exception("No User! Cant change settings if there's no user");
-    }
-  }
-
-  Stream<EndeavorSettings> endeavorSettingsStream(Endeavor endeavor) {
-    if (firestore != null) {
-      return firestore!
-          .collection('settings')
-          .doc(endeavor.id)
-          .snapshots()
-          .map<EndeavorSettings>((docSnap) {
-        if (docSnap.data() != null) {
-          return EndeavorSettings.fromDocSnapData(
-              data: docSnap.data()!, id: docSnap.id);
-        } else {
-          throw Exception("this settings doc has no data");
-        }
-      });
-    } else {
-      throw Exception("No user! Can't get data without a user ya silly goose!");
-    }
-  }
-
-  Stream<List<EndeavorSettings>> allEndeavorSettingsStream() {
-    if (firestore != null) {
-      return firestore!.collection('settings').snapshots().map((querysnap) {
-        List<EndeavorSettings> settingsList = [];
-        for (final doc in querysnap.docs) {
-          settingsList.add(
-            EndeavorSettings.fromDocSnapData(
-              id: doc.id,
-              data: doc.data(),
-            ),
-          );
-        }
-        return settingsList;
-      });
-    } else {
-      throw Exception("No user! Can't get data without a user ya silly goose!");
-    }
-  }
-
-  Stream<Endeavor> endeavorStream(Endeavor endeavor) {
-    if (firestore != null) {
-      return firestore!
-          .collection('endeavors')
-          .doc(endeavor.id)
-          .snapshots()
-          .map((docSnap) {
-        if (docSnap.data() != null) {
-          return Endeavor.fromDocData(id: docSnap.id, data: docSnap.data()!);
-        } else {
-          throw Exception("No Data!");
-        }
-      });
-    } else {
-      throw Exception("No user! Can't get data");
-    }
-  }
-
-  Stream<List<Endeavor>> primaryEndeavorStream() async* {
-    if (firestore == null) {
-      throw Exception("No user dawg! go get one then we will talk");
-    }
-
-    final userDocStream = firestore!.snapshots();
-    await for (var doc in userDocStream) {
-      final docData = doc.data()?['primaryEndeavorIds'];
-      if (docData != null) {
-        final primaryEndeavorIds = (docData as List).map((e) => e as String);
-        if (primaryEndeavorIds.isNotEmpty) {
-          final querySnap = await firestore!
-              .collection('endeavors')
-              .where(FieldPath.documentId, whereIn: primaryEndeavorIds)
-              .get();
-          yield querySnap.docs
-              .map((endeavorDocSnap) => Endeavor.fromDocData(
-                  id: endeavorDocSnap.id, data: endeavorDocSnap.data()))
-              .toList();
-        } else {
-          yield [];
-        }
       } else {
-        yield [];
+        throw Exception("provlem with the document");
       }
-    }
+    });
   }
 
-  void createPrimaryEndeavor(Endeavor endeavor) async {
+  void createPrimaryEndeavor(String endeavorTitle) async {
     if (firestore == null) {
       throw Exception("No user! Can't create endeavor.");
     }
     // Create endeavor document
     final endeavorDocRef =
-        await firestore!.collection("endeavors").add(endeavor.toData());
+        await firestore!.collection("endeavors").add({'title': endeavorTitle});
     await firestore!.collection('settings').doc(endeavorDocRef.id).set({});
 
     /// Reference it under primary endeavors in the user doc
@@ -320,7 +399,14 @@ extension EndeavorsData on DataRepository {
         .update(endeavor.toData());
   }
 
-  Future<bool> deleteEndeavor(Endeavor endeavor) {
+  void deleteSubEndeavorFromReference(EndeavorReference endeavorReference) {
+    if (firestore == null) throw Exception("User is empty empty empty");
+
+    // delete the document itself, and the cloud functions will pick up the rest
+    firestore!.collection('endeavors').doc(endeavorReference.id).delete();
+  }
+
+  Future<bool> deletePrimaryEndeavor(Endeavor endeavor) {
     if (firestore == null) {
       throw Exception("No user, dummy!");
     }
@@ -341,6 +427,10 @@ extension EndeavorsData on DataRepository {
         } else {
           throw Exception("this was not a primary endeavor!");
         }
+      } else {
+        throw Exception(
+          "This is a non-primary endeavor. This function is constrained by name to primary endeavors",
+        );
       }
 
       // delete the endeavor document itself

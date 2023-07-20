@@ -15,7 +15,7 @@ class TaskScreenState extends TaskForm {
   // treeOfLife is on state as a pass through from TasksScreen to EndeavorPickerRow
   // so that the query and calculation doesn't have to be run twice if TasksScreen
   // is the parent of the task screen
-  final List<Endeavor>? treeOfLife;
+  final TreeOfLife? treeOfLife;
 
   Duration get scheduledDuration {
     var duration = Duration.zero;
@@ -55,7 +55,7 @@ class TaskScreenState extends TaskForm {
 }
 
 class TaskScreenInitial extends TaskScreenState {
-  TaskScreenInitial(List<Endeavor>? treeOfLife)
+  TaskScreenInitial(TreeOfLife? treeOfLife)
       : super(
           title: const TaskTitle.pure(),
           endeavor: EndeavorPickerRowInput.pure(null),

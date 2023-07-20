@@ -9,21 +9,21 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
 
   EndeavorSelectionScreenCubit({
     required DataRepository dataRepository,
-    List<Endeavor>? endeavorTreeOfLife,
-    required EndeavorPickerRowInput endeavorInput,
+    TreeOfLife? treeOfLife,
+    required EndeavorPickerRowInput initiallySelectedEndeavorInput,
     required void Function(Endeavor) onChanged,
   })  : _onChanged = onChanged,
         super(EndeavorSelectionScreenInitial(
-          endeavorTreeOfLife: endeavorTreeOfLife,
-          endeavorInput: endeavorInput,
+          treeOfLife: treeOfLife,
+          selectedEndeavorInput: initiallySelectedEndeavorInput,
         )) {
     // get tree of life if it's not passed in
-    if (endeavorTreeOfLife == null) {
+    if (treeOfLife == null) {
       dataRepository.getEndeavorsTreeOfLife().then(
             (value) => emit(
               EndeavorSelectionScreenState(
-                endeavorTreeOfLife: value,
-                endeavorInput: state.endeavorInput,
+                treeOfLife: value,
+                selectedEndeavorInput: state.selectedEndeavorInput,
               ),
             ),
           );
@@ -34,11 +34,11 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
     _onChanged(endeavor);
     emit(
       EndeavorSelectionScreenState(
-        endeavorTreeOfLife: state.endeavorTreeOfLife,
-        endeavorInput: EndeavorPickerRowInput.dirty(
+        treeOfLife: state.treeOfLife,
+        selectedEndeavorInput: EndeavorPickerRowInput.dirty(
           EndeavorReference(
-            endeavorId: endeavor.id!,
-            endeavorTitle: endeavor.title!,
+            id: endeavor.id,
+            title: endeavor.title,
           ),
         ),
       ),

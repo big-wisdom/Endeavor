@@ -14,8 +14,8 @@ extension EndeavorBlockFirestoreExtension on EndeavorBlock {
     return EndeavorBlock(
       id: id,
       endeavorReference: EndeavorReference(
-        endeavorTitle: data['endeavorTitle'],
-        endeavorId: data['endeavorId'],
+        title: data['endeavorTitle'],
+        id: data['endeavorId'],
       ),
       repeatingEndeavorBlockId: data['repeatingEndeavorBlockId'],
       event: Event(

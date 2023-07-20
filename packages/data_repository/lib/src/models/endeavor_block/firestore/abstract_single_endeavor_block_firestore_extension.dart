@@ -4,8 +4,8 @@ extension AbstractSingleEndeavorBlockFirestoreExtension
     on AbstractSingleEndeavorBlock {
   Map<String, dynamic> toDocData() {
     return {
-      'endeavorTitle': endeavorReference.endeavorTitle,
-      'endeavorId': endeavorReference.endeavorId,
+      'endeavorTitle': endeavorReference.title,
+      'endeavorId': endeavorReference.id,
       'repeatingEndeavorBlockId': repeatingEndeavorBlockId,
       'start': event.start,
       'end': event.end,

@@ -14,18 +14,18 @@ class EndeavorsScreenBloc
 
   EndeavorsScreenBloc(this._dataRepository)
       : super(const EndeavorsScreenState([])) {
-    on<NewPrimaryEndeavorList>((event, emit) {
-      emit(EndeavorsScreenState(event.newPrimaryEndeavorList));
+    on<NewPrimaryEndeavors>((event, emit) {
+      emit(EndeavorsScreenState(event.newPrimaryEndeavors));
     });
     on<DeleteEndeavor>(
       (event, emit) {
-        _dataRepository.deleteEndeavor(event.endeavor);
+        _dataRepository.deletePrimaryEndeavor(event.endeavor);
       },
     );
-    _streamSubscription = _dataRepository
-        .primaryEndeavorStream()
-        .listen((newPrimaryEndeavorList) {
-      add(NewPrimaryEndeavorList(newPrimaryEndeavorList));
+
+    _streamSubscription =
+        _dataRepository.primaryEndeavorStream().listen((newPrimaryEndeavors) {
+      add(NewPrimaryEndeavors(newPrimaryEndeavors));
     });
   }
 
