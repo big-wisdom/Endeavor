@@ -1,4 +1,4 @@
-import 'package:data_repository/data_repository.dart';
+import '../../../task_reference.dart';
 import 'package:formz/formz.dart';
 
 class EndeavorTaskIdsInputError {}

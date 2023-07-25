@@ -116,47 +116,26 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* refactor Endeavor model <---------
-  * shit. I was working on this to-do-list when I realized, that I don't even need an UnidentifiedEndeavor object because when I create, I just get a name from a modal and create the object.
-    * just abstract between an Endeavor and an UnidentifiedEndeavor DONE
-    * create endeavor form DONE
-    * Implement the endeavor screen correctly
-      * Okay now the screen and the form are meeting in the middle and I'm realizing that the form needs a list of actual Endeavor objects not id's and same with tasks.
-  * Now I need to pare back my refactor DONE
-  * Thought: I already have a lightweight version of the Endeavor, it's called the EndeavorReference, and I already have a DataRepository method to get the whole tree of life that I should run at the EndeavorsScreen, then make the EndeavorModel take only a "List<Endeavor> subEndeavors" rather than a list of ids too.
-  * refactor so that an Endeavor has property "List<Endeavor> subEndeavors" only, rather than maintaining a "List<String> ids" and a "List<Endeavor>?" DONE
-  * Refactor the EndeavorsScreen to use the treeOfLife stream (ordered by the user doc primaryEndeavorIds property)
-    * Writting the treeOfLifeStream endpoint on the DataRepository
-      * I just commented out a bunch of other DataRepository methods that now seem obselete, now to remove all compile time errors and see if that was bad
-  * Refactor the EditEndeavorScreen
-    * rename the folder and files to represent the "edit" component DONE
-    * refactor to account for the fact that the Endeavor should come whole with all the data it needs now.
-      * I think this page should now just be entirely rebuilt everytime the treeOfLifeStream emits another value which should simplify a lot.
-      * Now to handle the settings page
-        * Does the Endeavor object store settings? I forgot
-        * I'm thinking now that settings should be integrated into the endeavor itself even on the backend. I think separating them is going to be more of a headache than it's worth. I'm not going to try prematurely optimizing. Time to make some changes.
-    * a couple things might be unimplemented but I want to get it running again before I implement them. DONE
-      * part of getting it running is getting the colors in the calendar view DONE
-        * create an "EndeavorDatabaseDocument" which is much skinnier and just contains what is stored in each endeavors database document, a stream of these can be grabbed and the color can be strained out. DONE
-    * First unimplemented thing, createSubEndeavor
-      * This is making me realize that I made a mistake earlier. line 134 actually. The endeavor screen will in fact not rebuild when the endeavor tree rebuilds and now I'm thinking that 
+* Okay I've been doing some database research, and I think it's time for a restructure of the DataRepository and the creation of a data service package
+* DataService package
+  * This will be a totally static place that only has firestore queries and transformers for the ServerDataModels package
+* ServerDataModels package
+  * This will define types how they will be stored on the database
+* DataModels
+  * This will define the types as the front end will use them
+* DataRepository
+  * This will get streams of ServerDataModels from the DataService and expose streams of DataModels to the Endeavor package
 
-
-* refactor Endeavor model attempt #2
-  * The Endeavor model should really only have "List<EndeavorReference> subEndeavors" rather than "List<Endeavor> subEndeavors". Then the EditEndeavorScreen and the EndeavorsScreen can have seperate data streams and they should react appropriately.
-    * I will need to fix the DataRepository accordingly DONE
-      * This is calling for a TaskReference object as well
-    * fixing the EndeavorsScreen DONE
-    * Fixing the EditEndeavorScreen DONE
-      * I think this will necessitate a loading screen DONE
-      * I will need to implement a deleteEndeavorFromReference data method that gets the endeavor doc before deleting it DONE
-    * Fix the EndeavorSelectionScreen DONE
-      * I've hit a snag where the EndeavorSelectionScreen wants a tree of life structure, but I've destroyed that possibility by making each endeavor only hold references to other endeavors which can therefore never have subEndeavors of their own
-      * One way out is to create a tree of life structure along side a node structure for it where each node contains an Endeavor and a "List<Endeavor> subEndeavors" property
-        * I ended up doing this
-    * Fix the TasksScreen DONE
-
-* Everywhere it says "subEndeavorIds" I will need to change to references, this includes the cloud functions
+* Where to start?
+  * Maybe from the UI up because that's the part that's going to stick around
+  * So I will go screen by screen and see what streams it needs, adding StreamControllers for them in the DataRepository
+  ----------
+  * Create the DataModels, ServerDataModels, and DataService packages
+    * I've created them and started splitting the Endeavor model from the DataRepository into them
+      * I will need to take a querySnapshot of ServerEndeavors and a querySnapshot of ServerTasks and make a list of Endeavors or list of Tasks
+  ----------
+  * Then I will normalize them in the ServerDataModels
+  * Then I will build the necessary queries in the DataService
 
 
 

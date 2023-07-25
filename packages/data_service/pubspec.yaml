@@ -1,0 +1,13 @@
+name: data_service
+description: static firestore queries and server data type transformers
+version: 1.0.0
+publish_to: none
+
+
+environment:
+  sdk: '>=3.0.0 <=3.10.4'
+
+dependencies:
+  endeavor_server_data_models:
+    path: ../server_data_models
+  cloud_firestore: ^4.7.0

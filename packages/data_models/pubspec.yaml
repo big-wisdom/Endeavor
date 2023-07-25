@@ -1,0 +1,11 @@
+name: data_models
+description: package to handle data models for the endeavor app
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <=3.10.4'
+
+dependencies:
+  equatable: ^2.0.5
+  formz: ^0.4.0
