@@ -1,7 +1,6 @@
-import 'dart:ui';
-
-import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
+import '../../endeavor_reference.dart';
+import '../../task_reference.dart';
 
 class Endeavor extends Equatable {
   const Endeavor({
@@ -9,7 +8,7 @@ class Endeavor extends Equatable {
     required this.title,
     this.parentEndeavorId,
     required this.subEndeavorReferences,
-    this.color,
+    // this.color,
     required this.taskReferences,
   });
 
@@ -20,19 +19,20 @@ class Endeavor extends Equatable {
   final List<TaskReference> taskReferences;
 
   // settings
-  final Color? color;
+  // final Color? color;
+  // TODO: this should have color but I want to run pure dart
 
   Endeavor copyWith({
     String? title,
     List<EndeavorReference>? subEndeavors,
-    Color? color,
+    // Color? color,
     List<TaskReference>? tasks,
   }) {
     return Endeavor(
       id: id,
       title: title ?? this.title,
       subEndeavorReferences: subEndeavors ?? this.subEndeavorReferences,
-      color: color ?? this.color,
+      // color: color ?? this.color,
       taskReferences: tasks ?? this.taskReferences,
     );
   }
@@ -44,5 +44,6 @@ class Endeavor extends Equatable {
         parentEndeavorId,
         subEndeavorReferences,
         taskReferences,
+        // color,
       ];
 }
