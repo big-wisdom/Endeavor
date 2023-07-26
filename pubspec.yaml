@@ -38,6 +38,8 @@ dependencies:
   cloud_firestore: ^4.8.2 # this should only be used for the emulator
   cloud_functions: ^4.3.3 # this should only be used for the emulator
   cupertino_icons: ^1.0.2
+  data_models:
+    path: packages/data_models
   data_repository:
     path: packages/data_repository
   date_and_time_utilities:

@@ -1,4 +1,4 @@
-import 'package:data_repository/data_repository.dart';
+import 'package:data_models/data_models.dart';
 import 'package:endeavor/widgets/repeating_event_picker/cubit/repeating_event_picker_cubit.dart';
 import 'package:endeavor/widgets/time_picker_row/time_picker_row.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-name: endeavor_server_data_models
+name: server_data_models
 description: Package to define server side data models for the endeavor app
 version: 1.0.0
 publish_to: none
@@ -7,3 +7,5 @@ environment:
   sdk: '>=3.0.0 <=3.10.4'
 
 dependencies:
+  flutter:
+    sdk: flutter

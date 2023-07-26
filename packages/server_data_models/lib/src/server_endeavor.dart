@@ -1,4 +1,4 @@
-// import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class ServerEndeavor {
   const ServerEndeavor({
@@ -7,7 +7,7 @@ class ServerEndeavor {
     required this.subEndeavorIds,
     required this.taskIds,
     this.parentEndeavorId,
-    // this.color,
+    this.color,
   });
 
   final String id;
@@ -15,6 +15,6 @@ class ServerEndeavor {
   final List<String> subEndeavorIds;
   final List<String> taskIds;
   final String? parentEndeavorId;
-  // final Color? color;
+  final Color? color;
   // TODO: this should have color but for some reason 'dart:ui' wont import
 }

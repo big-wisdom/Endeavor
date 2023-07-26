@@ -1,49 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension EndeavorsData on DataRepository {
-  Stream<List<String>> _orderedPrimaryEndeavorIdsStream() {
-    if (firestore == null) throw Exception("No user dogg");
-    return firestore!.snapshots().map<List<String>>(
-      (userDocSnap) {
-        final docSnapData = userDocSnap.data();
-        if (docSnapData != null && docSnapData['primaryEndeavorIds'] != null) {
-          return (docSnapData['primaryEndeavorIds'] as List)
-              .map((e) => e as String)
-              .toList();
-        }
-        return [];
-      },
-    );
-  }
+  // Stream<TreeOfLife> treeOfLifeStream() {
+  //   if (firestore == null) throw Exception("No user, don't call this yo");
 
-  Stream<TreeOfLife> treeOfLifeStream() {
-    if (firestore == null) throw Exception("No user, don't call this yo");
+  //   return CombineLatestStream.combine2(
+  //     _orderedPrimaryEndeavorIdsStream(),
+  //     firestore!
+  //         .collection('endeavors')
+  //         .snapshots()
+  //         .transform(EndeavorFirestoreExtension.querySnapToEndeavorTransformer),
+  //     (
+  //       orderedPrimaryEndeavorIds,
+  //       endeavors,
+  //     ) =>
+  //         _createTreeOfLife(orderedPrimaryEndeavorIds, endeavors),
+  //   );
+  // }
 
-    return CombineLatestStream.combine2(
-      _orderedPrimaryEndeavorIdsStream(),
-      firestore!
-          .collection('endeavors')
-          .snapshots()
-          .transform(EndeavorFirestoreExtension.querySnapToEndeavorTransformer),
-      (
-        orderedPrimaryEndeavorIds,
-        endeavors,
-      ) =>
-          _createTreeOfLife(orderedPrimaryEndeavorIds, endeavors),
-    );
-  }
+  // TreeOfLife _createTreeOfLife(
+  //   List<String> orderedPrimaryEndeavorIds,
+  //   List<Endeavor> endeavors,
+  // ) {
+  //   if (firestore == null) throw Exception("No user silly");
 
-  TreeOfLife _createTreeOfLife(
-    List<String> orderedPrimaryEndeavorIds,
-    List<Endeavor> endeavors,
-  ) {
-    if (firestore == null) throw Exception("No user silly");
-
-    return TreeOfLife.fromEndeavorsList(orderedPrimaryEndeavorIds, endeavors);
-  }
+  //   return TreeOfLife.fromEndeavorsList(orderedPrimaryEndeavorIds, endeavors);
+  // }
 
   // List<Endeavor> _createTreeOfLife(
   //   List<String> orderedPrimaryEndeavorIds,
@@ -110,29 +96,29 @@ extension EndeavorsData on DataRepository {
   //   );
   // }
 
-  Future<TreeOfLife> getEndeavorsTreeOfLife() async {
-    if (firestore == null)
-      throw Exception("Don't even try this without a user ,homie");
+  // Future<TreeOfLife> getEndeavorsTreeOfLife() async {
+  //   if (firestore == null)
+  //     throw Exception("Don't even try this without a user ,homie");
 
-    return treeOfLifeStream().first;
-  }
+  //   return treeOfLifeStream().first;
+  // }
 
-  void planEndeavor(Endeavor endeavor) async {
-    if (firestore == null)
-      throw Exception("No user?! Unthinkable! No Plan for you!");
+  // void planEndeavor(Endeavor endeavor) async {
+  //   if (firestore == null)
+  //     throw Exception("No user?! Unthinkable! No Plan for you!");
 
-    // call firebase plan cloud function on this endeavor
-    HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('planEndeavor');
-    await callable.call(<String, dynamic>{
-      'userId': firestore!.id,
-      'endeavorId': endeavor.id,
-    });
-  }
+  //   // call firebase plan cloud function on this endeavor
+  //   HttpsCallable callable =
+  //       FirebaseFunctions.instance.httpsCallable('planEndeavor');
+  //   await callable.call(<String, dynamic>{
+  //     'userId': firestore!.id,
+  //     'endeavorId': endeavor.id,
+  //   });
+  // }
 
-  Future<String> getEndeavorTitle() {
-    throw UnimplementedError();
-  }
+  // Future<String> getEndeavorTitle() {
+  //   throw UnimplementedError();
+  // }
 
   // Future<List<Task>> getEndeavorTasks(Endeavor endeavor) async {
   //   if (firestore == null) throw Exception("No user?! Unthinkable!");
@@ -155,28 +141,28 @@ extension EndeavorsData on DataRepository {
   //   return tasks;
   // }
 
-  Stream<Endeavor> endeavorStreamFromReference(
-    EndeavorReference endeavorReference,
-  ) {
-    if (firestore == null) throw Exception("There's no user bruh");
+  // Stream<Endeavor> endeavorStreamFromReference(
+  //   EndeavorReference endeavorReference,
+  // ) {
+  //   if (firestore == null) throw Exception("There's no user bruh");
 
-    return firestore!
-        .collection('endeavors')
-        .doc(endeavorReference.id)
-        .snapshots()
-        .transform(EndeavorFirestoreExtension.docSnapToEndeavorTransformer);
-  }
+  //   return firestore!
+  //       .collection('endeavors')
+  //       .doc(endeavorReference.id)
+  //       .snapshots()
+  //       .transform(EndeavorFirestoreExtension.docSnapToEndeavorTransformer);
+  // }
 
-  Stream<List<Endeavor>> primaryEndeavorStream() {
-    if (firestore == null) throw Exception("No user bruh");
+  // Stream<List<Endeavor>> primaryEndeavorStream() {
+  //   if (firestore == null) throw Exception("No user bruh");
 
-    return firestore!
-        .collection('endeavors')
-        .snapshots()
-        .transform<List<Endeavor>>(
-          EndeavorFirestoreExtension.querySnapToPrimaryEndeavorsTransformer,
-        );
-  }
+  //   return firestore!
+  //       .collection('endeavors')
+  //       .snapshots()
+  //       .transform<List<Endeavor>>(
+  //         EndeavorFirestoreExtension.querySnapToPrimaryEndeavorsTransformer,
+  //       );
+  // }
 
   void deleteTask(TaskReference taskReference) {
     if (firestore == null)

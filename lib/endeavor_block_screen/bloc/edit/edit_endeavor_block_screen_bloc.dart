@@ -1,3 +1,4 @@
+import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
 
 import '../endeavor_block_screen_bloc.dart';

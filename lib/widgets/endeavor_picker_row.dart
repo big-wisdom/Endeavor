@@ -1,5 +1,4 @@
-import 'package:data_repository/data_repository.dart'
-    show Endeavor, EndeavorPickerRowInput, TreeOfLife;
+import 'package:data_models/data_models.dart';
 import 'package:endeavor/endeavor_selection_screen/view/endeavor_selection_screen.dart';
 import 'package:flutter/material.dart';
 

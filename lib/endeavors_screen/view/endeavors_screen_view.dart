@@ -1,7 +1,7 @@
+import 'package:data_models/data_models.dart';
 import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/edit_endeavor_screen/edit_endeavor_screen.dart';
 
 class EndeavorsScreenView extends StatelessWidget {

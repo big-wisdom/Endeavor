@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
+import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -42,7 +43,7 @@ class EditEndeavorScreenBloc
             : LoadedEditEndeavorScreenState.fromEndeavor(endeavor)) {
     // Load endeavor if it's not already
     _streamSubscription = dataRepository
-        .endeavorStreamFromReference(
+        .getEndeavorStream(
       endeavorReference ??
           EndeavorReference(title: endeavor!.title, id: endeavor.id),
     )

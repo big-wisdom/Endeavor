@@ -1,5 +1,5 @@
+import 'package:data_models/data_models.dart';
 import 'package:flutter/material.dart';
-import 'package:data_repository/data_repository.dart' show EndeavorNode;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/endeavor_selection_screen_cubit.dart';
