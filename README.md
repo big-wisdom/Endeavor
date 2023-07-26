@@ -138,5 +138,4 @@ Back End: Firebase
   * Then I will build the necessary queries in the DataService
 
 
-
 * Rework Task model to include repeating tasks

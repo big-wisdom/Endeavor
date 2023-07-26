@@ -1,6 +1,6 @@
+import 'package:data_models/data_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:data_repository/data_repository.dart' show Event;
 
 extension CustomDateTimeToString on DateTime {
   String toCustomString() {

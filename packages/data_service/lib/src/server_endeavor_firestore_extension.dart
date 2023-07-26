@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:endeavor_server_data_models/server_data_models.dart';
+import 'package:server_data_models/server_data_models.dart';
 
 extension EndeavorFirestoreExtension on ServerEndeavor {
   Map<String, dynamic> toData() {

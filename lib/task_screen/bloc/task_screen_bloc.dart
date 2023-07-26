@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+mport 'package:bloc/bloc.dart';
+import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:formz/formz.dart';

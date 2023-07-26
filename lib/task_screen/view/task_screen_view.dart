@@ -1,7 +1,7 @@
-import 'package:data_repository/data_repository.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/one_time_event_picker_screen/one_time_event_picker_screen.dart';
 import 'package:endeavor/util.dart';
+import 'package:data_models/data_models.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
 
 import '../bloc/task_screen_bloc.dart';

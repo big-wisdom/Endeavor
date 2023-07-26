@@ -1,7 +1,8 @@
 import 'server_event.dart';
 
-class Task {
-  const Task({
+class ServerTask {
+  const ServerTask({
+    required this.id,
     required this.title,
     this.endeavorId,
     this.duration,
@@ -11,6 +12,7 @@ class Task {
     this.events,
   });
 
+  final String id;
   final String title;
   final String? endeavorId;
   final Duration? duration;
