@@ -1,1 +1,1 @@
-export 'src/server_endeavor_firestore_extension.dart';
+export 'src/data_service.dart';

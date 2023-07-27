@@ -8,6 +8,10 @@ environment:
   sdk: '>=3.0.0 <=3.10.4'
 
 dependencies:
+  authentication_repository:
+    path: ../authentication_repository
+  data_models:
+    path: ../data_models
   server_data_models:
     path: ../server_data_models
   cloud_firestore: ^4.7.0
