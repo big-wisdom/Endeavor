@@ -13,6 +13,8 @@ dependencies:
   cloud_functions: ^4.0.12
   data_models:
     path: ../data_models
+  data_service:
+    path: ../data_service
   date_and_time_utilities:
     path: ../date_and_time_utilities
   equatable: ^2.0.5

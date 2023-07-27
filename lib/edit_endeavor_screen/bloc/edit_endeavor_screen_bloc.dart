@@ -44,8 +44,7 @@ class EditEndeavorScreenBloc
     // Load endeavor if it's not already
     _streamSubscription = dataRepository
         .getEndeavorStream(
-      endeavorReference ??
-          EndeavorReference(title: endeavor!.title, id: endeavor.id),
+      endeavorReference?.id ?? endeavor!.id,
     )
         .listen((newEndeavor) {
       _currentEndeavor = newEndeavor;

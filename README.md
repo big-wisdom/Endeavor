@@ -116,7 +116,7 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Okay I've been doing some database research, and I think it's time for a restructure of the DataRepository and the creation of a data service package
+### New structure
 * DataService package
   * This will be a totally static place that only has firestore queries and transformers for the ServerDataModels package
 * ServerDataModels package
@@ -126,16 +126,16 @@ Back End: Firebase
 * DataRepository
   * This will get streams of ServerDataModels from the DataService and expose streams of DataModels to the Endeavor package
 
-* Where to start?
-  * Maybe from the UI up because that's the part that's going to stick around
-  * So I will go screen by screen and see what streams it needs, adding StreamControllers for them in the DataRepository
-  ----------
-  * Create the DataModels, ServerDataModels, and DataService packages
-    * I've created them and started splitting the Endeavor model from the DataRepository into them
-      * I will need to take a querySnapshot of ServerEndeavors and a querySnapshot of ServerTasks and make a list of Endeavors or list of Tasks
-  ----------
-  * Then I will normalize them in the ServerDataModels
-  * Then I will build the necessary queries in the DataService
+### Procedure for creating it
+* Starting with the DataService
+  * I will need an extension for each data type in the 'server_data_models' package DONE
+    * UserDocument
+    * ServerEndeavor
+    * ServerEvent
+    * ServerTask
+    * ServerEndeavorBlock
+    * ServerCalendarEvent
+  * Now each one will need a DataService extension and a model extension
 
 
 * Rework Task model to include repeating tasks

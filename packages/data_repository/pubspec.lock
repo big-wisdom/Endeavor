@@ -118,6 +118,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  data_service:
+    dependency: "direct main"
+    description:
+      path: "../data_service"
+      relative: true
+    source: path
+    version: "1.0.0"
   date_and_time_utilities:
     dependency: "direct main"
     description:
