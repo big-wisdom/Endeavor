@@ -136,6 +136,7 @@ Back End: Firebase
     * ServerEndeavorBlock
     * ServerCalendarEvent
   * Now each one will need a DataService extension and a model extension
+    * except for the ServerEvent as that's just a protocol for others to use and it has no collection to stream itself
 
 
 * Rework Task model to include repeating tasks
