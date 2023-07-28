@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_service/src/server_event/model_extension/firestore_server_event_extension.dart';
 import 'package:data_service/src/server_task/model_extension/server_task_database_fields.dart';
 import 'package:server_data_models/server_data_models.dart';
 
@@ -16,7 +17,8 @@ extension FirestoreServerTaskExtension on ServerTask {
         duration: docSnapData[ServerTaskDatabaseFields.duration],
         dueDate: docSnapData[ServerTaskDatabaseFields.dueDate],
         divisible: docSnapData[ServerTaskDatabaseFields.divisible],
-        events: docSnapData[ServerTaskDatabaseFields.events],
+        events: FirestoreServerEventExtension.listFromDocSnapData(
+            docSnapData[ServerTaskDatabaseFields.events]),
         minnimumSchedulingDuration:
             docSnapData[ServerTaskDatabaseFields.minnimumSchedulingDuration],
       );
@@ -32,7 +34,8 @@ extension FirestoreServerTaskExtension on ServerTask {
       ServerTaskDatabaseFields.duration.string(): duration,
       ServerTaskDatabaseFields.dueDate.string(): dueDate,
       ServerTaskDatabaseFields.divisible.string(): divisible,
-      ServerTaskDatabaseFields.events.string(): events,
+      ServerTaskDatabaseFields.events.string():
+          events?.map((e) => e.toData()).toList() ?? null,
       ServerTaskDatabaseFields.minnimumSchedulingDuration.string():
           minnimumSchedulingDuration,
     };
