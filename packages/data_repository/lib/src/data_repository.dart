@@ -13,22 +13,13 @@ class DataRepository {
   late StreamSubscription<User> _userStreamSubscription;
   User _user = User.empty;
 
-  ////// DataService streams
-  final Stream<UserDocument> _userDocStream = DataService.userDocStream;
-  final Stream<List<ServerEndeavor>> _serverEndeavorsStream = Stream.empty();
-  final Stream<List<ServerTask>> _serverTasksStream = Stream.empty();
-  final Stream<ServerCalendarEvent> _serverCalendarEventsStream =
-      Stream.empty();
-  final Stream<ServerEndeavorBlock> _serverEndeavorBlocksStream =
-      Stream.empty();
-
   ////// UI Streams
   // endeavors screen
   Stream<List<Endeavor>> get orderedPrimaryEndeavorsStream {
     return CombineLatestStream.combine3(
-      _userDocStream,
-      _serverEndeavorsStream,
-      _serverTasksStream,
+      UserDocumentDataServiceExtension.userDocStream,
+      ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+      ServerTaskDataServiceExtension.tasksStream,
       (userDoc, serverEndeavors, serverTasks) =>
           EndeavorTransformers.primaryEndeavors(
         userDoc,
@@ -41,21 +32,26 @@ class DataRepository {
   // endeavor screen
   Stream<Endeavor> getEndeavorStream(String endeavorId) {
     return CombineLatestStream.combine2(
-      _serverEndeavorsStream,
-      _serverTasksStream,
-      (a, b) => EndeavorTransformers.endeavorFromEndeavorsAndTasks(a, b),
+      ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+      ServerTaskDataServiceExtension.tasksStream,
+      (a, b) =>
+          EndeavorTransformers.endeavorFromEndeavorsAndTasks(endeavorId, a, b),
     );
   }
 
   // Tasks screen
   Stream<TreeOfLife> get treeOfLifeStream {
     return CombineLatestStream.combine3(
-      _userDocStream,
-      _serverEndeavorsStream,
-      _serverTasksStream,
+      UserDocumentDataServiceExtension.userDocStream,
+      ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+      ServerTaskDataServiceExtension.tasksStream,
       (a, b, c) => TreeOfLifeTransformers.fromIngredients(a, b, c),
     );
   }
+
+  Stream<List<Task>> get endeavorlessTasksStream =>
+      ServerTaskDataServiceExtension.tasksStream.transform(
+          TaskTransformers.serverTasksToEndeavorlessTasksTransformer);
 
   // Task screen
   Stream<ServerTask> getTaskStream() => throw UnimplementedError();
@@ -63,6 +59,10 @@ class DataRepository {
   // Calendar screen
   Stream<CalendarEvent> get calendarEventStream => throw UnimplementedError();
   Stream<EndeavorBlock> get endeavorBlockStream => throw UnimplementedError();
+
+  // just making this so it will run but who knows if it's a good idea
+  Stream<List<WeekViewEvent>> get weekViewEventStream =>
+      throw UnimplementedError();
 
   // INITIALIZATION
   DataRepository({required Stream<User> userStream})

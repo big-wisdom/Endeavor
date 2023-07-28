@@ -7,9 +7,18 @@ extension FirestoreUserDocumentExtension on UserDocument {
       DocumentSnapshot<Map<String, dynamic>> docSnap) {
     final docSnapData = docSnap.data();
     if (docSnapData != null) {
+      // get primary endeavorIds out of the document
+      final idsData =
+          docSnapData[UserDocumentDatabaseFields.primaryEndeavorIds.string()];
+      List<String> ids;
+      if (idsData != null) {
+        ids = (idsData as List).map((e) => e as String).toList();
+      } else {
+        ids = [];
+      }
+
       return UserDocument(
-        primaryEndeavorIds:
-            docSnapData[UserDocumentDatabaseFields.primaryEndeavorIds.string()],
+        primaryEndeavorIds: ids,
       );
     } else {
       throw Exception("No user doc data");

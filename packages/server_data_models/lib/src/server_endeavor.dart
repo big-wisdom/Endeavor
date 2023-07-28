@@ -1,3 +1,4 @@
+import 'package:data_models/data_models.dart';
 import 'package:flutter/material.dart';
 
 class ServerEndeavor {
@@ -10,11 +11,21 @@ class ServerEndeavor {
     this.color,
   });
 
+  factory ServerEndeavor.fromEndeavor(Endeavor endeavor) {
+    return ServerEndeavor(
+      id: endeavor.id,
+      title: endeavor.title,
+      subEndeavorIds: endeavor.subEndeavorReferences.map((e) => e.id).toList(),
+      taskIds: endeavor.taskReferences.map((e) => e.id).toList(),
+      parentEndeavorId: endeavor.parentEndeavorId,
+      color: endeavor.color,
+    );
+  }
+
   final String id;
   final String title;
   final List<String> subEndeavorIds;
   final List<String> taskIds;
   final String? parentEndeavorId;
   final Color? color;
-  // TODO: this should have color but for some reason 'dart:ui' wont import
 }

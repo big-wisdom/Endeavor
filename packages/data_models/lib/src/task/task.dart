@@ -1,3 +1,4 @@
+export 'transformers/task_transformers.dart';
 export 'model/task.dart';
 export 'firestore/task_firestore_extension.dart';
 export 'formz/task_form.dart';

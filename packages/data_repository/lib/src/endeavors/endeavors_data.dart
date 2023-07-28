@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:rxdart/rxdart.dart';
 
 extension EndeavorsData on DataRepository {
   // Stream<TreeOfLife> treeOfLifeStream() {
@@ -101,19 +99,6 @@ extension EndeavorsData on DataRepository {
   //     throw Exception("Don't even try this without a user ,homie");
 
   //   return treeOfLifeStream().first;
-  // }
-
-  // void planEndeavor(Endeavor endeavor) async {
-  //   if (firestore == null)
-  //     throw Exception("No user?! Unthinkable! No Plan for you!");
-
-  //   // call firebase plan cloud function on this endeavor
-  //   HttpsCallable callable =
-  //       FirebaseFunctions.instance.httpsCallable('planEndeavor');
-  //   await callable.call(<String, dynamic>{
-  //     'userId': firestore!.id,
-  //     'endeavorId': endeavor.id,
-  //   });
   // }
 
   // Future<String> getEndeavorTitle() {
@@ -217,13 +202,13 @@ extension EndeavorsData on DataRepository {
         .update({'taskIds': taskIds});
   }
 
-  Stream<List<EndeavorDatabaseDocument>> allEndeavorsStream() {
-    if (firestore == null) throw Exception("No user user user user user");
+  // Stream<List<EndeavorDatabaseDocument>> allEndeavorsStream() {
+  //   if (firestore == null) throw Exception("No user user user user user");
 
-    return firestore!.collection('endeavors').snapshots().transform(
-        EndeavorDatabaseDocumentFirestoreExtension
-            .endeavorDatabaseDocumentTransformer);
-  }
+  //   return firestore!.collection('endeavors').snapshots().transform(
+  //       EndeavorDatabaseDocumentFirestoreExtension
+  //           .endeavorDatabaseDocumentTransformer);
+  // }
 
   // Stream<List<Endeavor>> subEndeavorStream(Endeavor endeavor) {
   //   if (firestore == null) {
@@ -372,17 +357,6 @@ extension EndeavorsData on DataRepository {
       };
     }
     firestore!.update(newData);
-  }
-
-  void updateEndeavor(Endeavor endeavor) async {
-    if (firestore == null) {
-      throw Exception("No user! Can't update endeavor.");
-    }
-
-    await firestore
-        ?.collection("endeavors")
-        .doc(endeavor.id)
-        .update(endeavor.toData());
   }
 
   void deleteSubEndeavorFromReference(EndeavorReference endeavorReference) {

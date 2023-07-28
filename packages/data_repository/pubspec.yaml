@@ -10,7 +10,6 @@ dependencies:
   authentication_repository:
     path: ../authentication_repository
   cloud_firestore: ^4.7.0
-  cloud_functions: ^4.0.12
   data_models:
     path: ../data_models
   data_service:

@@ -150,7 +150,7 @@ packages:
     source: path
     version: "1.0.0"
   data_service:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/data_service"
       relative: true

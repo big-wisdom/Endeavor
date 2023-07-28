@@ -70,9 +70,28 @@ extension EndeavorTransformers on Endeavor {
   }
 
   static Endeavor endeavorFromEndeavorsAndTasks(
+    String endeavorId,
     List<ServerEndeavor> serverEndeavors,
     List<ServerTask> serverTasks,
   ) {
-    throw UnimplementedError();
+    // get endeavor
+    ServerEndeavor e = serverEndeavors.firstWhere(
+      (element) => element.id == endeavorId,
+    );
+    return Endeavor(
+      id: e.id,
+      title: e.title,
+      parentEndeavorId: endeavorId,
+      subEndeavorReferences: serverEndeavors
+          .where((se) =>
+              se.parentEndeavorId != null && se.parentEndeavorId == endeavorId)
+          .map((se) => EndeavorReference(title: se.title, id: se.id))
+          .toList(),
+      taskReferences: serverTasks
+          .where((st) => st.endeavorId != null && st.endeavorId == endeavorId)
+          .map((st) => TaskReference(id: st.id, title: st.title))
+          .toList(),
+      color: e.color,
+    );
   }
 }
