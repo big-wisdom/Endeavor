@@ -20,14 +20,14 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
         )) {
     // get tree of life if it's not passed in
     if (treeOfLife == null) {
-      dataRepository.getEndeavorsTreeOfLife().then(
-            (value) => emit(
-              EndeavorSelectionScreenState(
-                treeOfLife: value,
-                selectedEndeavorInput: state.selectedEndeavorInput,
-              ),
-            ),
-          );
+      dataRepository.treeOfLifeStream.last.then(
+        (tree) => emit(
+          EndeavorSelectionScreenState(
+            treeOfLife: tree,
+            selectedEndeavorInput: state.selectedEndeavorInput,
+          ),
+        ),
+      );
     }
   }
 

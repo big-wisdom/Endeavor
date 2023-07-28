@@ -26,7 +26,7 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
     );
 
     _weekEventSubscription =
-        _dataRepository.weekViewEventStream().listen((weekViewEvents) {
+        _dataRepository.weekViewEventStream.listen((weekViewEvents) {
       add(NewEvents(weekViewEvents));
     });
   }

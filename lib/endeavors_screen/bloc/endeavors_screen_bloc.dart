@@ -24,8 +24,8 @@ class EndeavorsScreenBloc
       },
     );
 
-    _streamSubscription =
-        _dataRepository.primaryEndeavorStream().listen((newPrimaryEndeavors) {
+    _streamSubscription = _dataRepository.orderedPrimaryEndeavorsStream
+        .listen((newPrimaryEndeavors) {
       add(NewPrimaryEndeavors(newPrimaryEndeavors));
     });
   }

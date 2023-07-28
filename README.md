@@ -138,5 +138,24 @@ Back End: Firebase
   * Now each one will need a DataService extension and a model extension
     * except for the ServerEvent as that's just a protocol for others to use and it has no collection to stream itself
 
+* I'd like to try out just the EndeavorsScreen and the EndeavorScreen with this new method before building out the entire thing. Therefore I just need to get the following done
+  * userDocStream exposed from the DataService DONE
+  * serverEndeavors stream exposed from the DataService DONE
+  * serverTasks stream exposed form the DataService DONE
+  * clear up resulting errors
+    * EndeavorSelectionScreen needs a TreeOfLife model DONE
+    * I need to put edit and delete endeavor methods into the FirestoreServerEndeavorDataServiceExtendsion and call them from the EditEndeavorScreenBloc DONE
+    * I need to make a ServerEndeavor.fromEndeavor() constructor DONE
+    * I need to move the static planEndeavor method into the ServerEndeavor DataService extension DONE
+    * I need the TasksScreenBloc to listen to the treeOfLifeStream and the endeavorlessTasksStream and update seperately DONE
+  * runtime errors
+    * I forgot to create the DataService in the beginning
+    * I now have a problem where I'm trying to initialize all the streams at the beginning. Maybe I can just call them from the data service on demand
+    * calling them on demand helped. I'm still not sure that I won't encounter a race condition sometime where the data repository and the data service could update in the wrong order or something
+    -------------
+    * Now I need to try deleting endeavors and subEndeavors
+    -------------
 
-* Rework Task model to include repeating tasks
+* Rework task model to include repeating tasks
+* I might want to create an endeavorlessTask
+* ServerEvent and Event are really the same thing in two different packages

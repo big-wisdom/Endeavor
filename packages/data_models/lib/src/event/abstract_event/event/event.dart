@@ -1,7 +1,15 @@
 import 'package:data_models/data_models.dart';
+import 'package:server_data_models/server_data_models.dart';
 
 class Event extends AbstractEvent {
   Event({required this.start, required this.end});
+
+  factory Event.fromServerEvent(ServerEvent serverEvent) {
+    return Event(
+      start: serverEvent.start,
+      end: serverEvent.end,
+    );
+  }
 
   final DateTime start;
   final DateTime end;

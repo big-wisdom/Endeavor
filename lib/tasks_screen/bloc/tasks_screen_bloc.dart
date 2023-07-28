@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:data_service/data_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'tasks_screen_event.dart';
@@ -21,12 +22,25 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
 
     on<PlanRequested>(
       (event, emit) {
-        dataRepository.planEndeavor(event.endeavor);
+        ServerEndeavorDataServiceExtension.planEndeavor(event.endeavor);
       },
     );
 
-    dataRepository.tasksScreenStream().listen((event) {
-      add(ServerUpdate(treeOfLife: event.$1, endeavorlessTasks: event.$2));
+    dataRepository.treeOfLifeStream.listen((event) {
+      add(ServerUpdate(
+        treeOfLife: event,
+        endeavorlessTasks:
+            (state as LoadedTasksScreenState).tasksWithNoEndeavor,
+      ));
+    });
+
+    dataRepository.endeavorlessTasksStream.listen((event) {
+      add(
+        ServerUpdate(
+          treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
+          endeavorlessTasks: event,
+        ),
+      );
     });
   }
 }
