@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:data_service/data_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'endeavors_screen_event.dart';
@@ -20,7 +21,8 @@ class EndeavorsScreenBloc
     });
     on<DeleteEndeavor>(
       (event, emit) {
-        _dataRepository.deletePrimaryEndeavor(event.endeavor);
+        ServerEndeavorDataServiceExtension.deletePrimaryEndeavor(
+            event.endeavor);
       },
     );
 

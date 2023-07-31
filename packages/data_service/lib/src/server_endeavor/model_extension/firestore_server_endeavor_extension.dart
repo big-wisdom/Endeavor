@@ -49,11 +49,11 @@ extension FirestoreServerEndeavorExtension on ServerEndeavor {
 
   Map<String, dynamic> toData() {
     return {
-      'text': title,
-      'subEndeavorIds': subEndeavorIds,
-      'parentEndeavorId': parentEndeavorId,
-      'taskReferences': taskIds,
-      'color': color?.value.toRadixString(16),
+      ServerEndeavorDataFields.title.string(): title,
+      ServerEndeavorDataFields.subEndeavorIds.string(): subEndeavorIds,
+      ServerEndeavorDataFields.parentEndeavorId.string(): parentEndeavorId,
+      ServerEndeavorDataFields.taskIds.string(): taskIds,
+      ServerEndeavorDataFields.color.string(): color?.value.toRadixString(16),
     };
   }
 }
