@@ -72,7 +72,11 @@ class DataRepository {
       // create a new user document if it doesn't already exist
       firestore?.get().then((value) {
         if (!value.exists && firestore != null) {
-          firestore!.set({});
+          firestore!.set(
+            {
+              UserDocumentDatabaseFields.primaryEndeavorIds.string(): [],
+            },
+          );
         }
       });
     });

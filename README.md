@@ -153,8 +153,12 @@ Back End: Firebase
     * I now have a problem where I'm trying to initialize all the streams at the beginning. Maybe I can just call them from the data service on demand
     * calling them on demand helped. I'm still not sure that I won't encounter a race condition sometime where the data repository and the data service could update in the wrong order or something
     -------------
-    * Now I need to try deleting endeavors and subEndeavors
+    * Just got done making sure that endeavors and sub endeavors could be both created and deleted correctly!! woo hoo!
     -------------
+
+    * side task:
+      * Where is the user document created? The DataRepository DONE
+      * Now I need to remove whatever is creating and deleting the settings document
 
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask

@@ -63,12 +63,13 @@ class EditEndeavorScreenBloc
     });
 
     on<DeleteEndeavorRequested>((event, emit) {
-      dataRepository.deleteSubEndeavorFromReference(event.endeavorReference);
+      ServerEndeavorDataServiceExtension.deleteSubEndeavor(
+          event.endeavorReference);
     });
 
     on<CreateSubEndeavorRequested>(
-      (event, emit) => dataRepository.addSubEndeavor(
-        parentEndeavor: _currentEndeavor,
+      (event, emit) => ServerEndeavorDataServiceExtension.addSubEndeavor(
+        parentEndeavorId: _currentEndeavor.id,
         endeavorTitle: event.newEndeavorTitle,
       ),
     );
