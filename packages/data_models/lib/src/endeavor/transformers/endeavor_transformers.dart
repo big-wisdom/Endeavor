@@ -3,7 +3,7 @@ import 'package:server_data_models/server_data_models.dart';
 
 extension EndeavorTransformers on Endeavor {
   static List<Endeavor> primaryEndeavors(
-    UserDocument userDoc,
+    UserDocument? userDoc,
     List<ServerEndeavor> serverEndeavors,
     List<ServerTask> serverTasks,
   ) {
@@ -51,21 +51,24 @@ extension EndeavorTransformers on Endeavor {
       );
     }
 
-    // sort primary endeavors based on user document
-    primaryEndeavors.sort((e1, e2) {
-      final index1 = userDoc.primaryEndeavorIds.indexOf(e1.id);
-      final index2 = userDoc.primaryEndeavorIds.indexOf(e2.id);
+    // sort primary endeavors based on user document if it contains data
+    if (userDoc != null) {
+      primaryEndeavors.sort((e1, e2) {
+        final index1 = userDoc.primaryEndeavorIds.indexOf(e1.id);
+        final index2 = userDoc.primaryEndeavorIds.indexOf(e2.id);
 
-      if (index1 == -1 && index2 == -1) {
-        return 0;
-      } else if (index1 == -1) {
-        return 1;
-      } else if (index2 == -1) {
-        return -1;
-      } else {
-        return index1.compareTo(index2);
-      }
-    });
+        if (index1 == -1 && index2 == -1) {
+          return 0;
+        } else if (index1 == -1) {
+          return 1;
+        } else if (index2 == -1) {
+          return -1;
+        } else {
+          return index1.compareTo(index2);
+        }
+      });
+    }
+
     return primaryEndeavors;
   }
 

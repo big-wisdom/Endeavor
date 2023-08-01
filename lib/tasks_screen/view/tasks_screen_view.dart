@@ -14,7 +14,7 @@ class TasksScreenView extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadingTasksScreenState) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: Text("loading"), // CircularProgressIndicator(),
           );
         }
         state as LoadedTasksScreenState;

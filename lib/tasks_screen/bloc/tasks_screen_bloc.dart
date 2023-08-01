@@ -26,21 +26,24 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       },
     );
 
-    dataRepository.treeOfLifeStream.listen((event) {
+    dataRepository.activeTreeOfLifeStream.listen((event) {
       add(ServerUpdate(
         treeOfLife: event,
-        endeavorlessTasks:
-            (state as LoadedTasksScreenState).tasksWithNoEndeavor,
+        endeavorlessTasks: state is LoadedTasksScreenState
+            ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
+            : [],
       ));
     });
 
     dataRepository.endeavorlessTasksStream.listen((event) {
-      add(
-        ServerUpdate(
-          treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
-          endeavorlessTasks: event,
-        ),
-      );
+      if (state is LoadedTasksScreenState) {
+        add(
+          ServerUpdate(
+            treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
+            endeavorlessTasks: event,
+          ),
+        );
+      }
     });
   }
 }

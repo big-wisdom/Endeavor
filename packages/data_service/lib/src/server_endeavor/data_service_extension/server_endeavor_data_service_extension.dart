@@ -5,7 +5,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 import 'package:data_service/src/server_endeavor/model_extension/server_endeavor_database_fields.dart';
-import 'package:data_service/src/user_document/model_extension/user_document_database_fields.dart';
 import 'package:server_data_models/server_data_models.dart';
 import '../model_extension/firestore_server_endeavor_extension.dart';
 
