@@ -152,8 +152,9 @@ Back End: Firebase
     * I forgot to create the DataService in the beginning
     * I now have a problem where I'm trying to initialize all the streams at the beginning. Maybe I can just call them from the data service on demand
     * calling them on demand helped. I'm still not sure that I won't encounter a race condition sometime where the data repository and the data service could update in the wrong order or something
-    -------------
     * Just got done making sure that endeavors and sub endeavors could be both created and deleted correctly!! woo hoo!
+    -------------
+    * Now onto the tasksScreen
     -------------
 
     * side task:

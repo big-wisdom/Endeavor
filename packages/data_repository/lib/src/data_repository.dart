@@ -40,12 +40,12 @@ class DataRepository {
   }
 
   // Tasks screen
-  Stream<TreeOfLife> get treeOfLifeStream {
+  Stream<TreeOfLife> get activeTreeOfLifeStream {
     return CombineLatestStream.combine3(
       UserDocumentDataServiceExtension.userDocStream,
       ServerEndeavorDataServiceExtension.serverEndeavorsStream,
       ServerTaskDataServiceExtension.tasksStream,
-      (a, b, c) => TreeOfLifeTransformers.fromIngredients(a, b, c),
+      (a, b, c) => TreeOfLifeTransformers.activeTreeFromIngredients(a, b, c),
     );
   }
 

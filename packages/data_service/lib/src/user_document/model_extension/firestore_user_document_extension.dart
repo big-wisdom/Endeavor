@@ -3,7 +3,7 @@ import 'package:server_data_models/server_data_models.dart';
 import 'user_document_database_fields.dart';
 
 extension FirestoreUserDocumentExtension on UserDocument {
-  static UserDocument fromDocSnap(
+  static UserDocument? fromDocSnap(
       DocumentSnapshot<Map<String, dynamic>> docSnap) {
     final docSnapData = docSnap.data();
     if (docSnapData != null) {
@@ -21,7 +21,7 @@ extension FirestoreUserDocumentExtension on UserDocument {
         primaryEndeavorIds: ids,
       );
     } else {
-      throw Exception("No user doc data");
+      return null;
     }
   }
 
