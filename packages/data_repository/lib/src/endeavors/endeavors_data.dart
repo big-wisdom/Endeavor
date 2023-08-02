@@ -278,38 +278,38 @@ extension EndeavorsData on DataRepository {
   //   }
   // }
 
-  void createPrimaryEndeavor(String endeavorTitle) async {
-    if (firestore == null) {
-      throw Exception("No user! Can't create endeavor.");
-    }
-    // Create endeavor document
-    final endeavorDocRef =
-        await firestore!.collection("endeavors").add({'title': endeavorTitle});
-    await firestore!.collection('settings').doc(endeavorDocRef.id).set({});
+  // void createPrimaryEndeavor(String endeavorTitle) async {
+  //   if (firestore == null) {
+  //     throw Exception("No user! Can't create endeavor.");
+  //   }
+  //   // Create endeavor document
+  //   final endeavorDocRef =
+  //       await firestore!.collection("endeavors").add({'title': endeavorTitle});
+  //   await firestore!.collection('settings').doc(endeavorDocRef.id).set({});
 
-    /// Reference it under primary endeavors in the user doc
-    // get user doc
-    final userDocSnap = await firestore!.get();
-    // get current list
-    final docData = userDocSnap.data()!;
-    var primaryEndeavorIds = docData['primaryEndeavorIds'];
-    Map<String, dynamic> newData;
-    if (primaryEndeavorIds == null) {
-      // if no list create one with one entry
-      newData = {
-        "primaryEndeavorIds": [endeavorDocRef.id]
-      };
-    } else {
-      // if there is a list update it locally then on firebase
-      primaryEndeavorIds =
-          (primaryEndeavorIds as List).map((id) => id as String).toList();
-      primaryEndeavorIds.add(endeavorDocRef.id);
-      newData = {
-        "primaryEndeavorIds": primaryEndeavorIds,
-      };
-    }
-    firestore!.update(newData);
-  }
+  //   /// Reference it under primary endeavors in the user doc
+  //   // get user doc
+  //   final userDocSnap = await firestore!.get();
+  //   // get current list
+  //   final docData = userDocSnap.data()!;
+  //   var primaryEndeavorIds = docData['primaryEndeavorIds'];
+  //   Map<String, dynamic> newData;
+  //   if (primaryEndeavorIds == null) {
+  //     // if no list create one with one entry
+  //     newData = {
+  //       "primaryEndeavorIds": [endeavorDocRef.id]
+  //     };
+  //   } else {
+  //     // if there is a list update it locally then on firebase
+  //     primaryEndeavorIds =
+  //         (primaryEndeavorIds as List).map((id) => id as String).toList();
+  //     primaryEndeavorIds.add(endeavorDocRef.id);
+  //     newData = {
+  //       "primaryEndeavorIds": primaryEndeavorIds,
+  //     };
+  //   }
+  //   firestore!.update(newData);
+  // }
 
   void deleteSubEndeavorFromReference(EndeavorReference endeavorReference) {
     if (firestore == null) throw Exception("User is empty empty empty");

@@ -1,4 +1,3 @@
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/calendar_screen/calendar_screen.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_dropdown.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_plus_dialogue.dart';
@@ -16,7 +15,7 @@ class PlanningScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PlanningScreenCubit(context.read<DataRepository>()),
+      create: (context) => PlanningScreenCubit(),
       child: const PlanningScreenView(),
     );
   }

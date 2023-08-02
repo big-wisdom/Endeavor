@@ -15,12 +15,23 @@ extension ServerEndeavorDataServiceExtension on DataService {
           .snapshots()
           .transform(_querySnapToServerEndeavorListTransformer);
 
-  static final _querySnapToServerEndeavorListTransformer = StreamTransformer<
-      QuerySnapshot<Map<String, dynamic>>, List<ServerEndeavor>>.fromHandlers(
-    handleData: (querySnap, sink) => sink.add(querySnap.docs
-        .map((docSnap) => FirestoreServerEndeavorExtension.fromDocSnap(docSnap))
-        .toList()),
-  );
+  static void createPrimaryEndeavor(String endeavorTitle) async {
+    FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+      // create endeavor document
+      final newDocRef = DataService.userDataDoc.collection('endeavors').doc();
+      transaction.set(
+        newDocRef,
+        {ServerEndeavorDataFields.title.string(): endeavorTitle},
+      );
+
+      // reference it under primaryEndeavorIds in the UserDocument
+      transaction.update(DataService.userDataDoc, {
+        UserDocumentDatabaseFields.primaryEndeavorIds.string():
+            FieldValue.arrayUnion([newDocRef.id])
+      });
+      return true;
+    });
+  }
 
   static void updateEndeavor(Endeavor endeavor) async {
     await DataService.userDataDoc
@@ -131,4 +142,11 @@ extension ServerEndeavorDataServiceExtension on DataService {
         .doc(endeavorReference.id)
         .delete();
   }
+
+  static final _querySnapToServerEndeavorListTransformer = StreamTransformer<
+      QuerySnapshot<Map<String, dynamic>>, List<ServerEndeavor>>.fromHandlers(
+    handleData: (querySnap, sink) => sink.add(querySnap.docs
+        .map((docSnap) => FirestoreServerEndeavorExtension.fromDocSnap(docSnap))
+        .toList()),
+  );
 }

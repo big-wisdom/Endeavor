@@ -6,13 +6,13 @@ import 'package:equatable/equatable.dart';
 part 'endeavor_selection_screen_state.dart';
 
 class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
-  final void Function(Endeavor) _onChanged;
+  final void Function(Endeavor?) _onChanged;
 
   EndeavorSelectionScreenCubit({
     required DataRepository dataRepository,
     TreeOfLife? treeOfLife,
     required EndeavorPickerRowInput initiallySelectedEndeavorInput,
-    required void Function(Endeavor) onChanged,
+    required void Function(Endeavor?) onChanged,
   })  : _onChanged = onChanged,
         super(EndeavorSelectionScreenInitial(
           treeOfLife: treeOfLife,
@@ -20,7 +20,7 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
         )) {
     // get tree of life if it's not passed in
     if (treeOfLife == null) {
-      dataRepository.activeTreeOfLifeStream.last.then(
+      dataRepository.treeOfLifeStream.first.then(
         (tree) => emit(
           EndeavorSelectionScreenState(
             treeOfLife: tree,
@@ -32,17 +32,22 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
   }
 
   void endeavorSelected(Endeavor endeavor) {
-    _onChanged(endeavor);
+    EndeavorPickerRowInput newInput;
+    if (state.selectedEndeavorInput.value == null ||
+        state.selectedEndeavorInput.value!.id != endeavor.id) {
+      newInput = EndeavorPickerRowInput.dirty(
+        EndeavorReference(id: endeavor.id, title: endeavor.title),
+      );
+    } else {
+      newInput = EndeavorPickerRowInput.dirty(null);
+    }
     emit(
       EndeavorSelectionScreenState(
         treeOfLife: state.treeOfLife,
-        selectedEndeavorInput: EndeavorPickerRowInput.dirty(
-          EndeavorReference(
-            id: endeavor.id,
-            title: endeavor.title,
-          ),
-        ),
+        selectedEndeavorInput: newInput,
       ),
     );
+
+    _onChanged(newInput.value != null ? endeavor : null);
   }
 }

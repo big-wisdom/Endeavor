@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:data_repository/data_repository.dart';
+import 'package:data_service/data_service.dart';
 import 'package:equatable/equatable.dart';
 
 import '../view/calendar_view_dropdown.dart';
@@ -7,9 +7,7 @@ import '../view/calendar_view_dropdown.dart';
 part 'planning_screen_state.dart';
 
 class PlanningScreenCubit extends Cubit<PlanningScreenState> {
-  final DataRepository _dataRepository;
-
-  PlanningScreenCubit(this._dataRepository)
+  PlanningScreenCubit()
       : super(
           const PlanningScreenState(
             navbarItem: NavbarItem.endeavors,
@@ -57,6 +55,6 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
   }
 
   void addPrimaryEndeavor(String title) {
-    _dataRepository.createPrimaryEndeavor(title);
+    ServerEndeavorDataServiceExtension.createPrimaryEndeavor(title);
   }
 }

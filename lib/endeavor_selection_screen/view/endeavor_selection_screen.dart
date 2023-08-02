@@ -15,7 +15,7 @@ class EndeavorSelectionScreen extends StatelessWidget {
 
   final TreeOfLife? treeOfLife;
   final EndeavorPickerRowInput initiallySelectedEndeavorInput;
-  final void Function(Endeavor) onChanged;
+  final void Function(Endeavor?) onChanged;
 
   @override
   Widget build(BuildContext context) {

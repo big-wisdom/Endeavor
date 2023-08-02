@@ -16,7 +16,7 @@ class TitleChanged extends TaskScreenEvent {
 class EndeavorSelected extends TaskScreenEvent {
   const EndeavorSelected(this.newEndeavor);
 
-  final Endeavor newEndeavor;
+  final Endeavor? newEndeavor;
 
   @override
   List<Object?> get props => [newEndeavor];
