@@ -13,11 +13,24 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     );
 
     on<EndeavorSelected>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(
+        state.copyWith(
+          endeavorPickerRowInput: EndeavorPickerRowInput.dirty(
+            event.newEndeavor == null
+                ? null
+                : EndeavorReference(
+                    title: event.newEndeavor!.title,
+                    id: event.newEndeavor!.id,
+                  ),
+          ),
+        ),
+      ),
     );
 
     on<TitleChanged>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(
+        state.copyWith(title: event.newTitle),
+      ),
     );
 
     on<DurationChanged>(

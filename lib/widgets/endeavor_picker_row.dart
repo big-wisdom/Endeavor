@@ -12,7 +12,7 @@ class EndeavorPickerRow extends StatelessWidget {
 
   final EndeavorPickerRowInput endeavorInput;
   final TreeOfLife? endeavorTreeOfLife;
-  final void Function(Endeavor endeavor) onChanged;
+  final void Function(Endeavor? endeavor) onChanged;
 
   @override
   Widget build(BuildContext context) {

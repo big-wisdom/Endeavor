@@ -10,32 +10,39 @@ class EndeavorSelectionScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<EndeavorSelectionScreenCubit>().state;
-    if (state.treeOfLife == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return BlocBuilder<EndeavorSelectionScreenCubit,
+        EndeavorSelectionScreenState>(
+      builder: (context, state) {
+        if (state.treeOfLife == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return SingleChildScrollView(
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          EndeavorNode primaryEndeavorNode =
-              state.treeOfLife!.primaryEndeavorNodes[index];
-          return EndeavorSelectionTile(
-            endeavorNode: primaryEndeavorNode,
-            selected: state.selectedEndeavorInput.value == null
-                ? false
-                : state.selectedEndeavorInput.value!.id ==
-                    primaryEndeavorNode.endeavor.id,
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider(
-            thickness: 1,
-          );
-        },
-        itemCount: state.treeOfLife!.primaryEndeavorNodes.length,
-      ),
+        return Scaffold(
+          appBar: AppBar(title: const Text("Select Endeavor")),
+          body: SingleChildScrollView(
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                EndeavorNode primaryEndeavorNode =
+                    state.treeOfLife!.primaryEndeavorNodes[index];
+                return EndeavorSelectionTile(
+                  endeavorNode: primaryEndeavorNode,
+                  selected: state.selectedEndeavorInput.value == null
+                      ? false
+                      : state.selectedEndeavorInput.value!.id ==
+                          primaryEndeavorNode.endeavor.id,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  thickness: 1,
+                );
+              },
+              itemCount: state.treeOfLife!.primaryEndeavorNodes.length,
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -49,6 +49,15 @@ class DataRepository {
     );
   }
 
+  Stream<TreeOfLife> get treeOfLifeStream {
+    return CombineLatestStream.combine3(
+      UserDocumentDataServiceExtension.userDocStream,
+      ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+      ServerTaskDataServiceExtension.tasksStream,
+      (a, b, c) => TreeOfLifeTransformers.fromIngredients(a, b, c),
+    );
+  }
+
   Stream<List<Task>> get endeavorlessTasksStream =>
       ServerTaskDataServiceExtension.tasksStream.transform(
           TaskTransformers.serverTasksToEndeavorlessTasksTransformer);

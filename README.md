@@ -155,6 +155,11 @@ Back End: Firebase
     * Just got done making sure that endeavors and sub endeavors could be both created and deleted correctly!! woo hoo!
     -------------
     * Now onto the tasksScreen
+      * Started implementing some of the data work for the TaskScreen
+        * steps to reproduce bug.
+          * leave the EndeavorsScreen
+          * return to the EndeavorsScreen and try to create an endeavor
+        * turned out to be the fact that I hadn't closed my stream subscription on the TasksScreenBloc
     -------------
 
     * side task:

@@ -17,6 +17,21 @@ class TaskScreenState extends TaskForm {
   // is the parent of the task screen
   final TreeOfLife? treeOfLife;
 
+  TaskScreenState copyWith({
+    String? title,
+    EndeavorPickerRowInput? endeavorPickerRowInput,
+  }) {
+    return TaskScreenState(
+      title: title != null ? TaskTitle.dirty(title) : this.title,
+      divisible: divisible,
+      duration: duration,
+      endeavor: endeavorPickerRowInput ?? endeavor,
+      minnimumSchedulingDuration: minnimumSchedulingDuration,
+      scheduledEvents: scheduledEvents,
+      treeOfLife: treeOfLife,
+    );
+  }
+
   Duration get scheduledDuration {
     var duration = Duration.zero;
     for (final e in scheduledEvents) {

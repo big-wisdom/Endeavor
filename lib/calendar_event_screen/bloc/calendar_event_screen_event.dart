@@ -16,7 +16,7 @@ class TitleChanged extends CalendarEventScreenEvent {
 class EndeavorChanged extends CalendarEventScreenEvent {
   const EndeavorChanged(this.endeavor);
 
-  final Endeavor endeavor;
+  final Endeavor? endeavor;
 
   @override
   List<Object?> get props => [endeavor];

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
@@ -8,6 +10,9 @@ part 'tasks_screen_event.dart';
 part 'tasks_screen_state.dart';
 
 class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
+  late final StreamSubscription _activeTreeSubscription;
+  late final StreamSubscription _endeavorlessSubscription;
+
   TasksScreenBloc(DataRepository dataRepository)
       : super(LoadingTasksScreenState()) {
     on<ServerUpdate>(
@@ -26,7 +31,8 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       },
     );
 
-    dataRepository.activeTreeOfLifeStream.listen((event) {
+    _activeTreeSubscription =
+        dataRepository.activeTreeOfLifeStream.listen((event) {
       add(ServerUpdate(
         treeOfLife: event,
         endeavorlessTasks: state is LoadedTasksScreenState
@@ -35,7 +41,8 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       ));
     });
 
-    dataRepository.endeavorlessTasksStream.listen((event) {
+    _endeavorlessSubscription =
+        dataRepository.endeavorlessTasksStream.listen((event) {
       if (state is LoadedTasksScreenState) {
         add(
           ServerUpdate(
@@ -45,5 +52,12 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
         );
       }
     });
+  }
+
+  @override
+  Future<void> close() {
+    _activeTreeSubscription.cancel();
+    _endeavorlessSubscription.cancel();
+    return super.close();
   }
 }

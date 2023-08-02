@@ -7,7 +7,7 @@ abstract class EndeavorBlockScreenEvent extends Equatable {
 class EndeavorChanged extends EndeavorBlockScreenEvent {
   const EndeavorChanged(this.endeavor);
 
-  final Endeavor endeavor;
+  final Endeavor? endeavor;
 
   @override
   List<Object?> get props => [endeavor];
