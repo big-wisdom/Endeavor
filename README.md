@@ -153,14 +153,21 @@ Back End: Firebase
     * I now have a problem where I'm trying to initialize all the streams at the beginning. Maybe I can just call them from the data service on demand
     * calling them on demand helped. I'm still not sure that I won't encounter a race condition sometime where the data repository and the data service could update in the wrong order or something
     * Just got done making sure that endeavors and sub endeavors could be both created and deleted correctly!! woo hoo!
-    -------------
     * Now onto the tasksScreen
       * Started implementing some of the data work for the TaskScreen
         * steps to reproduce bug.
           * leave the EndeavorsScreen
           * return to the EndeavorsScreen and try to create an endeavor
         * turned out to be the fact that I hadn't closed my stream subscription on the TasksScreenBloc
-    -------------
+      * there seems to be some issues with the OneTimeEventPickerScreen that gets launched from the TaskScreenView DONE I thinkg
+        * I'm thinking that there's really no reason for the OneTimeEventPickerScreen to be as thick as it is. It could really just be a Scaffold that has a the OneTimeEventPicker widget on it that really does all the work and has the cubit
+      * Now I need to make sure the UI only shows certain property editors when it should Done
+      --------------
+      * It's possible the event is being created right now but it's not being shown on the task screen
+        * It doesn't appear to be reaching the task screen. Where's it getting stopped?
+      * I can get a single event to appear on the task screen, but not multiple for some reason
+        * Why is the scheduledEvents not part of the TaskForm?
+      --------------
 
     * side task:
       * Where is the user document created? The DataRepository DONE

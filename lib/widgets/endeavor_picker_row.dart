@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 class EndeavorPickerRow extends StatelessWidget {
   const EndeavorPickerRow({
     required this.endeavorInput,
-    this.endeavorTreeOfLife,
     required this.onChanged,
     super.key,
   });
 
   final EndeavorPickerRowInput endeavorInput;
-  final TreeOfLife? endeavorTreeOfLife;
   final void Function(Endeavor? endeavor) onChanged;
 
   @override
@@ -25,7 +23,6 @@ class EndeavorPickerRow extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 return EndeavorSelectionScreen(
-                  treeOfLife: endeavorTreeOfLife,
                   initiallySelectedEndeavorInput: endeavorInput,
                   onChanged: onChanged,
                 );

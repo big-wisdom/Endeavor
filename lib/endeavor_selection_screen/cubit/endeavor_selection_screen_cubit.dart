@@ -10,25 +10,22 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
 
   EndeavorSelectionScreenCubit({
     required DataRepository dataRepository,
-    TreeOfLife? treeOfLife,
     required EndeavorPickerRowInput initiallySelectedEndeavorInput,
     required void Function(Endeavor?) onChanged,
   })  : _onChanged = onChanged,
         super(EndeavorSelectionScreenInitial(
-          treeOfLife: treeOfLife,
+          treeOfLife: null,
           selectedEndeavorInput: initiallySelectedEndeavorInput,
         )) {
     // get tree of life if it's not passed in
-    if (treeOfLife == null) {
-      dataRepository.treeOfLifeStream.first.then(
-        (tree) => emit(
-          EndeavorSelectionScreenState(
-            treeOfLife: tree,
-            selectedEndeavorInput: state.selectedEndeavorInput,
-          ),
+    dataRepository.treeOfLifeStream.first.then(
+      (tree) => emit(
+        EndeavorSelectionScreenState(
+          treeOfLife: tree,
+          selectedEndeavorInput: state.selectedEndeavorInput,
         ),
-      );
-    }
+      ),
+    );
   }
 
   void endeavorSelected(Endeavor endeavor) {

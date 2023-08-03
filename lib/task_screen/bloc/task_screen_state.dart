@@ -7,34 +7,37 @@ class TaskScreenState extends TaskForm {
     required super.duration,
     required super.endeavor,
     required super.minnimumSchedulingDuration,
-    this.scheduledEvents = const [],
-    this.treeOfLife,
+    required super.scheduledEvents,
   });
-
-  final List<Event> scheduledEvents;
-  // treeOfLife is on state as a pass through from TasksScreen to EndeavorPickerRow
-  // so that the query and calculation doesn't have to be run twice if TasksScreen
-  // is the parent of the task screen
-  final TreeOfLife? treeOfLife;
 
   TaskScreenState copyWith({
     String? title,
     EndeavorPickerRowInput? endeavorPickerRowInput,
+    DurationField? durationField,
+    DivisibilityBox? divisibilityBox,
+    MinnimumSchedulingDuration? minnimumSchedulingDuration,
+    Event? newEvent,
   }) {
+    List<Event> newScheduledEvents;
+    newScheduledEvents = [...scheduledEvents.value];
+    if (newEvent != null) {
+      newScheduledEvents.add(newEvent);
+    }
+
     return TaskScreenState(
       title: title != null ? TaskTitle.dirty(title) : this.title,
-      divisible: divisible,
-      duration: duration,
+      divisible: divisibilityBox ?? divisible,
+      duration: durationField ?? duration,
       endeavor: endeavorPickerRowInput ?? endeavor,
-      minnimumSchedulingDuration: minnimumSchedulingDuration,
-      scheduledEvents: scheduledEvents,
-      treeOfLife: treeOfLife,
+      minnimumSchedulingDuration:
+          minnimumSchedulingDuration ?? this.minnimumSchedulingDuration,
+      scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
     );
   }
 
   Duration get scheduledDuration {
     var duration = Duration.zero;
-    for (final e in scheduledEvents) {
+    for (final e in scheduledEvents.value) {
       duration = Duration(minutes: e.duration.inMinutes + duration.inMinutes);
     }
     return duration;
@@ -56,7 +59,7 @@ class TaskScreenState extends TaskForm {
         duration,
         divisible,
         minnimumSchedulingDuration,
-        treeOfLife,
+        scheduledEvents,
       ];
 
   @override
@@ -66,6 +69,7 @@ class TaskScreenState extends TaskForm {
         duration,
         divisible,
         minnimumSchedulingDuration,
+        scheduledEvents,
       ];
 }
 
@@ -78,6 +82,6 @@ class TaskScreenInitial extends TaskScreenState {
           duration: const DurationField.pure(),
           minnimumSchedulingDuration:
               MinnimumSchedulingDuration.pure(const DurationField.pure().value),
-          treeOfLife: treeOfLife,
+          scheduledEvents: const ScheduledEvents.pure([]),
         );
 }
