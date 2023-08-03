@@ -162,11 +162,14 @@ Back End: Firebase
       * there seems to be some issues with the OneTimeEventPickerScreen that gets launched from the TaskScreenView DONE I thinkg
         * I'm thinking that there's really no reason for the OneTimeEventPickerScreen to be as thick as it is. It could really just be a Scaffold that has a the OneTimeEventPicker widget on it that really does all the work and has the cubit
       * Now I need to make sure the UI only shows certain property editors when it should Done
-      --------------
       * It's possible the event is being created right now but it's not being shown on the task screen
         * It doesn't appear to be reaching the task screen. Where's it getting stopped?
       * I can get a single event to appear on the task screen, but not multiple for some reason
+      --------------
         * Why is the scheduledEvents not part of the TaskForm?
+        * turned out to be that scheduledEvents wasn't in the props and inputs of the TaskScreenState, and so when it changed, the bloc package couldn't see that the state was changing at all.
+          * But why did it change on the first one?
+            * mmmmmm probably because it was changing from an InitialTaskFormState to a TaskFormState even though none of the properties were changing. OMG
       --------------
 
     * side task:
