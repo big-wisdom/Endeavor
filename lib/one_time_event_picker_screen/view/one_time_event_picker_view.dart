@@ -8,29 +8,35 @@ class OneTimeEventPickerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final oneTimeEventPickerScreencubit =
+        context.read<OneTimeEventPickerScreenCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Work Block"),
       ),
-      body: BlocBuilder<OneTimeEventPickerScreenCubit,
-          OneTimeEventPickerScreenState>(
-        builder: (context, state) {
-          return Column(children: [
-            OneTimeEventPicker(
-              onEvent: (newEvent) => context
-                  .read<OneTimeEventPickerScreenCubit>()
-                  .eventChanged(newEvent),
-              startingEvent: state.event,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.read<OneTimeEventPickerScreenCubit>().done();
-                Navigator.pop(context);
-              },
-              child: const Text("Done"),
-            )
-          ]);
-        },
+      body: Column(
+        children: [
+          OneTimeEventPicker(
+            onEvent: (newEvent) =>
+                oneTimeEventPickerScreencubit.setEvent(newEvent),
+            startingEvent: oneTimeEventPickerScreencubit.state.event,
+          ),
+          BlocBuilder<OneTimeEventPickerScreenCubit,
+              OneTimeEventPickerScreenState>(
+            buildWhen: (previous, current) => previous.event != current.event,
+            builder: (context, state) {
+              return ElevatedButton(
+                onPressed: state.event == null
+                    ? null
+                    : () {
+                        context.read<OneTimeEventPickerScreenCubit>().done();
+                        Navigator.pop(context);
+                      },
+                child: const Text("Done"),
+              );
+            },
+          )
+        ],
       ),
     );
   }

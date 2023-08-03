@@ -7,3 +7,4 @@ export 'formz/duration_field.dart';
 export 'formz/endeavor_id.dart';
 export 'formz/minnimum_scheduling_duration.dart';
 export 'formz/task_title.dart';
+export 'formz/scheduled_events.dart';

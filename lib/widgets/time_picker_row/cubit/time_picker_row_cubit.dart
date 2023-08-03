@@ -18,9 +18,9 @@ class TimePickerRowCubit extends Cubit<TimePickerRowState> {
 
   void timeSelected(TimeOfDay time) {
     onTimeSelected(time);
-  }
-
-  void timeChanged(TimeOfDay time) {
     emit(state.copyWithNewTime(time));
   }
+
+  // void timeChanged(TimeOfDay time) {
+  // }
 }

@@ -34,19 +34,35 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     );
 
     on<DurationChanged>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(
+        state.copyWith(durationField: DurationField.dirty(event.newDuration)),
+      ),
     );
 
     on<DivisibilityChanged>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(
+        state.copyWith(
+          divisibilityBox: DivisibilityBox.dirty(
+            value: event.newDivisibility,
+            duration: state.duration.value,
+          ),
+        ),
+      ),
     );
 
     on<MinnimumSchedulingDurationChanged>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(
+        state.copyWith(
+          minnimumSchedulingDuration: MinnimumSchedulingDuration.dirty(
+            value: event.newDuration,
+            duration: state.minnimumSchedulingDuration.value,
+          ),
+        ),
+      ),
     );
 
     on<EventCreated>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) => emit(state.copyWith(newEvent: event.event)),
     );
 
     on<EventDeleted>(

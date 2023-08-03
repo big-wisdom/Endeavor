@@ -15,7 +15,7 @@ class Event extends AbstractEvent {
   final DateTime end;
 
   Duration get duration {
-    return start.difference(end);
+    return end.difference(start);
   }
 
   Event.generic(Duration? duration)

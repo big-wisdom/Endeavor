@@ -32,9 +32,8 @@ class TaskScreenView extends StatelessWidget {
                 _DurationSelector(),
                 _DivisibilityCheckbox(),
                 _MinnimumDurationPicker(),
-                if (bloc.state.scheduledEvents.isEmpty) _Schedule(),
-                if (bloc.state.scheduledEvents.isNotEmpty)
-                  _TaskEventListEditor(),
+                if (bloc.state.scheduledEvents.value.isEmpty) _Schedule(),
+                _TaskEventListEditor(),
               ],
             ),
           ),
@@ -71,7 +70,6 @@ class _EndeavorSwitcher extends StatelessWidget {
       buildWhen: (previous, current) => previous.endeavor != current.endeavor,
       builder: (context, state) => EndeavorPickerRow(
         endeavorInput: state.endeavor,
-        endeavorTreeOfLife: state.treeOfLife,
         onChanged: (endeavor) =>
             context.read<TaskScreenBloc>().add(EndeavorSelected(endeavor)),
       ),
@@ -142,8 +140,18 @@ class _MinnimumDurationPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
+      buildWhen: (previous, current) =>
+          previous.minnimumSchedulingDuration !=
+              current.minnimumSchedulingDuration ||
+          previous.divisible != current.divisible,
       builder: (context, state) {
+        if (state.divisible.value == null ||
+            (state.divisible.value != null && !state.divisible.value!)) {
+          return Container();
+        }
+
         final bloc = context.read<TaskScreenBloc>();
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -177,6 +185,7 @@ class _Schedule extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       builder: (context, state) {
+        final taskScreenBloc = context.read<TaskScreenBloc>();
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -188,9 +197,8 @@ class _Schedule extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) {
                         return OneTimeEventPickerScreen(
-                          onEvent: (newEvent) => context
-                              .read<TaskScreenBloc>()
-                              .add(EventCreated(newEvent)),
+                          onEvent: (newEvent) =>
+                              taskScreenBloc.add(EventCreated(newEvent)),
                         );
                       },
                     ),
@@ -209,8 +217,10 @@ class _TaskEventListEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       buildWhen: (previous, current) =>
-          previous.scheduledEvents != previous.scheduledEvents,
+          previous.scheduledEvents != current.scheduledEvents,
       builder: (context, state) {
+        if (state.scheduledEvents.value.isEmpty) return Container();
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -226,8 +236,9 @@ class _TaskEventListEditor extends StatelessWidget {
                   children: [
                     Text(
                         "Scheduled: ${state.scheduledDuration.inMinutes} minutes"),
-                    Text(
-                        "Unscheduled: ${state.unscheduledDuration!.inMinutes} minutes"),
+                    if (state.unscheduledDuration != null)
+                      Text(
+                          "Unscheduled: ${state.unscheduledDuration!.inMinutes} minutes"),
                   ],
                 ),
               ],
@@ -237,18 +248,18 @@ class _TaskEventListEditor extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Dismissible(
                   key: Key(state
-                      .scheduledEvents[index].start.millisecondsSinceEpoch
+                      .scheduledEvents.value[index].start.millisecondsSinceEpoch
                       .toString()),
                   onDismissed: (direction) {
                     context.read<TaskScreenBloc>().add(
-                          EventDeleted(state.scheduledEvents[index]),
+                          EventDeleted(state.scheduledEvents.value[index]),
                         );
                   },
                   child: ListTile(
                     title: Text(
-                        "${state.scheduledEvents[index].duration.inMinutes} minutes"),
+                        "${state.scheduledEvents.value[index].duration.inMinutes} minutes"),
                     subtitle: Text(
-                      getEventDescription(state.scheduledEvents[index]),
+                      getEventDescription(state.scheduledEvents.value[index]),
                     ),
                   ),
                 );
@@ -258,18 +269,18 @@ class _TaskEventListEditor extends StatelessWidget {
                   thickness: 1,
                 );
               },
-              itemCount: state.scheduledEvents.length,
+              itemCount: state.scheduledEvents.value.length,
             ),
             TextButton(
               onPressed: () {
+                final taskScreenBloc = context.read<TaskScreenBloc>();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
                       return OneTimeEventPickerScreen(
-                        onEvent: (event) => context
-                            .read<TaskScreenBloc>()
-                            .add(EventCreated(event)),
+                        onEvent: (event) =>
+                            taskScreenBloc.add(EventCreated(event)),
                       );
                     },
                   ),

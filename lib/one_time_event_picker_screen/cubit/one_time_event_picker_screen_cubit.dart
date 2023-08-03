@@ -14,10 +14,12 @@ class OneTimeEventPickerScreenCubit
   }) : super(OneTimeEventPickerInitial(initialEvent));
 
   void done() {
-    throw UnimplementedError();
+    if (state.event != null) {
+      onEvent(state.event!);
+    }
   }
 
-  void eventChanged(Event newEvent) {
-    throw UnimplementedError();
+  void setEvent(Event newEvent) {
+    emit(OneTimeEventPickerScreenState(newEvent));
   }
 }
