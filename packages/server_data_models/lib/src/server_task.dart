@@ -1,3 +1,5 @@
+import 'package:data_models/data_models.dart';
+
 import 'server_event.dart';
 
 class ServerTask {
@@ -11,6 +13,21 @@ class ServerTask {
     this.divisible,
     this.events,
   });
+
+  factory ServerTask.fromTask(Task task) {
+    return ServerTask(
+      id: task.id!,
+      title: task.title!,
+      endeavorId: task.endeavorId,
+      dueDate: task.dueDate,
+      duration: task.duration,
+      minnimumSchedulingDuration: task.minnimumSchedulingDuration,
+      divisible: task.divisible,
+      events: task.events
+          ?.map((e) => ServerEvent(start: e.start, end: e.end))
+          .toList(),
+    );
+  }
 
   final String id;
   final String title;

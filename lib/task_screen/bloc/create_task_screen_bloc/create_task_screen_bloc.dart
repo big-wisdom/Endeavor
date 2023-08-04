@@ -1,5 +1,6 @@
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:data_service/data_service.dart';
 
 import '../task_screen_bloc.dart';
 
@@ -53,10 +54,8 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     on<MinnimumSchedulingDurationChanged>(
       (event, emit) => emit(
         state.copyWith(
-          minnimumSchedulingDuration: MinnimumSchedulingDuration.dirty(
-            value: event.newDuration,
-            duration: state.minnimumSchedulingDuration.value,
-          ),
+          minnimumSchedulingDuration: state.minnimumSchedulingDuration.copyWith(
+              newMinnimumSchedulingDuration: event.newMinnimumDuration),
         ),
       ),
     );
@@ -68,5 +67,11 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     on<EventDeleted>(
       (event, emit) => throw UnimplementedError(),
     );
+
+    on<SaveButtonTapped>((event, emit) {
+      if (state.createTask == null) throw Exception("Task shouldn't be null");
+
+      ServerTaskDataServiceExtension.createTask(state.createTask!);
+    });
   }
 }

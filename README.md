@@ -127,54 +127,13 @@ Back End: Firebase
   * This will get streams of ServerDataModels from the DataService and expose streams of DataModels to the Endeavor package
 
 ### Procedure for creating it
-* Starting with the DataService
-  * I will need an extension for each data type in the 'server_data_models' package DONE
-    * UserDocument
-    * ServerEndeavor
-    * ServerEvent
-    * ServerTask
-    * ServerEndeavorBlock
-    * ServerCalendarEvent
-  * Now each one will need a DataService extension and a model extension
-    * except for the ServerEvent as that's just a protocol for others to use and it has no collection to stream itself
+* I need to make it so that the TaskScreen can actually create a task
+  * I think I should make a save button, because that could be the same for create or edit DONE
+  * I fixed the problem where some inputs depend on others so in the state that tracks them, I adjusted the copyWith method to update eachother
 
-* I'd like to try out just the EndeavorsScreen and the EndeavorScreen with this new method before building out the entire thing. Therefore I just need to get the following done
-  * userDocStream exposed from the DataService DONE
-  * serverEndeavors stream exposed from the DataService DONE
-  * serverTasks stream exposed form the DataService DONE
-  * clear up resulting errors
-    * EndeavorSelectionScreen needs a TreeOfLife model DONE
-    * I need to put edit and delete endeavor methods into the FirestoreServerEndeavorDataServiceExtendsion and call them from the EditEndeavorScreenBloc DONE
-    * I need to make a ServerEndeavor.fromEndeavor() constructor DONE
-    * I need to move the static planEndeavor method into the ServerEndeavor DataService extension DONE
-    * I need the TasksScreenBloc to listen to the treeOfLifeStream and the endeavorlessTasksStream and update seperately DONE
-  * runtime errors
-    * I forgot to create the DataService in the beginning
-    * I now have a problem where I'm trying to initialize all the streams at the beginning. Maybe I can just call them from the data service on demand
-    * calling them on demand helped. I'm still not sure that I won't encounter a race condition sometime where the data repository and the data service could update in the wrong order or something
-    * Just got done making sure that endeavors and sub endeavors could be both created and deleted correctly!! woo hoo!
-    * Now onto the tasksScreen
-      * Started implementing some of the data work for the TaskScreen
-        * steps to reproduce bug.
-          * leave the EndeavorsScreen
-          * return to the EndeavorsScreen and try to create an endeavor
-        * turned out to be the fact that I hadn't closed my stream subscription on the TasksScreenBloc
-      * there seems to be some issues with the OneTimeEventPickerScreen that gets launched from the TaskScreenView DONE I thinkg
-        * I'm thinking that there's really no reason for the OneTimeEventPickerScreen to be as thick as it is. It could really just be a Scaffold that has a the OneTimeEventPicker widget on it that really does all the work and has the cubit
-      * Now I need to make sure the UI only shows certain property editors when it should Done
-      * It's possible the event is being created right now but it's not being shown on the task screen
-        * It doesn't appear to be reaching the task screen. Where's it getting stopped?
-      * I can get a single event to appear on the task screen, but not multiple for some reason
-      --------------
-        * Why is the scheduledEvents not part of the TaskForm?
-        * turned out to be that scheduledEvents wasn't in the props and inputs of the TaskScreenState, and so when it changed, the bloc package couldn't see that the state was changing at all.
-          * But why did it change on the first one?
-            * mmmmmm probably because it was changing from an InitialTaskFormState to a TaskFormState even though none of the properties were changing. OMG
-      --------------
+* While engaged in the previous, I realized that I've negelegted something. If the UI reaches straight out to the DataService, its the DataModels not the ServerDataModels that will need toData() methods on them because that's what the UI has. This resurrects the idea that I've never actually finished restructuring all my models. Time to do it.
 
-    * side task:
-      * Where is the user document created? The DataRepository DONE
-      * Now I need to remove whatever is creating and deleting the settings document
+* make the _Schedule widget go away when there are events
 
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask

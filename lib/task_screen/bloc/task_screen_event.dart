@@ -41,12 +41,12 @@ class DivisibilityChanged extends TaskScreenEvent {
 }
 
 class MinnimumSchedulingDurationChanged extends TaskScreenEvent {
-  const MinnimumSchedulingDurationChanged(this.newDuration);
+  const MinnimumSchedulingDurationChanged(this.newMinnimumDuration);
 
-  final Duration newDuration;
+  final Duration newMinnimumDuration;
 
   @override
-  List<Object?> get props => [newDuration];
+  List<Object?> get props => [newMinnimumDuration];
 }
 
 class EventCreated extends TaskScreenEvent {
@@ -65,4 +65,11 @@ class EventDeleted extends TaskScreenEvent {
 
   @override
   List<Object?> get props => [event];
+}
+
+class SaveButtonTapped extends TaskScreenEvent {
+  const SaveButtonTapped();
+
+  @override
+  List<Object?> get props => [];
 }

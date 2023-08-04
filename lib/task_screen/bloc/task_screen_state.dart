@@ -1,6 +1,6 @@
 part of "task_screen_bloc.dart";
 
-class TaskScreenState extends TaskForm {
+abstract class TaskScreenState extends TaskForm {
   const TaskScreenState({
     required super.title,
     required super.divisible,
@@ -18,21 +18,51 @@ class TaskScreenState extends TaskForm {
     MinnimumSchedulingDuration? minnimumSchedulingDuration,
     Event? newEvent,
   }) {
+    // add new event if there is one
     List<Event> newScheduledEvents;
     newScheduledEvents = [...scheduledEvents.value];
     if (newEvent != null) {
       newScheduledEvents.add(newEvent);
     }
 
-    return TaskScreenState(
-      title: title != null ? TaskTitle.dirty(title) : this.title,
-      divisible: divisibilityBox ?? divisible,
-      duration: durationField ?? duration,
-      endeavor: endeavorPickerRowInput ?? endeavor,
-      minnimumSchedulingDuration:
-          minnimumSchedulingDuration ?? this.minnimumSchedulingDuration,
-      scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
-    );
+    // if duration or divisibility is updated, update minnimumSchedulingDuration input
+    MinnimumSchedulingDuration newMinSchedDuration =
+        minnimumSchedulingDuration ?? this.minnimumSchedulingDuration;
+    if (durationField != null) {
+      newMinSchedDuration =
+          newMinSchedDuration.copyWith(newDuration: durationField.value);
+    }
+    if (divisibilityBox != null) {
+      newMinSchedDuration =
+          newMinSchedDuration.copyWith(newDivisibility: divisibilityBox.value);
+    }
+
+    // if duration is updated, update divisibility input
+    DivisibilityBox newDivisibility = divisibilityBox ?? divisible;
+    if (durationField != null) {
+      newDivisibility =
+          newDivisibility.copyWith(newDuration: durationField.value);
+    }
+
+    if (this is CreateTaskScreenState) {
+      return CreateTaskScreenState(
+        title: title != null ? TaskTitle.dirty(title) : this.title,
+        divisible: divisibilityBox ?? divisible,
+        duration: durationField ?? duration,
+        endeavor: endeavorPickerRowInput ?? endeavor,
+        minnimumSchedulingDuration: newMinSchedDuration,
+        scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
+      );
+    } else {
+      return EditTaskScreenState(
+        title: title != null ? TaskTitle.dirty(title) : this.title,
+        divisible: divisibilityBox ?? divisible,
+        duration: durationField ?? duration,
+        endeavor: endeavorPickerRowInput ?? endeavor,
+        minnimumSchedulingDuration: newMinSchedDuration,
+        scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
+      );
+    }
   }
 
   Duration get scheduledDuration {
@@ -73,6 +103,28 @@ class TaskScreenState extends TaskForm {
       ];
 }
 
+class EditTaskScreenState extends TaskScreenState {
+  const EditTaskScreenState({
+    required super.title,
+    required super.divisible,
+    required super.duration,
+    required super.endeavor,
+    required super.minnimumSchedulingDuration,
+    required super.scheduledEvents,
+  });
+}
+
+class CreateTaskScreenState extends TaskScreenState {
+  const CreateTaskScreenState({
+    required super.title,
+    required super.divisible,
+    required super.duration,
+    required super.endeavor,
+    required super.minnimumSchedulingDuration,
+    required super.scheduledEvents,
+  });
+}
+
 class TaskScreenInitial extends TaskScreenState {
   TaskScreenInitial(TreeOfLife? treeOfLife)
       : super(
@@ -80,8 +132,10 @@ class TaskScreenInitial extends TaskScreenState {
           endeavor: EndeavorPickerRowInput.pure(null),
           divisible: DivisibilityBox.pure(const DurationField.pure().value),
           duration: const DurationField.pure(),
-          minnimumSchedulingDuration:
-              MinnimumSchedulingDuration.pure(const DurationField.pure().value),
+          minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(
+            duration: const DurationField.pure().value,
+            divisible: null,
+          ),
           scheduledEvents: const ScheduledEvents.pure([]),
         );
 }
