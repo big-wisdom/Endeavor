@@ -13,6 +13,15 @@ class DivisibilityBox extends FormzInput<bool?, DivisibilityError> {
 
   final Duration? duration;
 
+  DivisibilityBox copyWith({
+    Duration? newDuration,
+  }) {
+    return DivisibilityBox.dirty(
+      value: value,
+      duration: newDuration,
+    );
+  }
+
   @override
   DivisibilityError? validator(bool? value) {
     if (duration == null && value != null) {

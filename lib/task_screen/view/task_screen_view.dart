@@ -34,6 +34,7 @@ class TaskScreenView extends StatelessWidget {
                 _MinnimumDurationPicker(),
                 if (bloc.state.scheduledEvents.value.isEmpty) _Schedule(),
                 _TaskEventListEditor(),
+                _SaveButton(),
               ],
             ),
           ),
@@ -180,6 +181,7 @@ class _MinnimumDurationPicker extends StatelessWidget {
   }
 }
 
+// TODO: the event isn't getting the right time
 class _Schedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -289,6 +291,24 @@ class _TaskEventListEditor extends StatelessWidget {
               child: const Text("Add Work Block"),
             )
           ],
+        );
+      },
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TaskScreenBloc, TaskScreenState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state is TaskScreenInitial
+              ? null
+              : () {
+                  context.read<TaskScreenBloc>().add(const SaveButtonTapped());
+                },
+          child: const Text("Save"),
         );
       },
     );
