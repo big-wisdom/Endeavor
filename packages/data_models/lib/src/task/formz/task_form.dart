@@ -29,15 +29,16 @@ abstract class TaskForm extends Equatable with FormzMixin {
         scheduledEvents
       ];
 
-  Task? get createTask {
+  UnidentifiedTask? get createUnidentifiedTask {
     if (status.isValid) {
-      return Task(
+      return UnidentifiedTask(
         title: title.value,
         divisible: divisible.value,
         duration: duration.value,
-        endeavorId: endeavor.value?.id,
+        endeavorReference: endeavor.value,
         minnimumSchedulingDuration: minnimumSchedulingDuration.value,
         events: scheduledEvents.value,
+        dueDate: null,
       );
     }
 

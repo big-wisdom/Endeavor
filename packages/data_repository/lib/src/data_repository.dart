@@ -19,7 +19,7 @@ class DataRepository {
     return CombineLatestStream.combine3(
       UserDocumentDataServiceExtension.userDocStream,
       ServerEndeavorDataServiceExtension.serverEndeavorsStream,
-      ServerTaskDataServiceExtension.tasksStream,
+      TasksDataServiceExtension.tasksStream,
       (userDoc, serverEndeavors, serverTasks) =>
           EndeavorTransformers.primaryEndeavors(
         userDoc,
@@ -33,7 +33,7 @@ class DataRepository {
   Stream<Endeavor> getEndeavorStream(String endeavorId) {
     return CombineLatestStream.combine2(
       ServerEndeavorDataServiceExtension.serverEndeavorsStream,
-      ServerTaskDataServiceExtension.tasksStream,
+      TasksDataServiceExtension.tasksStream,
       (a, b) =>
           EndeavorTransformers.endeavorFromEndeavorsAndTasks(endeavorId, a, b),
     );
@@ -44,7 +44,7 @@ class DataRepository {
     return CombineLatestStream.combine3(
       UserDocumentDataServiceExtension.userDocStream,
       ServerEndeavorDataServiceExtension.serverEndeavorsStream,
-      ServerTaskDataServiceExtension.tasksStream,
+      TasksDataServiceExtension.tasksStream,
       (a, b, c) => TreeOfLifeTransformers.activeTreeFromIngredients(a, b, c),
     );
   }
@@ -53,14 +53,17 @@ class DataRepository {
     return CombineLatestStream.combine3(
       UserDocumentDataServiceExtension.userDocStream,
       ServerEndeavorDataServiceExtension.serverEndeavorsStream,
-      ServerTaskDataServiceExtension.tasksStream,
+      TasksDataServiceExtension.tasksStream,
       (a, b, c) => TreeOfLifeTransformers.fromIngredients(a, b, c),
     );
   }
 
   Stream<List<Task>> get endeavorlessTasksStream =>
-      ServerTaskDataServiceExtension.tasksStream.transform(
-          TaskTransformers.serverTasksToEndeavorlessTasksTransformer);
+      CombineLatestStream.combine2(
+        TasksDataServiceExtension.tasksStream,
+        ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+        (a, b) => TaskTransformers.taskListFromIngredients(a, b),
+      );
 
   // Task screen
   Stream<ServerTask> getTaskStream() => throw UnimplementedError();

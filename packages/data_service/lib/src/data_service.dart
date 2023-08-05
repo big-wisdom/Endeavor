@@ -6,7 +6,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 // extension exports
 export './user_document/user_document.dart';
 export './server_endeavor/server_endeavor.dart';
-export './server_task/server_task.dart';
+export 'task/task.dart';
 
 class DataService {
   late final StreamSubscription _userStreamSubscription;

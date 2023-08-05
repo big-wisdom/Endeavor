@@ -63,7 +63,7 @@ class WeekViewEvent extends Equatable {
     return task.events!
         .map(
           (e) => WeekViewEvent(
-            title: task.title!,
+            title: task.title,
             backgroundColor: backgroundColor,
             start: e.start,
             end: e.end,

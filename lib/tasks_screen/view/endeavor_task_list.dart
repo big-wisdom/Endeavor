@@ -17,7 +17,7 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       title: Text(widget.endeavorNode.endeavor.title),
       trailing: TextButton(
         onPressed: () => context
@@ -28,23 +28,36 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
       controlAffinity: ListTileControlAffinity.leading,
       children: [
         // subendeavors
-        ListView.builder(
-          itemCount: widget.endeavorNode.endeavor.subEndeavorReferences.length,
-          itemBuilder: (context, index) {
-            return EndeavorTaskList(
-              endeavorNode: widget.endeavorNode.subEndeavors[index],
-            );
-          },
-        ),
+        ...widget.endeavorNode.subEndeavors
+            .map((endeavorNode) => EndeavorTaskList(endeavorNode: endeavorNode))
+            .toList(),
+        // ListView.separated(
+        //   itemCount: widget.endeavorNode.endeavor.subEndeavorReferences.length,
+        //   itemBuilder: (context, index) {
+        //     return EndeavorTaskList(
+        //       endeavorNode: widget.endeavorNode.subEndeavors[index],
+        //     );
+        //   },
+        //   separatorBuilder: (context, index) => const Divider(
+        //     thickness: 1,
+        //   ),
+        // ),
         // tasks
-        ListView.builder(
-          itemCount: widget.endeavorNode.endeavor.taskReferences.length,
-          itemBuilder: (context, index) {
-            return TaskListTile(
-                taskReference:
-                    widget.endeavorNode.endeavor.taskReferences[index]);
-          },
-        ),
+        ...widget.endeavorNode.endeavor.taskReferences
+            .map((taskRef) => TaskListTile(
+                  taskReference: taskRef,
+                  key: Key(taskRef.id),
+                ))
+            .toList(),
+        // ListView.separated(
+        //   itemCount: widget.endeavorNode.endeavor.taskReferences.length,
+        //   itemBuilder: (context, index) {
+        //     return;
+        //   },
+        //   separatorBuilder: (context, index) => const Divider(
+        //     thickness: 1,
+        //   ),
+        // ),
       ],
     );
   }

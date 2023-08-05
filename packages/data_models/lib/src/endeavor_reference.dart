@@ -1,3 +1,4 @@
+import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
 
 class EndeavorReference extends Equatable {
@@ -5,6 +6,13 @@ class EndeavorReference extends Equatable {
     required this.title,
     required this.id,
   });
+
+  factory EndeavorReference.fromEndeavor(Endeavor endeavor) {
+    return EndeavorReference(
+      title: endeavor.title,
+      id: endeavor.id,
+    );
+  }
 
   final String title;
   final String id;

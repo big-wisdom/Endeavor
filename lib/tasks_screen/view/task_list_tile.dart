@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskListTile extends StatefulWidget {
-  const TaskListTile({required this.taskReference, super.key});
+  const TaskListTile({required this.taskReference, required super.key});
 
   final TaskReference taskReference;
 

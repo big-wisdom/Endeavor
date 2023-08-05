@@ -1,6 +1,9 @@
 export 'transformers/task_transformers.dart';
+
+export 'model/abstract_task.dart';
 export 'model/task.dart';
-export 'firestore/task_firestore_extension.dart';
+export 'model/unidentified_task.dart';
+
 export 'formz/task_form.dart';
 export 'formz/divisibilityBox.dart';
 export 'formz/duration_field.dart';

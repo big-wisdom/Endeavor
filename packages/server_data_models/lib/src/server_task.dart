@@ -16,9 +16,9 @@ class ServerTask {
 
   factory ServerTask.fromTask(Task task) {
     return ServerTask(
-      id: task.id!,
-      title: task.title!,
-      endeavorId: task.endeavorId,
+      id: task.id,
+      title: task.title,
+      endeavorId: task.endeavorReference?.id,
       dueDate: task.dueDate,
       duration: task.duration,
       minnimumSchedulingDuration: task.minnimumSchedulingDuration,
