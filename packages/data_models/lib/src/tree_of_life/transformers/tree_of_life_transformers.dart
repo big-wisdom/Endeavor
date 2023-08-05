@@ -16,10 +16,10 @@ extension TreeOfLifeTransformers on TreeOfLife {
         primaryServerEndeavors.add(e);
       } else {
         // map parents id to its subEndeavors ServerEndeavor object
-        if (endeavorIdToSubEndeavors[e.id] == null) {
-          endeavorIdToSubEndeavors[e.id] = [e];
+        if (endeavorIdToSubEndeavors[e.parentEndeavorId!] == null) {
+          endeavorIdToSubEndeavors[e.parentEndeavorId!] = [e];
         } else {
-          endeavorIdToSubEndeavors[e.id]!.add(e);
+          endeavorIdToSubEndeavors[e.parentEndeavorId!]!.add(e);
         }
       }
     }
@@ -73,10 +73,10 @@ extension TreeOfLifeTransformers on TreeOfLife {
         if (endeavorIdsToGrab.contains(se.id) && !grabbedIds.contains(se.id)) {
           if (se.parentEndeavorId != null) {
             // add to parents list if not primary
-            if (endeavorIdToSubEndeavors[se.id] == null) {
-              endeavorIdToSubEndeavors[se.id] = [se];
+            if (endeavorIdToSubEndeavors[se.parentEndeavorId!] == null) {
+              endeavorIdToSubEndeavors[se.parentEndeavorId!] = [se];
             } else {
-              endeavorIdToSubEndeavors[se.id]!.add(se);
+              endeavorIdToSubEndeavors[se.parentEndeavorId!]!.add(se);
             }
             // add parent to endeavorIdsToGrab
             endeavorIdsToGrab.add(se.parentEndeavorId!);

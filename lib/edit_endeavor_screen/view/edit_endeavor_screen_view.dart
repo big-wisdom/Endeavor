@@ -10,39 +10,41 @@ class EditEndeavorScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<EditEndeavorScreenBloc>().state;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(state.title),
-        actions: [
-          if (state is! LoadingEditEndeavorScreenState)
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const EndeavorSettingsScreenView();
-                    },
+    return BlocBuilder<EditEndeavorScreenBloc, EditEndeavorScreenState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(state.title),
+            actions: [
+              if (state is! LoadingEditEndeavorScreenState)
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const EndeavorSettingsScreenView();
+                        },
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.settings),
+                ),
+            ],
+          ),
+          body: state is LoadingEditEndeavorScreenState
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : const SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SubEndeavorsEditor(),
+                      EndeavorViewTaskEditor(),
+                    ],
                   ),
-                );
-              },
-              icon: const Icon(Icons.settings),
-            ),
-        ],
-      ),
-      body: state is LoadingEditEndeavorScreenState
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : const SingleChildScrollView(
-              child: Column(
-                children: [
-                  SubEndeavorsEditor(),
-                  EndeavorViewTaskEditor(),
-                ],
-              ),
-            ),
+                ),
+        );
+      },
     );
   }
 }

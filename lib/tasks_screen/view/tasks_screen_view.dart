@@ -29,7 +29,7 @@ class TasksScreenView extends StatelessWidget {
             } else {
               final task = state.tasksWithNoEndeavor[
                   index - state.treeOfLife.primaryEndeavorNodes.length];
-              final ref = TaskReference(id: task.id!, title: task.title!);
+              final ref = TaskReference(id: task.id, title: task.title);
               return TaskListTile(
                 taskReference: ref,
                 key: UniqueKey(),

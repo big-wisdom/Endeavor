@@ -1,8 +1,7 @@
 import 'abstract_task.dart';
 
-class Task extends AbstractTask {
-  Task({
-    required this.id,
+class UnidentifiedTask extends AbstractTask {
+  UnidentifiedTask({
     required super.title,
     required super.endeavorReference,
     required super.events,
@@ -11,9 +10,4 @@ class Task extends AbstractTask {
     required super.dueDate,
     required super.divisible,
   });
-
-  final String id;
-
-  @override
-  List<Object?> get props => super.props..add(id);
 }

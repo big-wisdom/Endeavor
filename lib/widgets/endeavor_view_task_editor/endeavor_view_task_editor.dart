@@ -28,7 +28,8 @@ class EndeavorViewTaskEditor extends StatelessWidget {
                   .read<EditEndeavorScreenBloc>()
                   .add(ReorderTasks(oldIndex, newIndex)),
               children: state.tasksInput.value
-                  .map((task) => TaskListTile(taskReference: task))
+                  .map((task) =>
+                      TaskListTile(taskReference: task, key: Key(task.id)))
                   .toList(),
             ),
           ),

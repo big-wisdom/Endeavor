@@ -69,9 +69,11 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     );
 
     on<SaveButtonTapped>((event, emit) {
-      if (state.createTask == null) throw Exception("Task shouldn't be null");
+      if (state.createUnidentifiedTask == null) {
+        throw Exception("Task shouldn't be null");
+      }
 
-      ServerTaskDataServiceExtension.createTask(state.createTask!);
+      TasksDataServiceExtension.createTask(state.createUnidentifiedTask!);
     });
   }
 }
