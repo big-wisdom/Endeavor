@@ -132,13 +132,6 @@ Back End: Firebase
 
 * While engaged in the previous, I realized that I've negelegted something. If the UI reaches straight out to the DataService, its the DataModels not the ServerDataModels that will need toData() methods on them because that's what the UI has. This resurrects the idea that I've never actually finished restructuring all my models. Time to do it.
 
---------------
-* When a task is deleted from an endeavor, the reference to it in the "taskIds" field isn't deleted
-  * turned out to be that the task references weren't getting the endeavorId field populated from the server because I hadn't made the nullable field required so my IDE didn't warn me
---------------
-
-* make the _Schedule widget go away when there are events
-
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
