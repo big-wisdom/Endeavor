@@ -22,7 +22,8 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       )),
     );
     on<DeleteTask>(
-      (event, emit) => dataRepository.deleteTask(event.taskReference),
+      (event, emit) =>
+          TasksDataServiceExtension.deleteTask(event.taskReference),
     );
 
     on<PlanRequested>(
