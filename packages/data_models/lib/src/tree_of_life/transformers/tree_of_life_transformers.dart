@@ -116,7 +116,13 @@ extension TreeOfLifeTransformers on TreeOfLife {
                     .toList() ??
                 [],
             taskReferences: endeavorIdToTasks[se.id]
-                    ?.map((st) => TaskReference(id: st.id, title: st.title))
+                    ?.map(
+                      (st) => TaskReference(
+                        id: st.id,
+                        title: st.title,
+                        endeavorId: st.endeavorId,
+                      ),
+                    )
                     .toList() ??
                 [],
           ),
@@ -178,6 +184,7 @@ extension TreeOfLifeTransformers on TreeOfLife {
                       (e) => TaskReference(
                         id: e.id,
                         title: e.title,
+                        endeavorId: e.endeavorId,
                       ),
                     )
                     .toList() ??

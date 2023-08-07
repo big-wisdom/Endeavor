@@ -1,5 +1,5 @@
 import 'package:endeavor/edit_endeavor_screen/edit_endeavor_screen.dart';
-import 'package:endeavor/widgets/endeavor_view_task_editor/endeavor_view_task_editor.dart';
+import 'package:endeavor/edit_endeavor_screen/view/endeavor_view_task_editor/endeavor_view_task_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'endeavor_settings_screen_view.dart';

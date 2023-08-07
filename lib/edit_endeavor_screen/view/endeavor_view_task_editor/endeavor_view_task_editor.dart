@@ -1,6 +1,6 @@
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/task_screen/task_screen.dart';
-import 'package:endeavor/widgets/endeavor_view_task_editor/task_list_tile.dart';
+import 'package:endeavor/edit_endeavor_screen/view/endeavor_view_task_editor/task_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
