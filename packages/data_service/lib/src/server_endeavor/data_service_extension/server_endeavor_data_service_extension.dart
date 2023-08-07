@@ -55,48 +55,21 @@ extension ServerEndeavorDataServiceExtension on DataService {
     required String endeavorTitle,
   }) {
     FirebaseFirestore.instance.runTransaction((transaction) async {
-      // get parent document data
-      final parentDocSnapData = (await transaction.get(
-        DataService.userDataDoc.collection('endeavors').doc(parentEndeavorId),
-      ))
-          .data();
       // create new endeavor doc
       final newEndeavorDoc =
           DataService.userDataDoc.collection('endeavors').doc();
-      final newEndeavor = ServerEndeavor(
-        id: newEndeavorDoc.id,
-        title: endeavorTitle,
-        parentEndeavorId: parentEndeavorId,
-        subEndeavorIds: [],
-        taskIds: [],
-      );
-      transaction.set(
-        newEndeavorDoc,
-        newEndeavor.toData(),
-      );
+      transaction.set(newEndeavorDoc, {
+        ServerEndeavorDataFields.title.string(): endeavorTitle,
+        ServerEndeavorDataFields.parentEndeavorId.string(): parentEndeavorId,
+      });
       // create reference to new endeavor doc in parent doc
-      if (parentDocSnapData != null) {
-        var subEndeavorsIdList;
-        if (parentDocSnapData[
-                ServerEndeavorDataFields.subEndeavorIds.string()] ==
-            null) {
-          subEndeavorsIdList = [newEndeavorDoc.id];
-        } else {
-          subEndeavorsIdList = (parentDocSnapData[
-                  ServerEndeavorDataFields.subEndeavorIds.string()] as List)
-              .map((e) => e as Map<String, dynamic>)
-              .toList();
-          subEndeavorsIdList.add(newEndeavorDoc.id);
-        }
-        transaction.update(
-          DataService.userDataDoc.collection('endeavors').doc(parentEndeavorId),
-          {
-            ServerEndeavorDataFields.subEndeavorIds.string(): subEndeavorsIdList
-          },
-        );
-      } else {
-        throw Exception("problem with the document");
-      }
+      transaction.update(
+        DataService.userDataDoc.collection('endeavors').doc(parentEndeavorId),
+        {
+          ServerEndeavorDataFields.subEndeavorIds.string():
+              FieldValue.arrayUnion([newEndeavorDoc.id]),
+        },
+      );
     });
   }
 
