@@ -34,4 +34,8 @@ extension TasksDataServiceExtension on DataService {
       }
     });
   }
+
+  static void deleteTask(TaskReference task) {
+    throw UnimplementedError();
+  }
 }

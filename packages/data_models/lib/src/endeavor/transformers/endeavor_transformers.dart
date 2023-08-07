@@ -11,7 +11,11 @@ extension EndeavorTransformers on Endeavor {
     Map<String, List<TaskReference>> idToTasks = {};
     for (final t in serverTasks) {
       if (t.endeavorId != null) {
-        final ref = TaskReference(id: t.id, title: t.title);
+        final ref = TaskReference(
+          id: t.id,
+          title: t.title,
+          endeavorId: t.endeavorId,
+        );
         if (idToTasks[t.endeavorId] == null) {
           idToTasks[t.endeavorId!] = [ref];
         } else {
@@ -92,7 +96,13 @@ extension EndeavorTransformers on Endeavor {
           .toList(),
       taskReferences: serverTasks
           .where((st) => st.endeavorId != null && st.endeavorId == endeavorId)
-          .map((st) => TaskReference(id: st.id, title: st.title))
+          .map(
+            (st) => TaskReference(
+              id: st.id,
+              title: st.title,
+              endeavorId: st.endeavorId,
+            ),
+          )
           .toList(),
       color: e.color,
     );

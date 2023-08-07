@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class TaskReference extends Equatable {
   const TaskReference({
     required this.id,
-    this.endeavorId,
+    required this.endeavorId,
     required this.title,
   });
 
