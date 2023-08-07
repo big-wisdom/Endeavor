@@ -129,9 +129,14 @@ Back End: Firebase
 ### Procedure for creating it
 * I need to make it so that the TaskScreen can actually create a task
   * I think I should make a save button, because that could be the same for create or edit DONE
-  * I fixed the problem where some inputs depend on others so in the state that tracks them, I adjusted the copyWith method to update eachother
 
 * While engaged in the previous, I realized that I've negelegted something. If the UI reaches straight out to the DataService, its the DataModels not the ServerDataModels that will need toData() methods on them because that's what the UI has. This resurrects the idea that I've never actually finished restructuring all my models. Time to do it.
+
+-------
+* When launched from the EditEndeavorScreen, the TaskScreen should have the endeavor automatically populated DONE
+-------
+* adding sub endeavors no longer works
+* when tasks are created from the EndeavorScreenTaskEditor they create, but the EndeavorScreenTaskEditor doesn't update
 
 * make the _Schedule widget go away when there are events
 

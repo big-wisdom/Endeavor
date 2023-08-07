@@ -1,3 +1,4 @@
+import 'package:data_models/data_models.dart';
 import 'package:endeavor/task_screen/task_screen.dart';
 import 'package:endeavor/widgets/endeavor_view_task_editor/task_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,15 @@ class EndeavorViewTaskEditor extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
+              final endeavorReference = EndeavorReference.fromEndeavor(
+                  context.read<EditEndeavorScreenBloc>().currentEndeavor);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return TaskScreen.create();
+                    return TaskScreen.create(
+                      endeavorReference: endeavorReference,
+                    );
                   },
                 ),
               );

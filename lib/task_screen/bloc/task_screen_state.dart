@@ -126,10 +126,10 @@ class CreateTaskScreenState extends TaskScreenState {
 }
 
 class TaskScreenInitial extends TaskScreenState {
-  TaskScreenInitial(TreeOfLife? treeOfLife)
+  TaskScreenInitial(EndeavorReference? initialEndeavorReference)
       : super(
           title: const TaskTitle.pure(),
-          endeavor: EndeavorPickerRowInput.pure(null),
+          endeavor: EndeavorPickerRowInput.pure(initialEndeavorReference),
           divisible: DivisibilityBox.pure(const DurationField.pure().value),
           duration: const DurationField.pure(),
           minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(

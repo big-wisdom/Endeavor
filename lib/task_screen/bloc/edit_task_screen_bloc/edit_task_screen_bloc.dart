@@ -7,7 +7,8 @@ part 'edit_task_screen_event.dart';
 class EditTaskScreenBloc extends TaskScreenBloc {
   EditTaskScreenBloc(
       {required DataRepository dataRepository, TreeOfLife? treeOfLife})
-      : super(dataRepository: dataRepository, treeOfLife: treeOfLife) {
+      // : super(dataRepository: dataRepository) {
+      : super() {
     on<TaskChangedByServer>(
       (event, emit) {
         throw UnimplementedError();
