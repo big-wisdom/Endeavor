@@ -280,10 +280,10 @@ class _TaskEventListEditor extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return OneTimeEventPickerScreen(
-                        onEvent: (event) =>
-                            taskScreenBloc.add(EventCreated(event)),
-                      );
+                      return OneTimeEventPickerScreen(onEvent: (event) {
+                        taskScreenBloc.add(EventCreated(event));
+                        Navigator.pop(context);
+                      });
                     },
                   ),
                 );
@@ -307,6 +307,7 @@ class _SaveButton extends StatelessWidget {
               ? null
               : () {
                   context.read<TaskScreenBloc>().add(const SaveButtonTapped());
+                  Navigator.pop(context);
                 },
           child: const Text("Save"),
         );

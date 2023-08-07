@@ -13,7 +13,7 @@ part 'edit_endeavor_screen_state.dart';
 class EditEndeavorScreenBloc
     extends Bloc<EditEndeavorScreenEvent, EditEndeavorScreenState> {
   late final StreamSubscription _streamSubscription;
-  late Endeavor _currentEndeavor;
+  late Endeavor currentEndeavor;
 
   factory EditEndeavorScreenBloc.fromEndeavor({
     required DataRepository dataRepository,
@@ -48,7 +48,7 @@ class EditEndeavorScreenBloc
       endeavorReference?.id ?? endeavor!.id,
     )
         .listen((newEndeavor) {
-      _currentEndeavor = newEndeavor;
+      currentEndeavor = newEndeavor;
       add(EndeavorChangedByServer(newEndeavor));
     });
 
@@ -69,14 +69,14 @@ class EditEndeavorScreenBloc
 
     on<CreateSubEndeavorRequested>(
       (event, emit) => ServerEndeavorDataServiceExtension.addSubEndeavor(
-        parentEndeavorId: _currentEndeavor.id,
+        parentEndeavorId: currentEndeavor.id,
         endeavorTitle: event.newEndeavorTitle,
       ),
     );
 
     on<ReorderTasks>(
       (event, emit) => dataRepository.reorderEndeavorTasks(
-        _currentEndeavor,
+        currentEndeavor,
         event.oldIndex,
         event.newIndex,
       ),
