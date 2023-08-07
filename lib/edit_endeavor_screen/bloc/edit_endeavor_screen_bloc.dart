@@ -84,7 +84,6 @@ class EditEndeavorScreenBloc
 
     on<DeleteTask>(
       (event, emit) {
-        dataRepository.deleteTask(event.taskReference);
         TasksDataServiceExtension.deleteTask(event.taskReference);
       },
     );

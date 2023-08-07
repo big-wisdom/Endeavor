@@ -149,35 +149,6 @@ extension EndeavorsData on DataRepository {
   //       );
   // }
 
-  void deleteTask(TaskReference taskReference) {
-    if (firestore == null)
-      throw Exception("No shoes, no shirt, no user, no service.");
-
-    // Delete task document
-    firestore!.collection('tasks').doc(taskReference.id).delete();
-
-    // Delete task from endeavor list if necessary
-    if (taskReference.endeavorId != null) {
-      FirebaseFirestore.instance.runTransaction(
-        (t) async {
-          // get endeavor document
-          final endeavorDoc = await t.get(
-              firestore!.collection('endeavors').doc(taskReference.endeavorId));
-          // get current list
-          final currentList = (endeavorDoc.data()!['taskIds'] as List)
-              .map((taskId) => taskId as String)
-              .toList(); // doc should have data
-
-          // remove this tasks id from the list
-          currentList.remove(taskReference.id);
-
-          // update the list
-          t.update(endeavorDoc.reference, {"taskIds": currentList});
-        },
-      );
-    }
-  }
-
   void reorderEndeavorTasks(
       Endeavor endeavor, int oldIndex, int newIndex) async {
     if (firestore == null) throw Exception("No User?! No way!");
