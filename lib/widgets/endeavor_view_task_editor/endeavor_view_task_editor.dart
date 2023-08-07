@@ -15,7 +15,7 @@ class EndeavorViewTaskEditor extends StatelessWidget {
       buildWhen: ((previous, current) {
         previous as LoadedEditEndeavorScreenState;
         current as LoadedEditEndeavorScreenState;
-        return previous.tasksInput == current.tasksInput;
+        return previous.tasksInput.value != current.tasksInput.value;
       }),
       builder: (context, state) {
         state as LoadedEditEndeavorScreenState;

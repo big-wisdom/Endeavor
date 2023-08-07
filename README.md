@@ -132,10 +132,10 @@ Back End: Firebase
 
 * While engaged in the previous, I realized that I've negelegted something. If the UI reaches straight out to the DataService, its the DataModels not the ServerDataModels that will need toData() methods on them because that's what the UI has. This resurrects the idea that I've never actually finished restructuring all my models. Time to do it.
 
-----------
-* adding sub endeavors no longer works FIXED
-----------
-* when tasks are created from the EndeavorScreenTaskEditor they create, but the EndeavorScreenTaskEditor doesn't update
+--------------
+* when tasks are created from the EndeavorScreenTaskEditor they create, but the EndeavorScreenTaskEditor doesn't update FIXED
+--------------
+* When a task is deleted from an endeavor, the reference to it in the "taskIds" field isn't deleted
 
 * make the _Schedule widget go away when there are events
 
