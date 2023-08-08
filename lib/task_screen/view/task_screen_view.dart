@@ -114,8 +114,12 @@ class _DivisibilityCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
-      buildWhen: (previous, current) => previous.divisible != current.divisible,
+      buildWhen: (previous, current) =>
+          previous.divisible != current.divisible ||
+          previous.duration.value != current.duration.value,
       builder: (context, state) {
+        if (state.duration.value == null) return Container();
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
