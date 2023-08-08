@@ -1,22 +1,129 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
+import 'package:data_repository/data_repository.dart';
+import 'package:data_service/data_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
 part 'task_screen_event.dart';
 part 'task_screen_state.dart';
 
-abstract class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
+class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
   final EndeavorReference? initialEndeavorReference;
   final TaskReference? initialTaskReference;
+  late final StreamSubscription? taskStreamSub;
+  late Task initialTask;
 
-  TaskScreenBloc(
-      {required this.initialEndeavorReference,
-      required this.initialTaskReference})
-      : super(initialTaskReference != null
-            ? LoadingEditTaskScreenState(
-                taskReference: initialTaskReference,
-                endeavorReference: initialEndeavorReference,
-              )
-            : CreateTaskScreenState.initial(initialEndeavorReference));
+  TaskScreenBloc({
+    required this.initialEndeavorReference,
+    required this.initialTaskReference,
+    required DataRepository dataRepository,
+  }) : super(
+          initialTaskReference != null
+              ? LoadingEditTaskScreenState(
+                  taskReference: initialTaskReference,
+                  endeavorReference: initialEndeavorReference,
+                )
+              : CreateTaskScreenState.initial(
+                  initialEndeavorReference,
+                ),
+        ) {
+    if (initialTaskReference != null) {
+      taskStreamSub =
+          dataRepository.getTaskStream(initialTaskReference!.id).listen(
+        (updatedTask) {
+          if (state is LoadingEditTaskScreenState) {
+            initialTask = updatedTask;
+          }
+          add(TaskChangedByServer(updatedTask));
+        },
+      );
+    }
+
+    on<TaskChangedByServer>(
+      (event, emit) {
+        emit(EditTaskScreenState.fromTask(task: event.newTask));
+      },
+    );
+    on<TitleChanged>(
+      (event, emit) => emit(
+        state.copyWith(title: event.newTitle),
+      ),
+    );
+
+    on<EndeavorSelected>(
+      (event, emit) => emit(
+        state.copyWith(
+          endeavorPickerRowInput: EndeavorPickerRowInput.dirty(
+            event.newEndeavor == null
+                ? null
+                : EndeavorReference(
+                    title: event.newEndeavor!.title,
+                    id: event.newEndeavor!.id,
+                  ),
+          ),
+        ),
+      ),
+    );
+
+    on<DurationChanged>(
+      (event, emit) => emit(
+        state.copyWith(durationField: DurationField.dirty(event.newDuration)),
+      ),
+    );
+
+    on<DivisibilityChanged>(
+      (event, emit) => emit(
+        state.copyWith(
+          divisibilityBox: DivisibilityBox.dirty(
+            value: event.newDivisibility,
+            duration: state.duration.value,
+            minnimumSchedulingDuration: state.minnimumSchedulingDuration.value,
+          ),
+        ),
+      ),
+    );
+
+    on<MinnimumSchedulingDurationChanged>(
+      (event, emit) => emit(
+        state.copyWith(
+          minnimumSchedulingDuration: event.newMinnimumDuration == Duration.zero
+              ? null
+              : MinnimumSchedulingDuration.dirty(
+                  value: event.newMinnimumDuration,
+                  duration: state.duration.value,
+                  divisible: state.divisible.value,
+                ),
+        ),
+      ),
+    );
+
+    on<EventCreated>(
+      (event, emit) => emit(state.copyWith(newEvent: event.event)),
+    );
+
+    on<EventDeleted>(
+      (event, emit) => throw UnimplementedError(),
+    );
+
+    on<SaveButtonTapped>((event, emit) {
+      if (state.createUnidentifiedTask == null) {
+        throw Exception("Task shouldn't be null");
+      }
+
+      if (state is CreateTaskScreenState) {
+        TasksDataServiceExtension.createTask(state.createUnidentifiedTask!);
+      } else {
+        TasksDataServiceExtension.editTask(state.createUnidentifiedTask!);
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    taskStreamSub?.cancel();
+    return super.close();
+  }
 }

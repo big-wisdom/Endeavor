@@ -130,7 +130,7 @@ Back End: Firebase
 
 -------------
 * I need to make sure editing tasks works
-  * 
+  * I'm going to attempt to merge the CreateTaskScreenBloc and the EditTaskScrenBloc. I think they should share more functionality because I'm going to make them both have a save button
 -------------
 * make reordering tasks and endeavors work
 
