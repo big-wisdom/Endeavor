@@ -6,7 +6,6 @@ import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:formz/formz.dart';
 
 import '../bloc/task_screen_bloc.dart';
-import '../bloc/edit_task_screen_bloc/edit_task_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,43 +14,36 @@ class TaskScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<TaskScreenBloc>();
-    final isEditing = bloc is EditTaskScreenBloc;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(isEditing ? "Edit Task" : "Create Task"),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocBuilder<TaskScreenBloc, TaskScreenState>(
-            buildWhen: (previous, current) =>
-                previous is LoadingEditTaskScreenState &&
-                current is! LoadingEditTaskScreenState,
-            builder: (context, state) {
-              if (state is LoadingEditTaskScreenState) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _TitleInput(),
-                    _EndeavorSwitcher(),
-                    _DurationSelector(),
-                    _DivisibilityCheckbox(),
-                    _MinnimumDurationPicker(),
-                    if (bloc.state.scheduledEvents.value.isEmpty) _Schedule(),
-                    _TaskEventListEditor(),
-                    _SaveButton(),
-                  ],
-                ),
-              );
-            },
+    return BlocBuilder<TaskScreenBloc, TaskScreenState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+                state is! CreateTaskScreenState ? "Edit Task" : "Create Task"),
           ),
-        ),
-      ),
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: state is LoadingEditTaskScreenState
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _TitleInput(),
+                          _EndeavorSwitcher(),
+                          _DurationSelector(),
+                          _DivisibilityCheckbox(),
+                          _MinnimumDurationPicker(),
+                          if (state.scheduledEvents.value.isEmpty) _Schedule(),
+                          _TaskEventListEditor(),
+                          _SaveButton(),
+                        ],
+                      ),
+                    ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -4,6 +4,14 @@ abstract class TaskScreenEvent extends Equatable {
   const TaskScreenEvent();
 }
 
+class TaskChangedByServer extends TaskScreenEvent {
+  const TaskChangedByServer(this.newTask);
+
+  final Task newTask;
+  @override
+  List<Object?> get props => [newTask];
+}
+
 class TitleChanged extends TaskScreenEvent {
   const TitleChanged(this.newTitle);
 
