@@ -61,4 +61,11 @@ extension TasksDataServiceExtension on DataService {
       );
     }
   }
+
+  static void updateTask(UnidentifiedTask unidentifiedTask, String id) {
+    DataService.userDataDoc
+        .collection('tasks')
+        .doc(id)
+        .update(unidentifiedTask.toDocData());
+  }
 }
