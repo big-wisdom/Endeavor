@@ -127,10 +127,12 @@ Back End: Firebase
   * This will get streams of ServerDataModels from the DataService and expose streams of DataModels to the Endeavor package
 
 ### Procedure for creating it
-* I need to make it so that the TaskScreen can actually create a task
-  * I think I should make a save button, because that could be the same for create or edit DONE
 
-* While engaged in the previous, I realized that I've negelegted something. If the UI reaches straight out to the DataService, its the DataModels not the ServerDataModels that will need toData() methods on them because that's what the UI has. This resurrects the idea that I've never actually finished restructuring all my models. Time to do it.
+* I need to make sure editing tasks works
+* I need to make the task form show errors and make them less possible
+  * for instance, there should be no divisibility if there is no duration DONE
+  * I need to make an error text for the minnimum scheduling time or limit the amount of time that it can be
+  * Do I need to do anything about scheduling it for longer than its duration?
 
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
