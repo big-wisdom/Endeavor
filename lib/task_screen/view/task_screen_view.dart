@@ -3,6 +3,7 @@ import 'package:endeavor/one_time_event_picker_screen/one_time_event_picker_scre
 import 'package:endeavor/util.dart';
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
+import 'package:formz/formz.dart';
 
 import '../bloc/task_screen_bloc.dart';
 import '../bloc/edit_task_screen_bloc/edit_task_screen_bloc.dart';
@@ -116,24 +117,36 @@ class _DivisibilityCheckbox extends StatelessWidget {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       buildWhen: (previous, current) =>
           previous.divisible != current.divisible ||
-          previous.duration.value != current.duration.value,
+          previous.duration.value != current.duration.value ||
+          previous.minnimumSchedulingDuration.value !=
+              current.minnimumSchedulingDuration.value,
       builder: (context, state) {
         if (state.duration.value == null) return Container();
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("Divisible:"),
-            Checkbox(
-              value: state.divisible.value ?? false,
-              onChanged: (value) {
-                if (value != null) {
-                  context
-                      .read<TaskScreenBloc>()
-                      .add(DivisibilityChanged(value));
-                }
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Divisible:"),
+                Checkbox(
+                  value: state.divisible.value ?? false,
+                  onChanged: (value) {
+                    if (value != null) {
+                      context
+                          .read<TaskScreenBloc>()
+                          .add(DivisibilityChanged(value));
+                    }
+                  },
+                ),
+              ],
             ),
+            if (state.divisible.error != null)
+              Text(
+                state.divisible.error!.text(),
+                style: const TextStyle(color: Colors.red),
+              )
           ],
         );
       },
@@ -148,7 +161,8 @@ class _MinnimumDurationPicker extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.minnimumSchedulingDuration !=
               current.minnimumSchedulingDuration ||
-          previous.divisible != current.divisible,
+          previous.divisible != current.divisible ||
+          previous.duration != current.duration,
       builder: (context, state) {
         if (state.divisible.value == null ||
             (state.divisible.value != null && !state.divisible.value!)) {
@@ -157,27 +171,37 @@ class _MinnimumDurationPicker extends StatelessWidget {
 
         final bloc = context.read<TaskScreenBloc>();
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("Minnimum Scheduling Duration"),
-            TextButton(
-              onPressed: () async {
-                final resultingDuration = await showDurationPicker(
-                  context: context,
-                  initialTime:
-                      state.minnimumSchedulingDuration.value ?? Duration.zero,
-                );
-                if (resultingDuration != null) {
-                  bloc.add(
-                      MinnimumSchedulingDurationChanged(resultingDuration));
-                }
-              },
-              child: Text(
-                state.minnimumSchedulingDuration.value?.toString() ??
-                    "Add duration",
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Minnimum Scheduling Duration"),
+                TextButton(
+                  onPressed: () async {
+                    final resultingDuration = await showDurationPicker(
+                      context: context,
+                      initialTime: state.minnimumSchedulingDuration.value ??
+                          Duration.zero,
+                    );
+                    if (resultingDuration != null) {
+                      bloc.add(
+                          MinnimumSchedulingDurationChanged(resultingDuration));
+                    }
+                  },
+                  child: Text(
+                    state.minnimumSchedulingDuration.value?.toString() ??
+                        "Add duration",
+                  ),
+                ),
+              ],
             ),
+            if (state.minnimumSchedulingDuration.error != null)
+              Text(
+                state.minnimumSchedulingDuration.error!.text(),
+                style: const TextStyle(color: Colors.red),
+              ),
           ],
         );
       },
@@ -307,7 +331,8 @@ class _SaveButton extends StatelessWidget {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state is TaskScreenInitial
+          onPressed: state is TaskScreenInitial ||
+                  state.status == FormzStatus.invalid
               ? null
               : () {
                   context.read<TaskScreenBloc>().add(const SaveButtonTapped());

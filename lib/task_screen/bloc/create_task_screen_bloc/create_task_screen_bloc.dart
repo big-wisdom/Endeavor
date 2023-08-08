@@ -51,6 +51,7 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
           divisibilityBox: DivisibilityBox.dirty(
             value: event.newDivisibility,
             duration: state.duration.value,
+            minnimumSchedulingDuration: state.minnimumSchedulingDuration.value,
           ),
         ),
       ),
@@ -59,8 +60,13 @@ class CreateTaskScreenBloc extends TaskScreenBloc {
     on<MinnimumSchedulingDurationChanged>(
       (event, emit) => emit(
         state.copyWith(
-          minnimumSchedulingDuration: state.minnimumSchedulingDuration.copyWith(
-              newMinnimumSchedulingDuration: event.newMinnimumDuration),
+          minnimumSchedulingDuration: event.newMinnimumDuration == Duration.zero
+              ? null
+              : MinnimumSchedulingDuration.dirty(
+                  value: event.newMinnimumDuration,
+                  duration: state.duration.value,
+                  divisible: state.divisible.value,
+                ),
         ),
       ),
     );

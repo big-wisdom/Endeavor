@@ -41,7 +41,9 @@ class MinnimumSchedulingDuration
 
   @override
   MinnimumSchedulingDurationError? validator(Duration? value) {
-    if (duration != null && value != null && duration!.compareTo(value) < 0) {
+    if (duration != null &&
+        value != null &&
+        !(duration!.compareTo(value) > 0)) {
       return MinnimumSchedulingDurationError.longerThanDuration;
     } else if (duration == null && value != null) {
       return MinnimumSchedulingDurationError.noDuration;

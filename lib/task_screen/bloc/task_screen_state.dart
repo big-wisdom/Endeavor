@@ -55,6 +55,10 @@ abstract class TaskScreenState extends TaskForm {
             newDivisibility.copyWith(newDuration: durationField.value);
       }
     }
+    if (minnimumSchedulingDuration != null) {
+      newDivisibility = newDivisibility.copyWith(
+          newMinnimumSchedulingDuration: minnimumSchedulingDuration.value);
+    }
 
     // nullify duration if it has zero time
     if (durationField != null && durationField.value == Duration.zero) {
@@ -147,7 +151,8 @@ class TaskScreenInitial extends TaskScreenState {
       : super(
           title: const TaskTitle.pure(),
           endeavor: EndeavorPickerRowInput.pure(initialEndeavorReference),
-          divisible: DivisibilityBox.pure(const DurationField.pure().value),
+          divisible:
+              DivisibilityBox.pure(const DurationField.pure().value, null),
           duration: const DurationField.pure(),
           minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(
             duration: const DurationField.pure().value,
