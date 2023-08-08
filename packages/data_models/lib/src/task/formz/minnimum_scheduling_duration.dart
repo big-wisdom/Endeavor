@@ -14,6 +14,10 @@ class MinnimumSchedulingDuration
     required this.divisible,
   }) : super.pure(null);
 
+  factory MinnimumSchedulingDuration.clear() {
+    return MinnimumSchedulingDuration.pure(duration: null, divisible: null);
+  }
+
   const MinnimumSchedulingDuration.dirty({
     required Duration? value,
     required this.duration,

@@ -8,6 +8,10 @@ enum DivisibilityError {
 class DivisibilityBox extends FormzInput<bool?, DivisibilityError> {
   const DivisibilityBox.pure(this.duration) : super.pure(null);
 
+  factory DivisibilityBox.clear() {
+    return DivisibilityBox.pure(null);
+  }
+
   const DivisibilityBox.dirty({required bool? value, required this.duration})
       : super.dirty(value);
 
