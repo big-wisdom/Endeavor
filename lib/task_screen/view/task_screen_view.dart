@@ -25,19 +25,30 @@ class TaskScreenView extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _TitleInput(),
-                _EndeavorSwitcher(),
-                _DurationSelector(),
-                _DivisibilityCheckbox(),
-                _MinnimumDurationPicker(),
-                if (bloc.state.scheduledEvents.value.isEmpty) _Schedule(),
-                _TaskEventListEditor(),
-                _SaveButton(),
-              ],
-            ),
+          child: BlocBuilder<TaskScreenBloc, TaskScreenState>(
+            buildWhen: (previous, current) =>
+                previous is LoadingEditTaskScreenState &&
+                current is! LoadingEditTaskScreenState,
+            builder: (context, state) {
+              if (state is LoadingEditTaskScreenState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _TitleInput(),
+                    _EndeavorSwitcher(),
+                    _DurationSelector(),
+                    _DivisibilityCheckbox(),
+                    _MinnimumDurationPicker(),
+                    if (bloc.state.scheduledEvents.value.isEmpty) _Schedule(),
+                    _TaskEventListEditor(),
+                    _SaveButton(),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -331,8 +342,7 @@ class _SaveButton extends StatelessWidget {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state is TaskScreenInitial ||
-                  state.status == FormzStatus.invalid
+          onPressed: state.status == FormzStatus.invalid
               ? null
               : () {
                   context.read<TaskScreenBloc>().add(const SaveButtonTapped());

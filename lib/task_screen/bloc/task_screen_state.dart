@@ -62,10 +62,11 @@ abstract class TaskScreenState extends TaskForm {
 
     // nullify duration if it has zero time
     if (durationField != null && durationField.value == Duration.zero) {
-      durationField = const DurationField.pure();
+      durationField = const DurationField.pure(null);
     }
 
-    if (this is CreateTaskScreenState || this is TaskScreenInitial) {
+    // if this is create or its not the initial of an edit state
+    if (this is CreateTaskScreenState) {
       return CreateTaskScreenState(
         title: title != null ? TaskTitle.dirty(title) : this.title,
         divisible: newDivisibility,
@@ -124,6 +125,20 @@ abstract class TaskScreenState extends TaskForm {
       ];
 }
 
+class LoadingEditTaskScreenState extends TaskScreenState {
+  LoadingEditTaskScreenState({
+    required TaskReference taskReference,
+    required EndeavorReference? endeavorReference,
+  }) : super(
+          title: TaskTitle.pure(taskReference.title),
+          divisible: DivisibilityBox.clear(),
+          duration: const DurationField.pure(null),
+          endeavor: EndeavorPickerRowInput.pure(endeavorReference),
+          minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
+          scheduledEvents: const ScheduledEvents.pure([]),
+        );
+}
+
 class EditTaskScreenState extends TaskScreenState {
   const EditTaskScreenState({
     required super.title,
@@ -133,6 +148,22 @@ class EditTaskScreenState extends TaskScreenState {
     required super.minnimumSchedulingDuration,
     required super.scheduledEvents,
   });
+
+  EditTaskScreenState.fromTask({
+    required Task task,
+  }) : super(
+          title: TaskTitle.pure(task.title),
+          divisible: DivisibilityBox.pure(
+              task.duration, task.minnimumSchedulingDuration, task.divisible),
+          duration: DurationField.pure(task.duration),
+          endeavor: EndeavorPickerRowInput.pure(task.endeavorReference),
+          minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(
+            duration: task.duration,
+            divisible: task.divisible,
+            minnimumSchedulingDuration: task.minnimumSchedulingDuration,
+          ),
+          scheduledEvents: ScheduledEvents.pure(task.events ?? []),
+        );
 }
 
 class CreateTaskScreenState extends TaskScreenState {
@@ -144,20 +175,56 @@ class CreateTaskScreenState extends TaskScreenState {
     required super.minnimumSchedulingDuration,
     required super.scheduledEvents,
   });
+
+  factory CreateTaskScreenState.initial(EndeavorReference? endeavorReference) {
+    return CreateTaskScreenState(
+      title: const TaskTitle.pure(null),
+      divisible: DivisibilityBox.clear(),
+      duration: const DurationField.pure(null),
+      endeavor: EndeavorPickerRowInput.pure(endeavorReference),
+      minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
+      scheduledEvents: const ScheduledEvents.pure([]),
+    );
+  }
 }
 
-class TaskScreenInitial extends TaskScreenState {
-  TaskScreenInitial(EndeavorReference? initialEndeavorReference)
-      : super(
-          title: const TaskTitle.pure(),
-          endeavor: EndeavorPickerRowInput.pure(initialEndeavorReference),
-          divisible:
-              DivisibilityBox.pure(const DurationField.pure().value, null),
-          duration: const DurationField.pure(),
-          minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(
-            duration: const DurationField.pure().value,
-            divisible: null,
-          ),
-          scheduledEvents: const ScheduledEvents.pure([]),
-        );
-}
+// class TaskScreenInitial extends TaskScreenState {
+//   final bool isEdit;
+//   const TaskScreenInitial._({
+//     required super.title,
+//     required super.endeavor,
+//     required super.divisible,
+//     required super.duration,
+//     required super.minnimumSchedulingDuration,
+//     required super.scheduledEvents,
+//     required this.isEdit,
+//   });
+
+//   factory TaskScreenInitial(
+//     EndeavorReference? initialEndeavorReference,
+//     TaskReference? initialTaskReference,
+//   ) {
+//     if (initialTaskReference != null) {
+//       return TaskScreenInitial._(
+//           title: TaskTitle.pure(initialTaskReference.title),
+//           divisible: DivisibilityBox.clear(),
+//           duration: const DurationField.pure(null),
+//           endeavor: EndeavorPickerRowInput.pure(initialEndeavorReference),
+//           minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
+//           scheduledEvents: const ScheduledEvents.pure([]),
+//           isEdit: true);
+//     } else {
+//       return TaskScreenInitial._(
+//         title: const TaskTitle.pure(null),
+//         divisible: DivisibilityBox.clear(),
+//         duration: const DurationField.pure(null),
+//         endeavor: EndeavorPickerRowInput.pure(initialEndeavorReference),
+//         minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
+//         scheduledEvents: const ScheduledEvents.pure([]),
+//         isEdit: false,
+//       );
+//     }
+//   }
+//   // : super(
+//   //   );
+// }

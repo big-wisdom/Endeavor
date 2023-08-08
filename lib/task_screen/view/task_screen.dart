@@ -8,22 +8,26 @@ import 'package:endeavor/task_screen/task_screen.dart';
 class TaskScreen extends StatelessWidget {
   const TaskScreen._({
     required this.editing,
-    this.endeavorReference,
+    required this.endeavorReference,
+    required this.taskReference,
   });
 
   final EndeavorReference? endeavorReference;
+  final TaskReference? taskReference;
 
   factory TaskScreen.create({EndeavorReference? endeavorReference}) {
     return TaskScreen._(
       editing: false,
       endeavorReference: endeavorReference,
+      taskReference: null,
     );
   }
 
-  factory TaskScreen.edit() {
-    return const TaskScreen._(
+  factory TaskScreen.edit(TaskReference taskReference) {
+    return TaskScreen._(
       editing: true,
       endeavorReference: null,
+      taskReference: taskReference,
     );
   }
 
@@ -34,7 +38,10 @@ class TaskScreen extends StatelessWidget {
     final dataRepository = context.read<DataRepository>();
     return BlocProvider(
       create: (context) => editing
-          ? EditTaskScreenBloc(dataRepository: dataRepository)
+          ? EditTaskScreenBloc(
+              taskReference: taskReference!,
+              dataRepository: context.read<DataRepository>(),
+            )
           : CreateTaskScreenBloc(
               dataRepository: dataRepository,
               initialEndeavorReference: endeavorReference,
