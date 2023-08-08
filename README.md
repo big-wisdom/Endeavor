@@ -129,12 +129,11 @@ Back End: Firebase
 ### Procedure for creating it
 
 * I need to make sure editing tasks works
-* I need to make the task form show errors and make them less possible
-  * If duration is set to zero, the duration should be wiped from state and everything that's associated with it
-  * If an input is not being shown, it's value should be wiped from the state DONE
-  * The two points above could probably be done with the same "copyWith()" method on the state
-  * I need to make an error text for the minnimum scheduling time or limit the amount of time that it can be
-    * I then need to show that error text as soon as an inappropriate value is selected
+------------
+* I need to make the task form show errors and make them less possible DONE
+  * I need to make an error text for the minnimum scheduling time or limit the amount of time that it can be DONE
+    * I then need to show that error text as soon as an inappropriate value is selected DONE
+------------
 
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
