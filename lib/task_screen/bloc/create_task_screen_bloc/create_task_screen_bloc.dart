@@ -4,20 +4,15 @@ import 'package:data_service/data_service.dart';
 
 import '../task_screen_bloc.dart';
 
-part 'create_task_screen_event.dart';
-
 class CreateTaskScreenBloc extends TaskScreenBloc {
   CreateTaskScreenBloc({
     required DataRepository dataRepository,
     EndeavorReference? initialEndeavorReference,
   }) : super(
           // dataRepository: dataRepository,
+          initialTaskReference: null,
           initialEndeavorReference: initialEndeavorReference,
         ) {
-    on<CreateTaskRequested>(
-      (event, emit) => throw UnimplementedError(),
-    );
-
     on<EndeavorSelected>(
       (event, emit) => emit(
         state.copyWith(

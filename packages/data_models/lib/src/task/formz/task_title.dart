@@ -5,7 +5,7 @@ enum TaskTitleError {
 }
 
 class TaskTitle extends FormzInput<String, TaskTitleError> {
-  const TaskTitle.pure() : super.pure('');
+  const TaskTitle.pure(String? value) : super.pure(value ?? '');
 
   TaskTitle.dirty(super.value) : super.dirty();
 

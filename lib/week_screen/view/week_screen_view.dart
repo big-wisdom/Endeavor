@@ -60,7 +60,9 @@ class WeekScreenView extends StatelessWidget {
             CalendarEventScreen.edit(calendarEvent: originalObject),
       );
     } else {
-      route = MaterialPageRoute(builder: (context) => TaskScreen.edit());
+      route = MaterialPageRoute(
+          builder: (context) =>
+              TaskScreen.edit(originalObject as TaskReference));
     }
     Navigator.push(context, route);
   }

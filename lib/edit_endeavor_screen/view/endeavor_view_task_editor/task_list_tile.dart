@@ -32,7 +32,7 @@ class _TaskListTileState extends State<TaskListTile> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return TaskScreen.create();
+                return TaskScreen.edit(widget.taskReference);
               },
             ),
           );

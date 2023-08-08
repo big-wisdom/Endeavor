@@ -7,11 +7,12 @@ enum DivisibilityError {
 }
 
 class DivisibilityBox extends FormzInput<bool?, DivisibilityError> {
-  const DivisibilityBox.pure(this.duration, this.minnimumSchedulingDuration)
-      : super.pure(null);
+  const DivisibilityBox.pure(
+      this.duration, this.minnimumSchedulingDuration, bool? value)
+      : super.pure(value);
 
   factory DivisibilityBox.clear() {
-    return DivisibilityBox.pure(null, null);
+    return DivisibilityBox.pure(null, null, null);
   }
 
   const DivisibilityBox.dirty({

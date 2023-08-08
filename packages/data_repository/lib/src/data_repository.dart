@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_models/data_models.dart';
+import 'package:data_repository/data_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:server_data_models/server_data_models.dart';
 import 'package:data_service/data_service.dart';
 
 class DataRepository {
@@ -66,7 +66,10 @@ class DataRepository {
       );
 
   // Task screen
-  Stream<ServerTask> getTaskStream() => throw UnimplementedError();
+  Stream<Task> getTaskStream(String taskId) => CombineLatestStream.combine2(
+      ServerEndeavorDataServiceExtension.serverEndeavorsStream,
+      TasksDataServiceExtension.tasksStream,
+      (a, b) => TasksDataRepositoryExtension.taskFromStreams(a, b, taskId));
 
   // Calendar screen
   Stream<CalendarEvent> get calendarEventStream => throw UnimplementedError();
