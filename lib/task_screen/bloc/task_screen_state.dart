@@ -29,25 +29,42 @@ abstract class TaskScreenState extends TaskForm {
     MinnimumSchedulingDuration newMinSchedDuration =
         minnimumSchedulingDuration ?? this.minnimumSchedulingDuration;
     if (durationField != null) {
-      newMinSchedDuration =
-          newMinSchedDuration.copyWith(newDuration: durationField.value);
+      if (durationField.value == Duration.zero) {
+        newMinSchedDuration = MinnimumSchedulingDuration.clear();
+      } else {
+        newMinSchedDuration =
+            newMinSchedDuration.copyWith(newDuration: durationField.value);
+      }
     }
     if (divisibilityBox != null) {
-      newMinSchedDuration =
-          newMinSchedDuration.copyWith(newDivisibility: divisibilityBox.value);
+      if (divisibilityBox.value == false) {
+        newMinSchedDuration = MinnimumSchedulingDuration.clear();
+      } else {
+        newMinSchedDuration = newMinSchedDuration.copyWith(
+            newDivisibility: divisibilityBox.value);
+      }
     }
 
     // if duration is updated, update divisibility input
     DivisibilityBox newDivisibility = divisibilityBox ?? divisible;
     if (durationField != null) {
-      newDivisibility =
-          newDivisibility.copyWith(newDuration: durationField.value);
+      if (durationField.value == Duration.zero) {
+        newDivisibility = DivisibilityBox.clear();
+      } else {
+        newDivisibility =
+            newDivisibility.copyWith(newDuration: durationField.value);
+      }
     }
 
-    if (this is CreateTaskScreenState) {
+    // nullify duration if it has zero time
+    if (durationField != null && durationField.value == Duration.zero) {
+      durationField = const DurationField.pure();
+    }
+
+    if (this is CreateTaskScreenState || this is TaskScreenInitial) {
       return CreateTaskScreenState(
         title: title != null ? TaskTitle.dirty(title) : this.title,
-        divisible: divisibilityBox ?? divisible,
+        divisible: newDivisibility,
         duration: durationField ?? duration,
         endeavor: endeavorPickerRowInput ?? endeavor,
         minnimumSchedulingDuration: newMinSchedDuration,
@@ -56,7 +73,7 @@ abstract class TaskScreenState extends TaskForm {
     } else {
       return EditTaskScreenState(
         title: title != null ? TaskTitle.dirty(title) : this.title,
-        divisible: divisibilityBox ?? divisible,
+        divisible: newDivisibility,
         duration: durationField ?? duration,
         endeavor: endeavorPickerRowInput ?? endeavor,
         minnimumSchedulingDuration: newMinSchedDuration,

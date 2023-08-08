@@ -130,9 +130,11 @@ Back End: Firebase
 
 * I need to make sure editing tasks works
 * I need to make the task form show errors and make them less possible
-  * for instance, there should be no divisibility if there is no duration DONE
+  * If duration is set to zero, the duration should be wiped from state and everything that's associated with it
+  * If an input is not being shown, it's value should be wiped from the state DONE
+  * The two points above could probably be done with the same "copyWith()" method on the state
   * I need to make an error text for the minnimum scheduling time or limit the amount of time that it can be
-  * Do I need to do anything about scheduling it for longer than its duration?
+    * I then need to show that error text as soon as an inappropriate value is selected
 
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
