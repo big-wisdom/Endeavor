@@ -116,7 +116,10 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
       if (state is CreateTaskScreenState) {
         TasksDataServiceExtension.createTask(state.createUnidentifiedTask!);
       } else {
-        TasksDataServiceExtension.editTask(state.createUnidentifiedTask!);
+        TasksDataServiceExtension.updateTask(
+          state.createUnidentifiedTask!,
+          initialTask.id,
+        );
       }
     });
   }
