@@ -115,16 +115,17 @@ Back End: Firebase
 * Thinking in an endeavor brain
 
 ## Backlog
+* make reordering tasks and endeavors work
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
 
 ## What I'm working on now
 
-* I need to make sure editing tasks works
-  * I'm going to attempt to merge the CreateTaskScreenBloc and the EditTaskScrenBloc. I think they should share more functionality because I'm going to make them both have a save button DONE
 * Time to try to break the EndeavorsScreen, EditEndeavorScreen, TaskScreen and TasksScreen
   --------------
-  * On the TaskScreen, I'm realizing that I can track whether anything has changed with the FormzStatus.isPure attribute. DUH! DONE
+  * An error throws when I remove the endeavor from a task launched from the EditEndeavorScreen
+    * It's happening in the taskFromStreams() method in the TasksDataRepositoryExtension possibly because the EditEndeavorScreen is still trying to stream sub endeavors, but hasn't gotten the message that the task was removed from it's sub endeavors?
+      * I will fancify the updateTask method by making it a transaction that grabs the current document, sees what changed and updates the task in a consistent way DONE
+      * The taskStream should still be able to handle tasks that don't have an endeavorId DONE
   --------------
-* make reordering tasks and endeavors work
