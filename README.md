@@ -114,26 +114,17 @@ Back End: Firebase
 * Planning at the begining of a day
 * Thinking in an endeavor brain
 
-## What I'm working on now
-
-### New structure
-* DataService package
-  * This will be a totally static place that only has firestore queries and transformers for the ServerDataModels package
-* ServerDataModels package
-  * This will define types how they will be stored on the database
-* DataModels
-  * This will define the types as the front end will use them
-* DataRepository
-  * This will get streams of ServerDataModels from the DataService and expose streams of DataModels to the Endeavor package
-
-### Procedure for creating it
-
--------------
-* I need to make sure editing tasks works
-  * I'm going to attempt to merge the CreateTaskScreenBloc and the EditTaskScrenBloc. I think they should share more functionality because I'm going to make them both have a save button
--------------
-* make reordering tasks and endeavors work
-
+## Backlog
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
+
+## What I'm working on now
+
+* I need to make sure editing tasks works
+  * I'm going to attempt to merge the CreateTaskScreenBloc and the EditTaskScrenBloc. I think they should share more functionality because I'm going to make them both have a save button DONE
+* Time to try to break the EndeavorsScreen, EditEndeavorScreen, TaskScreen and TasksScreen
+  --------------
+  * On the TaskScreen, I'm realizing that I can track whether anything has changed with the FormzStatus.isPure attribute. DUH! DONE
+  --------------
+* make reordering tasks and endeavors work

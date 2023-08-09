@@ -40,6 +40,8 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
           add(TaskChangedByServer(updatedTask));
         },
       );
+    } else {
+      taskStreamSub = null;
     }
 
     on<TaskChangedByServer>(
