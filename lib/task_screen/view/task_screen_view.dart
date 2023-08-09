@@ -334,12 +334,12 @@ class _SaveButton extends StatelessWidget {
     return BlocBuilder<TaskScreenBloc, TaskScreenState>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state.status == FormzStatus.invalid
-              ? null
-              : () {
+          onPressed: state.status == FormzStatus.valid
+              ? () {
                   context.read<TaskScreenBloc>().add(const SaveButtonTapped());
                   Navigator.pop(context);
-                },
+                }
+              : null,
           child: const Text("Save"),
         );
       },
