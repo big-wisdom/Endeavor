@@ -3,6 +3,7 @@ import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 import 'package:data_service/src/server_endeavor/model_extension/server_endeavor_database_fields.dart';
 import 'package:data_service/src/task/server_task/firestore_server_task_extension.dart';
+import 'package:data_service/src/task/server_task/server_task_database_fields.dart';
 import 'package:server_data_models/server_data_models.dart';
 
 extension TasksDataServiceExtension on DataService {
@@ -63,9 +64,43 @@ extension TasksDataServiceExtension on DataService {
   }
 
   static void updateTask(UnidentifiedTask unidentifiedTask, String id) {
-    DataService.userDataDoc
-        .collection('tasks')
-        .doc(id)
-        .update(unidentifiedTask.toDocData());
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      // get current document
+      final currentTaskDocData = (await transaction
+              .get(DataService.userDataDoc.collection('tasks').doc(id)))
+          .data();
+      if (currentTaskDocData == null) throw Exception("Task doc data is null");
+
+      //// check if unsafe fields have changed and update them in safe ways
+
+      // endeavorId
+      final oldEndeavorId =
+          currentTaskDocData[ServerTaskDatabaseFields.endeavorId.string()];
+      final newEndeavorId = unidentifiedTask.endeavorReference?.id;
+      if (oldEndeavorId != newEndeavorId) {
+        // remove old reference if there was one
+        if (oldEndeavorId != null) {
+          transaction.update(
+            DataService.userDataDoc.collection('endeavors').doc(oldEndeavorId!),
+            {
+              ServerEndeavorDataFields.taskIds.string():
+                  FieldValue.arrayRemove([id])
+            },
+          );
+        }
+        // create new reference if necessary
+        if (newEndeavorId != null) {
+          transaction.update(
+            DataService.userDataDoc.collection('endeavors').doc(newEndeavorId),
+            {
+              ServerEndeavorDataFields.taskIds.string():
+                  FieldValue.arrayUnion([id])
+            },
+          );
+        }
+      }
+      transaction.update(DataService.userDataDoc.collection('tasks').doc(id),
+          unidentifiedTask.toDocData());
+    });
   }
 }
