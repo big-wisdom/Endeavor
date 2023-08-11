@@ -81,7 +81,6 @@ extension EndeavorTransformers on Endeavor {
     List<ServerEndeavor> serverEndeavors,
     List<ServerTask> serverTasks,
   ) {
-    // get endeavor
     ServerEndeavor e = serverEndeavors.firstWhere(
       (element) => element.id == endeavorId,
     );
@@ -103,7 +102,10 @@ extension EndeavorTransformers on Endeavor {
               endeavorId: st.endeavorId,
             ),
           )
-          .toList(),
+          .toList()
+        ..sort(
+          (a, b) => e.taskIds.indexOf(a.id).compareTo(e.taskIds.indexOf(b.id)),
+        ),
       color: e.color,
     );
   }

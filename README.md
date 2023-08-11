@@ -115,11 +115,18 @@ Back End: Firebase
 * Thinking in an endeavor brain
 
 ## Backlog
-* make reordering tasks and endeavors work
+* get seperator lines back in between the endeavors in the EndeavorsScreen
+* move the reorderEndeavorTasks method out of the DataRepository
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
 
 ## What I'm working on now
 
-* fix endeavorless tasks on the tasks screen DONE
+* make reordering tasks and endeavors work
+  * got task sorting working in the EndeavorTransformer
+  * Now to make sorting endeavors work
+    * In the EndeavorsScreen DONE
+    --------------
+    * In the SubEndeavorsEditor
+    --------------
