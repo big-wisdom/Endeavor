@@ -26,13 +26,12 @@ class EndeavorSelectionTile extends StatelessWidget {
         title: GestureDetector(
           child: Text(
             endeavorNode.endeavor.title,
+            style: TextStyle(color: selected ? Colors.blue : Colors.black),
           ),
           onTap: () => context
               .read<EndeavorSelectionScreenCubit>()
               .endeavorSelected(endeavorNode.endeavor),
         ),
-        textColor: selected ? Colors.blue : Colors.black,
-        collapsedTextColor: selected ? Colors.blue : Colors.black,
         controlAffinity: ListTileControlAffinity.leading,
         children: endeavorNode.subEndeavors.map(
           (e) {

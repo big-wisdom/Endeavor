@@ -123,6 +123,4 @@ Back End: Firebase
 ## What I'm working on now
 
 * Time to try to break the EndeavorsScreen, EditEndeavorScreen, TaskScreen and TasksScreen
-  -------------
-  * Fixed TreeOfLifeTransformer
-  -------------
+  * There is a problem with the EndeavorSelectionScreen
