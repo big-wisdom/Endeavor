@@ -123,10 +123,3 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* make reordering tasks and endeavors work
-  * got task sorting working in the EndeavorTransformer
-  * Now to make sorting endeavors work
-    * In the EndeavorsScreen DONE
-    --------------
-    * In the SubEndeavorsEditor
-    --------------

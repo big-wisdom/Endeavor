@@ -113,11 +113,14 @@ extension TreeOfLifeTransformers on TreeOfLife {
           (se) => Endeavor(
             id: se.id,
             title: se.title,
-            subEndeavorReferences: endeavorIdToSubEndeavors[se.id]
+            subEndeavorReferences: (endeavorIdToSubEndeavors[se.id]
                     ?.map((se) => EndeavorReference(title: se.title, id: se.id))
                     .toList() ??
-                [],
-            taskReferences: endeavorIdToTasks[se.id]
+                [])
+              ..sort((a, b) => se.subEndeavorIds
+                  .indexOf(a.id)
+                  .compareTo(se.subEndeavorIds.indexOf(b.id))),
+            taskReferences: (endeavorIdToTasks[se.id]
                     ?.map(
                       (st) => TaskReference(
                         id: st.id,
@@ -126,13 +129,19 @@ extension TreeOfLifeTransformers on TreeOfLife {
                       ),
                     )
                     .toList() ??
-                [],
+                [])
+              ..sort((a, b) =>
+                  se.taskIds.indexOf(a.id).compareTo(se.taskIds.indexOf(b.id))),
           ),
         )
         .map((e) => EndeavorNode(
               endeavor: e,
               subEndeavors: _recurseSubEndeavors(
-                endeavorIdToSubEndeavors[e.id],
+                endeavorIdToSubEndeavors[e.id]
+                  ?..sort((a, b) => e.subEndeavorReferences
+                      .indexWhere((er) => er.id == a.id)
+                      .compareTo(e.subEndeavorReferences
+                          .indexWhere((er) => er.id == b.id))),
                 endeavorIdToSubEndeavors,
                 endeavorIdToTasks,
               ),
@@ -181,7 +190,7 @@ extension TreeOfLifeTransformers on TreeOfLife {
                     )
                     .toList() ??
                 [],
-            taskReferences: idToTasks[se.id]
+            taskReferences: (idToTasks[se.id]
                     ?.map<TaskReference>(
                       (e) => TaskReference(
                         id: e.id,
@@ -190,7 +199,9 @@ extension TreeOfLifeTransformers on TreeOfLife {
                       ),
                     )
                     .toList() ??
-                [],
+                [])
+              ..sort((a, b) =>
+                  se.taskIds.indexOf(a.id).compareTo(se.taskIds.indexOf(b.id))),
           ),
         )
         .map<EndeavorNode>(
