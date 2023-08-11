@@ -33,6 +33,34 @@ extension ServerEndeavorDataServiceExtension on DataService {
     });
   }
 
+  static void reorderSubEndeavors(
+    String parentEndeavorId,
+    int oldIndex,
+    int newIndex,
+  ) async {
+    final subEndeavorIds = ((await DataService.userDataDoc
+                .collection('endeavors')
+                .doc(parentEndeavorId)
+                .get())
+            .data()?[ServerEndeavorDataFields.subEndeavorIds.string()] as List)
+        .map((taskId) => taskId as String)
+        .toList();
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    // remove the item from its present index
+    final String itemToMove = subEndeavorIds.removeAt(oldIndex);
+
+    // insert it at the new index
+    subEndeavorIds.insert(newIndex, itemToMove);
+
+    DataService.userDataDoc
+        .collection('endeavors')
+        .doc(parentEndeavorId)
+        .update(
+            {ServerEndeavorDataFields.subEndeavorIds.string(): subEndeavorIds});
+  }
+
   static void reorderPrimaryEndeavors(int oldIndex, int newIndex) async {
     final taskIds = ((await DataService.userDataDoc.get())
                 .data()?[UserDocumentDatabaseFields.primaryEndeavorIds.string()]

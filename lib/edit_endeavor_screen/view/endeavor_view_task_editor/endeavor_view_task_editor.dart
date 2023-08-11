@@ -19,10 +19,11 @@ class EndeavorViewTaskEditor extends StatelessWidget {
       }),
       builder: (context, state) {
         state as LoadedEditEndeavorScreenState;
-        return Column(mainAxisSize: MainAxisSize.min, children: [
-          const Text("Tasks"),
-          SingleChildScrollView(
-            child: ReorderableListView(
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("Tasks"),
+            ReorderableListView(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               onReorder: (oldIndex, newIndex) => context
@@ -33,25 +34,25 @@ class EndeavorViewTaskEditor extends StatelessWidget {
                       TaskListTile(taskReference: task, key: Key(task.id)))
                   .toList(),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final endeavorReference = EndeavorReference.fromEndeavor(
-                  context.read<EditEndeavorScreenBloc>().currentEndeavor);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return TaskScreen.create(
-                      endeavorReference: endeavorReference,
-                    );
-                  },
-                ),
-              );
-            },
-            child: const Text("Add"),
-          ),
-        ]);
+            ElevatedButton(
+              onPressed: () {
+                final endeavorReference = EndeavorReference.fromEndeavor(
+                    context.read<EditEndeavorScreenBloc>().currentEndeavor);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return TaskScreen.create(
+                        endeavorReference: endeavorReference,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Text("Add"),
+            ),
+          ],
+        );
       },
     );
   }

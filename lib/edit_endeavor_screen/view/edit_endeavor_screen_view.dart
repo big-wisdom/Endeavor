@@ -33,10 +33,11 @@ class EditEndeavorScreenView extends StatelessWidget {
           ),
           body: state is LoadingEditEndeavorScreenState
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: Text("loading..."),
                 )
               : const SingleChildScrollView(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       SubEndeavorsEditor(),
                       EndeavorViewTaskEditor(),

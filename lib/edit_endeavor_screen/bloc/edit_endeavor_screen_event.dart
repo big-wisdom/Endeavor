@@ -40,6 +40,16 @@ class CreateSubEndeavorRequested extends EditEndeavorScreenEvent {
   List<Object?> get props => [newEndeavorTitle];
 }
 
+class ReorderSubEndeavors extends EditEndeavorScreenEvent {
+  const ReorderSubEndeavors(this.oldIndex, this.newIndex);
+
+  final int oldIndex;
+  final int newIndex;
+
+  @override
+  List<Object?> get props => [oldIndex, newIndex];
+}
+
 class ReorderTasks extends EditEndeavorScreenEvent {
   const ReorderTasks(this.oldIndex, this.newIndex);
 
