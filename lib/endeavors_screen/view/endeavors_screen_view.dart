@@ -1,4 +1,3 @@
-import 'package:data_models/data_models.dart';
 import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,12 +11,10 @@ class EndeavorsScreenView extends StatelessWidget {
     final endeavorsScreenBloc = context.read<EndeavorsScreenBloc>();
     return BlocBuilder<EndeavorsScreenBloc, EndeavorsScreenState>(
       builder: (context, state) {
-        return ListView.separated(
-          itemCount: endeavorsScreenBloc.state.primaryEndeavors.length,
-          itemBuilder: (context, index) {
-            Endeavor endeavor =
-                endeavorsScreenBloc.state.primaryEndeavors[index];
-
+        return ReorderableListView(
+          onReorder: (oldIndex, newIndex) =>
+              endeavorsScreenBloc.add(ReorderEndeavors(oldIndex, newIndex)),
+          children: endeavorsScreenBloc.state.primaryEndeavors.map((endeavor) {
             return Dismissible(
               key: Key(endeavor.id),
               onDismissed: (direction) {
@@ -42,12 +39,7 @@ class EndeavorsScreenView extends StatelessWidget {
                 },
               ),
             );
-          },
-          separatorBuilder: (context, index) {
-            return const Divider(
-              thickness: 1,
-            );
-          },
+          }).toList(),
         );
       },
     );

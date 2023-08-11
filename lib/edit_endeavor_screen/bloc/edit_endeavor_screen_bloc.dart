@@ -47,10 +47,12 @@ class EditEndeavorScreenBloc
         .getEndeavorStream(
       endeavorReference?.id ?? endeavor!.id,
     )
-        .listen((newEndeavor) {
-      currentEndeavor = newEndeavor;
-      add(EndeavorChangedByServer(newEndeavor));
-    });
+        .listen(
+      (newEndeavor) {
+        currentEndeavor = newEndeavor;
+        add(EndeavorChangedByServer(newEndeavor));
+      },
+    );
 
     on<EndeavorChangedByServer>(
       (event, emit) => emit(

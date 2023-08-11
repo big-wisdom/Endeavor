@@ -16,9 +16,14 @@ class EndeavorsScreenBloc
 
   EndeavorsScreenBloc(this._dataRepository)
       : super(const EndeavorsScreenState([])) {
+    on<ReorderEndeavors>((event, emit) =>
+        ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
+            event.oldIndex, event.newIndex));
+
     on<NewPrimaryEndeavors>((event, emit) {
       emit(EndeavorsScreenState(event.newPrimaryEndeavors));
     });
+
     on<DeleteEndeavor>(
       (event, emit) {
         ServerEndeavorDataServiceExtension.deletePrimaryEndeavor(
