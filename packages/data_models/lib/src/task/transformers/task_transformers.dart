@@ -9,10 +9,17 @@ extension TaskTransformers on Task {
     return serverTasks.where((serverTask) => serverTask.endeavorId == null).map(
       (endeavorlessServerTask) {
         // TODO: make this more efficient
-        final relatedServerEndeavor = serverEndeavors
-            .firstWhere((se) => se.id == endeavorlessServerTask.endeavorId!);
-        final endeavorReference = EndeavorReference(
-            id: relatedServerEndeavor.id, title: relatedServerEndeavor.title);
+        EndeavorReference? endeavorReference;
+        if (endeavorlessServerTask.endeavorId != null) {
+          final relatedServerEndeavor = serverEndeavors.firstWhere(
+            (se) => se.id == endeavorlessServerTask.endeavorId,
+          );
+          endeavorReference = EndeavorReference(
+            id: relatedServerEndeavor.id,
+            title: relatedServerEndeavor.title,
+          );
+        }
+
         return Task(
           id: endeavorlessServerTask.id,
           title: endeavorlessServerTask.title,
