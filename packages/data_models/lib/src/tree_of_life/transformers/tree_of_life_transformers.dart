@@ -78,8 +78,10 @@ extension TreeOfLifeTransformers on TreeOfLife {
             } else {
               endeavorIdToSubEndeavors[se.parentEndeavorId!]!.add(se);
             }
-            // add parent to endeavorIdsToGrab
-            endeavorIdsToGrab.add(se.parentEndeavorId!);
+            // add parent to endeavorIdsToGrab if it hasn't been grabbed already
+            if (!grabbedIds.contains(se.parentEndeavorId)) {
+              endeavorIdsToGrab.add(se.parentEndeavorId!);
+            }
           } else {
             // add primaries if primary
             primaryServerEndeavors.add(se);

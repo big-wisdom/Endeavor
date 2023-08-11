@@ -123,9 +123,6 @@ Back End: Firebase
 ## What I'm working on now
 
 * Time to try to break the EndeavorsScreen, EditEndeavorScreen, TaskScreen and TasksScreen
-  --------------
-  * An error throws when I remove the endeavor from a task launched from the EditEndeavorScreen
-    * It's happening in the taskFromStreams() method in the TasksDataRepositoryExtension possibly because the EditEndeavorScreen is still trying to stream sub endeavors, but hasn't gotten the message that the task was removed from it's sub endeavors?
-      * I will fancify the updateTask method by making it a transaction that grabs the current document, sees what changed and updates the task in a consistent way DONE
-      * The taskStream should still be able to handle tasks that don't have an endeavorId DONE
-  --------------
+  -------------
+  * Fixed TreeOfLifeTransformer
+  -------------
