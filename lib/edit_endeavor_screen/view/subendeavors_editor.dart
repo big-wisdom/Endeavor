@@ -56,21 +56,23 @@ class _SubEndeavorsList extends StatelessWidget {
       },
       builder: (context, state) {
         state as LoadedEditEndeavorScreenState;
-        return ListView.separated(
+        return ReorderableListView(
           shrinkWrap: true,
-          itemBuilder: (context, index) {
+          onReorder: (oldIndex, newIndex) => context
+              .read<EditEndeavorScreenBloc>()
+              .add(ReorderSubEndeavors(oldIndex, newIndex)),
+          children: state.subEndeavorsInput.value.map((endeavorReference) {
             return Dismissible(
-              key: Key(state.subEndeavorsInput.value[index].id),
+              key: Key(endeavorReference.id),
               child: ListTile(
-                title: Text(state.subEndeavorsInput.value[index].title),
+                title: Text(endeavorReference.title),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
                         return EditEndeavorScreen.fromEndeavorReference(
-                          endeavorReference:
-                              state.subEndeavorsInput.value[index],
+                          endeavorReference: endeavorReference,
                         );
                       },
                     ),
@@ -79,19 +81,11 @@ class _SubEndeavorsList extends StatelessWidget {
               ),
               onDismissed: (direction) {
                 context.read<EditEndeavorScreenBloc>().add(
-                      DeleteEndeavorRequested(
-                        state.subEndeavorsInput.value[index],
-                      ),
+                      DeleteEndeavorRequested(endeavorReference),
                     );
               },
             );
-          },
-          separatorBuilder: (context, index) {
-            return const Divider(
-              thickness: 1,
-            );
-          },
-          itemCount: state.subEndeavorsInput.value.length,
+          }).toList(),
         );
       },
     );

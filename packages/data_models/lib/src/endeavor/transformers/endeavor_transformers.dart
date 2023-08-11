@@ -92,7 +92,10 @@ extension EndeavorTransformers on Endeavor {
           .where((se) =>
               se.parentEndeavorId != null && se.parentEndeavorId == endeavorId)
           .map((se) => EndeavorReference(title: se.title, id: se.id))
-          .toList(),
+          .toList()
+        ..sort(((a, b) => e.subEndeavorIds
+            .indexOf(a.id)
+            .compareTo(e.subEndeavorIds.indexOf(b.id)))),
       taskReferences: serverTasks
           .where((st) => st.endeavorId != null && st.endeavorId == endeavorId)
           .map(

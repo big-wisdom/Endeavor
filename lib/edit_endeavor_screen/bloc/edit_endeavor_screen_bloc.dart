@@ -76,6 +76,14 @@ class EditEndeavorScreenBloc
       ),
     );
 
+    on<ReorderSubEndeavors>(
+      (event, emit) => ServerEndeavorDataServiceExtension.reorderSubEndeavors(
+        currentEndeavor.id,
+        event.oldIndex,
+        event.newIndex,
+      ),
+    );
+
     on<ReorderTasks>(
       (event, emit) => dataRepository.reorderEndeavorTasks(
         currentEndeavor,
