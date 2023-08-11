@@ -27,21 +27,6 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
       ),
       controlAffinity: ListTileControlAffinity.leading,
       children: [
-        // subendeavors
-        ...widget.endeavorNode.subEndeavors
-            .map((endeavorNode) => EndeavorTaskList(endeavorNode: endeavorNode))
-            .toList(),
-        // ListView.separated(
-        //   itemCount: widget.endeavorNode.endeavor.subEndeavorReferences.length,
-        //   itemBuilder: (context, index) {
-        //     return EndeavorTaskList(
-        //       endeavorNode: widget.endeavorNode.subEndeavors[index],
-        //     );
-        //   },
-        //   separatorBuilder: (context, index) => const Divider(
-        //     thickness: 1,
-        //   ),
-        // ),
         // tasks
         ...widget.endeavorNode.endeavor.taskReferences
             .map((taskRef) => TaskListTile(
@@ -49,15 +34,10 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
                   key: Key(taskRef.id),
                 ))
             .toList(),
-        // ListView.separated(
-        //   itemCount: widget.endeavorNode.endeavor.taskReferences.length,
-        //   itemBuilder: (context, index) {
-        //     return;
-        //   },
-        //   separatorBuilder: (context, index) => const Divider(
-        //     thickness: 1,
-        //   ),
-        // ),
+        // subendeavors
+        ...widget.endeavorNode.subEndeavors
+            .map((endeavorNode) => EndeavorTaskList(endeavorNode: endeavorNode))
+            .toList(),
       ],
     );
   }
