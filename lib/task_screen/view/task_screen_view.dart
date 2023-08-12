@@ -1,6 +1,5 @@
 import 'package:duration_picker/duration_picker.dart';
 import 'package:endeavor/one_time_event_picker_screen/one_time_event_picker_screen.dart';
-import 'package:endeavor/util.dart';
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
 import 'package:formz/formz.dart';
@@ -292,7 +291,7 @@ class _TaskEventListEditor extends StatelessWidget {
                     title: Text(
                         "${state.scheduledEvents.value[index].duration.inMinutes} minutes"),
                     subtitle: Text(
-                      getEventDescription(state.scheduledEvents.value[index]),
+                      state.scheduledEvents.value[index].getDescription(),
                     ),
                   ),
                 );

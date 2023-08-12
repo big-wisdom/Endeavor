@@ -148,30 +148,6 @@ extension EndeavorsData on DataRepository {
   //       );
   // }
 
-  void reorderEndeavorTasks(
-      Endeavor endeavor, int oldIndex, int newIndex) async {
-    if (firestore == null) throw Exception("No User?! No way!");
-
-    final taskIds =
-        ((await firestore!.collection('endeavors').doc(endeavor.id).get())
-                .data()?['taskIds'] as List)
-            .map((taskId) => taskId as String)
-            .toList();
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-    // remove the item from its present index
-    final String itemToMove = taskIds.removeAt(oldIndex);
-
-    // insert it at the new index
-    taskIds.insert(newIndex, itemToMove);
-
-    firestore!
-        .collection('endeavors')
-        .doc(endeavor.id)
-        .update({'taskIds': taskIds});
-  }
-
   // Stream<List<EndeavorDatabaseDocument>> allEndeavorsStream() {
   //   if (firestore == null) throw Exception("No user user user user user");
 

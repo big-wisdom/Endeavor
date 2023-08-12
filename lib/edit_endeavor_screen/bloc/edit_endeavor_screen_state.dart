@@ -22,7 +22,7 @@ class LoadedEditEndeavorScreenState extends EndeavorForm
     required super.titleInput,
     required super.subEndeavorsInput,
     required super.tasksInput,
-    super.color,
+    required super.color,
   });
 
   factory LoadedEditEndeavorScreenState.fromEndeavor(Endeavor endeavor) {
@@ -35,6 +35,22 @@ class LoadedEditEndeavorScreenState extends EndeavorForm
   }
 
   final SettingsScreenState settingsScreenState;
+
+  LoadedEditEndeavorScreenState copyWith({
+    List<TaskReference>? newTaskList,
+    List<EndeavorReference>? newSubEndeavorReferencesList,
+  }) {
+    return LoadedEditEndeavorScreenState(
+      titleInput: titleInput,
+      subEndeavorsInput: newSubEndeavorReferencesList != null
+          ? SubEndeavorsInput.dirty(newSubEndeavorReferencesList)
+          : subEndeavorsInput,
+      tasksInput: newTaskList != null
+          ? EndeavorTasksInput.dirty(newTaskList)
+          : tasksInput,
+      color: color,
+    );
+  }
 
   @override
   List<Object> get props =>

@@ -116,10 +116,27 @@ Back End: Firebase
 
 ## Backlog
 * get seperator lines back in between the endeavors in the EndeavorsScreen
-* move the reorderEndeavorTasks method out of the DataRepository
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
 
 ## What I'm working on now
+
+* move the reorderEndeavorTasks method out of the DataRepository DONE
+* while I'm here, I might as well try to solve the weird issue where the list glitches right after reordering
+  ----------------
+  * I will make the UI do the list reordering everywhere so that it can simulaeneously update its own state and submit it to the DataService
+
+  * Make the data service handle a new list instead of doing the reordering itself DONE
+    * for primaryEndeavors DONE
+      * Move code to the util to preserve reordering code in the meantime DONE
+    * for subEndeavors DONE
+    * for endeavor tasks DONE
+  * Disband the util.dart into the various places it belongs DONE
+  * Make all reorderables use this
+    * sub endeavors DONE
+    * primary endeavors DONE
+    * endeavor tasks DONE
+  ----------------
+
 
