@@ -6,5 +6,5 @@ class EndeavorsScreenState extends Equatable {
   final List<Endeavor> primaryEndeavors;
 
   @override
-  List<Object> get props => [primaryEndeavors];
+  List<Object> get props => [...primaryEndeavors];
 }

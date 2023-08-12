@@ -10,6 +10,8 @@ class EndeavorsScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final endeavorsScreenBloc = context.read<EndeavorsScreenBloc>();
     return BlocBuilder<EndeavorsScreenBloc, EndeavorsScreenState>(
+      buildWhen: (previous, current) =>
+          previous.primaryEndeavors != current.primaryEndeavors,
       builder: (context, state) {
         return ReorderableListView(
           onReorder: (oldIndex, newIndex) =>
