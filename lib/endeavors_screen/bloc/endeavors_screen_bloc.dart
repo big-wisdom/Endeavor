@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
 import 'package:data_service/data_service.dart';
+import 'package:endeavor/util.dart';
 import 'package:equatable/equatable.dart';
 
 part 'endeavors_screen_event.dart';
@@ -16,9 +17,17 @@ class EndeavorsScreenBloc
 
   EndeavorsScreenBloc(this._dataRepository)
       : super(const EndeavorsScreenState([])) {
-    on<ReorderEndeavors>((event, emit) =>
-        ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
-            event.oldIndex, event.newIndex));
+    on<ReorderEndeavors>((event, emit) {
+      final newPrimaryEndeavorsList = (state.primaryEndeavors
+        ..reorder(
+          event.oldIndex,
+          event.newIndex,
+        ));
+      emit(EndeavorsScreenState(newPrimaryEndeavorsList));
+      ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
+        newPrimaryEndeavorsList.map((e) => e.id).toList(),
+      );
+    });
 
     on<NewPrimaryEndeavors>((event, emit) {
       emit(EndeavorsScreenState(event.newPrimaryEndeavors));

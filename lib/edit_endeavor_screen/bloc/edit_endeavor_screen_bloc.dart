@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:endeavor/util.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
@@ -76,20 +77,36 @@ class EditEndeavorScreenBloc
       ),
     );
 
-    on<ReorderSubEndeavors>(
-      (event, emit) => ServerEndeavorDataServiceExtension.reorderSubEndeavors(
+    on<ReorderSubEndeavors>((event, emit) {
+      final thisState = state as LoadedEditEndeavorScreenState;
+      final newSubEndeavorIdsList = thisState.subEndeavorsInput.value
+        ..reorder(
+          event.oldIndex,
+          event.newIndex,
+        );
+      emit(thisState.copyWith(
+          newSubEndeavorReferencesList: newSubEndeavorIdsList));
+      ServerEndeavorDataServiceExtension.reorderSubEndeavors(
         currentEndeavor.id,
-        event.oldIndex,
-        event.newIndex,
-      ),
-    );
+        newSubEndeavorIdsList.map((e) => e.id).toList(),
+      );
+    });
 
     on<ReorderTasks>(
-      (event, emit) => dataRepository.reorderEndeavorTasks(
-        currentEndeavor,
-        event.oldIndex,
-        event.newIndex,
-      ),
+      (event, emit) {
+        final thisState = state as LoadedEditEndeavorScreenState;
+        final newTaskReferenceList = thisState.tasksInput.value
+          ..reorder(event.oldIndex, event.newIndex);
+        emit(
+          thisState.copyWith(
+            newTaskList: newTaskReferenceList,
+          ),
+        );
+        ServerEndeavorDataServiceExtension.reorderEndeavorTasks(
+          currentEndeavor.id,
+          newTaskReferenceList.map((e) => e.id).toList(),
+        );
+      },
     );
 
     on<DeleteTask>(
