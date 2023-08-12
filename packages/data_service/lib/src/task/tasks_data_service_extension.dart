@@ -14,9 +14,7 @@ extension TasksDataServiceExtension on DataService {
 
   static Stream<List<WeekViewEvent>> get taskWeekViewEventsStream =>
       tasksStream.map((serverTask) => WeekViewEvent.listFromServerTask(
-            serverTask: task,
-            backgroundColor: backgroundColor,
-          ));
+          serverTask: serverTask, backgroundColor: backgroundColor));
 
   static void createTask(UnidentifiedTask task) {
     FirebaseFirestore.instance.runTransaction((transaction) async {
