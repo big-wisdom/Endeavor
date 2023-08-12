@@ -72,12 +72,13 @@ class DataRepository {
       (a, b) => TasksDataRepositoryExtension.taskFromStreams(a, b, taskId));
 
   // Calendar screen
-  Stream<CalendarEvent> get calendarEventStream => throw UnimplementedError();
-  Stream<EndeavorBlock> get endeavorBlockStream => throw UnimplementedError();
+  // Stream<CalendarEvent> get calendarEventStream => throw UnimplementedError();
+  // Stream<EndeavorBlock> get endeavorBlockStream => throw UnimplementedError();
 
-  // just making this so it will run but who knows if it's a good idea
   Stream<List<WeekViewEvent>> get weekViewEventStream =>
-      throw UnimplementedError();
+      CombineLatestStream.combine3(
+        TasksDataServiceExtension.tasksStream,
+      );
 
   // INITIALIZATION
   DataRepository({required Stream<User> userStream})

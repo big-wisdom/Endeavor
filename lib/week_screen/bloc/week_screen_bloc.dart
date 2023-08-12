@@ -10,13 +10,11 @@ part 'week_screen_state.dart';
 
 class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   DateTime selectedDay;
-  final DataRepository _dataRepository;
   late final StreamSubscription<List<WeekViewEvent>> _weekEventSubscription;
 
   WeekScreenBloc(
       {required DataRepository dataRepository, required this.selectedDay})
-      : _dataRepository = dataRepository,
-        super(const WeekScreenInitial([])) {
+      : super(const WeekScreenInitial([])) {
     on<NewEvents>(
       (event, emit) {
         emit(
@@ -26,7 +24,7 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
     );
 
     _weekEventSubscription =
-        _dataRepository.weekViewEventStream.listen((weekViewEvents) {
+        dataRepository.weekViewEventStream.listen((weekViewEvents) {
       add(NewEvents(weekViewEvents));
     });
   }

@@ -122,21 +122,19 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* move the reorderEndeavorTasks method out of the DataRepository DONE
-* while I'm here, I might as well try to solve the weird issue where the list glitches right after reordering
-  ----------------
-  * I will make the UI do the list reordering everywhere so that it can simulaeneously update its own state and submit it to the DataService
+There's actually a ton to do on the calendar side of things. Where to start?
 
-  * Make the data service handle a new list instead of doing the reordering itself DONE
-    * for primaryEndeavors DONE
-      * Move code to the util to preserve reordering code in the meantime DONE
-    * for subEndeavors DONE
-    * for endeavor tasks DONE
-  * Disband the util.dart into the various places it belongs DONE
-  * Make all reorderables use this
-    * sub endeavors DONE
-    * primary endeavors DONE
-    * endeavor tasks DONE
-  ----------------
+What would I have to do to get the WeekScreen screen to render at all?
 
+* Update state to have all the elements that are needed by the UI
+  * State for CalendarScreen
+    * selectedDay
+  * State for WeekScreen
+    * events
 
+* Update Bloc to initialize state from the DataRepository correctly
+  * I'm working on the DataRepository stream for all weekViewEvents
+    * First I'm going to make a transformer to take the serverTasks stream from the TasksDataServiceExtension and transform it into WeekViewEvents
+    * Then I need to make an EndeavorBlockDataServiceExtension where I expose a Steam<WeekViewEvent>
+    * Then I need to make a CalendarEventDataServiceExtension where I expose a Stream<WeekViewEvent>
+    * Then I need to combine all these streams just by appending them end to end in the DataRepository and expose that to the various blocs

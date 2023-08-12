@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:server_data_models/server_data_models.dart';
 
 class WeekViewEvent extends Equatable {
   const WeekViewEvent({
@@ -54,24 +55,26 @@ class WeekViewEvent extends Equatable {
     );
   }
 
-  static List<WeekViewEvent> listFromTask({
-    required Task task,
+  static List<WeekViewEvent> listFromServerTask({
+    required ServerTask serverTask,
     required Color? backgroundColor,
   }) {
-    if (task.events == null) return [];
+    if (serverTask.events == null) return [];
 
-    return task.events!
+    return serverTask.events!
         .map(
           (e) => WeekViewEvent(
-            title: task.title,
+            title: serverTask.title,
             backgroundColor: backgroundColor,
             start: e.start,
             end: e.end,
-            originalObject: task,
+            originalObject: serverTask,
           ),
         )
         .toList();
   }
+
+  static List<WeekViewEvent> listFromListOfServerTasks() {}
 
   @override
   List<Object?> get props =>
