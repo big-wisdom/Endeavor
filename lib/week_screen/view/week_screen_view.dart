@@ -17,32 +17,36 @@ class WeekScreenView extends StatelessWidget {
     final weekBloc = context.read<WeekScreenBloc>();
     return LayoutBuilder(
       builder: (context, constraints) {
-        return WeekView(
-          dayBarStyleBuilder: (date) {
-            return DayBarStyle(
-              dateFormatter: (year, month, day) {
-                return DateTime(year, month, day).toCustomString();
+        return BlocBuilder<WeekScreenBloc, WeekScreenState>(
+          builder: (context, state) {
+            return WeekView(
+              dayBarStyleBuilder: (date) {
+                return DayBarStyle(
+                  dateFormatter: (year, month, day) {
+                    return DateTime(year, month, day).toCustomString();
+                  },
+                );
               },
+              hoursColumnStyle: HoursColumnStyle(
+                timeFormatter: (time) =>
+                    "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')}",
+              ),
+              // generate a list of the days of the week for the selected date
+              dates: weekBloc.monthRange,
+              events: state.events
+                  .map(
+                    (e) => FlutterWeekViewEvent(
+                      title: e.title,
+                      description: '',
+                      start: e.start,
+                      end: e.end,
+                      onTap: () => _onTap(context, e.originalObject),
+                    ),
+                  )
+                  .toList(),
+              style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
             );
           },
-          hoursColumnStyle: HoursColumnStyle(
-            timeFormatter: (time) =>
-                "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')}",
-          ),
-          // generate a list of the days of the week for the selected date
-          dates: weekBloc.monthRange,
-          events: weekBloc.state.events
-              .map(
-                (e) => FlutterWeekViewEvent(
-                  title: e.title,
-                  description: '',
-                  start: e.start,
-                  end: e.end,
-                  onTap: () => _onTap(context, e.originalObject),
-                ),
-              )
-              .toList(),
-          style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
         );
       },
     );

@@ -12,6 +12,12 @@ extension TasksDataServiceExtension on DataService {
             FirestoreServerTaskExtension.querySnapToServerTasksTransformer,
           );
 
+  static Stream<List<WeekViewEvent>> get taskWeekViewEventsStream =>
+      tasksStream.map((serverTask) => WeekViewEvent.listFromServerTask(
+            serverTask: task,
+            backgroundColor: backgroundColor,
+          ));
+
   static void createTask(UnidentifiedTask task) {
     FirebaseFirestore.instance.runTransaction((transaction) async {
       // create task document
