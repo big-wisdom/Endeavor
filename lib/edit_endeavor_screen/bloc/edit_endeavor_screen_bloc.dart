@@ -79,11 +79,11 @@ class EditEndeavorScreenBloc
 
     on<ReorderSubEndeavors>((event, emit) {
       final thisState = state as LoadedEditEndeavorScreenState;
-      final newSubEndeavorIdsList = thisState.subEndeavorsInput.value
-        ..reorder(
-          event.oldIndex,
-          event.newIndex,
-        );
+      final newSubEndeavorIdsList =
+          thisState.subEndeavorsInput.value.reorderedCopy(
+        event.oldIndex,
+        event.newIndex,
+      );
       emit(thisState.copyWith(
           newSubEndeavorReferencesList: newSubEndeavorIdsList));
       ServerEndeavorDataServiceExtension.reorderSubEndeavors(
@@ -96,7 +96,7 @@ class EditEndeavorScreenBloc
       (event, emit) {
         final thisState = state as LoadedEditEndeavorScreenState;
         final newTaskReferenceList = thisState.tasksInput.value
-          ..reorder(event.oldIndex, event.newIndex);
+            .reorderedCopy(event.oldIndex, event.newIndex);
         emit(
           thisState.copyWith(
             newTaskList: newTaskReferenceList,
