@@ -137,6 +137,9 @@ Back End: Firebase
     * sub endeavors DONE
     * primary endeavors DONE
     * endeavor tasks DONE
+
+  * It didn't work. I'll start trying to fix the primaryEndeavors first
+    * 
   ----------------
 
 
