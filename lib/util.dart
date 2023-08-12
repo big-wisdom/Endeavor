@@ -1,12 +1,15 @@
 extension ListExtension<T> on List<T> {
-  void reorder(int oldIndex, int newIndex) {
+  List<T> reorderedCopy(int oldIndex, int newIndex) {
+    List<T> copiedList = [...this];
     if (oldIndex < newIndex) {
       newIndex -= 1;
     }
     // remove the item from its present index
-    final T itemToMove = removeAt(oldIndex);
+    final T itemToMove = copiedList.removeAt(oldIndex);
 
     // insert it at the new index
-    insert(newIndex, itemToMove);
+    copiedList.insert(newIndex, itemToMove);
+
+    return copiedList;
   }
 }
