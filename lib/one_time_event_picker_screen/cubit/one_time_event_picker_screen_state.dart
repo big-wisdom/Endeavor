@@ -5,7 +5,7 @@ class OneTimeEventPickerScreenState extends Equatable {
   final Event? event;
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [event];
 }
 
 class OneTimeEventPickerInitial extends OneTimeEventPickerScreenState {

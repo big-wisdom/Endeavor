@@ -122,18 +122,9 @@ Back End: Firebase
 
 ## What I'm working on now
 
-There's actually a ton to do on the calendar side of things. Where to start?
 
-What would I have to do to get the WeekScreen screen to render at all?
+* RQ I'm going to figure out what's going wrong with the OneTimeEventPicker
 
-* Update state to have all the elements that are needed by the UI
-  * State for CalendarScreen
-    * selectedDay
-  * State for WeekScreen
-    * events
-
-* Update Bloc to initialize state from the DataRepository correctly
-  * I'm working on the DataRepository stream for all weekViewEvents
 
 * I'm going to get the CalendarScreen running from just Tasks
 
