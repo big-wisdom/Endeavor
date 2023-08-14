@@ -16,15 +16,8 @@ abstract class TaskScreenState extends TaskForm {
     DurationField? durationField,
     DivisibilityBox? divisibilityBox,
     MinnimumSchedulingDuration? minnimumSchedulingDuration,
-    Event? newEvent,
+    List<Event>? newEventsList,
   }) {
-    // add new event if there is one
-    List<Event> newScheduledEvents;
-    newScheduledEvents = [...scheduledEvents.value];
-    if (newEvent != null) {
-      newScheduledEvents.add(newEvent);
-    }
-
     // if duration or divisibility is updated, update minnimumSchedulingDuration input
     MinnimumSchedulingDuration newMinSchedDuration =
         minnimumSchedulingDuration ?? this.minnimumSchedulingDuration;
@@ -73,7 +66,7 @@ abstract class TaskScreenState extends TaskForm {
         duration: durationField ?? duration,
         endeavor: endeavorPickerRowInput ?? endeavor,
         minnimumSchedulingDuration: newMinSchedDuration,
-        scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
+        scheduledEvents: ScheduledEvents.dirty(newEventsList ?? []),
       );
     } else {
       return EditTaskScreenState(
@@ -82,7 +75,7 @@ abstract class TaskScreenState extends TaskForm {
         duration: durationField ?? duration,
         endeavor: endeavorPickerRowInput ?? endeavor,
         minnimumSchedulingDuration: newMinSchedDuration,
-        scheduledEvents: ScheduledEvents.dirty(newScheduledEvents),
+        scheduledEvents: ScheduledEvents.dirty(newEventsList ?? []),
       );
     }
   }
