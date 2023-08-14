@@ -74,8 +74,6 @@ class WeekViewEvent extends Equatable {
         .toList();
   }
 
-  static List<WeekViewEvent> listFromListOfServerTasks() {}
-
   @override
   List<Object?> get props =>
       [title, start, end, backgroundColor, originalObject];

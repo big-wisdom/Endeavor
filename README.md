@@ -134,7 +134,18 @@ What would I have to do to get the WeekScreen screen to render at all?
 
 * Update Bloc to initialize state from the DataRepository correctly
   * I'm working on the DataRepository stream for all weekViewEvents
-    * First I'm going to make a transformer to take the serverTasks stream from the TasksDataServiceExtension and transform it into WeekViewEvents
-    * Then I need to make an EndeavorBlockDataServiceExtension where I expose a Steam<WeekViewEvent>
-    * Then I need to make a CalendarEventDataServiceExtension where I expose a Stream<WeekViewEvent>
-    * Then I need to combine all these streams just by appending them end to end in the DataRepository and expose that to the various blocs
+
+* I'm going to get the CalendarScreen running from just Tasks
+
+for (i in [Task, EndeavorBlock, CalendarEvent]) {
+  for (j in [DataModel, DataService extension, WeekViewEvent transformer addition, ServerDataModel, DataRepository]) {
+    * build j component for i
+      * Currently
+  }
+  
+  for (k in [Bloc, UI]) {
+    build k component for i
+  }
+
+  * test calendar screen so far
+}
