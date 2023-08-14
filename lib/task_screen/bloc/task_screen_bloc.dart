@@ -103,11 +103,17 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
     );
 
     on<EventCreated>(
-      (event, emit) => emit(state.copyWith(newEvent: event.event)),
+      (event, emit) => emit(state.copyWith(
+        newEventsList: [...state.scheduledEvents.value, event.event],
+      )),
     );
 
     on<EventDeleted>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) {
+        final newEventsList = [...state.scheduledEvents.value]
+          ..remove(event.event);
+        emit(state.copyWith(newEventsList: newEventsList));
+      },
     );
 
     on<SaveButtonTapped>((event, emit) {
