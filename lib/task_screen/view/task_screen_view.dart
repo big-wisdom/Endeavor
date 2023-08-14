@@ -312,7 +312,7 @@ class _TaskEventListEditor extends StatelessWidget {
                     builder: (context) {
                       return OneTimeEventPickerScreen(onEvent: (event) {
                         taskScreenBloc.add(EventCreated(event));
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       });
                     },
                   ),
