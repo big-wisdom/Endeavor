@@ -5,7 +5,7 @@ class ServerEndeavorBlock {
     required this.id,
     required this.endeavorId,
     required this.serverEvent,
-    this.repeatingEndeavorBlockId,
+    required this.repeatingEndeavorBlockId,
   });
 
   final String id;

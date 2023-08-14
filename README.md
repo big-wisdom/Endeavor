@@ -122,21 +122,20 @@ Back End: Firebase
 
 ## What I'm working on now
 
-
-* RQ I'm going to figure out what's going wrong with the OneTimeEventPicker
-
-
-* I'm going to get the CalendarScreen running from just Tasks
-
 for (i in [Task, EndeavorBlock, CalendarEvent]) {
-  for (j in [DataModel, DataService extension, WeekViewEvent transformer addition, ServerDataModel, DataRepository]) {
+  for (j in [DataModel, ServerDataModel, DataService ServerDataModel stream, WeekViewEvent transformer addition, DataRepository]) {
     * build j component for i
-      * Currently
+      * i == EndeavorBlock && j == DONE
   }
   
-  for (k in [Bloc, UI]) {
-    build k component for i
+  for (k in [CreateScreen, CreateScreenState, Bloc, DataService edit methods]) {
+    * build k component for i
+      * i == EndeavorBlock && k == CreateScreen
   }
 
   * test calendar screen so far
 }
+
+* Building DataModel for EndeavorBlock
+  * moved some existing stuff over to the DataService
+  * looks like I've pretty well created the EndeavorBlock DataModel

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_models/data_models.dart';
 
-extension EndeavorBlockFirestoreExtension on EndeavorBlock {
+extension FirestoreEndeavorBlockExtension on EndeavorBlock {
   static EndeavorBlock fromDocData({
     required String id,
     required Map<String, dynamic> data,
@@ -31,7 +31,7 @@ extension EndeavorBlockFirestoreExtension on EndeavorBlock {
     handleData: (querySnap, sink) {
       sink.add(querySnap.docs
           .map(
-            (queryDocSnap) => EndeavorBlockFirestoreExtension.fromDocData(
+            (queryDocSnap) => FirestoreEndeavorBlockExtension.fromDocData(
               id: queryDocSnap.id,
               data: queryDocSnap.data(),
             ),
