@@ -15,6 +15,13 @@ extension ServerEndeavorDataServiceExtension on DataService {
           .snapshots()
           .transform(_querySnapToServerEndeavorListTransformer);
 
+  static final _querySnapToServerEndeavorListTransformer = StreamTransformer<
+      QuerySnapshot<Map<String, dynamic>>, List<ServerEndeavor>>.fromHandlers(
+    handleData: (querySnap, sink) => sink.add(querySnap.docs
+        .map((docSnap) => FirestoreServerEndeavorExtension.fromDocSnap(docSnap))
+        .toList()),
+  );
+
   static void createPrimaryEndeavor(String endeavorTitle) async {
     FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
       // create endeavor document
@@ -135,11 +142,4 @@ extension ServerEndeavorDataServiceExtension on DataService {
         .doc(endeavorReference.id)
         .delete();
   }
-
-  static final _querySnapToServerEndeavorListTransformer = StreamTransformer<
-      QuerySnapshot<Map<String, dynamic>>, List<ServerEndeavor>>.fromHandlers(
-    handleData: (querySnap, sink) => sink.add(querySnap.docs
-        .map((docSnap) => FirestoreServerEndeavorExtension.fromDocSnap(docSnap))
-        .toList()),
-  );
 }

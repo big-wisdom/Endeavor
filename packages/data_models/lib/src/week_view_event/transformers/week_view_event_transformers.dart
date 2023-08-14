@@ -1,32 +1,43 @@
 import 'package:data_models/data_models.dart';
-import 'package:flutter/material.dart' show Color;
 import 'package:server_data_models/server_data_models.dart';
 
 extension WeekViewEventTransformers on WeekViewEvent {
   static List<WeekViewEvent> weekViewEventsFromIngredients(
     List<ServerTask> serverTasks,
+    List<ServerEndeavorBlock> serverEndeavorBlocks,
     List<ServerEndeavor> serverEndeavors,
   ) {
-    // map endeavorIds to colors
-    Map<String, Color?> endeavorIdToColor = {};
+    // map endeavorIds to ServerEndeavor
+    Map<String, ServerEndeavor> endeavorIdToServerEndeavor = {};
     for (final se in serverEndeavors) {
-      endeavorIdToColor[se.id] = se.color;
+      endeavorIdToServerEndeavor[se.id] = se;
     }
 
     List<WeekViewEvent> weekViewEvents = [];
 
-    // WeekViewEvents from Tasks
+    // WeekViewEvents from ServerTasks
     for (final serverTask in serverTasks) {
       weekViewEvents.addAll(
         WeekViewEvent.listFromServerTask(
           serverTask: serverTask,
-          backgroundColor: endeavorIdToColor[serverTask.endeavorId],
+          backgroundColor:
+              endeavorIdToServerEndeavor[serverTask.endeavorId]!.color,
+        ),
+      );
+    }
+
+    // WeekViewEvents from ServerEndeavorBlocks
+    for (final seb in serverEndeavorBlocks) {
+      weekViewEvents.add(
+        WeekViewEvent.fromEndeavorBlock(
+          serverEndeavorBlock: seb,
+          backgroundColor: endeavorIdToServerEndeavor[seb.endeavorId]!.color,
+          title: endeavorIdToServerEndeavor[seb.endeavorId]!.title,
         ),
       );
     }
 
     // TODO: WeekViewEvents from CalendarEvents
-    // TODO: WeekViewEvents from EndeavorBlocks
 
     return weekViewEvents;
   }
