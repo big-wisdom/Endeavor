@@ -15,7 +15,7 @@ class RepeatingEvent extends AbstractEvent {
     required this.endDate,
     required this.startTime,
     required this.endTime,
-    required this.daysOfWeek,
+    this.daysOfWeek = const [false, false, false, false, false, false, false],
   });
 
   @override

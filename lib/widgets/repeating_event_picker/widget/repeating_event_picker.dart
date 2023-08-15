@@ -34,10 +34,13 @@ class _RepeatingEventPickerWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _DateRangePicker(),
-        _DaysOfWeekPicker(),
         // Start Time
         TimePickerRow(
           type: TimePickerRowType.start,
+          initialTime: context
+              .read<RepeatingEventPickerCubit>()
+              .initialRepeatingEvent
+              ?.startTime,
           onTimeSelected: (time) => context
               .read<RepeatingEventPickerCubit>()
               .onStartTimeChanged(time),
@@ -45,9 +48,14 @@ class _RepeatingEventPickerWidget extends StatelessWidget {
         // End Time
         TimePickerRow(
           type: TimePickerRowType.end,
+          initialTime: context
+              .read<RepeatingEventPickerCubit>()
+              .initialRepeatingEvent
+              ?.endTime,
           onTimeSelected: (time) =>
               context.read<RepeatingEventPickerCubit>().onEndTimeChanged(time),
         ),
+        _DaysOfWeekPicker(),
       ],
     );
   }

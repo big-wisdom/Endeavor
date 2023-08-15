@@ -20,6 +20,7 @@ class TimePickerRow extends StatelessWidget {
     return BlocProvider(
       create: (context) => TimePickerRowCubit(
         type: type,
+        initialTime: initialTime,
         onTimeSelected: onTimeSelected,
       ),
       child: _TimePickerRowWidget(),
