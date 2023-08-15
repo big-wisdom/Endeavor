@@ -136,6 +136,5 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
   * test calendar screen so far
 }
 
-* Building DataModel for EndeavorBlock
-  * moved some existing stuff over to the DataService
-  * looks like I've pretty well created the EndeavorBlock DataModel
+* CreateScreen for EndeavorBlock
+  * first thing, I've decided not to do the CreateBloc and EditBloc, I'm going to unify those RN

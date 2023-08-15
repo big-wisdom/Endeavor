@@ -17,15 +17,14 @@ class SingleEndeavorBlockScreenState extends EndeavorBlockForm
   final bool isEdit;
 
   EndeavorBlockScreenState copyWith({
-    String? endeavorTitle,
-    bool? isLoading,
+    EndeavorReference? endeavorReference,
+    Event? event,
   }) {
     return SingleEndeavorBlockScreenState(
-      endeavorReference: endeavorTitle == null
-          ? endeavorReference
-          : EndeavorPickerRowInput.dirty(endeavorReference.value!
-              .copyWithNewTitle(newEndeavorTitle: endeavorTitle)),
-      event: event,
+      endeavorReference: endeavorReference != null
+          ? EndeavorPickerRowInput.dirty(endeavorReference)
+          : this.endeavorReference,
+      event: event != null ? EventInput.dirty(event) : this.event,
       isEdit: isEdit,
     );
   }
@@ -41,9 +40,16 @@ class RepeatingEndeavorBlockScreenState extends RepeatingEndeavorBlockForm
     required super.repeatingEventInput,
   });
 
-  @override
-  List<FormzInput> get inputs => throw UnimplementedError();
+  RepeatingEndeavorBlockScreenState copyWith(
+      {required EndeavorReference? endeavorReference}) {
+    return RepeatingEndeavorBlockScreenState(
+      endeavorReference: endeavorReference != null
+          ? EndeavorPickerRowInput.dirty(endeavorReference)
+          : this.endeavorReference,
+      repeatingEventInput: repeatingEventInput,
+    );
+  }
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [endeavorReference, repeatingEventInput];
 }

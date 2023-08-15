@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/widgets/one_time_event_picker/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker/repeating_event_picker.dart';
 import 'package:endeavor/widgets/endeavor_picker_row.dart';
+import 'package:formz/formz.dart';
 
 import '../bloc/endeavor_block_screen_bloc.dart';
 
@@ -26,17 +27,14 @@ class EndeavorBlockScreenView extends StatelessWidget {
             children: [
               _EndeavorPickerRow(),
 
-              if (state is SingleEndeavorBlockScreenState && state.isEdit)
+              if (state is SingleEndeavorBlockScreenState && !state.isEdit)
                 _TypePicker(),
 
-              if (state is SingleEndeavorBlockScreenState)
-                _OneTimeEventPicker(),
+              _OneTimeEventPicker(),
 
-              if (state is RepeatingEndeavorBlockScreenState)
-                _RepeatingEventPicker(),
+              _RepeatingEventPicker(),
 
-              if (state is SingleEndeavorBlockScreenState && !state.isEdit)
-                _CreateButton(),
+              _SaveButton(),
 
               // delete button
               if (state is SingleEndeavorBlockScreenState && state.isEdit)
@@ -54,13 +52,12 @@ class _TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
       buildWhen: (previous, current) {
-        previous as SingleEndeavorBlockScreenState;
-        current as SingleEndeavorBlockScreenState;
-        return previous.isEdit != current.isEdit;
+        return previous != current;
       },
       builder: (context, state) {
-        state as SingleEndeavorBlockScreenState;
-        return Text("${state.isEdit ? "Edit" : "Create"} Endeavor Block");
+        return Text(
+          "${state is SingleEndeavorBlockScreenState && state.isEdit ? "Edit" : "Create"} Endeavor Block",
+        );
       },
     );
   }
@@ -125,11 +122,12 @@ class _OneTimeEventPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
       buildWhen: (previous, current) {
-        previous as SingleEndeavorBlockScreenState;
-        current as SingleEndeavorBlockScreenState;
-        return previous.event != current.event;
+        return previous is! SingleEndeavorBlockScreenState ||
+            current is! SingleEndeavorBlockScreenState ||
+            (previous.isEdit != current.isEdit);
       },
       builder: (context, state) {
+        if (state is RepeatingEndeavorBlockScreenState) return Container();
         state as SingleEndeavorBlockScreenState;
         return OneTimeEventPicker(
           startingEvent: state.event.value,
@@ -147,11 +145,12 @@ class _RepeatingEventPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
       buildWhen: (previous, current) {
-        previous as RepeatingEndeavorBlockScreenState;
-        current as RepeatingEndeavorBlockScreenState;
-        return previous.repeatingEventInput != current.repeatingEventInput;
+        return previous is! RepeatingEndeavorBlockScreenState ||
+            current is! RepeatingEndeavorBlockScreenState ||
+            (previous.repeatingEventInput != current.repeatingEventInput);
       },
       builder: (context, state) {
+        if (state is SingleEndeavorBlockScreenState) return Container();
         state as RepeatingEndeavorBlockScreenState;
         return RepeatingEventPicker(
           initialRepeatingEvent: state.repeatingEventInput.value,
@@ -165,15 +164,28 @@ class _RepeatingEventPicker extends StatelessWidget {
   }
 }
 
-class _CreateButton extends StatelessWidget {
+class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        context.read<EndeavorBlockScreenBloc>().add(const CreateRequested());
-        Navigator.pop(context);
+    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: () => () {
+            if ((state is SingleEndeavorBlockScreenState &&
+                    state.status.isValid) ||
+                (state is RepeatingEndeavorBlockScreenState &&
+                    state.status.isValid)) {
+              return () {
+                context.read<EndeavorBlockScreenBloc>().add(const Save());
+                Navigator.pop(context);
+              };
+            } else {
+              return null;
+            }
+          },
+          child: const Text("Add Block"),
+        );
       },
-      child: const Text("Add Block"),
     );
   }
 }

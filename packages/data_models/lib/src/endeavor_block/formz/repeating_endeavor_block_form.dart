@@ -10,4 +10,7 @@ abstract class RepeatingEndeavorBlockForm extends Equatable with FormzMixin {
 
   final EndeavorPickerRowInput endeavorReference;
   final RepeatingEventInput repeatingEventInput;
+
+  @override
+  List<FormzInput> get inputs => [endeavorReference, repeatingEventInput];
 }

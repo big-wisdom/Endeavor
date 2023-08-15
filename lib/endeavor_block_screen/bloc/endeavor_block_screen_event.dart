@@ -40,8 +40,8 @@ class RepeatingEventChanged extends EndeavorBlockScreenEvent {
   List<Object?> get props => [];
 }
 
-class CreateRequested extends EndeavorBlockScreenEvent {
-  const CreateRequested();
+class Save extends EndeavorBlockScreenEvent {
+  const Save();
 
   @override
   List<Object?> get props => [];

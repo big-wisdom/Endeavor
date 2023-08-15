@@ -33,11 +33,18 @@ class _OneTimeEventPickerWidget extends StatelessWidget {
         _DatePicker(),
         TimePickerRow(
           type: TimePickerRowType.start,
+          initialTime: context
+              .read<OneTimeEventPickerCubit>()
+              .state
+              .startTimeInput
+              .value,
           onTimeSelected: (time) =>
               context.read<OneTimeEventPickerCubit>().newStartTimePicked(time),
         ),
         TimePickerRow(
           type: TimePickerRowType.end,
+          initialTime:
+              context.read<OneTimeEventPickerCubit>().state.endTimeInput.value,
           onTimeSelected: (time) =>
               context.read<OneTimeEventPickerCubit>().newEndTimePicked(time),
         ),
@@ -60,8 +67,6 @@ class _DatePicker extends StatelessWidget {
                 (dateRangePickerSelectionChangedArgs.value as DateTime);
             context.read<OneTimeEventPickerCubit>().newDatePicked(selection);
           },
-          monthViewSettings:
-              const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
         );
       },
     );
