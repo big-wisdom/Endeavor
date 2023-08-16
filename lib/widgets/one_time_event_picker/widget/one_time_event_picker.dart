@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OneTimeEventPicker extends StatelessWidget {
-  const OneTimeEventPicker(
-      {this.startingEvent, required this.onEvent, super.key});
+  const OneTimeEventPicker({
+    this.startingEvent,
+    required this.onEvent,
+    super.key,
+  });
 
   final Event? startingEvent;
   final void Function(Event newEvent) onEvent;

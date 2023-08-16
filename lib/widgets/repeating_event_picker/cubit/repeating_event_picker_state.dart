@@ -9,6 +9,48 @@ class RepeatingEventPickerState extends RepeatingEventForm {
     required super.endTimeInput,
   });
 
+  RepeatingEventPickerState copyWith({
+    DateTime? startDate,
+    DateTime? endDate,
+    TimeOfDay? startTime,
+    TimeOfDay? endTime,
+    int? dayTapped,
+  }) {
+    // update start date
+    final newStartDateInput = RepeatingEventStartDateInput.dirty(
+      startDate ?? startDateInput.value,
+      endDate ?? endDateInput.value,
+    );
+
+    // update end date
+    final newEndDateInput = RepeatingEventEndDateInput.dirty(
+      startDate ?? startDateInput.value,
+      endDate ?? endDateInput.value,
+    );
+
+    // update start time and end time
+    TimeOfDay updatedStartTime = startTime ?? startTimeInput.value;
+    TimeOfDay updatedEndTime = endTime ?? endTimeInput.value;
+    final newStartTimeInput =
+        RepeatingEventStartTimeInput.dirty(updatedStartTime, updatedEndTime);
+    final newEndTimeInput =
+        RepeatingEventEndTimeInput.dirty(updatedStartTime, updatedEndTime);
+
+    // update days of week
+    final List<bool> newDaysOfWeek = [...daysOfWeekInput.value];
+    if (dayTapped != null) {
+      newDaysOfWeek[dayTapped] = !daysOfWeekInput.value[dayTapped];
+    }
+
+    return RepeatingEventPickerState(
+      daysOfWeekInput: RepeatingEventDaysOfWeekInput.dirty(newDaysOfWeek),
+      endDateInput: newEndDateInput,
+      startDateInput: newStartDateInput,
+      startTimeInput: newStartTimeInput,
+      endTimeInput: newEndTimeInput,
+    );
+  }
+
   @override
   List<Object> get props => [
         daysOfWeekInput,

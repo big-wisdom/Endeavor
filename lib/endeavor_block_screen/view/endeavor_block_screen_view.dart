@@ -169,21 +169,20 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
       builder: (context, state) {
+        void Function()? onPressed;
+        if ((state is SingleEndeavorBlockScreenState && state.status.isValid) ||
+            (state is RepeatingEndeavorBlockScreenState &&
+                state.status.isValid)) {
+          onPressed = () {
+            context.read<EndeavorBlockScreenBloc>().add(const Save());
+            Navigator.pop(context);
+          };
+        } else {
+          onPressed = null;
+        }
         return ElevatedButton(
-          onPressed: () => () {
-            if ((state is SingleEndeavorBlockScreenState &&
-                    state.status.isValid) ||
-                (state is RepeatingEndeavorBlockScreenState &&
-                    state.status.isValid)) {
-              return () {
-                context.read<EndeavorBlockScreenBloc>().add(const Save());
-                Navigator.pop(context);
-              };
-            } else {
-              return null;
-            }
-          },
-          child: const Text("Add Block"),
+          onPressed: onPressed,
+          child: const Text("Save"),
         );
       },
     );

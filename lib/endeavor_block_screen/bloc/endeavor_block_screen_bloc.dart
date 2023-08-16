@@ -108,7 +108,16 @@ class EndeavorBlockScreenBloc
     );
 
     on<RepeatingEventChanged>(
-      (event, emit) => throw UnimplementedError(),
+      (event, emit) {
+        if (state is! RepeatingEndeavorBlockScreenState) {
+          throw Exception("State should be repeating state");
+        }
+        emit(
+          (state as RepeatingEndeavorBlockScreenState).copyWith(
+            repeatingEvent: event.newRepeatingEvent,
+          ),
+        );
+      },
     );
 
     on<Save>(

@@ -137,4 +137,4 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
 }
 
 * CreateScreen for EndeavorBlock
-  * first thing, I've decided not to do the CreateBloc and EditBloc, I'm going to unify those RN
+  * I need the time selectors to show errors if the time is wrong
