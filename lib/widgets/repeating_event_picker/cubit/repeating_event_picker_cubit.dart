@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:date_and_time_utilities/date_and_time_utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:formz/formz.dart';
 
 part 'repeating_event_picker_state.dart';
 
@@ -15,18 +16,29 @@ class RepeatingEventPickerCubit extends Cubit<RepeatingEventPickerState> {
   }) : super(RepeatingEventPickerInitial(initialRepeatingEvent));
 
   void onDateRangeChanged(DateTime? startDate, DateTime? endDate) {
-    throw UnimplementedError();
+    emit(state.copyWith(startDate: startDate, endDate: endDate));
+    _onChangedIfValid();
   }
 
   void dayOfWeekTapped(int index) {
-    throw UnimplementedError();
+    emit(state.copyWith(dayTapped: index));
+    _onChangedIfValid();
   }
 
   void onStartTimeChanged(TimeOfDay time) {
-    throw UnimplementedError();
+    emit(state.copyWith(startTime: time));
+    _onChangedIfValid();
   }
 
   void onEndTimeChanged(TimeOfDay time) {
-    throw UnimplementedError();
+    emit(state.copyWith(endTime: time));
+    _onChangedIfValid();
+  }
+
+  void _onChangedIfValid() {
+    final repeatingEvent = state.createRepeatingEvent();
+    if (state.status.isValid && repeatingEvent != null) {
+      onChanged(repeatingEvent);
+    }
   }
 }

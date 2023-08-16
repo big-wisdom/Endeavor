@@ -72,8 +72,8 @@ class _DateRangePicker extends StatelessWidget {
         return SfDateRangePicker(
           onSelectionChanged: (args) =>
               context.read<RepeatingEventPickerCubit>().onDateRangeChanged(
-                    (args as PickerDateRange).startDate,
-                    (args as PickerDateRange).endDate,
+                    (args.value as PickerDateRange).startDate,
+                    (args.value as PickerDateRange).endDate,
                   ),
           selectionMode: DateRangePickerSelectionMode.range,
           initialSelectedRange: PickerDateRange(

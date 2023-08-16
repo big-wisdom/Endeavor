@@ -40,13 +40,17 @@ class RepeatingEndeavorBlockScreenState extends RepeatingEndeavorBlockForm
     required super.repeatingEventInput,
   });
 
-  RepeatingEndeavorBlockScreenState copyWith(
-      {required EndeavorReference? endeavorReference}) {
+  RepeatingEndeavorBlockScreenState copyWith({
+    EndeavorReference? endeavorReference,
+    RepeatingEvent? repeatingEvent,
+  }) {
     return RepeatingEndeavorBlockScreenState(
       endeavorReference: endeavorReference != null
           ? EndeavorPickerRowInput.dirty(endeavorReference)
           : this.endeavorReference,
-      repeatingEventInput: repeatingEventInput,
+      repeatingEventInput: repeatingEvent != null
+          ? RepeatingEventInput.dirty(repeatingEvent)
+          : repeatingEventInput,
     );
   }
 
