@@ -14,23 +14,32 @@ class EndeavorPickerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        const Text("Endeavor:"),
-        TextButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return EndeavorSelectionScreen(
-                  initiallySelectedEndeavorInput: endeavorInput,
-                  onChanged: onChanged,
-                );
-              },
-            ),
+        Row(
+          children: [
+            const Text("Endeavor:"),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return EndeavorSelectionScreen(
+                      initiallySelectedEndeavorInput: endeavorInput,
+                      onChanged: onChanged,
+                    );
+                  },
+                ),
+              ),
+              child: Text(endeavorInput.value?.title ?? "Add Endeavor"),
+            )
+          ],
+        ),
+        if (endeavorInput.error != null)
+          Text(
+            endeavorInput.error!.errorText(),
+            style: const TextStyle(color: Colors.red),
           ),
-          child: Text(endeavorInput.value?.title ?? "Add Endeavor"),
-        )
       ],
     );
   }

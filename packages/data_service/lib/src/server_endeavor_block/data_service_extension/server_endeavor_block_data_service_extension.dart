@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 import 'package:server_data_models/server_data_models.dart';
 
@@ -21,4 +22,10 @@ extension ServerEndeavorBlockDataServiceExtension on DataService {
           .toList(),
     ),
   );
+
+  static void createEndeavorBlock(EndeavorBlock endeavorBlock) {
+    DataService.userDataDoc
+        .collection('endeavorBlocks')
+        .add(endeavorBlock.toDocData());
+  }
 }

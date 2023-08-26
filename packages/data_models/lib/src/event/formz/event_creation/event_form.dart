@@ -22,14 +22,13 @@ abstract class EventForm extends Equatable with FormzMixin {
         endTimeInput,
       ];
 
-  Event? createEvent() {
-    if (status.isValid) {
-      return Event(
+  EventInput createEventInput() {
+    return EventInput.dirty(
+      Event(
         start: _dateTimeFromTimeOfDay(startTimeInput.value),
         end: _dateTimeFromTimeOfDay(endTimeInput.value),
-      );
-    }
-    return null;
+      ),
+    );
   }
 
   DateTime _dateTimeFromTimeOfDay(TimeOfDay time) {

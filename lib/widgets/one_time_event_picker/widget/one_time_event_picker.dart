@@ -13,8 +13,8 @@ class OneTimeEventPicker extends StatelessWidget {
     super.key,
   });
 
-  final Event? startingEvent;
-  final void Function(Event newEvent) onEvent;
+  final EventInput? startingEvent;
+  final void Function(EventInput newEvent) onEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +34,15 @@ class _OneTimeEventPickerWidget extends StatelessWidget {
     return Column(
       children: [
         _DatePicker(),
-        TimePickerRow(
-          type: TimePickerRowType.start,
-          initialTime: context
-              .read<OneTimeEventPickerCubit>()
-              .state
-              .startTimeInput
-              .value,
+        TimePickerRow.eventStartTime(
+          startTimeInput:
+              context.read<OneTimeEventPickerCubit>().state.startTimeInput,
           onTimeSelected: (time) =>
               context.read<OneTimeEventPickerCubit>().newStartTimePicked(time),
         ),
-        TimePickerRow(
-          type: TimePickerRowType.end,
-          initialTime:
-              context.read<OneTimeEventPickerCubit>().state.endTimeInput.value,
+        TimePickerRow.eventEndTime(
+          endTimeInput:
+              context.read<OneTimeEventPickerCubit>().state.endTimeInput,
           onTimeSelected: (time) =>
               context.read<OneTimeEventPickerCubit>().newEndTimePicked(time),
         ),

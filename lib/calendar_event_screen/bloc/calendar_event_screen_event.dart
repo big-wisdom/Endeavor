@@ -32,21 +32,21 @@ class TypeChanged extends CalendarEventScreenEvent {
 }
 
 class EventChanged extends CalendarEventScreenEvent {
-  const EventChanged(this.newEvent);
+  const EventChanged(this.newEventInput);
 
-  final Event newEvent;
+  final EventInput newEventInput;
 
   @override
-  List<Object?> get props => [newEvent];
+  List<Object?> get props => [newEventInput];
 }
 
 class RepeatingEventChanged extends CalendarEventScreenEvent {
-  const RepeatingEventChanged(this.newRepeatingEvent);
+  const RepeatingEventChanged(this.newRepeatingEventInput);
 
-  final RepeatingEvent newRepeatingEvent;
+  final RepeatingEventInput newRepeatingEventInput;
 
   @override
-  List<Object?> get props => [newRepeatingEvent];
+  List<Object?> get props => [newRepeatingEventInput];
 }
 
 class CreateButtonPressed extends CalendarEventScreenEvent {

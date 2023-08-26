@@ -2,7 +2,7 @@ part of 'one_time_event_picker_screen_cubit.dart';
 
 class OneTimeEventPickerScreenState extends Equatable {
   const OneTimeEventPickerScreenState(this.event);
-  final Event? event;
+  final EventInput? event;
 
   @override
   List<Object?> get props => [event];

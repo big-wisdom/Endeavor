@@ -11,15 +11,15 @@ class OneTimeEventPickerScreenCubit
   OneTimeEventPickerScreenCubit({
     required this.onEvent,
     Event? initialEvent,
-  }) : super(OneTimeEventPickerInitial(initialEvent));
+  }) : super(OneTimeEventPickerInitial(EventInput.pure(initialEvent)));
 
   void done() {
     if (state.event != null) {
-      onEvent(state.event!);
+      onEvent(state.event!.value);
     }
   }
 
-  void setEvent(Event newEvent) {
+  void setEvent(EventInput newEvent) {
     emit(OneTimeEventPickerScreenState(newEvent));
   }
 }

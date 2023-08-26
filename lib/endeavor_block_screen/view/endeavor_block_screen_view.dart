@@ -130,7 +130,7 @@ class _OneTimeEventPicker extends StatelessWidget {
         if (state is RepeatingEndeavorBlockScreenState) return Container();
         state as SingleEndeavorBlockScreenState;
         return OneTimeEventPicker(
-          startingEvent: state.event.value,
+          startingEvent: state.event,
           onEvent: (newEvent) => context
               .read<EndeavorBlockScreenBloc>()
               .add(EventChanged(newEvent)),

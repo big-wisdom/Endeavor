@@ -1,6 +1,15 @@
 import 'package:formz/formz.dart';
 
-class RepeatingEventDaysOfWeekInputError {}
+enum RepeatingEventDaysOfWeekInputError {
+  noneSelected,
+}
+
+extension RepeatingEventDaysOfWeekInputErrorText
+    on RepeatingEventDaysOfWeekInputError {
+  String errorText() {
+    return "You must select at least one day";
+  }
+}
 
 class RepeatingEventDaysOfWeekInput
     extends FormzInput<List<bool>, RepeatingEventDaysOfWeekInputError> {
@@ -12,6 +21,15 @@ class RepeatingEventDaysOfWeekInput
     if (value.length != 7) {
       throw Exception("There must be 7 days of the week ya bozo!");
     }
+
+    bool noneSelected = true;
+    for (final daySelected in value) {
+      if (daySelected) noneSelected = false;
+    }
+    if (noneSelected) {
+      return RepeatingEventDaysOfWeekInputError.noneSelected;
+    }
+
     return null;
   }
 }
