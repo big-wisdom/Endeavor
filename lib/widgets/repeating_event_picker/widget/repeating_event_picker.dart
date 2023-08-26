@@ -12,7 +12,7 @@ class RepeatingEventPicker extends StatelessWidget {
     super.key,
   });
 
-  final void Function(RepeatingEvent repeatingEvent) onChanged;
+  final void Function(RepeatingEventInput repeatingEvent) onChanged;
   final RepeatingEvent? initialRepeatingEvent;
 
   @override
@@ -30,56 +30,39 @@ class RepeatingEventPicker extends StatelessWidget {
 class _RepeatingEventPickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _DateRangePicker(),
-        // Start Time
-        TimePickerRow(
-          type: TimePickerRowType.start,
-          initialTime: context
-              .read<RepeatingEventPickerCubit>()
-              .initialRepeatingEvent
-              ?.startTime,
-          onTimeSelected: (time) => context
-              .read<RepeatingEventPickerCubit>()
-              .onStartTimeChanged(time),
-        ),
-        // End Time
-        TimePickerRow(
-          type: TimePickerRowType.end,
-          initialTime: context
-              .read<RepeatingEventPickerCubit>()
-              .initialRepeatingEvent
-              ?.endTime,
-          onTimeSelected: (time) =>
-              context.read<RepeatingEventPickerCubit>().onEndTimeChanged(time),
-        ),
-        _DaysOfWeekPicker(),
-      ],
-    );
-  }
-}
-
-class _DateRangePicker extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return BlocBuilder<RepeatingEventPickerCubit, RepeatingEventPickerState>(
-      buildWhen: (previous, current) =>
-          previous.startDateInput != current.startDateInput ||
-          previous.endDateInput != current.endDateInput,
       builder: (context, state) {
-        return SfDateRangePicker(
-          onSelectionChanged: (args) =>
-              context.read<RepeatingEventPickerCubit>().onDateRangeChanged(
-                    (args.value as PickerDateRange).startDate,
-                    (args.value as PickerDateRange).endDate,
-                  ),
-          selectionMode: DateRangePickerSelectionMode.range,
-          initialSelectedRange: PickerDateRange(
-            state.startDateInput.value,
-            state.endDateInput.value,
-          ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SfDateRangePicker(
+              onSelectionChanged: (args) =>
+                  context.read<RepeatingEventPickerCubit>().onDateRangeChanged(
+                        (args.value as PickerDateRange).startDate,
+                        (args.value as PickerDateRange).endDate,
+                      ),
+              selectionMode: DateRangePickerSelectionMode.range,
+              initialSelectedRange: PickerDateRange(
+                state.startDateInput.value,
+                state.endDateInput.value,
+              ),
+            ),
+            // Start Time
+            TimePickerRow.repeatingEventStartTime(
+              repeatingEventStartTimeInput: state.startTimeInput,
+              onTimeSelected: (time) => context
+                  .read<RepeatingEventPickerCubit>()
+                  .onStartTimeChanged(time),
+            ),
+            // End Time
+            TimePickerRow.repeatingEventEndTime(
+              repeatingEventEndTimeInput: state.endTimeInput,
+              onTimeSelected: (time) => context
+                  .read<RepeatingEventPickerCubit>()
+                  .onEndTimeChanged(time),
+            ),
+            _DaysOfWeekPicker(),
+          ],
         );
       },
     );
@@ -101,17 +84,26 @@ class _DaysOfWeekPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Days of the Week"),
         BlocBuilder<RepeatingEventPickerCubit, RepeatingEventPickerState>(
           builder: (context, state) {
-            return ToggleButtons(
-              isSelected: state.daysOfWeekInput.value,
-              children: dayOfWeekWidgets,
-              onPressed: (index) {
-                context
-                    .read<RepeatingEventPickerCubit>()
-                    .dayOfWeekTapped(index);
-              },
+            return Column(
+              children: [
+                const Text("Days of the Week"),
+                ToggleButtons(
+                  isSelected: state.daysOfWeekInput.value,
+                  children: dayOfWeekWidgets,
+                  onPressed: (index) {
+                    context
+                        .read<RepeatingEventPickerCubit>()
+                        .dayOfWeekTapped(index);
+                  },
+                ),
+                if (state.daysOfWeekInput.error != null)
+                  Text(
+                    state.daysOfWeekInput.error!.errorText(),
+                    style: const TextStyle(color: Colors.red),
+                  ),
+              ],
             );
           },
         ),

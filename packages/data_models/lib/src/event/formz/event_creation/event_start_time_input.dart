@@ -6,6 +6,12 @@ enum EventStartTimeInputError {
   startAfterEnd,
 }
 
+extension EventStartTimeInputErrorText on EventStartTimeInputError {
+  String errorText() {
+    return "start time cannot be after end time";
+  }
+}
+
 class EventStartTimeInput
     extends FormzInput<TimeOfDay, EventStartTimeInputError> {
   const EventStartTimeInput.pure(this.endTime, super.value) : super.pure();

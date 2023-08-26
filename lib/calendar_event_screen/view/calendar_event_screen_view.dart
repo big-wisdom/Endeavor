@@ -121,9 +121,10 @@ class _OneTimeEventPickerBuilder extends StatelessWidget {
       builder: (context, state) {
         state as SingleCalendarEventScreenState;
         return OneTimeEventPicker(
-          onEvent: (event) =>
-              context.read<CalendarEventScreenBloc>().add(EventChanged(event)),
-          startingEvent: state.event.value,
+          onEvent: (eventInput) => context
+              .read<CalendarEventScreenBloc>()
+              .add(EventChanged(eventInput)),
+          startingEvent: state.event,
         );
       },
     );

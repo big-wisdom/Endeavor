@@ -18,13 +18,13 @@ class SingleEndeavorBlockScreenState extends EndeavorBlockForm
 
   EndeavorBlockScreenState copyWith({
     EndeavorReference? endeavorReference,
-    Event? event,
+    EventInput? event,
   }) {
     return SingleEndeavorBlockScreenState(
       endeavorReference: endeavorReference != null
-          ? EndeavorPickerRowInput.dirty(endeavorReference)
+          ? EndeavorPickerRowInput.dirty(false, endeavorReference)
           : this.endeavorReference,
-      event: event != null ? EventInput.dirty(event) : this.event,
+      event: event ?? this.event,
       isEdit: isEdit,
     );
   }
@@ -42,15 +42,13 @@ class RepeatingEndeavorBlockScreenState extends RepeatingEndeavorBlockForm
 
   RepeatingEndeavorBlockScreenState copyWith({
     EndeavorReference? endeavorReference,
-    RepeatingEvent? repeatingEvent,
+    RepeatingEventInput? repeatingEventInput,
   }) {
     return RepeatingEndeavorBlockScreenState(
       endeavorReference: endeavorReference != null
-          ? EndeavorPickerRowInput.dirty(endeavorReference)
+          ? EndeavorPickerRowInput.dirty(false, endeavorReference)
           : this.endeavorReference,
-      repeatingEventInput: repeatingEvent != null
-          ? RepeatingEventInput.dirty(repeatingEvent)
-          : repeatingEventInput,
+      repeatingEventInput: repeatingEventInput ?? this.repeatingEventInput,
     );
   }
 

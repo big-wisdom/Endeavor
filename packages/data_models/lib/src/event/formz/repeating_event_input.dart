@@ -17,7 +17,7 @@ class RepeatingEventInput
   RepeatingEventInputError? validator(RepeatingEvent value) {
     if (value.endDate.compareToDateOnly(value.startDate) < 0) {
       return RepeatingEventInputError.endDateBeforeStartDate;
-    } else if (value.endTime.compareTo(value.endTime) < 0) {
+    } else if (value.endTime.compareTo(value.startTime) < 0) {
       return RepeatingEventInputError.endTimeBeforeStartTime;
     }
 

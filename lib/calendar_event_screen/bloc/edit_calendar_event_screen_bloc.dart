@@ -10,8 +10,10 @@ class EditCalendarEventScreenBloc extends CalendarEventScreenBloc {
             isEdit: true,
             event: EventInput.pure(calendarEvent.event),
             title: CalendarEventTitleInput.pure(calendarEvent.title),
-            endeavorInput:
-                EndeavorPickerRowInput.pure(calendarEvent.endeavorReference),
+            endeavorInput: EndeavorPickerRowInput.pure(
+              true,
+              calendarEvent.endeavorReference,
+            ),
           ),
           dataRepository: dataRepository,
         ) {

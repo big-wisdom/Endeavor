@@ -5,9 +5,8 @@ abstract class AbstractRepeatingEndeavorBlock extends AbstractEndeavorBlock {
 
   AbstractRepeatingEndeavorBlock({
     required super.endeavorReference,
-    required RepeatingEvent repeatingEvent,
-  })  : this.repeatingEvent = repeatingEvent,
-        super(abstractEvent: repeatingEvent);
+    required this.repeatingEvent,
+  }) : super(abstractEvent: repeatingEvent);
 
   @override
   List<Object?> get props => [

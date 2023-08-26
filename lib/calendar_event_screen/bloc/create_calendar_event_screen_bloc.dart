@@ -9,7 +9,7 @@ class CreateCalendarEventScreenBloc extends CalendarEventScreenBloc {
             isEdit: false,
             event: EventInput.pure(null),
             title: const CalendarEventTitleInput.pure(null),
-            endeavorInput: EndeavorPickerRowInput.pure(null),
+            endeavorInput: EndeavorPickerRowInput.pure(true, null),
           ),
           dataRepository: dataRepository,
         ) {

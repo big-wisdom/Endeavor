@@ -1,5 +1,5 @@
 import 'package:formz/formz.dart';
-import '../abstract_event/event/event.dart';
+import '../model/event/event.dart';
 
 enum EventInputError {
   endBeforeStart,

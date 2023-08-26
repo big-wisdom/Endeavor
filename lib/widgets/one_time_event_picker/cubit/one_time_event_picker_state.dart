@@ -47,18 +47,19 @@ class OneTimeEventPickerInitial extends OneTimeEventPickerState {
   });
 
   factory OneTimeEventPickerInitial(
-    Event? initialEvent,
+    EventInput? initialEvent,
   ) {
-    initialEvent = initialEvent ?? Event.generic(const Duration(hours: 1));
+    initialEvent = initialEvent ??
+        EventInput.pure(Event.generic(const Duration(hours: 1)));
     return OneTimeEventPickerInitial._(
-      dateInput: EventDateInput.pure(initialEvent.start),
+      dateInput: EventDateInput.pure(initialEvent.value.start),
       startTimeInput: EventStartTimeInput.pure(
-        initialEvent.end.toTimeOfDay(),
-        initialEvent.start.toTimeOfDay(),
+        initialEvent.value.end.toTimeOfDay(),
+        initialEvent.value.start.toTimeOfDay(),
       ),
       endTimeInput: EventEndTimeInput.pure(
-        initialEvent.start.toTimeOfDay(),
-        initialEvent.end.toTimeOfDay(),
+        initialEvent.value.start.toTimeOfDay(),
+        initialEvent.value.end.toTimeOfDay(),
       ),
     );
   }

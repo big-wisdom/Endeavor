@@ -126,7 +126,7 @@ class LoadingEditTaskScreenState extends TaskScreenState {
           title: TaskTitle.pure(taskReference.title),
           divisible: DivisibilityBox.clear(),
           duration: const DurationField.pure(null),
-          endeavor: EndeavorPickerRowInput.pure(endeavorReference),
+          endeavor: EndeavorPickerRowInput.pure(true, endeavorReference),
           minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
           scheduledEvents: const ScheduledEvents.pure([]),
         );
@@ -149,7 +149,7 @@ class EditTaskScreenState extends TaskScreenState {
           divisible: DivisibilityBox.pure(
               task.duration, task.minnimumSchedulingDuration, task.divisible),
           duration: DurationField.pure(task.duration),
-          endeavor: EndeavorPickerRowInput.pure(task.endeavorReference),
+          endeavor: EndeavorPickerRowInput.pure(true, task.endeavorReference),
           minnimumSchedulingDuration: MinnimumSchedulingDuration.pure(
             duration: task.duration,
             divisible: task.divisible,
@@ -174,7 +174,7 @@ class CreateTaskScreenState extends TaskScreenState {
       title: const TaskTitle.pure(null),
       divisible: DivisibilityBox.clear(),
       duration: const DurationField.pure(null),
-      endeavor: EndeavorPickerRowInput.pure(endeavorReference),
+      endeavor: EndeavorPickerRowInput.pure(true, endeavorReference),
       minnimumSchedulingDuration: MinnimumSchedulingDuration.clear(),
       scheduledEvents: const ScheduledEvents.pure([]),
     );

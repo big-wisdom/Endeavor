@@ -6,6 +6,12 @@ enum EventEndTimeInputError {
   endBeforeStart,
 }
 
+extension EventEndTimeInputErrorText on EventEndTimeInputError {
+  String errorText() {
+    return "end time cannot be before start time";
+  }
+}
+
 class EventEndTimeInput extends FormzInput<TimeOfDay, EventEndTimeInputError> {
   const EventEndTimeInput.pure(this.startTime, super.value) : super.pure();
   const EventEndTimeInput.dirty(this.startTime, super.value) : super.dirty();

@@ -6,6 +6,13 @@ enum RepeatingEventStartTimeInputError {
   startAfterEnd,
 }
 
+extension RepeatingEventStartTimeInputErrorText
+    on RepeatingEventStartTimeInputError {
+  String errorText() {
+    return "Start time cannot be after end time";
+  }
+}
+
 class RepeatingEventStartTimeInput
     extends FormzInput<TimeOfDay, RepeatingEventStartTimeInputError> {
   RepeatingEventStartTimeInput.pure(super.value, this.endTime) : super.pure();

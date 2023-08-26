@@ -11,7 +11,7 @@ class EndeavorBlockScreenBloc
   factory EndeavorBlockScreenBloc.create() {
     return EndeavorBlockScreenBloc._(
       initialState: SingleEndeavorBlockScreenState(
-        endeavorReference: EndeavorPickerRowInput.pure(null),
+        endeavorReference: EndeavorPickerRowInput.pure(false, null),
         event: EventInput.pure(null),
         isEdit: false,
       ),
@@ -22,7 +22,7 @@ class EndeavorBlockScreenBloc
     return EndeavorBlockScreenBloc._(
       initialState: SingleEndeavorBlockScreenState(
         endeavorReference:
-            EndeavorPickerRowInput.pure(endeavorBlock.endeavorReference),
+            EndeavorPickerRowInput.pure(false, endeavorBlock.endeavorReference),
         event: EventInput.pure(endeavorBlock.event),
         isEdit: true,
       ),
@@ -102,8 +102,11 @@ class EndeavorBlockScreenBloc
         if (state is! SingleEndeavorBlockScreenState) {
           throw Exception("state should be single");
         }
-        emit((state as SingleEndeavorBlockScreenState)
-            .copyWith(event: event.newEvent));
+        emit(
+          (state as SingleEndeavorBlockScreenState).copyWith(
+            event: event.newEventInput,
+          ),
+        );
       },
     );
 
@@ -114,7 +117,7 @@ class EndeavorBlockScreenBloc
         }
         emit(
           (state as RepeatingEndeavorBlockScreenState).copyWith(
-            repeatingEvent: event.newRepeatingEvent,
+            repeatingEventInput: event.newRepeatingEventInput,
           ),
         );
       },

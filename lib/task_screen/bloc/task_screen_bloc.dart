@@ -59,6 +59,7 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
       (event, emit) => emit(
         state.copyWith(
           endeavorPickerRowInput: EndeavorPickerRowInput.dirty(
+            true,
             event.newEndeavor == null
                 ? null
                 : EndeavorReference(

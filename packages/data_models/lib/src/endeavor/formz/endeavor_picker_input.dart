@@ -1,15 +1,28 @@
 import '../../endeavor_reference.dart';
 import 'package:formz/formz.dart';
 
-class EndeavorPickerRowInputError {}
+enum EndeavorPickerRowInputError {
+  nullWhenItShouldntBe,
+}
+
+extension EndeavorPickerRowInputErrorText on EndeavorPickerRowInputError {
+  String errorText() {
+    return "You must select an endeavor";
+  }
+}
 
 class EndeavorPickerRowInput
     extends FormzInput<EndeavorReference?, EndeavorPickerRowInputError> {
-  EndeavorPickerRowInput.pure(super.value) : super.pure();
-  EndeavorPickerRowInput.dirty(super.value) : super.dirty();
+  EndeavorPickerRowInput.pure(this.nullable, super.value) : super.pure();
+  EndeavorPickerRowInput.dirty(this.nullable, super.value) : super.dirty();
+
+  final bool nullable;
 
   @override
   EndeavorPickerRowInputError? validator(EndeavorReference? value) {
+    if (!nullable && value == null) {
+      return EndeavorPickerRowInputError.nullWhenItShouldntBe;
+    }
     return null;
   }
 }
