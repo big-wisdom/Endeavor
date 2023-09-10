@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
+import 'package:data_service/src/server_endeavor_block/model_extension/server_repeating_endeavor_block_database_fields.dart';
 
 extension AbstractRepeatingEndeavorBlockDataServiceExtension on DataService {
   static void createRepeatingEndeavorBlock(
-      RepeatingEndeavorBlock repeatingEndeavorBlock) {
+    UnidentifiedRepeatingEndeavorBlock repeatingEndeavorBlock,
+  ) {
     final batch = FirebaseFirestore.instance.batch();
+    List<String> endeavorBlockIds = [];
 
     // Create a doc to connect all the repeated blocks
     final repeatingDocRef =
@@ -22,13 +25,16 @@ extension AbstractRepeatingEndeavorBlockDataServiceExtension on DataService {
       // create a doc ref for that endeavor block
       final docRef = DataService.userDataDoc.collection('endeavorBlocks').doc();
       // add that doc id to the repeating endeavor block ids ?
-      repeatingEndeavorBlock.endeavorBlockIds!.add(docRef.id);
+      endeavorBlockIds.add(docRef.id);
       // have the batch create the doc
       batch.set(docRef, endeavorBlock.toDocData());
     }
 
     // set data for the repeating endeavor block document
-    batch.set(repeatingDocRef, repeatingEndeavorBlock.toDocData());
+    batch.set(repeatingDocRef, {
+      ServerRepeatingEndeavorBlockDataFields.endeavorBlockIds.text():
+          endeavorBlockIds,
+    });
 
     batch.commit();
   }
