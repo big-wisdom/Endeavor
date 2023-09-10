@@ -13,4 +13,16 @@ abstract class RepeatingEndeavorBlockForm extends Equatable with FormzMixin {
 
   @override
   List<FormzInput> get inputs => [endeavorReference, repeatingEventInput];
+
+  UnidentifiedRepeatingEndeavorBlock?
+      createUnidentifiedRepeatingEndeavorBlock() {
+    if (status.isValid) {
+      return UnidentifiedRepeatingEndeavorBlock(
+        endeavorReference: endeavorReference.value!,
+        repeatingEvent: repeatingEventInput.value,
+      );
+    } else {
+      return null;
+    }
+  }
 }

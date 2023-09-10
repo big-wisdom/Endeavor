@@ -23,7 +23,7 @@ extension ServerEndeavorBlockDataServiceExtension on DataService {
     ),
   );
 
-  static void createEndeavorBlock(EndeavorBlock endeavorBlock) {
+  static void createEndeavorBlock(UnidentifiedEndeavorBlock endeavorBlock) {
     DataService.userDataDoc
         .collection('endeavorBlocks')
         .add(endeavorBlock.toDocData());

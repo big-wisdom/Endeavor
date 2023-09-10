@@ -16,4 +16,12 @@ abstract class EndeavorBlockForm extends Equatable with FormzMixin {
         endeavorReference,
         event,
       ];
+
+  UnidentifiedEndeavorBlock createUnidentifiedEndeavorBlock() {
+    return UnidentifiedEndeavorBlock(
+      repeatingEndeavorBlockId: null,
+      endeavorReference: endeavorReference.value!,
+      event: event.value,
+    );
+  }
 }
