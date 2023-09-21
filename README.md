@@ -112,6 +112,6 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
   * Now I need the day of the week picker to show an error if there is one DONE
   -------------------
   * Finally I need to make sure the save button on the EndeavorBlockScreen is actually working
-    * make sure that the screen is creating an UnidentifiedRepeatingEndeavorBlock
-    * Make a DataService extension for the UnidentifiedRepeatingEndeavorBlock to create it
+    * It's now working for the single EndeavorBlock
+    * I need to get it working for repeating
   -------------------
