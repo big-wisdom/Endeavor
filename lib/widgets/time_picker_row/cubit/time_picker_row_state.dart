@@ -92,8 +92,8 @@ class RepeatingEventStartTimePickerRowState extends TimePickerRowState {
   TimePickerRowState copyWithNewTime(TimeOfDay newTime) {
     return RepeatingEventStartTimePickerRowState(
       RepeatingEventStartTimeInput.dirty(
-        _eventStartTimeInput.endTime,
         newTime,
+        _eventStartTimeInput.endTime,
       ),
     );
   }

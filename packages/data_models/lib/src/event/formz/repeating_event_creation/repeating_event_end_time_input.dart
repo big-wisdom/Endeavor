@@ -20,7 +20,7 @@ class RepeatingEventEndTimeInput
   final TimeOfDay startTime;
   @override
   RepeatingEventEndTimeInputError? validator(TimeOfDay value) {
-    if (value.compareTo(startTime) < 0) {
+    if (value.compareTo(startTime) <= 0) {
       return RepeatingEventEndTimeInputError.endBeforeStart;
     }
     return null;
