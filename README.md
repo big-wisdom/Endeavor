@@ -113,5 +113,9 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
   -------------------
   * Finally I need to make sure the save button on the EndeavorBlockScreen is actually working
     * It's now working for the single EndeavorBlock
-    * I need to get it working for repeating
+    * It's creating correctly for RepeatingEndeavorBlock, but the form is showing an error when there doesn't need to be one
+      * There are a couple issues with the TimePickerRow.
+        * Sometimes when I select a new time, it doesn't change FIXED
+        * when it does change, the error text doesn't update
+          * When I change the start time, I don't think the start time of the end time input is getting updated
   -------------------
