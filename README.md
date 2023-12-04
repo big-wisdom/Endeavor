@@ -28,8 +28,7 @@ Back End: Firebase
 * flutterfire CLI
 
 ### Philosophy
-1. I'm thinking that objects should be what they're called, and that if an object needs to be treated differently on whether a field is populated maybe it should be called something else when it is populated. For example, I'm going to have UnidentifiedTask and Task. An Unidentified task is a Task but without an ID, likely because it's just been created. The DataRepository can't update or delete an UnidentifiedTask, so they must be treated differently. However in many instances they can be treated the same so I'm abstracting them together under the AbstractTask class. Similarly, I'd like to rid the app of "empty" objects. I don't think that something should be called a "Task" if it's "empty" meaning there's actually no data to call a task and it's just a placeholder for future data.
-
+1. __Objects should be what they're called__. This comes from the annoyance that I've encountered when objects have all nullable or overly abstract data fields. But let me explain. The whole advantage of object oriented programming is that you know what an object is when you get it. For example, say I'm designing the Task object. Any reasonable person would expect that a Task should have a description and should be able to be completed-- two fields. But now you want to make Tasks schedulable. Do you want to make ALL tasks schedulable? If so, add another non-nullable field and carry on; you're not the droids I'm looking for. I suddenly grow weary of writting this. I'll come back to it.
 2. A form input widget should not be represented by one of your models. The model is an already intact idea, and forms, by definition, are an idea under construction. Therefore, there should be a form representation. The form representation can track several form input representations, then only instantiate a model once validation has taken place. 
   * This is an abstract instantiation of philosophy number 1, like when you extend an abstract class with another abstract class.
   * The Formz library handles all this pretty well, I guess I'm just realizing the reason for the philosophy behind it. I bumped into it while trying to make a save button that only enables when all inputs are ready, but the event input was being represented by an Event, meaning that it couldn't emit an event till it was valid, and the save button would never disable.
@@ -118,4 +117,21 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
         * Sometimes when I select a new time, it doesn't change FIXED
         * when it does change, the error text doesn't update
           * When I change the start time, I don't think the start time of the end time input is getting updated
+        * I think that I need a better solution than the four different states and four different constructors. 
+        The root of the problem seems to be that I've coupled the state of the time picker to the use case of it. So if it has 4 use cases, it needs 4 states. 
+          * But what makes that different from the Endeavor creation screen itself that has a state for repeating and single states?
+          * when should some widget get more than one kind of state?
+            * When it needs to control a different data type? (EventStartTime/RepeatingEventStartTime)
+            * When performing a different kind of control (edit/create?)
+          * I'm defining the Form component with the data_model
+            * What if I tied the form to the UI instead of to the model. Then one UI form could correspond to one model form and then it could be seen as a multipurpose factory
+          * Form, Input, BLoC, State, Event, Model
+          * And maybe
+
+  * START HERE
+    * I think that I need to set up the emulators again
+    * I installed the flutterfire CLI
+    * I installed NPM with homebrew
+    * I installed the firebase CLI with NPM
+    * Next I need to login to firebase with the CLI so that I can hook up to my project
   -------------------
