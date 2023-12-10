@@ -32,7 +32,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     }));
     addFieldBlocs(fieldBlocs: [
       endeavorReference,
-      repeating,
+      if (!editing) repeating,
       event,
     ]);
   }
