@@ -31,6 +31,13 @@ abstract class EventForm extends Equatable with FormzMixin {
     );
   }
 
+  Event createEvent() {
+    return Event(
+      start: _dateTimeFromTimeOfDay(startTimeInput.value),
+      end: _dateTimeFromTimeOfDay(endTimeInput.value),
+    );
+  }
+
   DateTime _dateTimeFromTimeOfDay(TimeOfDay time) {
     DateTime date = dateInput.value;
     return DateTime(

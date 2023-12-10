@@ -82,56 +82,6 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
 }
 
 * CreateScreen for EndeavorBlock
-  * I need the time selectors to show errors if the time is wrong DONE
-    * I'm going to make the time picker take the whole EventStartTimeInput or whole EventEndTimeInput rather than just the value so that they can have the error to show
-      * I can remove the TimePickerRowType DONE
-      * and add custom constructors for the TimePickerRow Done
-        * for EventStartTimeInput
-        * and for EventEndTimeInput
-      * Make the OneTimeEventPicker pass the whole input to the TimePickerRow
-      * Make custom constructors for the RepeatingEvents DONE
-        * RepeatingEventStartTimeInput
-        * RepeatingEventEndTimeInput
-      * Make the RepeatingEventPicker pass whole inputs into it DONE
-      * Now fix the TimePickerRow to handle them
-        * I could just create a custom TimePickerRowState that takes the info from them, but then I'd lose the error information
-          * Unless I created the relevant type of input to check for errors?
-            * but how would I keep track of which kind to make?
-        * I could create 4 different kinds of TimePickerRowStates each that takes in the input that passed into it DONE
-          * they could each implement a common type that the UI could use to call for the info it needs
-        * now 4 constructors for the cubit and therefore 4 constructors for the screen. Kinda a lot but I did it DONE
-        * wrap the UI Row with a Column and stick the error text beneath it if there is any
-  * Error does not show on the RepeatingEvent picker FIXED
-  * Now I need the save button to be disabled if there is an error showing on the OneTimeEventPicker DONE
-    * I dont think the OneTimeEventPicker is even sending the event upwards if the event isn't valid
-    * The repeating event picker actually has the same _onChangedIfValid check so I don't know why that screen is working
-  * Now I need the save button to be disabled if there isn't an endeavor picked DONE
-  * Now I need the error text to show below the endeavor selector DONE
-  * Now I need the save button to be disabled if the RepeatingEventPicker is showing an error DONE
-  * Now I need the day of the week picker to show an error if there is one DONE
-  -------------------
-  * Finally I need to make sure the save button on the EndeavorBlockScreen is actually working
-    * It's now working for the single EndeavorBlock
-    * It's creating correctly for RepeatingEndeavorBlock, but the form is showing an error when there doesn't need to be one
-      * There are a couple issues with the TimePickerRow.
-        * Sometimes when I select a new time, it doesn't change FIXED
-        * when it does change, the error text doesn't update
-          * When I change the start time, I don't think the start time of the end time input is getting updated
-        * I think that I need a better solution than the four different states and four different constructors. 
-        The root of the problem seems to be that I've coupled the state of the time picker to the use case of it. So if it has 4 use cases, it needs 4 states. 
-          * But what makes that different from the Endeavor creation screen itself that has a state for repeating and single states?
-          * when should some widget get more than one kind of state?
-            * When it needs to control a different data type? (EventStartTime/RepeatingEventStartTime)
-            * When performing a different kind of control (edit/create?)
-          * I'm defining the Form component with the data_model
-            * What if I tied the form to the UI instead of to the model. Then one UI form could correspond to one model form and then it could be seen as a multipurpose factory
-          * Form, Input, BLoC, State, Event, Model
-          * And maybe
-
-  * START HERE
-    * I think that I need to set up the emulators again
-    * I installed the flutterfire CLI
-    * I installed NPM with homebrew
-    * I installed the firebase CLI with NPM
-    * Next I need to login to firebase with the CLI so that I can hook up to my project
-  -------------------
+  * Make Flutter_Form version of EventPicker DONE!
+  * Make Flutter_Form version of RepeatingEventPicker
+    * 

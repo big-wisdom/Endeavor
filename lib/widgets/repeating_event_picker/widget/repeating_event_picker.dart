@@ -1,8 +1,7 @@
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/widgets/repeating_event_picker/cubit/repeating_event_picker_cubit.dart';
-import 'package:endeavor/widgets/time_picker_row/time_picker_row.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class RepeatingEventPicker extends StatelessWidget {
@@ -12,7 +11,7 @@ class RepeatingEventPicker extends StatelessWidget {
     super.key,
   });
 
-  final void Function(RepeatingEventInput repeatingEvent) onChanged;
+  final void Function(RepeatingEvent repeatingEvent) onChanged;
   final RepeatingEvent? initialRepeatingEvent;
 
   @override
@@ -30,77 +29,85 @@ class RepeatingEventPicker extends StatelessWidget {
 class _RepeatingEventPickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RepeatingEventPickerCubit, RepeatingEventPickerState>(
-      builder: (context, state) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SfDateRangePicker(
-              onSelectionChanged: (args) =>
-                  context.read<RepeatingEventPickerCubit>().onDateRangeChanged(
-                        (args.value as PickerDateRange).startDate,
-                        (args.value as PickerDateRange).endDate,
-                      ),
-              selectionMode: DateRangePickerSelectionMode.range,
-              initialSelectedRange: PickerDateRange(
-                state.startDateInput.value,
-                state.endDateInput.value,
-              ),
-            ),
-            // Start Time
-            TimePickerRow.repeatingEventStartTime(
-              repeatingEventStartTimeInput: state.startTimeInput,
-              onTimeSelected: (time) => context
-                  .read<RepeatingEventPickerCubit>()
-                  .onStartTimeChanged(time),
-            ),
-            // End Time
-            TimePickerRow.repeatingEventEndTime(
-              repeatingEventEndTimeInput: state.endTimeInput,
-              onTimeSelected: (time) => context
-                  .read<RepeatingEventPickerCubit>()
-                  .onEndTimeChanged(time),
-            ),
-            _DaysOfWeekPicker(),
-          ],
-        );
-      },
+    final bloc = context.read<RepeatingEventPickerCubit>();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SfDateRangePicker(
+          onSelectionChanged: (args) {
+            final newStart = (args.value as PickerDateRange).startDate;
+            final newEnd = (args.value as PickerDateRange).endDate;
+            if (newStart != null) {
+              bloc.startDate.updateValue(newStart);
+            }
+            if (newEnd != null) {
+              bloc.endDate.updateValue(newEnd);
+            }
+          },
+          selectionMode: DateRangePickerSelectionMode.range,
+          initialSelectedRange: PickerDateRange(
+            bloc.startDate.value,
+            bloc.endDate.value,
+          ),
+        ),
+        // Start Time
+        TimeFieldBlocBuilder(
+          timeFieldBloc: bloc.startTime,
+          format: DateFormat("hh:mm"),
+          initialTime: bloc.startTime.value,
+          showClearIcon: false,
+          decoration: const InputDecoration(
+            labelText: 'Start',
+            prefixIcon: Icon(Icons.access_time),
+          ),
+        ),
+        // End Time
+        TimeFieldBlocBuilder(
+          timeFieldBloc: bloc.endTime,
+          format: DateFormat("hh:mm"),
+          initialTime: bloc.endTime.value,
+          showClearIcon: false,
+          decoration: const InputDecoration(
+            labelText: 'End',
+            prefixIcon: Icon(Icons.access_time),
+          ),
+        ),
+        _DaysOfWeekPicker(bloc),
+      ],
     );
   }
 }
 
 class _DaysOfWeekPicker extends StatelessWidget {
-  final List<Text> dayOfWeekWidgets = const [
-    Text('M'),
-    Text('T'),
-    Text('W'),
-    Text('Th'),
-    Text('F'),
-    Text('S'),
-    Text('S'),
-  ];
-
+  final RepeatingEventPickerCubit bloc;
+  const _DaysOfWeekPicker(this.bloc);
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocBuilder<RepeatingEventPickerCubit, RepeatingEventPickerState>(
+        BlocBuilder<MultiSelectFieldBloc<String, dynamic>,
+            MultiSelectFieldBlocState<String, dynamic>>(
+          bloc: bloc.daysOfWeek,
           builder: (context, state) {
             return Column(
               children: [
-                const Text("Days of the Week"),
+                Text(state.name),
                 ToggleButtons(
-                  isSelected: state.daysOfWeekInput.value,
-                  children: dayOfWeekWidgets,
+                  isSelected: daysOfWeekStrings
+                      .map((e) => state.value.contains(e))
+                      .toList(),
+                  children: daysOfWeekStrings.map((e) => Text(e)).toList(),
                   onPressed: (index) {
-                    context
-                        .read<RepeatingEventPickerCubit>()
-                        .dayOfWeekTapped(index);
+                    if (state.value.contains(daysOfWeekStrings[index])) {
+                      bloc.daysOfWeek.deselect(daysOfWeekStrings[index]);
+                    } else {
+                      bloc.daysOfWeek.select(daysOfWeekStrings[index]);
+                    }
                   },
                 ),
-                if (state.daysOfWeekInput.error != null)
+                if (state.canShowError)
                   Text(
-                    state.daysOfWeekInput.error!.errorText(),
+                    state.error.toString(),
                     style: const TextStyle(color: Colors.red),
                   ),
               ],

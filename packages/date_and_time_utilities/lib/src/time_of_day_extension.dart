@@ -12,7 +12,7 @@ extension TimeOfDayExtension on TimeOfDay {
   TimeOfDay add(Duration duration) {
     DateTime now = DateTime.now();
     DateTime temp = DateTime(now.year, now.month, now.day, hour, minute);
-    temp.add(duration);
+    temp = temp.add(duration);
     return TimeOfDay(hour: temp.hour, minute: temp.minute);
   }
 }
