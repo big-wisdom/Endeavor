@@ -26,15 +26,13 @@ abstract class RepeatingEventForm extends Equatable with FormzMixin {
         endTimeInput,
       ];
 
-  RepeatingEventInput createRepeatingEventInput() {
-    return RepeatingEventInput.dirty(
-      RepeatingEvent(
-        startDate: startDateInput.value,
-        endDate: endDateInput.value,
-        startTime: startTimeInput.value,
-        endTime: endTimeInput.value,
-        daysOfWeek: daysOfWeekInput.value,
-      ),
+  RepeatingEvent createRepeatingEvent() {
+    return RepeatingEvent(
+      startDate: startDateInput.value,
+      endDate: endDateInput.value,
+      startTime: startTimeInput.value,
+      endTime: endTimeInput.value,
+      daysOfWeek: daysOfWeekInput.value,
     );
   }
 }

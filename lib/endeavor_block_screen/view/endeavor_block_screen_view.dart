@@ -1,11 +1,10 @@
 import 'package:data_models/data_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:endeavor/widgets/one_time_event_picker/one_time_event_picker.dart';
+import 'package:endeavor/widgets/one_time_event_picker_flutter_bloc/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker/repeating_event_picker.dart';
-import 'package:endeavor/widgets/endeavor_picker_row.dart';
-import 'package:formz/formz.dart';
+import 'package:endeavor/widgets/endeavor_picker_row_flutter_form.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../bloc/endeavor_block_screen_bloc.dart';
 
@@ -14,32 +13,38 @@ class EndeavorBlockScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<EndeavorBlockScreenBloc>().state;
+    final bloc = context.read<EndeavorBlockScreenBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: _TitleText(),
+        title: _TitleText(bloc),
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _EndeavorPickerRow(),
+          child: FormBlocListener<EndeavorBlockScreenBloc, String, String>(
+            onSubmitting: (context, state) {
+              debugPrint("Submitting EndeavorBlock");
+            },
+            onSuccess: (context, state) {
+              debugPrint("EndeavorBlock Submitted");
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _EndeavorPickerRow(bloc),
 
-              if (state is SingleEndeavorBlockScreenState && !state.isEdit)
-                _TypePicker(),
+                _RepeatingCheckbox(bloc),
 
-              _OneTimeEventPicker(),
+                _OneTimeEventPicker(bloc),
 
-              _RepeatingEventPicker(),
+                _RepeatingEventPicker(bloc),
 
-              _SaveButton(),
+                _SaveButton(bloc),
 
-              // delete button
-              if (state is SingleEndeavorBlockScreenState && state.isEdit)
-                _DeleteButton(),
-            ],
+                // delete button
+                if (bloc.editing) _DeleteButton(bloc),
+              ],
+            ),
           ),
         ),
       ),
@@ -48,15 +53,19 @@ class EndeavorBlockScreenView extends StatelessWidget {
 }
 
 class _TitleText extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _TitleText(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
+    return BlocBuilder<InputFieldBloc<EndeavorReference?, dynamic>,
+        InputFieldBlocState<EndeavorReference?, dynamic>>(
+      bloc: bloc.endeavorReference,
       buildWhen: (previous, current) {
-        return previous != current;
+        return previous.value != current.value;
       },
       builder: (context, state) {
         return Text(
-          "${state is SingleEndeavorBlockScreenState && state.isEdit ? "Edit" : "Create"} Endeavor Block",
+          state.value?.title ?? "Create Endeavor Block",
         );
       },
     );
@@ -64,141 +73,108 @@ class _TitleText extends StatelessWidget {
 }
 
 class _EndeavorPickerRow extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _EndeavorPickerRow(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      builder: (context, state) {
-        return EndeavorPickerRow(
-          endeavorInput: state.endeavorReference,
-          onChanged: (endeavor) => context
-              .read<EndeavorBlockScreenBloc>()
-              .add(EndeavorChanged(endeavor)),
-        );
-      },
+    return BlocBuilder<InputFieldBloc<EndeavorReference?, dynamic>,
+        InputFieldBlocState<EndeavorReference?, dynamic>>(
+      bloc: bloc.endeavorReference,
+      buildWhen: (previous, current) => previous.value != current.value,
+      builder: (context, state) => EndeavorPickerRow(
+        initialValue: state.value,
+        onChanged: (endeavorReference) =>
+            bloc.endeavorReference.updateValue(endeavorReference),
+        nullable: false,
+      ),
     );
   }
 }
 
-class _TypePicker extends StatelessWidget {
+class _RepeatingCheckbox extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _RepeatingCheckbox(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Type:'),
-            DropdownButton(
-              value: state is SingleEndeavorBlockScreenState
-                  ? EndeavorBlockType.single
-                  : EndeavorBlockType.repeating,
-              items: const [
-                DropdownMenuItem(
-                  value: EndeavorBlockType.single,
-                  child: Text("One Time"),
-                ),
-                DropdownMenuItem(
-                  value: EndeavorBlockType.repeating,
-                  child: Text("Repeated"),
-                )
-              ],
-              onChanged: (value) {
-                if (value != null) {
-                  context.read<EndeavorBlockScreenBloc>().add(
-                        TypeChanged(value),
-                      );
-                }
-              },
-            )
-          ],
-        );
-      },
+    return CheckboxFieldBlocBuilder(
+      booleanFieldBloc: bloc.repeating,
+      body: Container(
+        alignment: Alignment.centerLeft,
+        child: const Text('Repeating'),
+      ),
     );
   }
 }
 
 class _OneTimeEventPicker extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _OneTimeEventPicker(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      buildWhen: (previous, current) {
-        return previous is! SingleEndeavorBlockScreenState ||
-            current is! SingleEndeavorBlockScreenState ||
-            (previous.isEdit != current.isEdit);
-      },
-      builder: (context, state) {
-        if (state is RepeatingEndeavorBlockScreenState) return Container();
-        state as SingleEndeavorBlockScreenState;
-        return OneTimeEventPicker(
-          startingEvent: state.event,
-          onEvent: (newEvent) => context
-              .read<EndeavorBlockScreenBloc>()
-              .add(EventChanged(newEvent)),
-        );
-      },
+    return CanShowFieldBlocBuilder(
+      fieldBloc: bloc.event,
+      builder: (context, show) => show
+          ? OneTimeEventPicker(
+              initialValue: context.read<EndeavorBlockScreenBloc>().event.value,
+              onEvent: (newEvent) {
+                debugPrint("HERERER");
+                bloc.event.updateValue(newEvent);
+              },
+            )
+          : Container(),
     );
   }
 }
 
 class _RepeatingEventPicker extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _RepeatingEventPicker(this.bloc);
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      buildWhen: (previous, current) {
-        return previous is! RepeatingEndeavorBlockScreenState ||
-            current is! RepeatingEndeavorBlockScreenState ||
-            (previous.repeatingEventInput != current.repeatingEventInput);
-      },
-      builder: (context, state) {
-        if (state is SingleEndeavorBlockScreenState) return Container();
-        state as RepeatingEndeavorBlockScreenState;
-        return RepeatingEventPicker(
-          initialRepeatingEvent: state.repeatingEventInput.value,
-          onChanged: (repeatingEvent) =>
-              context.read<EndeavorBlockScreenBloc>().add(
-                    RepeatingEventChanged(repeatingEvent),
-                  ),
-        );
+  Widget build(
+    BuildContext context,
+  ) {
+    return CanShowFieldBlocBuilder(
+      fieldBloc: bloc.repeatingEvent,
+      builder: (context, canShow) {
+        return canShow
+            ? RepeatingEventPicker(
+                initialRepeatingEvent: context
+                    .read<EndeavorBlockScreenBloc>()
+                    .repeatingEvent
+                    .value,
+                onChanged: (repeatingEvent) => context
+                    .read<EndeavorBlockScreenBloc>()
+                    .repeatingEvent
+                    .updateValue(repeatingEvent),
+              )
+            : Container();
       },
     );
   }
 }
 
 class _SaveButton extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _SaveButton(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EndeavorBlockScreenBloc, EndeavorBlockScreenState>(
-      builder: (context, state) {
-        void Function()? onPressed;
-        if ((state is SingleEndeavorBlockScreenState && state.status.isValid) ||
-            (state is RepeatingEndeavorBlockScreenState &&
-                state.status.isValid)) {
-          onPressed = () {
-            context.read<EndeavorBlockScreenBloc>().add(const Save());
-            Navigator.pop(context);
-          };
-        } else {
-          onPressed = null;
-        }
-        return ElevatedButton(
-          onPressed: onPressed,
-          child: const Text("Save"),
-        );
-      },
+    return ElevatedButton(
+      onPressed: bloc.submit,
+      child: const Text("Save"),
     );
   }
 }
 
 class _DeleteButton extends StatelessWidget {
+  final EndeavorBlockScreenBloc bloc;
+  const _DeleteButton(this.bloc);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: const ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.red),
       ),
-      onPressed: () {
-        context.read<EndeavorBlockScreenBloc>().add(const DeleteRequested());
-      },
+      onPressed: bloc.delete,
       child: const Text("Delete"),
     );
   }

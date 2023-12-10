@@ -145,9 +145,12 @@ class _RepeatingEventPicker extends StatelessWidget {
           initialRepeatingEvent: (state as RepeatingCalendarEventScreenState)
               .repeatingEventInput
               .value,
-          onChanged: (repeatingEvent) => context
-              .read<CalendarEventScreenBloc>()
-              .add(RepeatingEventChanged(repeatingEvent)),
+          onChanged: (repeatingEvent) =>
+              context.read<CalendarEventScreenBloc>().add(
+                    RepeatingEventChanged(
+                      RepeatingEventInput.dirty(repeatingEvent),
+                    ),
+                  ),
         );
       },
     );
