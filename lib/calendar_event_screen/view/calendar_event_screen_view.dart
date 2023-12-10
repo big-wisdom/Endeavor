@@ -1,21 +1,20 @@
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/calendar_event_screen/calendar_event_screen.dart';
-import 'package:endeavor/widgets/endeavor_picker_row.dart';
-import 'package:endeavor/widgets/one_time_event_picker/widget/one_time_event_picker.dart';
-import 'package:endeavor/widgets/repeating_event_picker/repeating_event_picker.dart';
+import 'package:endeavor/widgets/endeavor_picker_row_flutter_form.dart';
+import 'package:endeavor/widgets/one_time_event_picker_flutter_bloc/one_time_event_picker.dart';
+import 'package:endeavor/widgets/repeating_event_picker/widget/repeating_event_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class CalendarEventScreenView extends StatelessWidget {
   const CalendarEventScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<CalendarEventScreenBloc>().state;
+    final bloc = context.read<CalendarEventScreenBloc>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "${(state is SingleCalendarEventScreenState && state.isEdit) ? "Edit" : "Create"} Event"),
+        title: const Text("Edit Event"),
       ),
       body: SafeArea(
         child: Padding(
@@ -23,23 +22,17 @@ class CalendarEventScreenView extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _TitleField(),
-                EndeavorPickerRow(
-                  endeavorInput: state.endeavorInput,
-                  onChanged: (endeavor) => context
-                      .read<CalendarEventScreenBloc>()
-                      .add(EndeavorChanged(endeavor)),
-                ),
-                _TypePicker(),
-                if (state is SingleCalendarEventScreenState)
-                  _OneTimeEventPickerBuilder(),
-                if (state is RepeatingCalendarEventScreenState)
-                  _RepeatingEventPicker(),
-                if ((state is SingleCalendarEventScreenState && state.isEdit) ||
-                    state is RepeatingCalendarEventScreenState)
-                  _CreateButton(),
-                if (state is SingleCalendarEventScreenState && state.isEdit)
-                  _DeleteButton(),
+                _TitleField(bloc),
+                _EndeavorPickerRow(bloc),
+                _RepeatingCheckbox(bloc),
+                _OneTimeEventPicker(bloc),
+
+                _RepeatingEventPicker(bloc),
+
+                _SaveButton(bloc),
+
+                // delete button
+                if (bloc.editing) _DeleteButton(bloc),
               ],
             ),
           ),
@@ -50,135 +43,120 @@ class CalendarEventScreenView extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _TitleField(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
-      buildWhen: (previous, current) => previous.title != current.title,
-      builder: (context, state) {
-        return TextFormField(
-          initialValue: state.title.value,
-          decoration: InputDecoration(
-            labelText: "Title",
-            errorText: state.title.error?.text(),
-          ),
-          onChanged: (value) =>
-              context.read<CalendarEventScreenBloc>().add(TitleChanged(value)),
-        );
-      },
+    return TextFieldBlocBuilder(
+      textFieldBloc: bloc.title,
+      decoration: const InputDecoration(labelText: "Title"),
     );
   }
 }
 
-class _TypePicker extends StatelessWidget {
+class _EndeavorPickerRow extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _EndeavorPickerRow(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
-      buildWhen: (previous, current) =>
-          (previous is SingleCalendarEventScreenState) !=
-          (current is SingleCalendarEventScreenState),
-      builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Type:'),
-            DropdownButton(
-              value: state is SingleCalendarEventScreenState
-                  ? CalendarEventType.single
-                  : CalendarEventType.repeating,
-              items: const [
-                DropdownMenuItem(
-                  value: CalendarEventType.single,
-                  child: Text("One Time"),
-                ),
-                DropdownMenuItem(
-                  value: CalendarEventType.repeating,
-                  child: Text("Repeated"),
-                )
-              ],
-              onChanged: (value) {
-                if (((state is SingleCalendarEventScreenState) &&
-                        value != CalendarEventType.single) ||
-                    ((state is RepeatingCalendarEventScreenState) &&
-                            value != CalendarEventType.repeating) &&
-                        value != null) {
-                  context
-                      .read<CalendarEventScreenBloc>()
-                      .add(TypeChanged(value!));
-                }
+    return BlocBuilder<InputFieldBloc<EndeavorReference?, dynamic>,
+        InputFieldBlocState<EndeavorReference?, dynamic>>(
+      bloc: bloc.endeavorReference,
+      buildWhen: (previous, current) => previous.value != current.value,
+      builder: (context, state) => EndeavorPickerRow(
+        initialValue: state.value,
+        onChanged: (endeavorReference) =>
+            bloc.endeavorReference.updateValue(endeavorReference),
+        nullable: false,
+      ),
+    );
+  }
+}
+
+class _RepeatingCheckbox extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _RepeatingCheckbox(this.bloc);
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxFieldBlocBuilder(
+      booleanFieldBloc: bloc.repeating,
+      body: Container(
+        alignment: Alignment.centerLeft,
+        child: const Text('Repeating'),
+      ),
+    );
+  }
+}
+
+class _OneTimeEventPicker extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _OneTimeEventPicker(this.bloc);
+  @override
+  Widget build(BuildContext context) {
+    return CanShowFieldBlocBuilder(
+      fieldBloc: bloc.event,
+      builder: (context, show) => show
+          ? OneTimeEventPicker(
+              initialValue: context.read<CalendarEventScreenBloc>().event.value,
+              onEvent: (newEvent) {
+                debugPrint("HERERER");
+                bloc.event.updateValue(newEvent);
               },
             )
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _OneTimeEventPickerBuilder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
-      builder: (context, state) {
-        state as SingleCalendarEventScreenState;
-        return OneTimeEventPicker(
-          onEvent: (eventInput) => context
-              .read<CalendarEventScreenBloc>()
-              .add(EventChanged(eventInput)),
-          startingEvent: state.event,
-        );
-      },
+          : Container(),
     );
   }
 }
 
 class _RepeatingEventPicker extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _RepeatingEventPicker(this.bloc);
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalendarEventScreenBloc, CalendarEventScreenState>(
-      buildWhen: (previous, current) {
-        return (previous as RepeatingCalendarEventScreenState)
-                .repeatingEventInput !=
-            (current as RepeatingCalendarEventScreenState).repeatingEventInput;
-      },
-      builder: (context, state) {
-        return RepeatingEventPicker(
-          initialRepeatingEvent: (state as RepeatingCalendarEventScreenState)
-              .repeatingEventInput
-              .value,
-          onChanged: (repeatingEvent) =>
-              context.read<CalendarEventScreenBloc>().add(
-                    RepeatingEventChanged(
-                      RepeatingEventInput.dirty(repeatingEvent),
-                    ),
-                  ),
-        );
+  Widget build(
+    BuildContext context,
+  ) {
+    return CanShowFieldBlocBuilder(
+      fieldBloc: bloc.repeatingEvent,
+      builder: (context, canShow) {
+        return canShow
+            ? RepeatingEventPicker(
+                initialRepeatingEvent: context
+                    .read<CalendarEventScreenBloc>()
+                    .repeatingEvent
+                    .value,
+                onChanged: (repeatingEvent) => context
+                    .read<CalendarEventScreenBloc>()
+                    .repeatingEvent
+                    .updateValue(repeatingEvent),
+              )
+            : Container();
       },
     );
   }
 }
 
-class _CreateButton extends StatelessWidget {
+class _SaveButton extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _SaveButton(this.bloc);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        context
-            .read<CalendarEventScreenBloc>()
-            .add(const CreateButtonPressed());
-        Navigator.pop(context);
-      },
-      child: const Text("Create"),
+      onPressed: bloc.submit,
+      child: const Text("Save"),
     );
   }
 }
 
 class _DeleteButton extends StatelessWidget {
+  final CalendarEventScreenBloc bloc;
+  const _DeleteButton(this.bloc);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => context
-          .read<CalendarEventScreenBloc>()
-          .add(const DeleteThisCalendarEvent()),
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Colors.red),
+      ),
+      onPressed: bloc.delete,
       child: const Text("Delete"),
     );
   }
