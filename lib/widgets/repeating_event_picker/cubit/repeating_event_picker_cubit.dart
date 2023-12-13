@@ -52,11 +52,21 @@ class RepeatingEventPickerCubit extends FormBloc<String, String> {
         ) {
     startTime
       ..addValidators([_startTimeValidator(endTime)])
-      ..subscribeToFieldBlocs([endTime]);
+      ..subscribeToFieldBlocs([endTime])
+      ..onValueChanges(onData: (_, __) async* {
+        _change();
+      });
     endTime
       ..addValidators([_endTimeValidator(startTime)])
-      ..subscribeToFieldBlocs([startTime]);
-    daysOfWeek.addValidators([_daysOfWeekValidator(daysOfWeek)]);
+      ..subscribeToFieldBlocs([startTime])
+      ..onValueChanges(onData: (_, __) async* {
+        _change();
+      });
+    daysOfWeek
+      ..addValidators([_daysOfWeekValidator(daysOfWeek)])
+      ..onValueChanges(onData: (_, __) async* {
+        _change();
+      });
     addFieldBlocs(
       fieldBlocs: [startDate, endDate, startTime, endTime, daysOfWeek],
     );
@@ -65,7 +75,6 @@ class RepeatingEventPickerCubit extends FormBloc<String, String> {
   Validator<TimeOfDay> _startTimeValidator(
       InputFieldBloc<TimeOfDay, dynamic> endTime) {
     return (TimeOfDay start) {
-      submit();
       if (start.compareTo(endTime.value) >= 0) {
         return "Start time must be before end time";
       }
@@ -76,7 +85,6 @@ class RepeatingEventPickerCubit extends FormBloc<String, String> {
   Validator<TimeOfDay> _endTimeValidator(
       InputFieldBloc<TimeOfDay, dynamic> startTime) {
     return (TimeOfDay end) {
-      submit();
       if (end.compareTo(startTime.value) <= 0) {
         return "Start time must be before end time";
       }
@@ -87,12 +95,26 @@ class RepeatingEventPickerCubit extends FormBloc<String, String> {
   Validator<List<String>> _daysOfWeekValidator(
       MultiSelectFieldBloc<String, dynamic> daysOfWeek) {
     return (List<String> daysOfWeek) {
-      submit();
       if (daysOfWeek.isEmpty) {
         return "Must select at least one day";
       }
       return null;
     };
+  }
+
+  // this way I can emit a value on every change whether it's valid or not
+  void _change() {
+    onChanged(
+      RepeatingEvent(
+        startDate: startDate.value,
+        endDate: endDate.value,
+        startTime: startTime.value,
+        endTime: endTime.value,
+        daysOfWeek: daysOfWeekStrings
+            .map((day) => daysOfWeek.value.contains(day))
+            .toList(),
+      ),
+    );
   }
 
   @override
@@ -103,6 +125,9 @@ class RepeatingEventPickerCubit extends FormBloc<String, String> {
         endDate: endDate.value,
         startTime: startTime.value,
         endTime: endTime.value,
+        daysOfWeek: daysOfWeekStrings
+            .map((day) => daysOfWeek.value.contains(day))
+            .toList(),
       ),
     );
   }

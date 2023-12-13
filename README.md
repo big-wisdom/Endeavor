@@ -81,7 +81,6 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
   * test calendar screen so far
 }
 
-* CreateScreen for EndeavorBlock
-  * Make Flutter_Form version of EventPicker DONE!
-  * Make Flutter_Form version of RepeatingEventPicker
-    * 
+* It's now time to hook up the front and the backend!!!!!
+  * Hook can I create an EndeavorBlock?!?!?!?!?! YOU TELL ME, MOTHERFUCKER!!!
+    * I got the form validation working for the OneTimeEventPicker but it's still not functioning right for the RepeatingEventPicker

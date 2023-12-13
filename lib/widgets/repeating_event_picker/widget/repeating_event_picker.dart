@@ -105,7 +105,7 @@ class _DaysOfWeekPicker extends StatelessWidget {
                     }
                   },
                 ),
-                if (state.canShowError)
+                if (state.hasError)
                   Text(
                     state.error.toString(),
                     style: const TextStyle(color: Colors.red),
