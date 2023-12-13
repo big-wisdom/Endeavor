@@ -99,7 +99,6 @@ class _OneTimeEventPicker extends StatelessWidget {
           ? OneTimeEventPicker(
               initialValue: context.read<CalendarEventScreenBloc>().event.value,
               onEvent: (newEvent) {
-                debugPrint("HERERER");
                 bloc.event.updateValue(newEvent);
               },
             )

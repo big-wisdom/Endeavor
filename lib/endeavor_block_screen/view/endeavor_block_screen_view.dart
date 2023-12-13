@@ -26,7 +26,7 @@ class EndeavorBlockScreenView extends StatelessWidget {
               debugPrint("Submitting EndeavorBlock");
             },
             onSuccess: (context, state) {
-              debugPrint("EndeavorBlock Submitted");
+              Navigator.of(context).pop();
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -117,7 +117,6 @@ class _OneTimeEventPicker extends StatelessWidget {
           ? OneTimeEventPicker(
               initialValue: context.read<EndeavorBlockScreenBloc>().event.value,
               onEvent: (newEvent) {
-                debugPrint("HERERER");
                 bloc.event.updateValue(newEvent);
               },
             )
@@ -158,9 +157,13 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: bloc.submit,
-      child: const Text("Save"),
+    return BlocBuilder<EndeavorBlockScreenBloc, FormBlocState<String, String>>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state.isValid() ? bloc.submit : null,
+          child: const Text("Save"),
+        );
+      },
     );
   }
 }
