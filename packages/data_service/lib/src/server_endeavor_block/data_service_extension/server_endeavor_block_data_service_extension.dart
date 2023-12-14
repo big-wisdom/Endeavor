@@ -28,4 +28,8 @@ extension ServerEndeavorBlockDataServiceExtension on DataService {
         .collection('endeavorBlocks')
         .add(endeavorBlock.toDocData());
   }
+
+  static void deleteEndeavorBlock(String id) {
+    DataService.userDataDoc.collection('endeavorBlocks').doc(id).delete();
+  }
 }

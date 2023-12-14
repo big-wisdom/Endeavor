@@ -28,9 +28,15 @@ extension WeekViewEventTransformers on WeekViewEvent {
 
     // WeekViewEvents from ServerEndeavorBlocks
     for (final seb in serverEndeavorBlocks) {
+      final endeavor =
+          serverEndeavors.firstWhere((se) => se.id == seb.endeavorId);
       weekViewEvents.add(
         WeekViewEvent.fromEndeavorBlock(
           serverEndeavorBlock: seb,
+          endeavorReference: EndeavorReference(
+            title: endeavor.title,
+            id: endeavor.id,
+          ),
           backgroundColor: endeavorIdToServerEndeavor[seb.endeavorId]!.color,
           title: endeavorIdToServerEndeavor[seb.endeavorId]!.title,
         ),

@@ -7,15 +7,13 @@ part 'endeavor_selection_screen_state.dart';
 
 class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
   final void Function(EndeavorReference?) _onChanged;
-  final bool _nullable;
 
   EndeavorSelectionScreenCubit({
     required DataRepository dataRepository,
     required EndeavorReference? initialValue,
     required void Function(EndeavorReference?) onChanged,
     required bool nullable,
-  })  : _nullable = nullable,
-        _onChanged = onChanged,
+  })  : _onChanged = onChanged,
         super(EndeavorSelectionScreenInitial(
           treeOfLife: null,
           selectedEndeavorReference: initialValue,

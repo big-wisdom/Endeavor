@@ -28,6 +28,7 @@ class EndeavorBlockScreenView extends StatelessWidget {
             onSuccess: (context, state) {
               Navigator.of(context).pop();
             },
+            onDeleteSuccessful: (_, __) => Navigator.of(context).pop(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
