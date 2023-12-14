@@ -67,6 +67,4 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Just got delete working for endeavor blocks. MVP will not include deleting all of repeating right now, but that should be a fast follow
-
-* Now I need to make sure that you can edit endeavor blocks
+* Now I should make sure that the CalendarEvent shows up on the week view screen

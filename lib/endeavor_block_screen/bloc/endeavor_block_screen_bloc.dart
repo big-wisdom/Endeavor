@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
-import 'package:date_and_time_utilities/date_and_time_utilities.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class EndeavorBlockScreenBloc extends FormBloc<String, String> {
@@ -32,9 +31,9 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         removeFieldBlocs(fieldBlocs: [repeatingEvent]);
       }
     }));
-    endeavorReference.addValidators([_endeavorReferenceValidator()]);
-    event.addValidators([_eventValidator()]);
-    repeatingEvent.addValidators([_repeatingEventValidator()]);
+    endeavorReference.addValidators([endeavorReferenceValidator()]);
+    event.addValidators([eventValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
     addFieldBlocs(fieldBlocs: [
       endeavorReference,
       repeating,
@@ -50,52 +49,13 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         repeatingEvent = InputFieldBloc(initialValue: null),
         editing = true,
         endeavorBlockId = endeavorBlock.id {
-    endeavorReference.addValidators([_endeavorReferenceValidator()]);
-    event.addValidators([_eventValidator()]);
-    repeatingEvent.addValidators([_repeatingEventValidator()]);
+    endeavorReference.addValidators([endeavorReferenceValidator()]);
+    event.addValidators([eventValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
     addFieldBlocs(fieldBlocs: [
       endeavorReference,
       event,
     ]);
-  }
-
-  Validator<EndeavorReference?> _endeavorReferenceValidator() {
-    return (EndeavorReference? er) {
-      if (er == null) {
-        return "Endeavor must be selected";
-      }
-      return null;
-    };
-  }
-
-  Validator<Event?> _eventValidator() {
-    return (Event? event) {
-      if (event == null) {
-        return "There must be an event";
-      } else if (event.start.compareTo(event.end) >= 0) {
-        return "Event must start before it ends";
-      }
-      return null;
-    };
-  }
-
-  Validator<RepeatingEvent?> _repeatingEventValidator() {
-    return (RepeatingEvent? repeatingEvent) {
-      if (repeatingEvent == null) {
-        return "Repeating Event must not be null";
-      } else if (repeatingEvent.startTime.compareTo(repeatingEvent.endTime) >=
-          0) {
-        return "Event must start before it can end";
-      } else if (repeatingEvent.startDate
-              .compareToDateOnly(repeatingEvent.endDate) >=
-          0) {
-        return "Date range must start before it ends";
-      } else if (repeatingEvent.daysOfWeek
-          .every((daySelected) => !daySelected)) {
-        return "Must select days of the week";
-      }
-      return null;
-    };
   }
 
   @override

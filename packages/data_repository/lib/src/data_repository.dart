@@ -76,15 +76,17 @@ class DataRepository {
   // Stream<EndeavorBlock> get endeavorBlockStream => throw UnimplementedError();
 
   Stream<List<WeekViewEvent>> get weekViewEventStream =>
-      CombineLatestStream.combine3(
+      CombineLatestStream.combine4(
         TasksDataServiceExtension.tasksStream,
         ServerEndeavorBlockDataServiceExtension.serverEndeavorBlockStream,
         ServerEndeavorDataServiceExtension.serverEndeavorsStream,
-        (serverTasks, serverEndeavorBlocks, serverEndeavors) =>
+        ServerCalendarEventDataServiceExtension.calendarEventStream,
+        (serverTasks, serverEndeavorBlocks, serverEndeavors, calendarEvents) =>
             WeekViewEventTransformers.weekViewEventsFromIngredients(
           serverTasks,
           serverEndeavorBlocks,
           serverEndeavors,
+          calendarEvents,
         ),
       );
 

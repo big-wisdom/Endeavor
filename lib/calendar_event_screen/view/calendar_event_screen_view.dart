@@ -67,7 +67,7 @@ class _EndeavorPickerRow extends StatelessWidget {
         initialValue: state.value,
         onChanged: (endeavorReference) =>
             bloc.endeavorReference.updateValue(endeavorReference),
-        nullable: false,
+        nullable: true,
       ),
     );
   }
@@ -139,9 +139,13 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton(this.bloc);
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: bloc.submit,
-      child: const Text("Save"),
+    return BlocBuilder<CalendarEventScreenBloc, FormBlocState<String, String>>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state.isValid() ? bloc.submit : null,
+          child: const Text("Save"),
+        );
+      },
     );
   }
 }
