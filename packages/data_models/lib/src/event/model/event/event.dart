@@ -1,4 +1,5 @@
 import 'package:data_models/data_models.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:server_data_models/server_data_models.dart';
 
 class Event extends AbstractEvent {
@@ -94,4 +95,15 @@ class Event extends AbstractEvent {
     final diff = dateTime.day - now.day;
     return diff > 0 && diff < daysLeft;
   }
+}
+
+Validator<Event?> eventValidator() {
+  return (Event? event) {
+    if (event == null) {
+      return "There must be an event";
+    } else if (event.start.compareTo(event.end) >= 0) {
+      return "Event must start before it ends";
+    }
+    return null;
+  };
 }

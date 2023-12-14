@@ -3,10 +3,10 @@ import 'package:server_data_models/server_data_models.dart';
 
 extension WeekViewEventTransformers on WeekViewEvent {
   static List<WeekViewEvent> weekViewEventsFromIngredients(
-    List<ServerTask> serverTasks,
-    List<ServerEndeavorBlock> serverEndeavorBlocks,
-    List<ServerEndeavor> serverEndeavors,
-  ) {
+      List<ServerTask> serverTasks,
+      List<ServerEndeavorBlock> serverEndeavorBlocks,
+      List<ServerEndeavor> serverEndeavors,
+      List<ServerCalendarEvent> serverCalendarEvents) {
     // map endeavorIds to ServerEndeavor
     Map<String, ServerEndeavor> endeavorIdToServerEndeavor = {};
     for (final se in serverEndeavors) {
@@ -43,7 +43,13 @@ extension WeekViewEventTransformers on WeekViewEvent {
       );
     }
 
-    // TODO: WeekViewEvents from CalendarEvents
+    // WeekViewEvents from CalendarEvents
+    for (final sce in serverCalendarEvents) {
+      weekViewEvents.add(WeekViewEvent.fromCalendarEvent(
+        serverCalendarEvent: sce,
+        backgroundColor: endeavorIdToServerEndeavor[sce.endeavorId]?.color,
+      ));
+    }
 
     return weekViewEvents;
   }

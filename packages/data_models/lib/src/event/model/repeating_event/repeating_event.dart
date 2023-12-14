@@ -1,3 +1,6 @@
+import 'package:date_and_time_utilities/date_and_time_utilities.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
+
 import '../abstract_event.dart';
 import 'package:flutter/material.dart' show TimeOfDay;
 
@@ -64,4 +67,22 @@ class RepeatingEvent extends AbstractEvent {
     if (d1.day < d2.day) return -1;
     return 0;
   }
+}
+
+Validator<RepeatingEvent?> repeatingEventValidator() {
+  return (RepeatingEvent? repeatingEvent) {
+    if (repeatingEvent == null) {
+      return "Repeating Event must not be null";
+    } else if (repeatingEvent.startTime.compareTo(repeatingEvent.endTime) >=
+        0) {
+      return "Event must start before it can end";
+    } else if (repeatingEvent.startDate
+            .compareToDateOnly(repeatingEvent.endDate) >=
+        0) {
+      return "Date range must start before it ends";
+    } else if (repeatingEvent.daysOfWeek.every((daySelected) => !daySelected)) {
+      return "Must select days of the week";
+    }
+    return null;
+  };
 }

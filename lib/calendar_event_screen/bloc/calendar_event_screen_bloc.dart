@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:data_models/data_models.dart';
+import 'package:data_service/data_service.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class CalendarEventScreenBloc extends FormBloc<String, String> {
@@ -36,10 +37,29 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
       if (!editing) repeating,
       event,
     ]);
+    title.addValidators([_titleValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
+    event.addValidators([eventValidator()]);
+  }
+
+  Validator<String> _titleValidator() {
+    return (String? title) {
+      if (title == null || title.isEmpty) {
+        return "You gotta name it!";
+      }
+      return null;
+    };
   }
 
   @override
   FutureOr<void> onSubmitting() {
-    throw UnimplementedError();
+    ServerCalendarEventDataServiceExtension.createCalendarEvent(
+      UnidentifiedCalendarEvent(
+        title: title.value,
+        event: event.value!,
+        endeavorReference: endeavorReference.value,
+        repeatingCalendarEventId: null,
+      ),
+    );
   }
 }

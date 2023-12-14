@@ -1,5 +1,6 @@
 import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class EndeavorReference extends Equatable {
   const EndeavorReference({
@@ -31,4 +32,13 @@ class EndeavorReference extends Equatable {
         title,
         id,
       ];
+}
+
+Validator<EndeavorReference?> endeavorReferenceValidator() {
+  return (EndeavorReference? er) {
+    if (er == null) {
+      return "Endeavor must be selected";
+    }
+    return null;
+  };
 }
