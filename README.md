@@ -81,6 +81,4 @@ for (i in [Task, EndeavorBlock, CalendarEvent]) {
   * test calendar screen so far
 }
 
-* It's now time to hook up the front and the backend!!!!!
-  * Hook can I create an EndeavorBlock?!?!?!?!?! YOU TELL ME, MOTHERFUCKER!!!
-    * I got the form validation working for the OneTimeEventPicker but it's still not functioning right for the RepeatingEventPicker
+* Now I need to make sure that the EndeavorBlockScreen can delete

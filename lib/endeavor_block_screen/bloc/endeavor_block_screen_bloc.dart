@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 import 'package:date_and_time_utilities/date_and_time_utilities.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class EndeavorBlockScreenBloc extends FormBloc<String, String> {
@@ -12,6 +11,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   InputFieldBloc<Event?, String> event;
   InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
+  final String? endeavorBlockId;
 
   EndeavorBlockScreenBloc.create()
       : endeavorReference =
@@ -21,7 +21,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
             InputFieldBloc<Event, String>(initialValue: Event.generic(null)),
         repeatingEvent =
             InputFieldBloc<RepeatingEvent?, String>(initialValue: null),
-        editing = false {
+        editing = false,
+        endeavorBlockId = null {
     repeating.onValueChanges(onData: ((previous, current) async* {
       if (current.value) {
         addFieldBlocs(fieldBlocs: [repeatingEvent]);
@@ -47,7 +48,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         event = InputFieldBloc(initialValue: endeavorBlock.event),
         repeating = BooleanFieldBloc(initialValue: false),
         repeatingEvent = InputFieldBloc(initialValue: null),
-        editing = true {
+        editing = true,
+        endeavorBlockId = endeavorBlock.id {
     endeavorReference.addValidators([_endeavorReferenceValidator()]);
     event.addValidators([_eventValidator()]);
     repeatingEvent.addValidators([_repeatingEventValidator()]);
@@ -96,8 +98,12 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     };
   }
 
-  void onDelete() {
-    debugPrint("delete plz");
+  @override
+  void onDeleting() {
+    ServerEndeavorBlockDataServiceExtension.deleteEndeavorBlock(
+      endeavorBlockId!,
+    );
+    emitDeleteSuccessful();
   }
 
   @override
@@ -106,110 +112,6 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     event.close();
     return super.close();
   }
-
-  /// code for creating
-  // Single
-  // if (endeavorBlock.type == EndeavorBlockType.single &&
-  //     endeavorBlock.validate()) {
-  //   FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(widget.uid)
-  //       .collection('endeavorBlocks')
-  //       .add(
-  //     {
-  //       'endeavorId': endeavorBlock.endeavorId,
-  //       'type': endeavorBlock.type.toString(),
-  //       'start': endeavorBlock.event!.start!,
-  //       'end': endeavorBlock.event!.end!,
-  //     },
-  //   );
-  // } else {
-  //   // Repeating
-  //   repeatingEndeavorBlock.then((reb) {
-  //     if (reb.validate()) {
-  //       List<EndeavorBlock>? blocks = reb.endeavorBlocks;
-  //       if (blocks != null) {
-  //         final batch = FirebaseFirestore.instance.batch();
-
-  //         // Create a doc to connect all the repeated blocks
-  //         final repeatingDocRef = FirebaseFirestore.instance
-  //             .collection('users')
-  //             .doc(widget.uid)
-  //             .collection('repeatingEndeavorBlocks')
-  //             .doc(); // no specific doc because we're creating
-  //         reb.endeavorBlockIds = [];
-
-  //         // Create a doc for each block
-  //         for (EndeavorBlock block in blocks) {
-  //           final docRef = FirebaseFirestore.instance
-  //               .collection('users')
-  //               .doc(widget.uid)
-  //               .collection('endeavorBlocks')
-  //               .doc();
-  //           reb.endeavorBlockIds!.add(docRef.id);
-  //           batch.set(docRef, {
-  //             'endeavorId': block.endeavorId,
-  //             'type': block.type.toString(),
-  //             'start': block.event!.start!,
-  //             'end': block.event!.end!,
-  //             // this connects each repeated block back to the
-  //             // RepeatingEndeavorBlock
-  //             'repeatingEndeavorBlockId': repeatingDocRef.id,
-  //           });
-  //         }
-
-  //         batch.set(repeatingDocRef, reb.toDocData());
-
-  //         batch.commit();
-  //       }
-  //     }
-  //   });
-  // }
-
-  // if (endeavorBlock.type == EndeavorBlockType.single) {
-  //   // delete single
-  //   FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(widget.uid)
-  //       .collection('endeavorBlocks')
-  //       .doc(endeavorBlock.id)
-  //       .delete();
-  // } else {
-  //   debugPrint("delete repeating");
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return ChangeForThisOrAllDialogue(
-  //         onThis: () {
-  //           // delete single
-  //           FirebaseFirestore.instance
-  //               .collection('users')
-  //               .doc(widget.uid)
-  //               .collection('endeavorBlocks')
-  //               .doc(endeavorBlock.id)
-  //               .delete();
-  //           Navigator.pop(context);
-  //           Navigator.pop(context);
-  //         },
-  //         onFollowing: () {
-  //           // delete repeating
-  //           repeatingEndeavorBlock.then((reb) async {
-  //             HttpsCallable callable = FirebaseFunctions.instance
-  //                 .httpsCallable('deleteThisAndFollowingEndeavorBlocks');
-  //             final resp = await callable.call(<String, dynamic>{
-  //               'userId': widget.uid,
-  //               'repeatingEndeavorBlockId': reb.id,
-  //               'selectedEndeavorBlockId': endeavorBlock.id,
-  //             });
-  //             debugPrint("Result: ${resp.data}");
-  //           });
-  //           Navigator.pop(context);
-  //           Navigator.pop(context);
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   FutureOr<void> onSubmitting() {
@@ -231,6 +133,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
           ),
         );
       }
+      emitSuccess();
     }
   }
 }

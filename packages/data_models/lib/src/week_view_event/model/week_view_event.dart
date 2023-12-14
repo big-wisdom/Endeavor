@@ -30,6 +30,7 @@ class WeekViewEvent extends Equatable {
 
   factory WeekViewEvent.fromEndeavorBlock({
     required ServerEndeavorBlock serverEndeavorBlock,
+    required EndeavorReference endeavorReference,
     required Color? backgroundColor,
     required String title,
   }) {
@@ -38,7 +39,12 @@ class WeekViewEvent extends Equatable {
       backgroundColor: backgroundColor,
       start: serverEndeavorBlock.serverEvent.start,
       end: serverEndeavorBlock.serverEvent.end,
-      originalObject: serverEndeavorBlock,
+      originalObject: EndeavorBlock(
+        id: serverEndeavorBlock.id,
+        endeavorReference: endeavorReference,
+        event: Event.fromServerEvent(serverEndeavorBlock.serverEvent),
+        repeatingEndeavorBlockId: serverEndeavorBlock.repeatingEndeavorBlockId,
+      ),
     );
   }
 
