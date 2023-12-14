@@ -125,13 +125,23 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
           ),
         );
       } else {
-        ServerEndeavorBlockDataServiceExtension.createEndeavorBlock(
-          UnidentifiedEndeavorBlock(
-            repeatingEndeavorBlockId: null,
-            endeavorReference: endeavorReference.value!,
-            event: event.value!,
-          ),
-        );
+        if (editing) {
+          ServerEndeavorBlockDataServiceExtension.updateEndeavorBlock(
+            EndeavorBlock(
+              id: endeavorBlockId!,
+              event: event.value!,
+              endeavorReference: endeavorReference.value!,
+            ),
+          );
+        } else {
+          ServerEndeavorBlockDataServiceExtension.createEndeavorBlock(
+            UnidentifiedEndeavorBlock(
+              repeatingEndeavorBlockId: null,
+              endeavorReference: endeavorReference.value!,
+              event: event.value!,
+            ),
+          );
+        }
       }
       emitSuccess();
     }

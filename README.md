@@ -67,18 +67,6 @@ Back End: Firebase
 
 ## What I'm working on now
 
-for (i in [Task, EndeavorBlock, CalendarEvent]) {
-  for (j in [DataModel, ServerDataModel, DataService ServerDataModel stream, WeekViewEvent transformer addition, DataRepository]) {
-    * build j component for i
-      * i == EndeavorBlock && j == DONE
-  }
-  
-  for (k in [CreateScreen, CreateScreenState, Bloc, DataService edit methods]) {
-    * build k component for i
-      * i == EndeavorBlock && k == CreateScreen
-  }
+* Just got delete working for endeavor blocks. MVP will not include deleting all of repeating right now, but that should be a fast follow
 
-  * test calendar screen so far
-}
-
-* Now I need to make sure that the EndeavorBlockScreen can delete
+* Now I need to make sure that you can edit endeavor blocks

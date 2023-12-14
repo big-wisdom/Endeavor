@@ -59,4 +59,11 @@ extension ServerEndeavorBlockDataServiceExtension on DataService {
       throw Exception("Endeavor Block doesn't exist!? WUh?");
     }
   }
+
+  static void updateEndeavorBlock(EndeavorBlock eb) {
+    DataService.userDataDoc
+        .collection('endeavorBlocks')
+        .doc(eb.id)
+        .update(eb.toDocData());
+  }
 }
