@@ -22,7 +22,7 @@ extension WeekViewEventTransformers on WeekViewEvent {
         WeekViewEvent.listFromServerTask(
           serverTask: serverTask,
           backgroundColor:
-              endeavorIdToServerEndeavor[serverTask.endeavorId]!.color,
+              endeavorIdToServerEndeavor[serverTask.endeavorId]?.color,
         ),
       );
     }

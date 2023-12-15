@@ -84,7 +84,11 @@ class WeekViewEvent extends Equatable {
             backgroundColor: backgroundColor,
             start: e.start,
             end: e.end,
-            originalObject: serverTask,
+            originalObject: TaskReference(
+              id: serverTask.id,
+              endeavorId: serverTask.endeavorId,
+              title: serverTask.title,
+            ),
           ),
         )
         .toList();

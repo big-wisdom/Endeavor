@@ -75,7 +75,8 @@ abstract class TaskScreenState extends TaskForm {
         duration: durationField ?? duration,
         endeavor: endeavorPickerRowInput ?? endeavor,
         minnimumSchedulingDuration: newMinSchedDuration,
-        scheduledEvents: ScheduledEvents.dirty(newEventsList ?? []),
+        scheduledEvents:
+            ScheduledEvents.dirty(newEventsList ?? scheduledEvents.value),
       );
     }
   }
