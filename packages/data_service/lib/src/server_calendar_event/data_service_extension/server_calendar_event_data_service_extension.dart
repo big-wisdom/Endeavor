@@ -62,4 +62,13 @@ extension ServerCalendarEventDataServiceExtension on DataService {
     }
     DataService.userDataDoc.collection('calendarEvents').doc(id).delete();
   }
+
+  static updateCalendarEvent(CalendarEvent calendarEvent) {
+    DataService.userDataDoc
+        .collection('calendarEvents')
+        .doc(calendarEvent.id)
+        .update(
+          calendarEvent.toDocData(),
+        );
+  }
 }
