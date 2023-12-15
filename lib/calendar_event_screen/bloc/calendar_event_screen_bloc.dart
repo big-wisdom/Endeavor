@@ -11,6 +11,8 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final InputFieldBloc<Event?, String> event;
   final InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
+  final String? calendarEventId;
+  final String? initialRepeatingCalendarEventId;
 
   CalendarEventScreenBloc({CalendarEvent? initialEvent})
       : title = TextFieldBloc(initialValue: initialEvent?.title ?? ''),
@@ -21,7 +23,10 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
             initialValue: initialEvent?.event ?? Event.generic(null)),
         repeatingEvent =
             InputFieldBloc<RepeatingEvent?, String>(initialValue: null),
-        editing = initialEvent != null {
+        editing = initialEvent != null,
+        calendarEventId = initialEvent?.id,
+        initialRepeatingCalendarEventId =
+            initialEvent?.repeatingCalendarEventId {
     repeating.onValueChanges(onData: ((previous, current) async* {
       if (current.value) {
         addFieldBlocs(fieldBlocs: [repeatingEvent]);
@@ -52,14 +57,33 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   }
 
   @override
-  FutureOr<void> onSubmitting() {
-    ServerCalendarEventDataServiceExtension.createCalendarEvent(
-      UnidentifiedCalendarEvent(
-        title: title.value,
-        event: event.value!,
-        endeavorReference: endeavorReference.value,
-        repeatingCalendarEventId: null,
-      ),
+  FutureOr<void> onDeleting() {
+    ServerCalendarEventDataServiceExtension.deleteCalendarEvent(
+      calendarEventId!,
+      initialRepeatingCalendarEventId,
     );
+    emitDeleteSuccessful();
+  }
+
+  @override
+  FutureOr<void> onSubmitting() {
+    if (state.contains(repeatingEvent)) {
+      RepeatingCalendarEventDataServiceExtension.createRepeatingCalendarEvent(
+          UnidentifiedRepeatingCalendarEvent(
+        title: title.value,
+        repeatingEvent: repeatingEvent.value!,
+        endeavorReference: endeavorReference.value,
+      ));
+    } else {
+      ServerCalendarEventDataServiceExtension.createCalendarEvent(
+        UnidentifiedCalendarEvent(
+          title: title.value,
+          event: event.value!,
+          endeavorReference: endeavorReference.value,
+          repeatingCalendarEventId: null,
+        ),
+      );
+    }
+    emitSuccess();
   }
 }

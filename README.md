@@ -67,4 +67,9 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Now I should make sure that the CalendarEvent shows up on the week view screen
+* Make sure I can create repeating calendar events
+* Make sure I can edit calendar events
+* make sure I can delete calendar events
+* Make sure that tasks show up
+* Make sure that auto scheduling works
+* Get it on test flight
