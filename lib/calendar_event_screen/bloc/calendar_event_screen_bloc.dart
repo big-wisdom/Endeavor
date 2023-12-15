@@ -67,22 +67,32 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
 
   @override
   FutureOr<void> onSubmitting() {
-    if (state.contains(repeatingEvent)) {
-      RepeatingCalendarEventDataServiceExtension.createRepeatingCalendarEvent(
-          UnidentifiedRepeatingCalendarEvent(
+    if (editing) {
+      ServerCalendarEventDataServiceExtension.updateCalendarEvent(CalendarEvent(
+        id: calendarEventId!,
         title: title.value,
-        repeatingEvent: repeatingEvent.value!,
+        event: event.value!,
         endeavorReference: endeavorReference.value,
+        repeatingCalendarEventId: null,
       ));
     } else {
-      ServerCalendarEventDataServiceExtension.createCalendarEvent(
-        UnidentifiedCalendarEvent(
+      if (state.contains(repeatingEvent)) {
+        RepeatingCalendarEventDataServiceExtension.createRepeatingCalendarEvent(
+            UnidentifiedRepeatingCalendarEvent(
           title: title.value,
-          event: event.value!,
+          repeatingEvent: repeatingEvent.value!,
           endeavorReference: endeavorReference.value,
-          repeatingCalendarEventId: null,
-        ),
-      );
+        ));
+      } else {
+        ServerCalendarEventDataServiceExtension.createCalendarEvent(
+          UnidentifiedCalendarEvent(
+            title: title.value,
+            event: event.value!,
+            endeavorReference: endeavorReference.value,
+            repeatingCalendarEventId: null,
+          ),
+        );
+      }
     }
     emitSuccess();
   }
