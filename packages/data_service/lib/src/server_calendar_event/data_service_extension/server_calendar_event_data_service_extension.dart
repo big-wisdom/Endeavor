@@ -48,4 +48,18 @@ extension ServerCalendarEventDataServiceExtension on DataService {
         .collection('calendarEvents')
         .add(calendarEvent.toDocData());
   }
+
+  static deleteCalendarEvent(String id, String? repeatingCalendarEventId) {
+    if (repeatingCalendarEventId != null) {
+      DataService.userDataDoc
+          .collection('repeatingCalendarEvents')
+          .doc(repeatingCalendarEventId)
+          .update(
+        {
+          "calendarEventIds": FieldValue.arrayRemove([id])
+        },
+      );
+    }
+    DataService.userDataDoc.collection('calendarEvents').doc(id).delete();
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:data_models/data_models.dart';
 import 'package:server_data_models/server_data_models.dart';
+import 'package:collection/collection.dart';
 
 extension WeekViewEventTransformers on WeekViewEvent {
   static List<WeekViewEvent> weekViewEventsFromIngredients(
@@ -45,10 +46,21 @@ extension WeekViewEventTransformers on WeekViewEvent {
 
     // WeekViewEvents from CalendarEvents
     for (final sce in serverCalendarEvents) {
-      weekViewEvents.add(WeekViewEvent.fromCalendarEvent(
-        serverCalendarEvent: sce,
-        backgroundColor: endeavorIdToServerEndeavor[sce.endeavorId]?.color,
-      ));
+      final se =
+          serverEndeavors.firstWhereOrNull((se) => se.id == sce.endeavorId);
+      weekViewEvents.add(
+        WeekViewEvent.fromCalendarEvent(
+          serverCalendarEvent: sce,
+          backgroundColor: endeavorIdToServerEndeavor[sce.endeavorId]?.color,
+          endeavorReference: se != null
+              ? EndeavorReference(
+                  title: se.title,
+                  id: se.id,
+                )
+              : null,
+          repeatingCalendarEventId: sce.repeatingCalendarEventId,
+        ),
+      );
     }
 
     return weekViewEvents;

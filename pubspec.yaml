@@ -37,6 +37,7 @@ dependencies:
   bloc: ^8.1.1
   cloud_firestore: ^4.8.2 # this should only be used for the emulator
   cloud_functions: ^4.3.3 # this should only be used for the emulator
+  collection: ^1.17.2
   cupertino_icons: ^1.0.2
   data_models:
     path: packages/data_models

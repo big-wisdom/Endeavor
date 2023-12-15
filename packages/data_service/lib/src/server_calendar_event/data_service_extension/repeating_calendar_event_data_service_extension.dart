@@ -1,0 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_models/data_models.dart';
+import 'package:data_service/data_service.dart';
+
+extension RepeatingCalendarEventDataServiceExtension on DataService {
+  static createRepeatingCalendarEvent(UnidentifiedRepeatingCalendarEvent urce) {
+    final batch = FirebaseFirestore.instance.batch();
+    List<String> calendarEventIds = [];
+
+    // create a doc to connect all the repeating events
+    final repeatingDocRef =
+        DataService.userDataDoc.collection('repeatingCalendarEvents').doc();
+
+    for (Event event in urce.repeatingEvent.events) {
+      final calendarEvent = UnidentifiedCalendarEvent(
+        title: urce.title,
+        event: event,
+        endeavorReference: urce.endeavorReference,
+        repeatingCalendarEventId: repeatingDocRef.id,
+      );
+
+      // create a doc for this endeavorBlock
+      final docRef = DataService.userDataDoc.collection('calendarEvents').doc();
+
+      calendarEventIds.add(docRef.id);
+
+      batch.set(docRef, calendarEvent.toDocData());
+    }
+
+    batch.set(repeatingDocRef, {
+      'calendarEventIds': calendarEventIds,
+    });
+
+    batch.commit();
+  }
+}

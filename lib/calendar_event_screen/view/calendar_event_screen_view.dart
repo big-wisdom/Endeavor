@@ -20,20 +20,25 @@ class CalendarEventScreenView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _TitleField(bloc),
-                _EndeavorPickerRow(bloc),
-                _RepeatingCheckbox(bloc),
-                _OneTimeEventPicker(bloc),
+            child: FormBlocListener<CalendarEventScreenBloc, String, String>(
+              onSuccess: (context, state) => Navigator.of(context).pop(),
+              onDeleteSuccessful: (context, state) =>
+                  Navigator.of(context).pop(),
+              child: Column(
+                children: [
+                  _TitleField(bloc),
+                  _EndeavorPickerRow(bloc),
+                  _RepeatingCheckbox(bloc),
+                  _OneTimeEventPicker(bloc),
 
-                _RepeatingEventPicker(bloc),
+                  _RepeatingEventPicker(bloc),
 
-                _SaveButton(bloc),
+                  _SaveButton(bloc),
 
-                // delete button
-                if (bloc.editing) _DeleteButton(bloc),
-              ],
+                  // delete button
+                  if (bloc.editing) _DeleteButton(bloc),
+                ],
+              ),
             ),
           ),
         ),
