@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:endeavor/calendar_screen/calendar_screen.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_dropdown.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_plus_dialogue.dart';
@@ -28,61 +29,67 @@ class PlanningScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<PlanningScreenCubit>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Planning"),
-        actions: cubit.state.navbarItem == NavbarItem.calendar
-            ? [const CalendarViewDropdown()]
-            : null,
-      ),
-      bottomNavigationBar: _BottomNavBar(),
-      body: BlocBuilder<PlanningScreenCubit, PlanningScreenState>(
-        buildWhen: (previous, current) =>
-            previous.navbarItem != current.navbarItem,
-        builder: (context, state) {
-          if (state.navbarItem == NavbarItem.endeavors) {
-            return const EndeavorsScreen();
-          } else if (state.navbarItem == NavbarItem.tasks) {
-            return const TasksScreen();
-          } else if (state.navbarItem == NavbarItem.calendar) {
-            return const CalendarScreen();
-          }
-          return Container();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          final navBarItem =
-              context.read<PlanningScreenCubit>().state.navbarItem;
-          switch (navBarItem) {
-            case NavbarItem.endeavors:
-              showModalBottomSheet(
-                context: context,
-                builder: (modalContext) => CreateEndeavorModal(
-                  onAdd: (title) => context
-                      .read<PlanningScreenCubit>()
-                      .addPrimaryEndeavor(title),
-                ),
-              );
-              break;
-            case NavbarItem.tasks:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: ((context) => TaskScreen.create())),
-              );
-              break;
-            case NavbarItem.calendar:
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const CalendarViewPlusDialogue();
-                },
-              );
-              break;
-          }
-        },
-      ),
+    return BlocBuilder<PlanningScreenCubit, PlanningScreenState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Planning"),
+            actions: cubit.state.navbarItem == NavbarItem.calendar
+                ? [const CalendarViewDropdown()]
+                : [
+                    ElevatedButton(
+                        onPressed: () =>
+                            context.read<AuthenticationRepository>().logOut(),
+                        child: const Text("Logout"))
+                  ],
+          ),
+          bottomNavigationBar: _BottomNavBar(),
+          body: () {
+            if (state.navbarItem == NavbarItem.endeavors) {
+              return const EndeavorsScreen();
+            } else if (state.navbarItem == NavbarItem.tasks) {
+              return const TasksScreen();
+            } else if (state.navbarItem == NavbarItem.calendar) {
+              return const CalendarScreen();
+            }
+            return Container();
+          }(),
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              final navBarItem =
+                  context.read<PlanningScreenCubit>().state.navbarItem;
+              switch (navBarItem) {
+                case NavbarItem.endeavors:
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (modalContext) => CreateEndeavorModal(
+                      onAdd: (title) => context
+                          .read<PlanningScreenCubit>()
+                          .addPrimaryEndeavor(title),
+                    ),
+                  );
+                  break;
+                case NavbarItem.tasks:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => TaskScreen.create())),
+                  );
+                  break;
+                case NavbarItem.calendar:
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const CalendarViewPlusDialogue();
+                    },
+                  );
+                  break;
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }

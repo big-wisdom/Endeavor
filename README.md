@@ -73,4 +73,6 @@ Back End: Firebase
 * Tasks DONE
 * Make sure that auto scheduling works DONE
 * Get it on test flight
+  * launch the functions DONE
+  * run the app on my own phone off the emulators 
   * create review test account
