@@ -26,9 +26,9 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   const endeavorBlocksQuery = await firestore
       .collection(`users/${userId}/endeavorBlocks`)
       .where("endeavorId", "==", endeavorId)
-      .orderBy(new FieldPath('serverEvent', 'end'))
-      .where(new FieldPath('serverEvent', 'end'), ">=", now)
-      .orderBy(new FieldPath('serverEvent', 'start'))
+      .orderBy(new FieldPath("serverEvent", "end"))
+      .where(new FieldPath("serverEvent", "end"), ">=", now)
+      .orderBy(new FieldPath("serverEvent", "start"))
       .get();
 
   // from that get open time blocks
@@ -49,7 +49,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
       duration: docData["serverEvent"]["end"] - docData["serverEvent"]["start"],
     });
   }
- 
+
   // grab all tasks that can be scheduled in order
   const tasksQuery = await firestore
       .collection(`users/${userId}/tasks`)
