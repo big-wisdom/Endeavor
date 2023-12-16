@@ -33,20 +33,6 @@ extension FirestoreServerTaskExtension on ServerTask {
     }
   }
 
-  // Map<String, dynamic> toData() {
-  //   return {
-  //     ServerTaskDatabaseFields.title.string(): title,
-  //     ServerTaskDatabaseFields.endeavorId.string(): endeavorId,
-  //     ServerTaskDatabaseFields.duration.string(): duration,
-  //     ServerTaskDatabaseFields.dueDate.string(): dueDate,
-  //     ServerTaskDatabaseFields.divisible.string(): divisible,
-  //     ServerTaskDatabaseFields.events.string():
-  //         events?.map((e) => e.toData()).toList() ?? null,
-  //     ServerTaskDatabaseFields.minnimumSchedulingDuration.string():
-  //         minnimumSchedulingDuration,
-  //   };
-  // }
-
   static final querySnapToServerTasksTransformer = StreamTransformer<
       QuerySnapshot<Map<String, dynamic>>,
       List<ServerTask>>.fromHandlers(handleData: (snap, sink) {

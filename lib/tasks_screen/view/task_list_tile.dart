@@ -42,7 +42,6 @@ class _TaskListTileState extends State<TaskListTile> {
               ? Icons.radio_button_checked
               : Icons.radio_button_unchecked),
           onPressed: () {
-            debugPrint("Delete task");
             setState(() {
               checked = !checked;
               Future.delayed(const Duration(milliseconds: 500)).then((value) {

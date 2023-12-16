@@ -26,29 +26,30 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   const endeavorBlocksQuery = await firestore
       .collection(`users/${userId}/endeavorBlocks`)
       .where("endeavorId", "==", endeavorId)
-      .orderBy("end")
-      .where("end", ">=", now)
-      .orderBy("start")
+      .orderBy(new FieldPath('serverEvent', 'end'))
+      .where(new FieldPath('serverEvent', 'end'), ">=", now)
+      .orderBy(new FieldPath('serverEvent', 'start'))
       .get();
+
   // from that get open time blocks
   const timeBlocks = [];
   for (const doc of endeavorBlocksQuery.docs) {
     const docData = doc.data();
 
     // if block has already started, chop off what has already passed
-    const endeavorBlockStart = docData["start"].toDate();
+    const endeavorBlockStart = docData["serverEvent"]["start"].toDate();
     if (endeavorBlockStart < now) {
-      docData["start"]["_seconds"] += Math.floor((now - endeavorBlockStart) / 1000);
+      docData["serverEvent"]["start"]["_seconds"] += Math.floor((now - endeavorBlockStart) / 1000);
     }
 
     // add it to timeBlocks
     timeBlocks.push({
-      start: docData["start"],
-      end: docData["end"],
-      duration: docData["end"] - docData["start"],
+      start: docData["serverEvent"]["start"],
+      end: docData["serverEvent"]["end"],
+      duration: docData["serverEvent"]["end"] - docData["serverEvent"]["start"],
     });
   }
-
+ 
   // grab all tasks that can be scheduled in order
   const tasksQuery = await firestore
       .collection(`users/${userId}/tasks`)
@@ -66,7 +67,6 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
     }
   }
 
-
   // grab endeavor doc to order the tasks
   const endeavorDocSnap = await firestore
       .collection(`users/${userId}/endeavors`)
@@ -78,7 +78,6 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   tasks.sort(function(a, b) {
     return endeavorData["taskIds"].indexOf(a["id"]) - endeavorData["taskIds"].indexOf(b["id"]);
   });
-
 
   // scheduling loop
   let taskIndex = 0;

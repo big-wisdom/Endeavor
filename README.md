@@ -70,7 +70,7 @@ Back End: Firebase
 * Make sure I can create repeating calendar events DONE
 * Make sure I can edit calendar events DONE
 * make sure I can delete calendar events DONE
-* Make sure that tasks show up 
-* Make sure that auto scheduling works
+* Tasks DONE
+* Make sure that auto scheduling works DONE
 * Get it on test flight
   * create review test account

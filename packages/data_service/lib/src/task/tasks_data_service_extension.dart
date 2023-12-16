@@ -42,24 +42,12 @@ extension TasksDataServiceExtension on DataService {
 
     // Delete task from endeavor list if necessary
     if (taskReference.endeavorId != null) {
-      FirebaseFirestore.instance.runTransaction(
-        (t) async {
-          // get endeavor document
-          final endeavorDoc = await t.get(DataService.userDataDoc
-              .collection('endeavors')
-              .doc(taskReference.endeavorId));
-          // get current list
-          final currentList = (endeavorDoc.data()!['taskIds'] as List)
-              .map((taskId) => taskId as String)
-              .toList(); // doc should have data
-
-          // remove this tasks id from the list
-          currentList.remove(taskReference.id);
-
-          // update the list
-          t.update(endeavorDoc.reference, {"taskIds": currentList});
-        },
-      );
+      DataService.userDataDoc
+          .collection('endeavors')
+          .doc(taskReference.endeavorId)
+          .update({
+        'taskIds': FieldValue.arrayRemove([taskReference.id])
+      });
     }
   }
 
