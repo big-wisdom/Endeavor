@@ -1,4 +1,5 @@
 import 'package:data_models/data_models.dart';
+import 'package:endeavor/endeavor_block_screen/view/this_and_following_dialogue.dart';
 import 'package:flutter/material.dart';
 
 import 'package:endeavor/widgets/one_time_event_picker_flutter_bloc/one_time_event_picker.dart';
@@ -161,7 +162,24 @@ class _SaveButton extends StatelessWidget {
     return BlocBuilder<EndeavorBlockScreenBloc, FormBlocState<String, String>>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state.isValid() ? bloc.submit : null,
+          onPressed: () {
+            if (!state.isValid()) {
+              return null;
+            }
+            if (bloc.editing && bloc.repeatingEndeavorBlockId != null) {
+              return () => showDialog(
+                    context: context,
+                    builder: (ctx) => ThisAndFollowingDialogue(
+                      onThisOnly: bloc.submit,
+                      onThisAndFollowing: bloc.onThisAndFollowing,
+                      action: "edit",
+                      type: "Endeavor Block",
+                    ),
+                  );
+            } else {
+              return bloc.submit;
+            }
+          }(),
           child: const Text("Save"),
         );
       },

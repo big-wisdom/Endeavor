@@ -38,4 +38,13 @@ extension AbstractRepeatingEndeavorBlockDataServiceExtension on DataService {
 
     batch.commit();
   }
+
+  static void editThisAndFollowingEndeavorBlocks({
+    required String endeavorBlockId,
+    required String repeatingEndeavorBlockId,
+  }) {
+    print(
+      "endeavorBlockId: $endeavorBlockId, repeatingEndeavorBlockId: $repeatingEndeavorBlockId",
+    );
+  }
 }
