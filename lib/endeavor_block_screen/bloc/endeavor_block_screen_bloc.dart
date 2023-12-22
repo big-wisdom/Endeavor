@@ -11,6 +11,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
   final String? endeavorBlockId;
+  final String? repeatingEndeavorBlockId;
 
   EndeavorBlockScreenBloc.create()
       : endeavorReference =
@@ -21,7 +22,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         repeatingEvent =
             InputFieldBloc<RepeatingEvent?, String>(initialValue: null),
         editing = false,
-        endeavorBlockId = null {
+        endeavorBlockId = null,
+        repeatingEndeavorBlockId = null {
     repeating.onValueChanges(onData: ((previous, current) async* {
       if (current.value) {
         addFieldBlocs(fieldBlocs: [repeatingEvent]);
@@ -48,7 +50,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         repeating = BooleanFieldBloc(initialValue: false),
         repeatingEvent = InputFieldBloc(initialValue: null),
         editing = true,
-        endeavorBlockId = endeavorBlock.id {
+        endeavorBlockId = endeavorBlock.id,
+        repeatingEndeavorBlockId = endeavorBlock.repeatingEndeavorBlockId {
     endeavorReference.addValidators([endeavorReferenceValidator()]);
     event.addValidators([eventValidator()]);
     repeatingEvent.addValidators([repeatingEventValidator()]);
@@ -73,6 +76,14 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     return super.close();
   }
 
+  void onThisAndFollowing() {
+    AbstractRepeatingEndeavorBlockDataServiceExtension
+        .editThisAndFollowingEndeavorBlocks(
+      endeavorBlockId: endeavorBlockId!,
+      repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
+    );
+  }
+
   @override
   FutureOr<void> onSubmitting() {
     if (state.isValid()) {
@@ -91,6 +102,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
               id: endeavorBlockId!,
               event: event.value!,
               endeavorReference: endeavorReference.value!,
+              repeatingEndeavorBlockId: repeatingEndeavorBlockId,
             ),
           );
         } else {

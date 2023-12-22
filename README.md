@@ -67,12 +67,10 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Make sure I can create repeating calendar events DONE
-* Make sure I can edit calendar events DONE
-* make sure I can delete calendar events DONE
-* Tasks DONE
-* Make sure that auto scheduling works DONE
-* Get it on test flight
-  * launch the functions DONE
-  * run the app on my own phone off the emulators 
-  * create review test account
+I just got the first version onto test flight! Woo hoo! Feels like a huge milestone.
+
+Fixes before next deploy:
+* Repeating (EndeavorBlock / CalendarEvent) (edit / delete)
+  * Starting with edit endeavor block
+    * I created a dialogue to show the options
+    * I built the function to editThisAndFollowing endeavorBlocks, now I just need to implement it
