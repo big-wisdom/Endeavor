@@ -22,8 +22,10 @@ extension FirestoreServerTaskExtension on ServerTask {
         duration: durationData != null ? Duration(minutes: durationData) : null,
         dueDate: docSnapData[ServerTaskDatabaseFields.dueDate.string()],
         divisible: docSnapData[ServerTaskDatabaseFields.divisible.string()],
-        events: FirestoreServerEventExtension.listFromDocSnapData(
-            docSnapData[ServerTaskDatabaseFields.events.string()]),
+        events: docSnapData[ServerTaskDatabaseFields.events.string()] != null
+            ? FirestoreServerEventExtension.listFromDocSnapData(
+                docSnapData[ServerTaskDatabaseFields.events.string()])
+            : [],
         minnimumSchedulingDuration: minnimumDurationData != null
             ? Duration(minutes: minnimumDurationData)
             : null,
