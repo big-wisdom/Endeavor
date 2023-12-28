@@ -98,23 +98,25 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
 
   @override
   FutureOr<void> onSubmitting() {
+    // if editing
     if (state.isValid()) {
-      if (state.contains(repeatingEvent)) {
-        AbstractRepeatingEndeavorBlockDataServiceExtension
-            .createRepeatingEndeavorBlock(
-          UnidentifiedRepeatingEndeavorBlock(
+      if (editing) {
+        // if you've gotten here, then you don't want to update repeating
+        ServerEndeavorBlockDataServiceExtension.updateEndeavorBlock(
+          EndeavorBlock(
+            id: endeavorBlockId!,
+            event: event.value!,
             endeavorReference: endeavorReference.value!,
-            repeatingEvent: repeatingEvent.value!,
+            repeatingEndeavorBlockId: repeatingEndeavorBlockId,
           ),
         );
       } else {
-        if (editing) {
-          ServerEndeavorBlockDataServiceExtension.updateEndeavorBlock(
-            EndeavorBlock(
-              id: endeavorBlockId!,
-              event: event.value!,
+        if (state.contains(repeatingEvent)) {
+          AbstractRepeatingEndeavorBlockDataServiceExtension
+              .createRepeatingEndeavorBlock(
+            UnidentifiedRepeatingEndeavorBlock(
               endeavorReference: endeavorReference.value!,
-              repeatingEndeavorBlockId: repeatingEndeavorBlockId,
+              repeatingEvent: repeatingEvent.value!,
             ),
           );
         } else {
@@ -127,6 +129,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
           );
         }
       }
+
       emitSuccess();
     }
   }
