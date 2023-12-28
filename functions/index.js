@@ -1,11 +1,11 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable max-len */
-const {initializeApp} = require("firebase-admin/app");
-const {getFirestore, FieldPath, Timestamp} = require("firebase-admin/firestore");
+import {initializeApp} from "firebase-admin/app";
+import {getFirestore, FieldPath} from "firebase-admin/firestore";
 initializeApp({projectId: "endeavor-75fc7"});
 const firestore = getFirestore();
 
-const functions = require("firebase-functions");
+import * as functions from "firebase-functions";
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -14,7 +14,7 @@ const functions = require("firebase-functions");
 //   response.send("Hello from Firebase!");
 // });
 
-exports.planEndeavor = functions.https.onCall(async (data, context) => {
+export const planEndeavor = functions.https.onCall(async (data, context) => {
   const endeavorId = data["endeavorId"];
   const userId = data["userId"];
 
@@ -143,7 +143,7 @@ exports.planEndeavor = functions.https.onCall(async (data, context) => {
   batch.commit();
 });
 
-exports.deleteThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
+export const deleteThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingCalendarEventSnaps(data["userId"], data["repeatingCalendarEventId"], data["selectedCalendarEventId"]);
 
   // delete them
@@ -152,27 +152,27 @@ exports.deleteThisAndFollowingCalendarEvents = functions.https.onCall(async (dat
   await batch.commit();
 });
 
-exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
+export const editThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingCalendarEventSnaps(
-                              data["userId"], 
-                              data["data"]["repeatingCalendarEventId"], 
-                              data["selectedCalendarEventId"]
-                            );
+      data["userId"],
+      data["data"]["repeatingCalendarEventId"],
+      data["selectedCalendarEventId"],
+  );
 
   const batch = firestore.batch();
   docSnapList.forEach((docSnap) => {
     const docData = docSnap.data();
     const updatedEvent = updateEventTimeOnly(
-      {
-        'start': docData.start,
-        'end': docData.end
-      },
-      {
-        'start': data['data']['start'],
-        'end': data['data']['end']
-      }
+        {
+          "start": docData.start,
+          "end": docData.end,
+        },
+        {
+          "start": data["data"]["start"],
+          "end": data["data"]["end"],
+        },
     );
-        
+
     // copy the CalendarEvent
     const copyOfEditedCalendarEvent = Object.assign({}, data["data"]);
 
@@ -182,12 +182,11 @@ exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data,
 
     // update the doc
     batch.update(docSnap.ref, copyOfEditedCalendarEvent);
-
   });
   batch.commit();
 });
 
-exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
+export const deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingEndeavorBlockSnaps(data["userId"], data["repeatingEndeavorBlockId"], data["selectedEndeavorBlockId"]);
 
   // delete them
@@ -196,13 +195,13 @@ exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (dat
   await batch.commit();
 });
 
-exports.editThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
+export const editThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
   const docSnapList = await getThisAndFollowingEndeavorBlockSnaps(data["userId"], data["repeatingEndeavorBlockId"], data["selectedEndeavorBlockId"]);
-  
-  const batch = firestore.batch(); 
+
+  const batch = firestore.batch();
   docSnapList.forEach((docSnap) => {
-    const updatedEvent = updateEventTimeOnly(docSnap.data()['serverEvent'], data["unidentifiedEndeavorBlock"].serverEvent);
-    
+    const updatedEvent = updateEventTimeOnly(docSnap.data()["serverEvent"], data["unidentifiedEndeavorBlock"].serverEvent);
+
     // copy the UnidentifiedEndeavorBlock
     const copyOfEditedEndeavorBlock = Object.assign({}, data["unidentifiedEndeavorBlock"]);
 
@@ -215,6 +214,12 @@ exports.editThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data,
   await batch.commit();
 });
 
+/**
+ * returns a serverEvent object that has the date of that docDataEvent and the time of the editedEvent
+ * @param {Object} docDataEvent a serverEvent object with Timestamp objects for start and end
+ * @param {Object} editedEvent an object with start and end ints that are milliseconds since epoch
+ * @return {Object} start and end Date objects
+ */
 function updateEventTimeOnly(docDataEvent, editedEvent) {
   // create date object from each
   const [docDataEventStart, docDataEventEnd] = Object.values(docDataEvent).map((property) => property.toDate());
@@ -223,15 +228,15 @@ function updateEventTimeOnly(docDataEvent, editedEvent) {
   // Update start time
   docDataEventStart.setHours(editedEventStart.getHours());
   docDataEventStart.setMinutes(editedEventStart.getMinutes());
-  
+
   // Update end time
   docDataEventEnd.setHours(editedEventEnd.getHours());
   docDataEventEnd.setMinutes(editedEventEnd.getMinutes());
 
   return {
     "start": docDataEventStart,
-    "end": docDataEventEnd
-  }
+    "end": docDataEventEnd,
+  };
 }
 
 /**
@@ -277,7 +282,7 @@ async function getThisAndFollowingEndeavorBlockSnaps(userId, repeatingEndeavorBl
       .doc(`users/${userId}/repeatingEndeavorBlocks/${repeatingEndeavorBlockId}`).get();
   const repeatingEndeavorBlockData = repeatingEndeavorBlockDocSnap.data();
   try {
-    console.log('selectedEndeavorBlockId:', selectedEndeavorBlockId);
+    console.log("selectedEndeavorBlockId:", selectedEndeavorBlockId);
 
     const selectedEndeavorBlockDocSnap = await firestore.doc(`users/${userId}/endeavorBlocks/${selectedEndeavorBlockId}`).get();
     const selectedEndeavorBlockData = selectedEndeavorBlockDocSnap.data();
@@ -296,7 +301,7 @@ async function getThisAndFollowingEndeavorBlockSnaps(userId, repeatingEndeavorBl
   }
 }
 
-exports.endeavorDeleted = functions.firestore
+export const endeavorDeleted = functions.firestore
 // TODO: When an endeavor is deleted, references to it need to be deleted
 // this could be in the user doc if it's a primary endeavor
 // this could be in it's parent or children
@@ -348,7 +353,7 @@ exports.endeavorDeleted = functions.firestore
       return 0;
     });
 
-exports.endeavorBlockDeleted = functions.firestore
+export const endeavorBlockDeleted = functions.firestore
     .document("users/{userId}/endeavorBlocks/{endeavorBlockId}")
     .onDelete(async (snapshot, context) => {
       // if it is part of a repeating endeavor, remove it
@@ -381,7 +386,7 @@ exports.endeavorBlockDeleted = functions.firestore
       }
     });
 
-exports.repeatingEndeavorUpdated = functions.firestore
+export const repeatingEndeavorUpdated = functions.firestore
     .document("users/{userId}/repeatingEndeavorBlocks/{repeatingEndeavorBlockId}")
     .onUpdate((change, context) => {
       // if repeatingEndeavorBlock is now empty, remove it
