@@ -153,40 +153,38 @@ exports.deleteThisAndFollowingCalendarEvents = functions.https.onCall(async (dat
 });
 
 exports.editThisAndFollowingCalendarEvents = functions.https.onCall(async (data, context) => {
-  const docSnapList = await getThisAndFollowingCalendarEventSnaps(data["userId"], data["repeatingCalendarEventId"], data["selectedCalendarEventId"]);
-  // turn milliseconds back into a date object before passing it to firestore
-  const startAsDate = new Date(0);
-  const endAsDate = new Date(0);
-  startAsDate.setTime(data.data.start);
-  endAsDate.setTime(data.data.end);
-  data.data.start = startAsDate;
-  data.data.end = endAsDate;
+  const docSnapList = await getThisAndFollowingCalendarEventSnaps(
+                              data["userId"], 
+                              data["data"]["repeatingCalendarEventId"], 
+                              data["selectedCalendarEventId"]
+                            );
 
-  // edit them according to changes made
   const batch = firestore.batch();
   docSnapList.forEach((docSnap) => {
-    // We want to make sure that time changes don't shift date, only time
-    // copy incoming data
-    const copyOfIncomingData = Object.assign({}, data.data);
-    // get current start and end
-    const currentData = docSnap.data();
-    // adjust current hours and minutes to incoming hours and minutes
-    const currentStart = new Date(0);
-    const currentEnd = new Date(0);
-    currentStart.setTime(currentData["start"]["_seconds"] * 1000);
-    currentEnd.setTime(currentData["end"]["_seconds"] * 1000);
-    currentStart.setHours(copyOfIncomingData["start"].getHours());
-    currentEnd.setHours(copyOfIncomingData["end"].getHours());
-    currentStart.setMinutes(copyOfIncomingData["start"].getMinutes());
-    currentEnd.setMinutes(copyOfIncomingData["end"].getMinutes());
-    // set copy of incoming to that value
-    copyOfIncomingData["start"] = currentStart;
-    copyOfIncomingData["end"] = currentEnd;
+    const docData = docSnap.data();
+    const updatedEvent = updateEventTimeOnly(
+      {
+        'start': docData.start,
+        'end': docData.end
+      },
+      {
+        'start': data['data']['start'],
+        'end': data['data']['end']
+      }
+    );
+        
+    // copy the CalendarEvent
+    const copyOfEditedCalendarEvent = Object.assign({}, data["data"]);
 
-    // update with adjusted data
-    batch.update(docSnap.ref, copyOfIncomingData);
+    // replace the event with the updated one
+    copyOfEditedCalendarEvent.start = updatedEvent.start;
+    copyOfEditedCalendarEvent.end = updatedEvent.end;
+
+    // update the doc
+    batch.update(docSnap.ref, copyOfEditedCalendarEvent);
+
   });
-  await batch.commit();
+  batch.commit();
 });
 
 exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
@@ -247,9 +245,11 @@ async function getThisAndFollowingCalendarEventSnaps(userId, repeatingCalendarEv
   const repeatingCalendarEventDocSnap = await firestore
       .doc(`users/${userId}/repeatingCalendarEvents/${repeatingCalendarEventId}`).get();
   const repeatingCalendarEventData = repeatingCalendarEventDocSnap.data();
+  console.log("repeatingCalendarEventId: ", repeatingCalendarEventId, "selectedCalendarEventId: ", selectedCalendarEventId);
   try {
     const selectedCalendarEventDocSnap = await firestore.doc(`users/${userId}/calendarEvents/${selectedCalendarEventId}`).get();
     const selectedCalendarEventData = selectedCalendarEventDocSnap.data();
+    console.log("selectedCalendarEventData: ", selectedCalendarEventData);
     const selectedStart = selectedCalendarEventData["start"];
     const calendarEventsQuerySnapshot = await firestore
         .collection(`users/${userId}/calendarEvents`)

@@ -65,6 +65,27 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
     emitDeleteSuccessful();
   }
 
+  void onDeleteThisAndFollowing() {
+    RepeatingCalendarEventDataServiceExtension
+        .deleteThisAndFollowingCalendarEvents(
+      repeatingCalendarEventId: initialRepeatingCalendarEventId!,
+      selectedCalendarEventId: calendarEventId!,
+    );
+  }
+
+  void onEditThisAndFollowing() {
+    RepeatingCalendarEventDataServiceExtension
+        .editThisAndFollowingCalendarEvent(
+      calendarEvent: CalendarEvent(
+        id: calendarEventId!,
+        title: title.value,
+        event: event.value!,
+        repeatingCalendarEventId: initialRepeatingCalendarEventId!,
+        endeavorReference: endeavorReference.value,
+      ),
+    );
+  }
+
   @override
   FutureOr<void> onSubmitting() {
     if (editing) {

@@ -10,4 +10,14 @@ extension CalendarEventFirestoreExtension on AbstractSingleCalendarEvent {
       "end": event.end,
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "endeavorId": endeavorReference?.id,
+      "repeatingCalendarEventId": repeatingCalendarEventId,
+      "start": event.start.millisecondsSinceEpoch,
+      "end": event.end.millisecondsSinceEpoch,
+    };
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 
@@ -32,5 +33,31 @@ extension RepeatingCalendarEventDataServiceExtension on DataService {
     });
 
     batch.commit();
+  }
+
+  static editThisAndFollowingCalendarEvent({
+    required CalendarEvent calendarEvent,
+  }) async {
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      'editThisAndFollowingCalendarEvents',
+    );
+    await callable.call({
+      'userId': DataService.userDataDoc.id,
+      'selectedCalendarEventId': calendarEvent.id,
+      'data': calendarEvent.toJson(),
+    });
+  }
+
+  static deleteThisAndFollowingCalendarEvents({
+    required String repeatingCalendarEventId,
+    required String selectedCalendarEventId,
+  }) async {
+    HttpsCallable callable = FirebaseFunctions.instance
+        .httpsCallable('deleteThisAndFollowingCalendarEvents');
+    await callable.call({
+      'userId': DataService.userDataDoc.id,
+      'repeatingCalendarEventId': repeatingCalendarEventId,
+      'selectedCalendarEventId': selectedCalendarEventId,
+    });
   }
 }
