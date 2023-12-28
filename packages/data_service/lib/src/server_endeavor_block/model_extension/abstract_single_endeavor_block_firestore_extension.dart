@@ -11,4 +11,13 @@ extension AbstractSingleEndeavorBlockFirestoreExtension
       ServerEndeavorBlockDataFields.serverEvent.string(): event.toDocData(),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      ServerEndeavorBlockDataFields.endeavorId.string(): endeavorReference.id,
+      ServerEndeavorBlockDataFields.repeatingEndeavorBlockId.string():
+          repeatingEndeavorBlockId,
+      ServerEndeavorBlockDataFields.serverEvent.string(): event.toJson(),
+    };
+  }
 }
