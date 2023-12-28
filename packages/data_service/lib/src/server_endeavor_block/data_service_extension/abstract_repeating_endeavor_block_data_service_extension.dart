@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 import 'package:data_service/src/server_endeavor_block/model_extension/server_repeating_endeavor_block_database_fields.dart';
@@ -42,9 +45,31 @@ extension AbstractRepeatingEndeavorBlockDataServiceExtension on DataService {
   static void editThisAndFollowingEndeavorBlocks({
     required String endeavorBlockId,
     required String repeatingEndeavorBlockId,
-  }) {
-    print(
-      "endeavorBlockId: $endeavorBlockId, repeatingEndeavorBlockId: $repeatingEndeavorBlockId",
+    required UnidentifiedEndeavorBlock unidentifiedEndeavorBlock,
+  }) async {
+    // call firebase cloud function
+    HttpsCallable callable = FirebaseFunctions.instance
+        .httpsCallable('editThisAndFollowingEndeavorBlocks');
+    await callable.call(
+      {
+        'userId': DataService.userDataDoc.id,
+        'selectedEndeavorBlockId': endeavorBlockId,
+        'repeatingEndeavorBlockId': repeatingEndeavorBlockId,
+        'unidentifiedEndeavorBlock': unidentifiedEndeavorBlock.toJson(),
+      },
     );
+  }
+
+  static void deleteThisAndFollowing({
+    required String endeavorBlockId,
+    required String repeatingEndeavorBlockId,
+  }) async {
+    HttpsCallable callable = FirebaseFunctions.instance
+        .httpsCallable('deleteThisAndFollowingEndeavorBlocks');
+    await callable.call({
+      'userId': DataService.userDataDoc.id,
+      'selectedEndeavorBlockId': endeavorBlockId,
+      'repeatingEndeavorBlockId': repeatingEndeavorBlockId,
+    });
   }
 }

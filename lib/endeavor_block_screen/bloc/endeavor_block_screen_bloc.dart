@@ -69,6 +69,13 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     emitDeleteSuccessful();
   }
 
+  void onDeleteThisAndFollowing() {
+    AbstractRepeatingEndeavorBlockDataServiceExtension.deleteThisAndFollowing(
+      endeavorBlockId: endeavorBlockId!,
+      repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
+    );
+  }
+
   @override
   Future<void> close() {
     repeatingEvent.close();
@@ -81,6 +88,11 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         .editThisAndFollowingEndeavorBlocks(
       endeavorBlockId: endeavorBlockId!,
       repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
+      unidentifiedEndeavorBlock: UnidentifiedEndeavorBlock(
+        event: event.value!,
+        endeavorReference: endeavorReference.value!,
+        repeatingEndeavorBlockId: repeatingEndeavorBlockId,
+      ),
     );
   }
 

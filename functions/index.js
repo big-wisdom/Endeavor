@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable max-len */
 const {initializeApp} = require("firebase-admin/app");
-const {getFirestore, FieldPath} = require("firebase-admin/firestore");
+const {getFirestore, FieldPath, Timestamp} = require("firebase-admin/firestore");
 initializeApp({projectId: "endeavor-75fc7"});
 const firestore = getFirestore();
 
@@ -198,6 +198,44 @@ exports.deleteThisAndFollowingEndeavorBlocks = functions.https.onCall(async (dat
   await batch.commit();
 });
 
+exports.editThisAndFollowingEndeavorBlocks = functions.https.onCall(async (data, context) => {
+  const docSnapList = await getThisAndFollowingEndeavorBlockSnaps(data["userId"], data["repeatingEndeavorBlockId"], data["selectedEndeavorBlockId"]);
+  
+  const batch = firestore.batch(); 
+  docSnapList.forEach((docSnap) => {
+    const updatedEvent = updateEventTimeOnly(docSnap.data()['serverEvent'], data["unidentifiedEndeavorBlock"].serverEvent);
+    
+    // copy the UnidentifiedEndeavorBlock
+    const copyOfEditedEndeavorBlock = Object.assign({}, data["unidentifiedEndeavorBlock"]);
+
+    // replace the event with the updated one
+    copyOfEditedEndeavorBlock.serverEvent = updatedEvent;
+
+    // update the doc
+    batch.update(docSnap.ref, copyOfEditedEndeavorBlock);
+  });
+  await batch.commit();
+});
+
+function updateEventTimeOnly(docDataEvent, editedEvent) {
+  // create date object from each
+  const [docDataEventStart, docDataEventEnd] = Object.values(docDataEvent).map((property) => property.toDate());
+  const [editedEventStart, editedEventEnd] = Object.values(editedEvent).map((property) => new Date(property));
+
+  // Update start time
+  docDataEventStart.setHours(editedEventStart.getHours());
+  docDataEventStart.setMinutes(editedEventStart.getMinutes());
+  
+  // Update end time
+  docDataEventEnd.setHours(editedEventEnd.getHours());
+  docDataEventEnd.setMinutes(editedEventEnd.getMinutes());
+
+  return {
+    "start": docDataEventStart,
+    "end": docDataEventEnd
+  }
+}
+
 /**
  * gets the selected and following calendar event document snapshots
  * @param {string} userId the current user's id
@@ -239,17 +277,19 @@ async function getThisAndFollowingEndeavorBlockSnaps(userId, repeatingEndeavorBl
       .doc(`users/${userId}/repeatingEndeavorBlocks/${repeatingEndeavorBlockId}`).get();
   const repeatingEndeavorBlockData = repeatingEndeavorBlockDocSnap.data();
   try {
+    console.log('selectedEndeavorBlockId:', selectedEndeavorBlockId);
+
     const selectedEndeavorBlockDocSnap = await firestore.doc(`users/${userId}/endeavorBlocks/${selectedEndeavorBlockId}`).get();
     const selectedEndeavorBlockData = selectedEndeavorBlockDocSnap.data();
-    const selectedStart = selectedEndeavorBlockData["start"];
+    const selectedStart = selectedEndeavorBlockData["serverEvent"]["start"];
     const endeavorBlocksQuerySnapshot = await firestore
         .collection(`users/${userId}/endeavorBlocks`)
         .where(FieldPath.documentId(), "in", repeatingEndeavorBlockData["endeavorBlockIds"])
         .get();
     // I'm going to have to sort and filter them without the help of firestore due to indexing
     const docs = endeavorBlocksQuerySnapshot.docs;
-    docs.sort((a, b) => a.data().start - b.data().start);
-    const filteredDocs = docs.filter((doc) => doc.data().start >= selectedStart);
+    docs.sort((a, b) => a.data().serverEvent.start - b.data().serverEvent.start);
+    const filteredDocs = docs.filter((doc) => doc.data().serverEvent.start >= selectedStart);
     return filteredDocs;
   } catch (error) {
     console.error(`Error getting repeating endeavor blocks: ${error}`);

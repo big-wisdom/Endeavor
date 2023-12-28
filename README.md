@@ -71,7 +71,6 @@ I just got the first version onto test flight! Woo hoo! Feels like a huge milest
 
 Fixes before next deploy:
 * Something has happened, and I need to run an emulator to figure out what's going on
-* Repeating (EndeavorBlock / CalendarEvent) (edit / delete)
-  * Starting with edit endeavor block
-    * I created a dialogue to show the options
-    * I built the function to editThisAndFollowing endeavorBlocks, now I just need to implement it.
+* RepeatingEndeavorBlock edit DONE
+* How about delete RepeatingEndeavorBlock DONE
+* Repeating CalendarEvent (edit / delete)

@@ -30,22 +30,24 @@ class EndeavorBlockScreenView extends StatelessWidget {
               Navigator.of(context).pop();
             },
             onDeleteSuccessful: (_, __) => Navigator.of(context).pop(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _EndeavorPickerRow(bloc),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _EndeavorPickerRow(bloc),
 
-                _RepeatingCheckbox(bloc),
+                  _RepeatingCheckbox(bloc),
 
-                _OneTimeEventPicker(bloc),
+                  _OneTimeEventPicker(bloc),
 
-                _RepeatingEventPicker(bloc),
+                  _RepeatingEventPicker(bloc),
 
-                _SaveButton(bloc),
+                  _SaveButton(bloc),
 
-                // delete button
-                if (bloc.editing) _DeleteButton(bloc),
-              ],
+                  // delete button
+                  if (bloc.editing) _DeleteButton(bloc),
+                ],
+              ),
             ),
           ),
         ),
@@ -196,7 +198,21 @@ class _DeleteButton extends StatelessWidget {
       style: const ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.red),
       ),
-      onPressed: bloc.delete,
+      onPressed: () {
+        if (bloc.repeatingEndeavorBlockId != null) {
+          return () => showDialog(
+                context: context,
+                builder: (ctx) => ThisAndFollowingDialogue(
+                  onThisOnly: bloc.submit,
+                  onThisAndFollowing: bloc.onDeleteThisAndFollowing,
+                  action: "delete",
+                  type: "Endeavor Block",
+                ),
+              );
+        } else {
+          return bloc.delete;
+        }
+      }(),
       child: const Text("Delete"),
     );
   }
