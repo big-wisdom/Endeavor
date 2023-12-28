@@ -1,5 +1,6 @@
 import 'package:data_models/data_models.dart';
 import 'package:endeavor/calendar_event_screen/calendar_event_screen.dart';
+import 'package:endeavor/endeavor_block_screen/view/this_and_following_dialogue.dart';
 import 'package:endeavor/widgets/endeavor_picker_row_flutter_form.dart';
 import 'package:endeavor/widgets/one_time_event_picker_flutter_bloc/one_time_event_picker.dart';
 import 'package:endeavor/widgets/repeating_event_picker/widget/repeating_event_picker.dart';
@@ -147,7 +148,22 @@ class _SaveButton extends StatelessWidget {
     return BlocBuilder<CalendarEventScreenBloc, FormBlocState<String, String>>(
       builder: (context, state) {
         return ElevatedButton(
-          onPressed: state.isValid() ? bloc.submit : null,
+          onPressed: () {
+            if (!state.isValid()) {
+              return null;
+            } else if (bloc.initialRepeatingCalendarEventId != null) {
+              return () => showDialog(
+                    context: context,
+                    builder: (ctx) => ThisAndFollowingDialogue(
+                      onThisOnly: bloc.submit,
+                      onThisAndFollowing: bloc.onEditThisAndFollowing,
+                      action: "edit",
+                      type: "Calendar Event",
+                    ),
+                  );
+            }
+            return bloc.submit;
+          }(),
           child: const Text("Save"),
         );
       },
@@ -164,7 +180,20 @@ class _DeleteButton extends StatelessWidget {
       style: const ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.red),
       ),
-      onPressed: bloc.delete,
+      onPressed: () {
+        if (bloc.initialRepeatingCalendarEventId != null) {
+          return () => showDialog(
+                context: context,
+                builder: (ctx) => ThisAndFollowingDialogue(
+                  onThisOnly: bloc.submit,
+                  onThisAndFollowing: bloc.onDeleteThisAndFollowing,
+                  action: "delete",
+                  type: "Calendar Event",
+                ),
+              );
+        }
+        return bloc.delete;
+      }(),
       child: const Text("Delete"),
     );
   }

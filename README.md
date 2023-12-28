@@ -73,4 +73,4 @@ Fixes before next deploy:
 * Something has happened, and I need to run an emulator to figure out what's going on
 * RepeatingEndeavorBlock edit DONE
 * How about delete RepeatingEndeavorBlock DONE
-* Repeating CalendarEvent (edit / delete)
+* Repeating CalendarEvent (edit / delete) DONE
