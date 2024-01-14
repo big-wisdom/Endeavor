@@ -19,10 +19,18 @@ class EditEndeavorScreenView extends StatelessWidget {
               if (state is! LoadingEditEndeavorScreenState)
                 IconButton(
                   onPressed: () {
+                    final bloc = context.read<EditEndeavorScreenBloc>();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return const EndeavorSettingsScreenView();
+                          return EndeavorSettingsScreenView(
+                            selectedColor:
+                                (state as LoadedEditEndeavorScreenState)
+                                        .color ??
+                                    Theme.of(context).primaryColor,
+                            onChanged: (Color newColor) =>
+                                bloc.add(ColorChanged(newColor)),
+                          );
                         },
                       ),
                     );

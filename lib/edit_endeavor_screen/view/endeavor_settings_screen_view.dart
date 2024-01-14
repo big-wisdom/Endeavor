@@ -1,15 +1,28 @@
-import 'package:endeavor/edit_endeavor_screen/edit_endeavor_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-class EndeavorSettingsScreenView extends StatelessWidget {
-  const EndeavorSettingsScreenView({super.key});
+class EndeavorSettingsScreenView extends StatefulWidget {
+  final Color selectedColor;
+  final void Function(Color) onChanged;
+  const EndeavorSettingsScreenView(
+      {super.key, required this.onChanged, required this.selectedColor});
+
+  @override
+  State<EndeavorSettingsScreenView> createState() =>
+      _EndeavorSettingsScreenViewState();
+}
+
+class _EndeavorSettingsScreenViewState
+    extends State<EndeavorSettingsScreenView> {
+  late Color selectedColor;
+  @override
+  void initState() {
+    selectedColor = widget.selectedColor;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<EditEndeavorScreenBloc>().state
-        as LoadedEditEndeavorScreenState;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -25,11 +38,11 @@ class EndeavorSettingsScreenView extends StatelessWidget {
                 TextButton(
                   child: const Text("Choose Color"),
                   onPressed: () {
-                    launchColorPicker(context, state.color);
+                    launchColorPicker(context, selectedColor);
                   },
                 ),
                 Container(
-                  color: state.color,
+                  color: selectedColor,
                   width: 100,
                   height: 30,
                 )
@@ -45,21 +58,24 @@ class EndeavorSettingsScreenView extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
+        Color selectedColor = color ?? Theme.of(context).primaryColor;
         // create some values
         return AlertDialog(
           title: const Text('Pick a color!'),
           content: SingleChildScrollView(
             child: ColorPicker(
-              pickerColor: color ?? Theme.of(context).primaryColor,
-              onColorChanged: (newColor) => context
-                  .read<EditEndeavorScreenBloc>()
-                  .add(ColorChanged(newColor)),
+              pickerColor: selectedColor,
+              onColorChanged: (newColor) => selectedColor = newColor,
             ),
           ),
           actions: <Widget>[
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
+                setState(() {
+                  this.selectedColor = selectedColor;
+                });
+                widget.onChanged(selectedColor);
                 Navigator.of(context).pop();
               },
             ),

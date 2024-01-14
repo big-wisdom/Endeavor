@@ -36,6 +36,8 @@ class WeekScreenView extends StatelessWidget {
               events: state.events
                   .map(
                     (e) => FlutterWeekViewEvent(
+                      backgroundColor:
+                          e.backgroundColor ?? Theme.of(context).primaryColor,
                       title: e.title,
                       description: '',
                       start: e.start,
