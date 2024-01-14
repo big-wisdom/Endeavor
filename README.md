@@ -29,6 +29,9 @@ Back End: Firebase
 
 ### Philosophy
 1. __Objects should be what they're called__. This comes from the annoyance that I've encountered when objects have all nullable or overly abstract data fields. But let me explain. The whole advantage of object oriented programming is that you know what an object is when you get it. For example, say I'm designing the Task object. Any reasonable person would expect that a Task should have a description and should be able to be completed-- two fields. But now you want to make Tasks schedulable. Do you want to make ALL tasks schedulable? If so, add another non-nullable field and carry on; you're not the droids I'm looking for. I suddenly grow weary of writting this. I'll come back to it.
+
+3. Internal technology should be designed as if it were external. When it's not, it's refered to as developer friction, poor maintainability, poor extensibility. This means that internal objects should have small, and tautalogical API surfaces, following principles of not making the user think. One good example an updateEndeavor object in the dataService. Ideally, this could replace the updateColor, addSubEndeavor, removeSubEndeavor, removeTask, etc. This could mean that there is increased load on the update method though. For instance, if the developer updated the endeavor by removing a subEndeavorId, the updateMethod could also handle calling the deleteEndeavor method hidden from the developer, which in turn handles deleting any tasks, events, and endeavorBlocks associated with that endeavor. This could violate the principle of single use methods? But it could replace its usefulness with something more like increased # of packages with clearly defined responsibilities and intuitive API surfaces.
+
 2. A form input widget should not be represented by one of your models. The model is an already intact idea, and forms, by definition, are an idea under construction. Therefore, there should be a form representation. The form representation can track several form input representations, then only instantiate a model once validation has taken place. 
   * This is an abstract instantiation of philosophy number 1, like when you extend an abstract class with another abstract class.
   * The Formz library handles all this pretty well, I guess I'm just realizing the reason for the philosophy behind it. I bumped into it while trying to make a save button that only enables when all inputs are ready, but the event input was being represented by an Event, meaning that it couldn't emit an event till it was valid, and the save button would never disable.
@@ -65,12 +68,10 @@ Back End: Firebase
 * I might want to create an endeavorlessTask
 * ServerEvent and Event are really the same thing in two different packages
 
+## Open questions
+* Here is a snapshot from my endeavorBrain that feels like it could use some more general architectural thought.
+
 ## What I'm working on now
 
-I just got the first version onto test flight! Woo hoo! Feels like a huge milestone.
-
-Fixes before next deploy:
-* Something has happened, and I need to run an emulator to figure out what's going on
-* RepeatingEndeavorBlock edit DONE
-* How about delete RepeatingEndeavorBlock DONE
-* Repeating CalendarEvent (edit / delete) DONE
+* I need to finish up the color adjustment
+  * I created a serverEndeavorDataServiceExtension method to updateEndeavorColor which is working, but for some reason, it's not loading into the weekview properly

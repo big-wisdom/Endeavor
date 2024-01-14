@@ -115,7 +115,12 @@ class EditEndeavorScreenBloc
       },
     );
 
-    on<ColorChanged>((event, emit) => throw UnimplementedError());
+    on<ColorChanged>((event, emit) {
+      ServerEndeavorDataServiceExtension.updateEndeavorColor(
+        endeavorId: currentEndeavor.id,
+        color: event.newColor,
+      );
+    });
   }
 
   @override

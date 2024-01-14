@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -141,5 +142,14 @@ extension ServerEndeavorDataServiceExtension on DataService {
         .collection('endeavors')
         .doc(endeavorReference.id)
         .delete();
+  }
+
+  static void updateEndeavorColor({
+    required String endeavorId,
+    required Color color,
+  }) {
+    DataService.userDataDoc.collection('endeavors').doc(endeavorId).update({
+      ServerEndeavorDataFields.color.string(): color.value.toRadixString(16)
+    });
   }
 }
