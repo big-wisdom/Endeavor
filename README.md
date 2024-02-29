@@ -73,5 +73,30 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I need to finish up the color adjustment
-  * I created a serverEndeavorDataServiceExtension method to updateEndeavorColor which is working, but for some reason, it's not loading into the weekview properly
+* I got a backend service and database working, now I need to update the frontend to work with them. 
+
+The next thing that I need to do is take all the thoughts below and turn them into a plan.
+
+1. Create a shim with static aggregation
+2. fit the current data service into that API
+3. Add the piggy back write only http data service with cached queries
+  - Add the creators
+  - Add updaters
+  - Add deleters
+4. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
+5. Remove server data types, data repository, transformers, and old data service
+6. This is when I can finally get around to implementing the Schedule
+
+I'm thinking that I separated a data layer specifically so that I could hot swap it out, maybe now is when I see how well I did?
+
+So my thought is that my data service has crud methods (create, retrieve, update, and delete). I can do all of the same through [cached queries](https://pub.dev/packages/cached_query). The retrieve can expose a stream just the same, the create, update, and delete methods can just invalidate the query causing the streams to be updated.
+
+Updating a repeating calendar event could be tricky. But no matter what queries caches have to be invalidated, I'm sure I could, especially if the query keys can be nested.
+
+I'm wondering about package dependencies and types. Now would be a good time to simplify types now that I don't really need to track server types. I can also get rid of the data repository completely because all that does is denormalize I think? Also, I'm wondering if I can use this as a chance to do a mixin or something to differentiate between saved and unsaved or identified and unidentified data. I should also keep in mind optimistic updating for this; if I want to use optimistic updating, my widgets would need to be comfortable using identified or unidentified data.
+
+I'm wondering if it would be a good time to really tighten up the package dependency graph. Also, is there a way to specify API interfaces so that packages become hot swappable?
+
+I'm thinking that to initiate the swap, I can create a shim dataservice whose whole job is to split data between the old and the new. I'm wondering if I should try to do static aggregation rather than extension.
+
+I might even be able to get rid of some of that transformers as now my backend can translate between a normalized database and a denormalized app.
