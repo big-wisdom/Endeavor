@@ -18,8 +18,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8081);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
