@@ -1,0 +1,17 @@
+name: shim_data_service
+description: temporary package to assist in switching over the data service
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <=3.10.4'
+
+dependencies:
+  authentication_repository:
+    path: ../authentication_repository
+  data_models:
+    path: ../data_models
+  data_service:
+    path: ../data_service
+  server_data_models:
+    path: ../server_data_models
