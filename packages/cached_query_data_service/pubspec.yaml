@@ -1,0 +1,11 @@
+name: cached_query_data_service
+description: This is a data service for endeavor using cached query for http CRUD database updates
+version: 1.0.0
+publish_to: none
+
+environment: 
+  sdk: '>=3.0.0 <=3.10.4'
+
+dependencies:
+  data_models:
+    path: ../data_models
