@@ -1,4 +1,5 @@
 import 'package:data_models/data_models.dart';
+import 'package:date_and_time_utilities/date_and_time_utilities.dart';
 
 extension CalendarEventFirestoreExtension on AbstractSingleCalendarEvent {
   Map<String, dynamic> toDocData() {
@@ -18,6 +19,14 @@ extension CalendarEventFirestoreExtension on AbstractSingleCalendarEvent {
       "repeatingCalendarEventId": repeatingCalendarEventId,
       "start": event.start.millisecondsSinceEpoch,
       "end": event.end.millisecondsSinceEpoch,
+    };
+  }
+
+  Map<String, dynamic> toSqlJson() {
+    return {
+      "start": event.start
+          .toSqlString(), // start and end are the only ones that I've thought through
+      "end": event.end.toSqlString()
     };
   }
 }
