@@ -43,8 +43,8 @@ dependencies:
     path: packages/data_models
   data_repository:
     path: packages/data_repository
-  data_service:
-    path: packages/data_service
+  shim_data_service:
+    path: packages/shim_data_service
   date_and_time_utilities:
     path: packages/date_and_time_utilities
   duration_picker: ^1.1.1

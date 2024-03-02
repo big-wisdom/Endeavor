@@ -78,14 +78,18 @@ Back End: Firebase
 The next thing that I need to do is take all the thoughts below and turn them into a plan.
 
 1. Create a shim with static aggregation
-2. fit the current data service into that API
-3. Add the piggy back write only http data service with cached queries
+  - Create a shim with static aggregation and therefore simpler syntax that calls the old data service that has the shitty syntax
+  -------------------
+  - Make the endeavor package depend on it instead
+  -------------------
+  - Give the endeavor package the simpler syntax
+2. Add the piggy back write only http data service with cached queries
   - Add the creators
   - Add updaters
   - Add deleters
-4. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
-5. Remove server data types, data repository, transformers, and old data service
-6. This is when I can finally get around to implementing the Schedule
+3. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
+4. Remove server data types, data repository, transformers, and old data service
+5. This is when I can finally get around to implementing the Schedule
 
 I'm thinking that I separated a data layer specifically so that I could hot swap it out, maybe now is when I see how well I did?
 

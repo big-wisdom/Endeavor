@@ -6,7 +6,7 @@ import './tasks/tasks_data_service.dart';
 import './calendar_event/calendar_event_data_service.dart';
 import './endeavor_block/endeavor_block_data_service.dart';
 
-abstract class ShimDataService {
+class ShimDataService {
   // initialize data service
   static initialize(Stream<User> userStream) {
     DataService(userStream);

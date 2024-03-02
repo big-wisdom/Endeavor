@@ -4,22 +4,22 @@ import 'package:server_data_models/server_data_models.dart';
 import './repeating_calendar_event_data_service.dart/repeating_calendar_event_data_service.dart';
 
 class CalendarEventDataService {
-  static RepeatingCalendarEventDataService repeating =
+  RepeatingCalendarEventDataService repeating =
       RepeatingCalendarEventDataService();
 
-  static Stream<List<ServerCalendarEvent>> get calendarEventStream =>
+  Stream<List<ServerCalendarEvent>> get calendarEventStream =>
       ServerCalendarEventDataServiceExtension.calendarEventStream;
 
-  static void createCalendarEvent(UnidentifiedCalendarEvent calendarEvent) {
+  createCalendarEvent(UnidentifiedCalendarEvent calendarEvent) {
     ServerCalendarEventDataServiceExtension.createCalendarEvent(calendarEvent);
   }
 
-  static deleteCalendarEvent(String id, String? repeatingCalendarEventId) {
+  deleteCalendarEvent(String id, String? repeatingCalendarEventId) {
     ServerCalendarEventDataServiceExtension.deleteCalendarEvent(
         id, repeatingCalendarEventId);
   }
 
-  static updateCalendarEvent(CalendarEvent calendarEvent) {
+  updateCalendarEvent(CalendarEvent calendarEvent) {
     ServerCalendarEventDataServiceExtension.updateCalendarEvent(calendarEvent);
   }
 }

@@ -150,7 +150,7 @@ packages:
     source: path
     version: "1.0.0"
   data_service:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/data_service"
       relative: true
@@ -565,6 +565,13 @@ packages:
     dependency: transitive
     description:
       path: "packages/server_data_models"
+      relative: true
+    source: path
+    version: "1.0.0"
+  shim_data_service:
+    dependency: "direct main"
+    description:
+      path: "packages/shim_data_service"
       relative: true
     source: path
     version: "1.0.0"

@@ -2,14 +2,14 @@ import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
 
 class RepeatingEndeavorBlockDataService {
-  static void createRepeatingEndeavorBlock(
+  void createRepeatingEndeavorBlock(
     UnidentifiedRepeatingEndeavorBlock repeatingEndeavorBlock,
   ) {
     AbstractRepeatingEndeavorBlockDataServiceExtension
         .createRepeatingEndeavorBlock(repeatingEndeavorBlock);
   }
 
-  static void editThisAndFollowingEndeavorBlocks({
+  void editThisAndFollowingEndeavorBlocks({
     required String endeavorBlockId,
     required String repeatingEndeavorBlockId,
     required UnidentifiedEndeavorBlock unidentifiedEndeavorBlock,
@@ -21,7 +21,7 @@ class RepeatingEndeavorBlockDataService {
             unidentifiedEndeavorBlock: unidentifiedEndeavorBlock);
   }
 
-  static void deleteThisAndFollowing({
+  void deleteThisAndFollowing({
     required String endeavorBlockId,
     required String repeatingEndeavorBlockId,
   }) async {

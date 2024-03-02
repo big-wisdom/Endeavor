@@ -5,39 +5,38 @@ import 'package:data_service/data_service.dart';
 import 'package:server_data_models/server_data_models.dart';
 
 class EndeavorDataService {
-  static Stream<List<ServerEndeavor>> get serverEndeavorsStream =>
+  Stream<List<ServerEndeavor>> get serverEndeavorsStream =>
       ServerEndeavorDataServiceExtension.serverEndeavorsStream;
 
-  static void createPrimaryEndeavor(String endeavorTitle) async {
+  void createPrimaryEndeavor(String endeavorTitle) async {
     ServerEndeavorDataServiceExtension.createPrimaryEndeavor(endeavorTitle);
   }
 
-  static void reorderEndeavorTasks(
-      String endeavorId, List<String> taskIds) async {
+  void reorderEndeavorTasks(String endeavorId, List<String> taskIds) async {
     ServerEndeavorDataServiceExtension.reorderEndeavorTasks(
         endeavorId, taskIds);
   }
 
-  static void reorderSubEndeavors(
+  void reorderSubEndeavors(
       String endeavorId, List<String> subEndeavorIds) async {
     ServerEndeavorDataServiceExtension.reorderSubEndeavors(
         endeavorId, subEndeavorIds);
   }
 
-  static void reorderPrimaryEndeavors(List<String> primaryEndeavorIds) async {
+  void reorderPrimaryEndeavors(List<String> primaryEndeavorIds) async {
     ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
         primaryEndeavorIds);
   }
 
-  static void updateEndeavor(Endeavor endeavor) async {
+  void updateEndeavor(Endeavor endeavor) async {
     ServerEndeavorDataServiceExtension.updateEndeavor(endeavor);
   }
 
-  static planEndeavor(Endeavor endeavor) async {
+  planEndeavor(Endeavor endeavor) async {
     ServerEndeavorDataServiceExtension.planEndeavor(endeavor);
   }
 
-  static void addSubEndeavor({
+  void addSubEndeavor({
     required String parentEndeavorId,
     required String endeavorTitle,
   }) {
@@ -45,16 +44,16 @@ class EndeavorDataService {
         parentEndeavorId: parentEndeavorId, endeavorTitle: endeavorTitle);
   }
 
-  static Future<bool> deletePrimaryEndeavor(Endeavor endeavor) async {
+  Future<bool> deletePrimaryEndeavor(Endeavor endeavor) async {
     return await ServerEndeavorDataServiceExtension.deletePrimaryEndeavor(
         endeavor);
   }
 
-  static void deleteSubEndeavor(EndeavorReference endeavorReference) {
+  void deleteSubEndeavor(EndeavorReference endeavorReference) {
     ServerEndeavorDataServiceExtension.deleteSubEndeavor(endeavorReference);
   }
 
-  static void updateEndeavorColor({
+  void updateEndeavorColor({
     required String endeavorId,
     required Color color,
   }) {
