@@ -5,7 +5,7 @@ import 'package:endeavor/util.dart';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'edit_endeavor_screen_event.dart';
@@ -62,16 +62,15 @@ class EditEndeavorScreenBloc
     );
 
     on<EndeavorChangedByUI>((event, emit) {
-      ServerEndeavorDataServiceExtension.updateEndeavor(event.newEndeavor);
+      ShimDataService.endeavors.updateEndeavor(event.newEndeavor);
     });
 
     on<DeleteEndeavorRequested>((event, emit) {
-      ServerEndeavorDataServiceExtension.deleteSubEndeavor(
-          event.endeavorReference);
+      ShimDataService.endeavors.deleteSubEndeavor(event.endeavorReference);
     });
 
     on<CreateSubEndeavorRequested>(
-      (event, emit) => ServerEndeavorDataServiceExtension.addSubEndeavor(
+      (event, emit) => ShimDataService.endeavors.addSubEndeavor(
         parentEndeavorId: currentEndeavor.id,
         endeavorTitle: event.newEndeavorTitle,
       ),
@@ -86,7 +85,7 @@ class EditEndeavorScreenBloc
       );
       emit(thisState.copyWith(
           newSubEndeavorReferencesList: newSubEndeavorIdsList));
-      ServerEndeavorDataServiceExtension.reorderSubEndeavors(
+      ShimDataService.endeavors.reorderSubEndeavors(
         currentEndeavor.id,
         newSubEndeavorIdsList.map((e) => e.id).toList(),
       );
@@ -102,7 +101,7 @@ class EditEndeavorScreenBloc
             newTaskList: newTaskReferenceList,
           ),
         );
-        ServerEndeavorDataServiceExtension.reorderEndeavorTasks(
+        ShimDataService.endeavors.reorderEndeavorTasks(
           currentEndeavor.id,
           newTaskReferenceList.map((e) => e.id).toList(),
         );
@@ -111,12 +110,12 @@ class EditEndeavorScreenBloc
 
     on<DeleteTask>(
       (event, emit) {
-        TasksDataServiceExtension.deleteTask(event.taskReference);
+        ShimDataService.tasks.deleteTask(event.taskReference);
       },
     );
 
     on<ColorChanged>((event, emit) {
-      ServerEndeavorDataServiceExtension.updateEndeavorColor(
+      ShimDataService.endeavors.updateEndeavorColor(
         endeavorId: currentEndeavor.id,
         color: event.newColor,
       );

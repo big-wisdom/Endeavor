@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
 import '../view/calendar_view_dropdown.dart';
@@ -55,6 +55,6 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
   }
 
   void addPrimaryEndeavor(String title) {
-    ServerEndeavorDataServiceExtension.createPrimaryEndeavor(title);
+    ShimDataService.endeavors.createPrimaryEndeavor(title);
   }
 }
