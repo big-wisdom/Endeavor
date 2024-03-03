@@ -22,8 +22,10 @@ extension CalendarEventFirestoreExtension on AbstractSingleCalendarEvent {
     };
   }
 
-  Map<String, dynamic> toSqlJson() {
+  Map<String, dynamic> toSqlJson(String userId) {
     return {
+      "id": 'test',
+      "userId": userId,
       "start": event.start
           .toSqlString(), // start and end are the only ones that I've thought through
       "end": event.end.toSqlString()
