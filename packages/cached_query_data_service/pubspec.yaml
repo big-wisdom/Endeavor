@@ -7,7 +7,11 @@ environment:
   sdk: '>=3.0.0 <=3.10.4'
 
 dependencies:
+  authentication_repository:
+    path: ../authentication_repository
   cached_query: ^1.0.1
   data_models:
     path: ../data_models
   http: ^1.1.0
+  date_and_time_utilities:
+    path: ../date_and_time_utilities
