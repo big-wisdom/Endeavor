@@ -83,11 +83,11 @@ The next thing that I need to do is take all the thoughts below and turn them in
   - Give the endeavor package the simpler syntax
 2. Add the piggy back write only http data service with cached queries
     - Add the creators
+      - I have successfully made it so that when a calendar event is created, an event is created in the SQL database
+      - Now I'm trying to do deletion of the event when the calendar event is deleted but there is a problem where the ID isn't shared between the databases. There is also a problem keying the events upon creation if I don't already know their IDs. I think that I might need to move IDing to the client before I go any further.
     - I need to adjust the table to include a userID
     - update the service to update the SQL instance correctly
-    -------------------------
     - Add the front end package with the create event endpoint in the calendarEvent static aggregate
-    --------------------------
   - Add updaters
   - Add deleters
 3. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.

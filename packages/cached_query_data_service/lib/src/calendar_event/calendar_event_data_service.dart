@@ -11,10 +11,25 @@ class CalendarEventDataService {
     final query = Query(
       key:
           "createEvent-${calendarEvent.event.start.toSqlString()}-${calendarEvent.event.end.toSqlString()}",
-      queryFn: () => http.post(Uri.parse('http://192.168.1.49:8080/events'),
+      queryFn: () => http.post(Uri.parse('http://192.168.1.67:8080/events'),
           body: jsonEncode(
               calendarEvent.toSqlJson(CachedQueryDataService.userId)),
           headers: {'Content-Type': "application/json"}),
+    );
+
+    final result = await query.result;
+
+    return result;
+  }
+
+  deleteCalendarEvent(String id) async {
+    final query = Query(
+      key: "event-${id}",
+      queryFn: () => http.delete(
+        Uri.parse('http://192.168.1.67:8080/events'),
+        body: jsonEncode({"userId": CachedQueryDataService.userId, "id": id}),
+        headers: {'Content-Type': "application/json"},
+      ),
     );
 
     final result = await query.result;
