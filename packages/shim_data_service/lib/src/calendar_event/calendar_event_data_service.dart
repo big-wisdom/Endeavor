@@ -18,7 +18,10 @@ class CalendarEventDataService {
 
   deleteCalendarEvent(String id, String? repeatingCalendarEventId) {
     ServerCalendarEventDataServiceExtension.deleteCalendarEvent(
-        id, repeatingCalendarEventId);
+      id,
+      repeatingCalendarEventId,
+    );
+    CachedQueryDataService.calendarEvents.deleteCalendarEvent(id);
   }
 
   updateCalendarEvent(CalendarEvent calendarEvent) {
