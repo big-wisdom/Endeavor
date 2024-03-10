@@ -82,14 +82,10 @@ The next thing that I need to do is take all the thoughts below and turn them in
   - Make the endeavor package depend on it instead
   - Give the endeavor package the simpler syntax
 2. Add the piggy back write only http data service with cached queries
-    - Add the creators
-      - I have successfully made it so that when a calendar event is created, an event is created in the SQL database
-      - Now I'm trying to do deletion of the event when the calendar event is deleted but there is a problem where the ID isn't shared between the databases. There is also a problem keying the events upon creation if I don't already know their IDs. I think that I might need to move IDing to the client before I go any further.
-    - I need to adjust the table to include a userID
-    - update the service to update the SQL instance correctly
-    - Add the front end package with the create event endpoint in the calendarEvent static aggregate
-  - Add updaters
-  - Add deleters
+  - I do feel that I should go deep then wide. I've set up my local development workflow, now I need to make and test some deployment pipeline and update the app to reach out to a live service.
+    - Make sure that the database schema is updated and ready
+    - deploy the microservice and make sure that it connects to the microservice
+    - update the frontend to send a request to the live service and make sure that the live database is actually updated.
 3. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
 4. Remove server data types, data repository, transformers, and old data service
 5. This is when I can finally get around to implementing the Schedule

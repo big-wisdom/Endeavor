@@ -43,10 +43,12 @@ extension ServerCalendarEventDataServiceExtension on DataService {
     );
   }
 
-  static void createCalendarEvent(UnidentifiedCalendarEvent calendarEvent) {
+  static void createCalendarEvent(
+      UnidentifiedCalendarEvent calendarEvent, String uuid) {
     DataService.userDataDoc
         .collection('calendarEvents')
-        .add(calendarEvent.toDocData());
+        .doc(uuid)
+        .set(calendarEvent.toDocData());
   }
 
   static deleteCalendarEvent(String id, String? repeatingCalendarEventId) {

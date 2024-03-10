@@ -17,3 +17,4 @@ dependencies:
     path: ../data_service
   server_data_models:
     path: ../server_data_models
+  uuid: ^3.0.7
