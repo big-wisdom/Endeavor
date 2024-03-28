@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'tasks_screen_event.dart';
@@ -22,13 +22,12 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       )),
     );
     on<DeleteTask>(
-      (event, emit) =>
-          TasksDataServiceExtension.deleteTask(event.taskReference),
+      (event, emit) => ShimDataService.tasks.deleteTask(event.taskReference),
     );
 
     on<PlanRequested>(
       (event, emit) {
-        ServerEndeavorDataServiceExtension.planEndeavor(event.endeavor);
+        ShimDataService.endeavors.planEndeavor(event.endeavor);
       },
     );
 

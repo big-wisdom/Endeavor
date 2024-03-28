@@ -2,7 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:endeavor/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,13 +18,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8081);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
 
-  DataService(authenticationRepository.user);
+  ShimDataService.initialize(authenticationRepository.user);
   final dataRepository =
       DataRepository(userStream: authenticationRepository.user);
 

@@ -4,8 +4,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:data_service/data_service.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DataRepository {
   // User stuff

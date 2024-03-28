@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:endeavor/util.dart';
 import 'package:equatable/equatable.dart';
 
@@ -23,7 +23,7 @@ class EndeavorsScreenBloc
         event.newIndex,
       );
       emit(EndeavorsScreenState(newPrimaryEndeavorsList));
-      ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
+      ShimDataService.endeavors.reorderPrimaryEndeavors(
         newPrimaryEndeavorsList.map((e) => e.id).toList(),
       );
     });
@@ -34,8 +34,7 @@ class EndeavorsScreenBloc
 
     on<DeleteEndeavor>(
       (event, emit) {
-        ServerEndeavorDataServiceExtension.deletePrimaryEndeavor(
-            event.endeavor);
+        ShimDataService.endeavors.deletePrimaryEndeavor(event.endeavor);
       },
     );
 

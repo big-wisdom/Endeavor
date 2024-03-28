@@ -9,6 +9,18 @@ extension DateTimeExtension on DateTime {
     return '$dayOfWeek $month, $date';
   }
 
+  String toSqlString() {
+    final utc = this.toUtc();
+    String yearString = utc.year.toString().padLeft(4, '0');
+    String monthString = utc.month.toString().padLeft(2, '0');
+    String dayString = utc.day.toString().padLeft(2, '0');
+    String hourString = utc.hour.toString().padLeft(2, '0');
+    String minuteString = utc.minute.toString().padLeft(2, '0');
+    String secondString = utc.second.toString().padLeft(2, '0');
+
+    return "$yearString-$monthString-$dayString $hourString:$minuteString:$secondString";
+  }
+
   int compareToDateOnly(DateTime date) {
     if (year > date.year) return 1;
     if (year < date.year) return -1;

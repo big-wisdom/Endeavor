@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
@@ -123,9 +123,9 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
       }
 
       if (state is CreateTaskScreenState) {
-        TasksDataServiceExtension.createTask(state.createUnidentifiedTask!);
+        ShimDataService.tasks.createTask(state.createUnidentifiedTask!);
       } else {
-        TasksDataServiceExtension.updateTask(
+        ShimDataService.tasks.updateTask(
           state.createUnidentifiedTask!,
           initialTask.id,
         );
