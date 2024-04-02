@@ -25,7 +25,7 @@ class CalendarEventDataService {
       id,
       repeatingCalendarEventId,
     );
-    // CachedQueryDataService.calendarEvents.deleteCalendarEvent(id);
+    GRPCDataService.instance.calendarEvents.deleteCalendarEvent(id);
   }
 
   updateCalendarEvent(CalendarEvent calendarEvent) {
