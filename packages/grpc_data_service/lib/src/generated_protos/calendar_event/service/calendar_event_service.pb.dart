@@ -13,11 +13,11 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../common_models/event.pb.dart' as $2;
+import '../../common_models/event.pb.dart' as $3;
 
 class CreateCalendarEventRequest extends $pb.GeneratedMessage {
   factory CreateCalendarEventRequest({
-    $2.Event? event,
+    $3.Event? event,
   }) {
     final $result = create();
     if (event != null) {
@@ -30,7 +30,7 @@ class CreateCalendarEventRequest extends $pb.GeneratedMessage {
   factory CreateCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'calendar_event.service'), createEmptyInstance: create)
-    ..aOM<$2.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $2.Event.create)
+    ..aOM<$3.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $3.Event.create)
     ..hasRequiredFields = false
   ;
 
@@ -56,20 +56,20 @@ class CreateCalendarEventRequest extends $pb.GeneratedMessage {
   static CreateCalendarEventRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $2.Event get event => $_getN(0);
+  $3.Event get event => $_getN(0);
   @$pb.TagNumber(1)
-  set event($2.Event v) { setField(1, v); }
+  set event($3.Event v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasEvent() => $_has(0);
   @$pb.TagNumber(1)
   void clearEvent() => clearField(1);
   @$pb.TagNumber(1)
-  $2.Event ensureEvent() => $_ensure(0);
+  $3.Event ensureEvent() => $_ensure(0);
 }
 
 class CreateCalendarEventResponse extends $pb.GeneratedMessage {
   factory CreateCalendarEventResponse({
-    $2.Event? event,
+    $3.Event? event,
   }) {
     final $result = create();
     if (event != null) {
@@ -82,7 +82,7 @@ class CreateCalendarEventResponse extends $pb.GeneratedMessage {
   factory CreateCalendarEventResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateCalendarEventResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'calendar_event.service'), createEmptyInstance: create)
-    ..aOM<$2.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $2.Event.create)
+    ..aOM<$3.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $3.Event.create)
     ..hasRequiredFields = false
   ;
 
@@ -108,15 +108,79 @@ class CreateCalendarEventResponse extends $pb.GeneratedMessage {
   static CreateCalendarEventResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $2.Event get event => $_getN(0);
+  $3.Event get event => $_getN(0);
   @$pb.TagNumber(1)
-  set event($2.Event v) { setField(1, v); }
+  set event($3.Event v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasEvent() => $_has(0);
   @$pb.TagNumber(1)
   void clearEvent() => clearField(1);
   @$pb.TagNumber(1)
-  $2.Event ensureEvent() => $_ensure(0);
+  $3.Event ensureEvent() => $_ensure(0);
+}
+
+class DeleteCalendarEventRequest extends $pb.GeneratedMessage {
+  factory DeleteCalendarEventRequest({
+    $core.String? userId,
+    $core.String? id,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (id != null) {
+      $result.id = id;
+    }
+    return $result;
+  }
+  DeleteCalendarEventRequest._() : super();
+  factory DeleteCalendarEventRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeleteCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'calendar_event.service'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, _omitFieldNames ? '' : 'id')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeleteCalendarEventRequest clone() => DeleteCalendarEventRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeleteCalendarEventRequest copyWith(void Function(DeleteCalendarEventRequest) updates) => super.copyWith((message) => updates(message as DeleteCalendarEventRequest)) as DeleteCalendarEventRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteCalendarEventRequest create() => DeleteCalendarEventRequest._();
+  DeleteCalendarEventRequest createEmptyInstance() => create();
+  static $pb.PbList<DeleteCalendarEventRequest> createRepeated() => $pb.PbList<DeleteCalendarEventRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteCalendarEventRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteCalendarEventRequest>(create);
+  static DeleteCalendarEventRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get id => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set id($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearId() => clearField(2);
 }
 
 

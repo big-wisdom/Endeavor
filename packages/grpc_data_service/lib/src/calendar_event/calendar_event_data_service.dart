@@ -26,4 +26,13 @@ class CalendarEventDataService {
       ),
     );
   }
+
+  void deleteCalendarEvent(String id) {
+    client.deleteCalendarEvent(
+      DeleteCalendarEventRequest(
+        userId: _userId,
+        id: id,
+      ),
+    );
+  }
 }
