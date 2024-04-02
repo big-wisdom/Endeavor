@@ -81,12 +81,9 @@ The next thing that I need to do is take all the thoughts below and turn them in
   - Create a shim with static aggregation and therefore simpler syntax that calls the old data service that has the shitty syntax
   - Make the endeavor package depend on it instead
   - Give the endeavor package the simpler syntax
-2. Add the piggy back write only http data service with cached queries
-  - I do feel that I should go deep then wide. I've set up my local development workflow, now I need to make and test some deployment pipeline and update the app to reach out to a live service.
-    - Make sure that the database schema is updated and ready
-    - deploy the microservice and make sure that it connects to the microservice
-    - update the frontend to send a request to the live service and make sure that the live database is actually updated.
-3. Add readers but bypass the server data types and data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
+2. Add the piggy back write only grpc data service 
+  - I got a grpc server started up that can create a calendar event in a database. Awesome. Now I want to update the frontend to implement the grpc server so that I can have the whole flow down for calendar events before moving on.
+3. Add readers or streamers but bypass the server data types and possibly the data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
 4. Remove server data types, data repository, transformers, and old data service
 5. This is when I can finally get around to implementing the Schedule
 
