@@ -9,8 +9,6 @@ environment:
 dependencies:
   authentication_repository:
     path: ../authentication_repository
-  cached_query_data_service:
-    path: ../cached_query_data_service
   data_models:
     path: ../data_models
   data_service:
