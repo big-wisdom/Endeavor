@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cached_query_data_service/cached_query_data_service.dart';
 import 'package:data_service/data_service.dart';
+import 'package:grpc_data_service/grpc_data_service.dart';
 import 'package:shim_data_service/src/endeavor/endeavor_data_service.dart';
 import './user_document/user_document_data_service.dart';
 import './tasks/tasks_data_service.dart';
@@ -12,6 +13,7 @@ class ShimDataService {
   static initialize(Stream<User> userStream) {
     DataService(userStream);
     CachedQueryDataService(userStream);
+    GRPCDataService().init(userStream);
   }
 
   // Static aggregates
