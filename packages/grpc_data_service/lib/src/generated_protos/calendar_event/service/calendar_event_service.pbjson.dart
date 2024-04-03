@@ -39,6 +39,19 @@ final $typed_data.Uint8List createCalendarEventResponseDescriptor = $convert.bas
     'ChtDcmVhdGVDYWxlbmRhckV2ZW50UmVzcG9uc2USKgoFZXZlbnQYASABKAsyFC5jb21tb25fbW'
     '9kZWxzLkV2ZW50UgVldmVudA==');
 
+@$core.Deprecated('Use updateCalendarEventRequestDescriptor instead')
+const UpdateCalendarEventRequest$json = {
+  '1': 'UpdateCalendarEventRequest',
+  '2': [
+    {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
+  ],
+};
+
+/// Descriptor for `UpdateCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateCalendarEventRequestDescriptor = $convert.base64Decode(
+    'ChpVcGRhdGVDYWxlbmRhckV2ZW50UmVxdWVzdBIqCgVldmVudBgBIAEoCzIULmNvbW1vbl9tb2'
+    'RlbHMuRXZlbnRSBWV2ZW50');
+
 @$core.Deprecated('Use deleteCalendarEventRequestDescriptor instead')
 const DeleteCalendarEventRequest$json = {
   '1': 'DeleteCalendarEventRequest',
