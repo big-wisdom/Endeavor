@@ -119,6 +119,58 @@ class CreateCalendarEventResponse extends $pb.GeneratedMessage {
   $3.Event ensureEvent() => $_ensure(0);
 }
 
+class UpdateCalendarEventRequest extends $pb.GeneratedMessage {
+  factory UpdateCalendarEventRequest({
+    $3.Event? event,
+  }) {
+    final $result = create();
+    if (event != null) {
+      $result.event = event;
+    }
+    return $result;
+  }
+  UpdateCalendarEventRequest._() : super();
+  factory UpdateCalendarEventRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'calendar_event.service'), createEmptyInstance: create)
+    ..aOM<$3.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $3.Event.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UpdateCalendarEventRequest clone() => UpdateCalendarEventRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UpdateCalendarEventRequest copyWith(void Function(UpdateCalendarEventRequest) updates) => super.copyWith((message) => updates(message as UpdateCalendarEventRequest)) as UpdateCalendarEventRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UpdateCalendarEventRequest create() => UpdateCalendarEventRequest._();
+  UpdateCalendarEventRequest createEmptyInstance() => create();
+  static $pb.PbList<UpdateCalendarEventRequest> createRepeated() => $pb.PbList<UpdateCalendarEventRequest>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateCalendarEventRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateCalendarEventRequest>(create);
+  static UpdateCalendarEventRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $3.Event get event => $_getN(0);
+  @$pb.TagNumber(1)
+  set event($3.Event v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEvent() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEvent() => clearField(1);
+  @$pb.TagNumber(1)
+  $3.Event ensureEvent() => $_ensure(0);
+}
+
 class DeleteCalendarEventRequest extends $pb.GeneratedMessage {
   factory DeleteCalendarEventRequest({
     $core.String? userId,

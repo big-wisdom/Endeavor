@@ -30,5 +30,6 @@ class CalendarEventDataService {
 
   updateCalendarEvent(CalendarEvent calendarEvent) {
     ServerCalendarEventDataServiceExtension.updateCalendarEvent(calendarEvent);
+    GRPCDataService.instance.calendarEvents.updateCalendarEvent(calendarEvent);
   }
 }

@@ -27,6 +27,21 @@ class CalendarEventDataService {
     );
   }
 
+  void updateCalendarEvent(CalendarEvent calendarEvent) {
+    client.updateCalendarEvent(
+      UpdateCalendarEventRequest(
+        event: common_models.Event(
+          userId: _userId,
+          id: calendarEvent.id,
+          title: calendarEvent.title,
+          endeavorId: calendarEvent.endeavorReference?.id,
+          startTime: Timestamp.fromDateTime(calendarEvent.event.start),
+          endTime: Timestamp.fromDateTime(calendarEvent.event.end),
+        ),
+      ),
+    );
+  }
+
   void deleteCalendarEvent(String id) {
     client.deleteCalendarEvent(
       DeleteCalendarEventRequest(

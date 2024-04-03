@@ -82,8 +82,9 @@ The next thing that I need to do is take all the thoughts below and turn them in
   - Make the endeavor package depend on it instead
   - Give the endeavor package the simpler syntax
 2. Add the piggy back write only grpc data service 
-  - Got GRPC up and running on the front and backend and you can now create and delete calendar events!!
+  - Got GRPC up and running on the front and backend and you can now create, delete, and update calendar events!!
 3. Add readers or streamers but bypass the server data types and possibly the data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
+  - I'm thinking that I should do this step just for calendar events and make the new backend the source of truth for just CalendarEvents that way I'm going deep and then wide
 4. Remove server data types, data repository, transformers, and old data service
 5. This is when I can finally get around to implementing the Schedule
 
