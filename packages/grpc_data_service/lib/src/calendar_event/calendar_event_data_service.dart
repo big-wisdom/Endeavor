@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../generated_protos/common_models/event.pb.dart' as common_models;
 import 'package:data_models/data_models.dart';
 
@@ -7,7 +9,33 @@ import '../generated_protos/google/protobuf/timestamp.pb.dart';
 class CalendarEventDataService {
   CalendarEventClient client;
   String _userId;
-  CalendarEventDataService(this.client, String userId) : _userId = userId;
+  CalendarEventDataService(this.client, String userId) : _userId = userId {
+    final controller = StreamController<ListCalendarEventsRequest>();
+    controller.add(
+      ListCalendarEventsRequest(
+        userId: userId,
+      ),
+    );
+
+    print("About to subscribe with user ");
+    calendarEventStream =
+        client.subscribeToCalendarEvents(controller.stream).map(
+              (listCalendarEventResponse) => listCalendarEventResponse.events
+                  .map(
+                    (e) => CalendarEvent(
+                      id: e.id,
+                      title: e.title,
+                      event: Event(
+                        start: e.startTime.toDateTime(),
+                        end: e.endTime.toDateTime(),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+  }
+
+  late Stream<List<CalendarEvent>> calendarEventStream;
 
   void createCalendarEvent(
     UnidentifiedCalendarEvent calendarEvent,

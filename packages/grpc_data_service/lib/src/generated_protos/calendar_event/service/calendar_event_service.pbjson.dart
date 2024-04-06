@@ -66,3 +66,28 @@ final $typed_data.Uint8List deleteCalendarEventRequestDescriptor = $convert.base
     'ChpEZWxldGVDYWxlbmRhckV2ZW50UmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCg'
     'JpZBgCIAEoCVICaWQ=');
 
+@$core.Deprecated('Use listCalendarEventsRequestDescriptor instead')
+const ListCalendarEventsRequest$json = {
+  '1': 'ListCalendarEventsRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+  ],
+};
+
+/// Descriptor for `ListCalendarEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listCalendarEventsRequestDescriptor = $convert.base64Decode(
+    'ChlMaXN0Q2FsZW5kYXJFdmVudHNSZXF1ZXN0EhYKBnVzZXJJZBgBIAEoCVIGdXNlcklk');
+
+@$core.Deprecated('Use listCalendarEventsResponseDescriptor instead')
+const ListCalendarEventsResponse$json = {
+  '1': 'ListCalendarEventsResponse',
+  '2': [
+    {'1': 'events', '3': 1, '4': 3, '5': 11, '6': '.common_models.Event', '10': 'events'},
+  ],
+};
+
+/// Descriptor for `ListCalendarEventsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listCalendarEventsResponseDescriptor = $convert.base64Decode(
+    'ChpMaXN0Q2FsZW5kYXJFdmVudHNSZXNwb25zZRIsCgZldmVudHMYASADKAsyFC5jb21tb25fbW'
+    '9kZWxzLkV2ZW50UgZldmVudHM=');
+

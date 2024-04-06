@@ -34,6 +34,10 @@ class CalendarEventClient extends $grpc.Client {
       '/calendar_event.service.CalendarEvent/DeleteCalendarEvent',
       ($0.DeleteCalendarEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
+  static final _$subscribeToCalendarEvents = $grpc.ClientMethod<$0.ListCalendarEventsRequest, $0.ListCalendarEventsResponse>(
+      '/calendar_event.service.CalendarEvent/SubscribeToCalendarEvents',
+      ($0.ListCalendarEventsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListCalendarEventsResponse.fromBuffer(value));
 
   CalendarEventClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -51,6 +55,10 @@ class CalendarEventClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$1.Empty> deleteCalendarEvent($0.DeleteCalendarEventRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteCalendarEvent, request, options: options);
+  }
+
+  $grpc.ResponseStream<$0.ListCalendarEventsResponse> subscribeToCalendarEvents($async.Stream<$0.ListCalendarEventsRequest> request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$subscribeToCalendarEvents, request, options: options);
   }
 }
 
@@ -80,6 +88,13 @@ abstract class CalendarEventServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteCalendarEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListCalendarEventsRequest, $0.ListCalendarEventsResponse>(
+        'SubscribeToCalendarEvents',
+        subscribeToCalendarEvents,
+        true,
+        true,
+        ($core.List<$core.int> value) => $0.ListCalendarEventsRequest.fromBuffer(value),
+        ($0.ListCalendarEventsResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.CreateCalendarEventResponse> createCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateCalendarEventRequest> request) async {
@@ -97,4 +112,5 @@ abstract class CalendarEventServiceBase extends $grpc.Service {
   $async.Future<$0.CreateCalendarEventResponse> createCalendarEvent($grpc.ServiceCall call, $0.CreateCalendarEventRequest request);
   $async.Future<$1.Empty> updateCalendarEvent($grpc.ServiceCall call, $0.UpdateCalendarEventRequest request);
   $async.Future<$1.Empty> deleteCalendarEvent($grpc.ServiceCall call, $0.DeleteCalendarEventRequest request);
+  $async.Stream<$0.ListCalendarEventsResponse> subscribeToCalendarEvents($grpc.ServiceCall call, $async.Stream<$0.ListCalendarEventsRequest> request);
 }
