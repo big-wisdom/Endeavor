@@ -26,6 +26,10 @@ class CalendarEventClient extends $grpc.Client {
       '/calendar_event.service.CalendarEvent/CreateCalendarEvent',
       ($0.CreateCalendarEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.CreateCalendarEventResponse.fromBuffer(value));
+  static final _$createRepeatingCalendarEvent = $grpc.ClientMethod<$0.CreateRepeatingCalendarEventRequest, $1.Empty>(
+      '/calendar_event.service.CalendarEvent/CreateRepeatingCalendarEvent',
+      ($0.CreateRepeatingCalendarEventRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
   static final _$updateCalendarEvent = $grpc.ClientMethod<$0.UpdateCalendarEventRequest, $1.Empty>(
       '/calendar_event.service.CalendarEvent/UpdateCalendarEvent',
       ($0.UpdateCalendarEventRequest value) => value.writeToBuffer(),
@@ -47,6 +51,10 @@ class CalendarEventClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.CreateCalendarEventResponse> createCalendarEvent($0.CreateCalendarEventRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$createCalendarEvent, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.Empty> createRepeatingCalendarEvent($0.CreateRepeatingCalendarEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createRepeatingCalendarEvent, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> updateCalendarEvent($0.UpdateCalendarEventRequest request, {$grpc.CallOptions? options}) {
@@ -74,6 +82,13 @@ abstract class CalendarEventServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.CreateCalendarEventRequest.fromBuffer(value),
         ($0.CreateCalendarEventResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateRepeatingCalendarEventRequest, $1.Empty>(
+        'CreateRepeatingCalendarEvent',
+        createRepeatingCalendarEvent_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.CreateRepeatingCalendarEventRequest.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.UpdateCalendarEventRequest, $1.Empty>(
         'UpdateCalendarEvent',
         updateCalendarEvent_Pre,
@@ -101,6 +116,10 @@ abstract class CalendarEventServiceBase extends $grpc.Service {
     return createCalendarEvent(call, await request);
   }
 
+  $async.Future<$1.Empty> createRepeatingCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRepeatingCalendarEventRequest> request) async {
+    return createRepeatingCalendarEvent(call, await request);
+  }
+
   $async.Future<$1.Empty> updateCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateCalendarEventRequest> request) async {
     return updateCalendarEvent(call, await request);
   }
@@ -110,6 +129,7 @@ abstract class CalendarEventServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.CreateCalendarEventResponse> createCalendarEvent($grpc.ServiceCall call, $0.CreateCalendarEventRequest request);
+  $async.Future<$1.Empty> createRepeatingCalendarEvent($grpc.ServiceCall call, $0.CreateRepeatingCalendarEventRequest request);
   $async.Future<$1.Empty> updateCalendarEvent($grpc.ServiceCall call, $0.UpdateCalendarEventRequest request);
   $async.Future<$1.Empty> deleteCalendarEvent($grpc.ServiceCall call, $0.DeleteCalendarEventRequest request);
   $async.Stream<$0.ListCalendarEventsResponse> subscribeToCalendarEvents($grpc.ServiceCall call, $async.Stream<$0.ListCalendarEventsRequest> request);

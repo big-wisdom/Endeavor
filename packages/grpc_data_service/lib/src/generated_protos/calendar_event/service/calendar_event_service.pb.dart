@@ -14,6 +14,7 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import '../../common_models/event.pb.dart' as $3;
+import '../../common_models/repeating_event.pb.dart' as $4;
 
 class CreateCalendarEventRequest extends $pb.GeneratedMessage {
   factory CreateCalendarEventRequest({
@@ -117,6 +118,58 @@ class CreateCalendarEventResponse extends $pb.GeneratedMessage {
   void clearEvent() => clearField(1);
   @$pb.TagNumber(1)
   $3.Event ensureEvent() => $_ensure(0);
+}
+
+class CreateRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
+  factory CreateRepeatingCalendarEventRequest({
+    $4.RepeatingEvent? repeatingEvent,
+  }) {
+    final $result = create();
+    if (repeatingEvent != null) {
+      $result.repeatingEvent = repeatingEvent;
+    }
+    return $result;
+  }
+  CreateRepeatingCalendarEventRequest._() : super();
+  factory CreateRepeatingCalendarEventRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CreateRepeatingCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRepeatingCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'calendar_event.service'), createEmptyInstance: create)
+    ..aOM<$4.RepeatingEvent>(1, _omitFieldNames ? '' : 'repeatingEvent', protoName: 'repeatingEvent', subBuilder: $4.RepeatingEvent.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CreateRepeatingCalendarEventRequest clone() => CreateRepeatingCalendarEventRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CreateRepeatingCalendarEventRequest copyWith(void Function(CreateRepeatingCalendarEventRequest) updates) => super.copyWith((message) => updates(message as CreateRepeatingCalendarEventRequest)) as CreateRepeatingCalendarEventRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CreateRepeatingCalendarEventRequest create() => CreateRepeatingCalendarEventRequest._();
+  CreateRepeatingCalendarEventRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateRepeatingCalendarEventRequest> createRepeated() => $pb.PbList<CreateRepeatingCalendarEventRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CreateRepeatingCalendarEventRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateRepeatingCalendarEventRequest>(create);
+  static CreateRepeatingCalendarEventRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $4.RepeatingEvent get repeatingEvent => $_getN(0);
+  @$pb.TagNumber(1)
+  set repeatingEvent($4.RepeatingEvent v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRepeatingEvent() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRepeatingEvent() => clearField(1);
+  @$pb.TagNumber(1)
+  $4.RepeatingEvent ensureRepeatingEvent() => $_ensure(0);
 }
 
 class UpdateCalendarEventRequest extends $pb.GeneratedMessage {
