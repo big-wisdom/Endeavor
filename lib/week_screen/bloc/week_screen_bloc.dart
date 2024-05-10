@@ -58,8 +58,8 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     _weekEventSubscription.cancel();
-    return super.close();
+    await super.close();
   }
 }

@@ -20,21 +20,23 @@ class CalendarEventDataService {
     );
 
     print("About to subscribe with user ");
-    calendarEventStream =
-        client.subscribeToCalendarEvents(controller.stream).map(
-              (listCalendarEventResponse) => listCalendarEventResponse.events
-                  .map(
-                    (e) => CalendarEvent(
-                      id: e.id,
-                      title: e.title,
-                      event: Event(
-                        start: e.startTime.toDateTime(),
-                        end: e.endTime.toDateTime(),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            );
+    calendarEventStream = client
+        .subscribeToCalendarEvents(controller.stream)
+        .map(
+          (listCalendarEventResponse) => listCalendarEventResponse.events
+              .map(
+                (e) => CalendarEvent(
+                  id: e.id,
+                  title: e.title,
+                  event: Event(
+                    start: e.startTime.toDateTime(),
+                    end: e.endTime.toDateTime(),
+                  ),
+                ),
+              )
+              .toList(),
+        )
+        .asBroadcastStream();
   }
 
   late Stream<List<CalendarEvent>> calendarEventStream;
