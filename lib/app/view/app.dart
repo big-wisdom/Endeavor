@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:data_repository/data_repository.dart';
+import 'package:endeavor/home/home.dart';
 import 'package:endeavor/login/login.dart';
-import 'package:endeavor/planning_screen/view/planning_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/app/app.dart';
@@ -45,7 +45,7 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
           if (state is AuthenticatedAppState) {
-            return const PlanningScreen();
+            return Home(userId: state.user.id);
           } else {
             return const LoginPage();
           }
