@@ -73,31 +73,9 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I got a backend service and database working, now I need to update the frontend to work with them. 
-
-The next thing that I need to do is take all the thoughts below and turn them into a plan.
-
-1. Create a shim with static aggregation
-  - Create a shim with static aggregation and therefore simpler syntax that calls the old data service that has the shitty syntax
-  - Make the endeavor package depend on it instead
-  - Give the endeavor package the simpler syntax
-2. Add the piggy back write only grpc data service 
-  - Got GRPC up and running on the front and backend and you can now create, delete, and update calendar events!!
-3. Add readers or streamers but bypass the server data types and possibly the data repository. This is when the new data service becomes the source of truth, so here I could do any work on data type abstractions and tighten up the package dependency graph.
-  - I'm thinking that I should do this step just for calendar events and make the new backend the source of truth for just CalendarEvents that way I'm going deep and then wide
+1. DONE Create a shim with static aggregation
+2. Build out the new backend
+  * I was seeing some issues where the subscription endpoints were being called before the user was authenticated, and that's when I realized that there's really no reason to be initializing the data service before the authentication repository so I moved it after and simplified a lot of logic removing async things and late initializers.
+  * I also need to see what happens when the app is closed or moved into the background and brought back to see if the subscription survives or gets reinitialized.
 4. Remove server data types, data repository, transformers, and old data service
 5. This is when I can finally get around to implementing the Schedule
-
-I'm thinking that I separated a data layer specifically so that I could hot swap it out, maybe now is when I see how well I did?
-
-So my thought is that my data service has crud methods (create, retrieve, update, and delete). I can do all of the same through [cached queries](https://pub.dev/packages/cached_query). The retrieve can expose a stream just the same, the create, update, and delete methods can just invalidate the query causing the streams to be updated.
-
-Updating a repeating calendar event could be tricky. But no matter what queries caches have to be invalidated, I'm sure I could, especially if the query keys can be nested.
-
-I'm wondering about package dependencies and types. Now would be a good time to simplify types now that I don't really need to track server types. I can also get rid of the data repository completely because all that does is denormalize I think? Also, I'm wondering if I can use this as a chance to do a mixin or something to differentiate between saved and unsaved or identified and unidentified data. I should also keep in mind optimistic updating for this; if I want to use optimistic updating, my widgets would need to be comfortable using identified or unidentified data.
-
-I'm wondering if it would be a good time to really tighten up the package dependency graph. Also, is there a way to specify API interfaces so that packages become hot swappable?
-
-I'm thinking that to initiate the swap, I can create a shim dataservice whose whole job is to split data between the old and the new. I'm wondering if I should try to do static aggregation rather than extension.
-
-I might even be able to get rid of some of that transformers as now my backend can translate between a normalized database and a denormalized app.

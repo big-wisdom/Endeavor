@@ -1,19 +1,10 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 
 class DataService {
-  late final StreamSubscription _userStreamSubscription;
-  DataService(Stream<User> userStream) {
-    _userStreamSubscription = userStream.listen((user) async {
-      if (user.isNotEmpty) {
-        final docRef =
-            FirebaseFirestore.instance.collection('users').doc(user.id);
-        _userDataDoc = docRef;
-      }
-    });
+  DataService(String userId) {
+    _userDataDoc = FirebaseFirestore.instance.collection('users').doc(userId);
   }
+
   static DocumentReference<Map<String, dynamic>>? _userDataDoc;
   static DocumentReference<Map<String, dynamic>> get userDataDoc {
     _checkUserDoc();
@@ -22,9 +13,5 @@ class DataService {
 
   static void _checkUserDoc() {
     if (_userDataDoc == null) throw Exception("Yo, no user");
-  }
-
-  void close() {
-    _userStreamSubscription.cancel();
   }
 }

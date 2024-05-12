@@ -11,35 +11,30 @@ import '../generated_protos/google/protobuf/timestamp.pb.dart';
 class CalendarEventDataService {
   CalendarEventClient client;
   String _userId;
-  CalendarEventDataService(this.client, String userId) : _userId = userId {
-    final controller = StreamController<ListCalendarEventsRequest>();
-    controller.add(
-      ListCalendarEventsRequest(
-        userId: userId,
-      ),
-    );
+  CalendarEventDataService(this.client, String userId)
+      : _userId = userId,
+        calendarEventStream = client
+            .subscribeToCalendarEvents(
+                (StreamController<ListCalendarEventsRequest>()
+                      ..add(ListCalendarEventsRequest(userId: userId)))
+                    .stream)
+            .map(
+              (listCalendarEventResponse) => listCalendarEventResponse.events
+                  .map(
+                    (e) => CalendarEvent(
+                      id: e.id,
+                      title: e.title,
+                      event: Event(
+                        start: e.startTime.toDateTime(),
+                        end: e.endTime.toDateTime(),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            )
+            .asBroadcastStream();
 
-    print("About to subscribe with user ");
-    calendarEventStream = client
-        .subscribeToCalendarEvents(controller.stream)
-        .map(
-          (listCalendarEventResponse) => listCalendarEventResponse.events
-              .map(
-                (e) => CalendarEvent(
-                  id: e.id,
-                  title: e.title,
-                  event: Event(
-                    start: e.startTime.toDateTime(),
-                    end: e.endTime.toDateTime(),
-                  ),
-                ),
-              )
-              .toList(),
-        )
-        .asBroadcastStream();
-  }
-
-  late Stream<List<CalendarEvent>> calendarEventStream;
+  Stream<List<CalendarEvent>> calendarEventStream;
 
   void createCalendarEvent(
     UnidentifiedCalendarEvent calendarEvent,
