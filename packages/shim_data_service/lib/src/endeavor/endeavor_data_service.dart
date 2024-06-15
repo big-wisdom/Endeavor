@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:data_models/data_models.dart';
 import 'package:data_service/data_service.dart';
+import 'package:grpc_data_service/grpc_data_service.dart';
 import 'package:server_data_models/server_data_models.dart';
 
 class EndeavorDataService {
@@ -9,7 +10,7 @@ class EndeavorDataService {
       ServerEndeavorDataServiceExtension.serverEndeavorsStream;
 
   void createPrimaryEndeavor(String endeavorTitle) async {
-    ServerEndeavorDataServiceExtension.createPrimaryEndeavor(endeavorTitle);
+    GRPCDataService.instance.endeavors.createPrimaryEndeavor(endeavorTitle);
   }
 
   void reorderEndeavorTasks(String endeavorId, List<String> taskIds) async {

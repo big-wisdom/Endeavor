@@ -1,4 +1,5 @@
 import 'package:grpc/grpc.dart';
+import 'package:grpc_data_service/src/endeavor/endeavors_data_service.dart';
 import 'package:grpc_data_service/src/endeavor_blocks/endeavor_blocks_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 import './calendar_event/calendar_event_data_service.dart';
@@ -13,6 +14,7 @@ class GRPCDataService {
 
   late CalendarEventDataService calendarEvents;
   late EndeavorBlocksDataService endeavorBlocks;
+  late EndeavorsDataService endeavors;
 
   String _baseUrl = "localhost";
   int _port = 8080;
@@ -28,13 +30,8 @@ class GRPCDataService {
       ///use this if you are connecting with Tls
       // options: const ChannelOptions(),
     ));
-    calendarEvents = CalendarEventDataService(
-      client,
-      userId,
-    );
-    endeavorBlocks = EndeavorBlocksDataService(
-      client,
-      userId,
-    );
+    calendarEvents = CalendarEventDataService(client, userId);
+    endeavorBlocks = EndeavorBlocksDataService(client, userId);
+    endeavors = EndeavorsDataService(client, userId);
   }
 }
