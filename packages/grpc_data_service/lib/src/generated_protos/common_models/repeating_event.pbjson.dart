@@ -18,9 +18,9 @@ const RepeatingEvent$json = {
   '1': 'RepeatingEvent',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'id', '3': 2, '4': 1, '5': 5, '10': 'id'},
     {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
-    {'1': 'endeavorId', '3': 4, '4': 1, '5': 9, '10': 'endeavorId'},
+    {'1': 'endeavorId', '3': 4, '4': 1, '5': 5, '10': 'endeavorId'},
     {'1': 'startTime', '3': 5, '4': 1, '5': 11, '6': '.common_models.Time', '10': 'startTime'},
     {'1': 'endTime', '3': 6, '4': 1, '5': 11, '6': '.common_models.Time', '10': 'endTime'},
     {'1': 'startDate', '3': 7, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startDate'},
@@ -37,8 +37,8 @@ const RepeatingEvent$json = {
 
 /// Descriptor for `RepeatingEvent`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List repeatingEventDescriptor = $convert.base64Decode(
-    'Cg5SZXBlYXRpbmdFdmVudBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCgJpZBgCIAEoCVICaW'
-    'QSFAoFdGl0bGUYAyABKAlSBXRpdGxlEh4KCmVuZGVhdm9ySWQYBCABKAlSCmVuZGVhdm9ySWQS'
+    'Cg5SZXBlYXRpbmdFdmVudBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCgJpZBgCIAEoBVICaW'
+    'QSFAoFdGl0bGUYAyABKAlSBXRpdGxlEh4KCmVuZGVhdm9ySWQYBCABKAVSCmVuZGVhdm9ySWQS'
     'MQoJc3RhcnRUaW1lGAUgASgLMhMuY29tbW9uX21vZGVscy5UaW1lUglzdGFydFRpbWUSLQoHZW'
     '5kVGltZRgGIAEoCzITLmNvbW1vbl9tb2RlbHMuVGltZVIHZW5kVGltZRI4CglzdGFydERhdGUY'
     'ByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUglzdGFydERhdGUSNAoHZW5kRGF0ZR'
