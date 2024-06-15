@@ -12,7 +12,7 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
   final int? calendarEventId;
-  final String? initialRepeatingCalendarEventId;
+  final int? initialRepeatingCalendarEventId;
 
   CalendarEventScreenBloc({CalendarEvent? initialEvent})
       : title = TextFieldBloc(initialValue: initialEvent?.title ?? ''),
@@ -60,7 +60,6 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   FutureOr<void> onDeleting() {
     ShimDataService.calendarEvents.deleteCalendarEvent(
       calendarEventId!,
-      initialRepeatingCalendarEventId,
     );
     emitDeleteSuccessful();
   }
@@ -68,7 +67,6 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   void onDeleteThisAndFollowing() {
     ShimDataService.calendarEvents.repeating
         .deleteThisAndFollowingCalendarEvents(
-      repeatingCalendarEventId: initialRepeatingCalendarEventId!,
       selectedCalendarEventId: "fake", // TODO: Make this real
     );
   }

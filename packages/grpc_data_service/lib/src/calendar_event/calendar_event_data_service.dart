@@ -29,6 +29,7 @@ class CalendarEventDataService {
                         start: e.startTime.toDateTime(toLocal: true),
                         end: e.endTime.toDateTime(toLocal: true),
                       ),
+                      repeatingCalendarEventId: e.repeatingEventId,
                     ),
                   )
                   .toList(),
@@ -61,6 +62,7 @@ class CalendarEventDataService {
           id: calendarEvent.id,
           title: calendarEvent.title,
           endeavorId: null, // TODO: update actual endeavorId
+          repeatingEventId: calendarEvent.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
         ),
@@ -120,6 +122,23 @@ class CalendarEventDataService {
           f: urce.repeatingEvent.daysOfWeek[4],
           s: urce.repeatingEvent.daysOfWeek[5],
           su: urce.repeatingEvent.daysOfWeek[6],
+        ),
+      ),
+    );
+  }
+
+  void editThisAndFollowingCalendarEvents(CalendarEvent event) {
+    client.editThisAndFollowingCalendarEvents(
+      EditThisAndFollowingCalendarEventsRequest(
+        event: event_proto.Event(
+          userId: _userId,
+          id: event.id,
+          title: event.title,
+          endeavorId: null, // TODO: use the endeavor id when its an int
+          repeatingEventId:
+              null, // TODO: use the repeatingEventId when it's an int
+          startTime: Timestamp.fromDateTime(event.event.start),
+          endTime: Timestamp.fromDateTime(event.event.end),
         ),
       ),
     );

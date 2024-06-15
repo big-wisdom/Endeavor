@@ -21,7 +21,7 @@ class CalendarEventDataService {
     GRPCDataService.instance.calendarEvents.createCalendarEvent(calendarEvent);
   }
 
-  deleteCalendarEvent(int id, String? repeatingCalendarEventId) {
+  deleteCalendarEvent(int id) {
     GRPCDataService.instance.calendarEvents.deleteCalendarEvent(id);
   }
 

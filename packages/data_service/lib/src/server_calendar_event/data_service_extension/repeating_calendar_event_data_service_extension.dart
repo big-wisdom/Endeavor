@@ -17,7 +17,7 @@ extension RepeatingCalendarEventDataServiceExtension on DataService {
         title: urce.title,
         event: event,
         endeavorReference: urce.endeavorReference,
-        repeatingCalendarEventId: repeatingDocRef.id,
+        // repeatingCalendarEventId: repeatingDocRef.id,
       );
 
       // create a doc for this endeavorBlock
