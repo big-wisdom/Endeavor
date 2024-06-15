@@ -76,19 +76,41 @@ class CalendarEventDataService {
   }
 
   void createRepeatingCalendarEvent(
-      UnidentifiedRepeatingCalendarEvent urce, String id) {
+    UnidentifiedRepeatingCalendarEvent urce,
+  ) {
+    // Convert TimeOfDay to DateTime using the current date
+    final now = DateTime.now();
+    final startDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      urce.repeatingEvent.startTime.hour,
+      urce.repeatingEvent.endTime.minute,
+    );
+    final endDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      urce.repeatingEvent.endTime.hour,
+      urce.repeatingEvent.endTime.minute,
+    );
+
+    // Convert local DateTime to UTC
+    final utcStartDateTime = startDateTime.toUtc();
+    final utcEndDateTime = endDateTime.toUtc();
+
     client.createRepeatingCalendarEvent(
       CreateRepeatingCalendarEventRequest(
         repeatingEvent: repeating_event_proto.RepeatingEvent(
           userId: _userId,
-          id: null, // TODO: add ID back in
           title: urce.title,
+          endeavorId: null, // TODO: actually add endeavorId
           startTime: repeating_event_proto.Time(
-              hours: urce.repeatingEvent.startTime.hour,
-              minutes: urce.repeatingEvent.startTime.minute),
+            hours: utcStartDateTime.hour,
+            minutes: utcStartDateTime.minute,
+          ),
           endTime: repeating_event_proto.Time(
-              hours: urce.repeatingEvent.endTime.hour,
-              minutes: urce.repeatingEvent.endTime.minute),
+              hours: utcEndDateTime.hour, minutes: utcEndDateTime.minute),
           startDate: Timestamp.fromDateTime(urce.repeatingEvent.startDate),
           endDate: Timestamp.fromDateTime(urce.repeatingEvent.endDate),
           m: urce.repeatingEvent.daysOfWeek[0],
