@@ -1,5 +1,4 @@
 import 'package:data_models/data_models.dart';
-import 'package:data_service/data_service.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 
 class RepeatingCalendarEventDataService {
@@ -15,9 +14,9 @@ class RepeatingCalendarEventDataService {
   }
 
   deleteThisAndFollowingCalendarEvents({
-    required String selectedCalendarEventId,
+    required int selectedCalendarEventId,
   }) async {
-    // GRPCDataService.instance.calendarEvents.del
-    print("can't do that yet");
+    GRPCDataService.instance.calendarEvents
+        .deleteThisAndFollowingCalendarEvents(selectedCalendarEventId);
   }
 }
