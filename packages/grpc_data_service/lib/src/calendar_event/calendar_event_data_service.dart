@@ -135,12 +135,19 @@ class CalendarEventDataService {
           id: event.id,
           title: event.title,
           endeavorId: null, // TODO: use the endeavor id when its an int
-          repeatingEventId:
-              null, // TODO: use the repeatingEventId when it's an int
+          repeatingEventId: event.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(event.event.start),
           endTime: Timestamp.fromDateTime(event.event.end),
         ),
       ),
     );
+  }
+
+  void deleteThisAndFollowingCalendarEvents(int selectedEventId) {
+    client.deleteThisAndFollowingCalendarEvents(
+        DeleteThisAndFollowingCalendarEventsRequest(
+      userId: _userId,
+      eventId: selectedEventId,
+    ));
   }
 }

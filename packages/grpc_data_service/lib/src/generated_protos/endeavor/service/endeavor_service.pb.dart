@@ -519,7 +519,7 @@ class DeleteTaskRequest extends $pb.GeneratedMessage {
 class DeleteThisAndFollowingCalendarEventsRequest extends $pb.GeneratedMessage {
   factory DeleteThisAndFollowingCalendarEventsRequest({
     $core.String? userId,
-    $core.String? eventId,
+    $core.int? eventId,
   }) {
     final $result = create();
     if (userId != null) {
@@ -536,7 +536,7 @@ class DeleteThisAndFollowingCalendarEventsRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteThisAndFollowingCalendarEventsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
-    ..aOS(2, _omitFieldNames ? '' : 'eventId', protoName: 'eventId')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'eventId', $pb.PbFieldType.O3, protoName: 'eventId')
     ..hasRequiredFields = false
   ;
 
@@ -571,9 +571,9 @@ class DeleteThisAndFollowingCalendarEventsRequest extends $pb.GeneratedMessage {
   void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get eventId => $_getSZ(1);
+  $core.int get eventId => $_getIZ(1);
   @$pb.TagNumber(2)
-  set eventId($core.String v) { $_setString(1, v); }
+  set eventId($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
   $core.bool hasEventId() => $_has(1);
   @$pb.TagNumber(2)

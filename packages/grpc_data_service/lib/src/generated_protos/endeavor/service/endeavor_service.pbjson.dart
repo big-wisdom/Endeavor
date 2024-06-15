@@ -129,14 +129,14 @@ const DeleteThisAndFollowingCalendarEventsRequest$json = {
   '1': 'DeleteThisAndFollowingCalendarEventsRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'eventId', '3': 2, '4': 1, '5': 9, '10': 'eventId'},
+    {'1': 'eventId', '3': 2, '4': 1, '5': 5, '10': 'eventId'},
   ],
 };
 
 /// Descriptor for `DeleteThisAndFollowingCalendarEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List deleteThisAndFollowingCalendarEventsRequestDescriptor = $convert.base64Decode(
     'CitEZWxldGVUaGlzQW5kRm9sbG93aW5nQ2FsZW5kYXJFdmVudHNSZXF1ZXN0EhYKBnVzZXJJZB'
-    'gBIAEoCVIGdXNlcklkEhgKB2V2ZW50SWQYAiABKAlSB2V2ZW50SWQ=');
+    'gBIAEoCVIGdXNlcklkEhgKB2V2ZW50SWQYAiABKAVSB2V2ZW50SWQ=');
 
 @$core.Deprecated('Use deleteRepeatingCalendarEventRequestDescriptor instead')
 const DeleteRepeatingCalendarEventRequest$json = {
