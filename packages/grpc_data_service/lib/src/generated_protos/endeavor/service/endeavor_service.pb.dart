@@ -13,14 +13,211 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../../common_models/endeavor.pb.dart' as $6;
+import '../../common_models/endeavor.pb.dart' as $7;
+import '../../common_models/endeavor_block.pb.dart' as $6;
 import '../../common_models/event.pb.dart' as $4;
-import '../../common_models/repeating_event.pb.dart' as $7;
+import '../../common_models/repeating_event.pb.dart' as $8;
 import '../../common_models/task.pb.dart' as $5;
+
+class CreateEndeavorBlockRequest extends $pb.GeneratedMessage {
+  factory CreateEndeavorBlockRequest({
+    $core.String? userId,
+    $6.EndeavorBlock? endeavorBlock,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (endeavorBlock != null) {
+      $result.endeavorBlock = endeavorBlock;
+    }
+    return $result;
+  }
+  CreateEndeavorBlockRequest._() : super();
+  factory CreateEndeavorBlockRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CreateEndeavorBlockRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateEndeavorBlockRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOM<$6.EndeavorBlock>(2, _omitFieldNames ? '' : 'endeavorBlock', protoName: 'endeavorBlock', subBuilder: $6.EndeavorBlock.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CreateEndeavorBlockRequest clone() => CreateEndeavorBlockRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CreateEndeavorBlockRequest copyWith(void Function(CreateEndeavorBlockRequest) updates) => super.copyWith((message) => updates(message as CreateEndeavorBlockRequest)) as CreateEndeavorBlockRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CreateEndeavorBlockRequest create() => CreateEndeavorBlockRequest._();
+  CreateEndeavorBlockRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateEndeavorBlockRequest> createRepeated() => $pb.PbList<CreateEndeavorBlockRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CreateEndeavorBlockRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateEndeavorBlockRequest>(create);
+  static CreateEndeavorBlockRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $6.EndeavorBlock get endeavorBlock => $_getN(1);
+  @$pb.TagNumber(2)
+  set endeavorBlock($6.EndeavorBlock v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEndeavorBlock() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEndeavorBlock() => clearField(2);
+  @$pb.TagNumber(2)
+  $6.EndeavorBlock ensureEndeavorBlock() => $_ensure(1);
+}
+
+class UpdateEndeavorBlockRequest extends $pb.GeneratedMessage {
+  factory UpdateEndeavorBlockRequest({
+    $core.String? userId,
+    $6.EndeavorBlock? updatedEndeavorBlock,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (updatedEndeavorBlock != null) {
+      $result.updatedEndeavorBlock = updatedEndeavorBlock;
+    }
+    return $result;
+  }
+  UpdateEndeavorBlockRequest._() : super();
+  factory UpdateEndeavorBlockRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateEndeavorBlockRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateEndeavorBlockRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOM<$6.EndeavorBlock>(2, _omitFieldNames ? '' : 'updatedEndeavorBlock', protoName: 'updatedEndeavorBlock', subBuilder: $6.EndeavorBlock.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UpdateEndeavorBlockRequest clone() => UpdateEndeavorBlockRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UpdateEndeavorBlockRequest copyWith(void Function(UpdateEndeavorBlockRequest) updates) => super.copyWith((message) => updates(message as UpdateEndeavorBlockRequest)) as UpdateEndeavorBlockRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UpdateEndeavorBlockRequest create() => UpdateEndeavorBlockRequest._();
+  UpdateEndeavorBlockRequest createEmptyInstance() => create();
+  static $pb.PbList<UpdateEndeavorBlockRequest> createRepeated() => $pb.PbList<UpdateEndeavorBlockRequest>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateEndeavorBlockRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateEndeavorBlockRequest>(create);
+  static UpdateEndeavorBlockRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $6.EndeavorBlock get updatedEndeavorBlock => $_getN(1);
+  @$pb.TagNumber(2)
+  set updatedEndeavorBlock($6.EndeavorBlock v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUpdatedEndeavorBlock() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUpdatedEndeavorBlock() => clearField(2);
+  @$pb.TagNumber(2)
+  $6.EndeavorBlock ensureUpdatedEndeavorBlock() => $_ensure(1);
+}
+
+class DeleteEndeavorBlockRequest extends $pb.GeneratedMessage {
+  factory DeleteEndeavorBlockRequest({
+    $core.String? userId,
+    $core.int? endeavorBlockId,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (endeavorBlockId != null) {
+      $result.endeavorBlockId = endeavorBlockId;
+    }
+    return $result;
+  }
+  DeleteEndeavorBlockRequest._() : super();
+  factory DeleteEndeavorBlockRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeleteEndeavorBlockRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteEndeavorBlockRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'endeavorBlockId', $pb.PbFieldType.O3, protoName: 'endeavorBlockId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeleteEndeavorBlockRequest clone() => DeleteEndeavorBlockRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeleteEndeavorBlockRequest copyWith(void Function(DeleteEndeavorBlockRequest) updates) => super.copyWith((message) => updates(message as DeleteEndeavorBlockRequest)) as DeleteEndeavorBlockRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static DeleteEndeavorBlockRequest create() => DeleteEndeavorBlockRequest._();
+  DeleteEndeavorBlockRequest createEmptyInstance() => create();
+  static $pb.PbList<DeleteEndeavorBlockRequest> createRepeated() => $pb.PbList<DeleteEndeavorBlockRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DeleteEndeavorBlockRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteEndeavorBlockRequest>(create);
+  static DeleteEndeavorBlockRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get endeavorBlockId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set endeavorBlockId($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEndeavorBlockId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEndeavorBlockId() => clearField(2);
+}
 
 class ListEndeavorsResponse extends $pb.GeneratedMessage {
   factory ListEndeavorsResponse({
-    $core.Iterable<$6.Endeavor>? endeavors,
+    $core.Iterable<$7.Endeavor>? endeavors,
   }) {
     final $result = create();
     if (endeavors != null) {
@@ -33,7 +230,7 @@ class ListEndeavorsResponse extends $pb.GeneratedMessage {
   factory ListEndeavorsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListEndeavorsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..pc<$6.Endeavor>(1, _omitFieldNames ? '' : 'endeavors', $pb.PbFieldType.PM, subBuilder: $6.Endeavor.create)
+    ..pc<$7.Endeavor>(1, _omitFieldNames ? '' : 'endeavors', $pb.PbFieldType.PM, subBuilder: $7.Endeavor.create)
     ..hasRequiredFields = false
   ;
 
@@ -59,7 +256,7 @@ class ListEndeavorsResponse extends $pb.GeneratedMessage {
   static ListEndeavorsResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$6.Endeavor> get endeavors => $_getList(0);
+  $core.List<$7.Endeavor> get endeavors => $_getList(0);
 }
 
 class ListEndeavorsRequest extends $pb.GeneratedMessage {
@@ -206,7 +403,7 @@ class CreateEndeavorRequest extends $pb.GeneratedMessage {
 
 class UpdateEndeavorRequest extends $pb.GeneratedMessage {
   factory UpdateEndeavorRequest({
-    $6.Endeavor? endeavor,
+    $7.Endeavor? endeavor,
   }) {
     final $result = create();
     if (endeavor != null) {
@@ -219,7 +416,7 @@ class UpdateEndeavorRequest extends $pb.GeneratedMessage {
   factory UpdateEndeavorRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateEndeavorRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..aOM<$6.Endeavor>(1, _omitFieldNames ? '' : 'endeavor', subBuilder: $6.Endeavor.create)
+    ..aOM<$7.Endeavor>(1, _omitFieldNames ? '' : 'endeavor', subBuilder: $7.Endeavor.create)
     ..hasRequiredFields = false
   ;
 
@@ -245,15 +442,15 @@ class UpdateEndeavorRequest extends $pb.GeneratedMessage {
   static UpdateEndeavorRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $6.Endeavor get endeavor => $_getN(0);
+  $7.Endeavor get endeavor => $_getN(0);
   @$pb.TagNumber(1)
-  set endeavor($6.Endeavor v) { setField(1, v); }
+  set endeavor($7.Endeavor v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasEndeavor() => $_has(0);
   @$pb.TagNumber(1)
   void clearEndeavor() => clearField(1);
   @$pb.TagNumber(1)
-  $6.Endeavor ensureEndeavor() => $_ensure(0);
+  $7.Endeavor ensureEndeavor() => $_ensure(0);
 }
 
 class DeleteEndeavorRequest extends $pb.GeneratedMessage {
@@ -684,7 +881,7 @@ class EditThisAndFollowingCalendarEventsRequest extends $pb.GeneratedMessage {
 
 class EditRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   factory EditRepeatingCalendarEventRequest({
-    $7.RepeatingEvent? repeatingEvent,
+    $8.RepeatingEvent? repeatingEvent,
   }) {
     final $result = create();
     if (repeatingEvent != null) {
@@ -697,7 +894,7 @@ class EditRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   factory EditRepeatingCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'EditRepeatingCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..aOM<$7.RepeatingEvent>(1, _omitFieldNames ? '' : 'repeatingEvent', protoName: 'repeatingEvent', subBuilder: $7.RepeatingEvent.create)
+    ..aOM<$8.RepeatingEvent>(1, _omitFieldNames ? '' : 'repeatingEvent', protoName: 'repeatingEvent', subBuilder: $8.RepeatingEvent.create)
     ..hasRequiredFields = false
   ;
 
@@ -723,15 +920,15 @@ class EditRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   static EditRepeatingCalendarEventRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $7.RepeatingEvent get repeatingEvent => $_getN(0);
+  $8.RepeatingEvent get repeatingEvent => $_getN(0);
   @$pb.TagNumber(1)
-  set repeatingEvent($7.RepeatingEvent v) { setField(1, v); }
+  set repeatingEvent($8.RepeatingEvent v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasRepeatingEvent() => $_has(0);
   @$pb.TagNumber(1)
   void clearRepeatingEvent() => clearField(1);
   @$pb.TagNumber(1)
-  $7.RepeatingEvent ensureRepeatingEvent() => $_ensure(0);
+  $8.RepeatingEvent ensureRepeatingEvent() => $_ensure(0);
 }
 
 class CreateCalendarEventRequest extends $pb.GeneratedMessage {
@@ -840,7 +1037,7 @@ class CreateCalendarEventResponse extends $pb.GeneratedMessage {
 
 class CreateRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   factory CreateRepeatingCalendarEventRequest({
-    $7.RepeatingEvent? repeatingEvent,
+    $8.RepeatingEvent? repeatingEvent,
   }) {
     final $result = create();
     if (repeatingEvent != null) {
@@ -853,7 +1050,7 @@ class CreateRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   factory CreateRepeatingCalendarEventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRepeatingCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..aOM<$7.RepeatingEvent>(1, _omitFieldNames ? '' : 'repeatingEvent', protoName: 'repeatingEvent', subBuilder: $7.RepeatingEvent.create)
+    ..aOM<$8.RepeatingEvent>(1, _omitFieldNames ? '' : 'repeatingEvent', protoName: 'repeatingEvent', subBuilder: $8.RepeatingEvent.create)
     ..hasRequiredFields = false
   ;
 
@@ -879,15 +1076,15 @@ class CreateRepeatingCalendarEventRequest extends $pb.GeneratedMessage {
   static CreateRepeatingCalendarEventRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $7.RepeatingEvent get repeatingEvent => $_getN(0);
+  $8.RepeatingEvent get repeatingEvent => $_getN(0);
   @$pb.TagNumber(1)
-  set repeatingEvent($7.RepeatingEvent v) { setField(1, v); }
+  set repeatingEvent($8.RepeatingEvent v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasRepeatingEvent() => $_has(0);
   @$pb.TagNumber(1)
   void clearRepeatingEvent() => clearField(1);
   @$pb.TagNumber(1)
-  $7.RepeatingEvent ensureRepeatingEvent() => $_ensure(0);
+  $8.RepeatingEvent ensureRepeatingEvent() => $_ensure(0);
 }
 
 class UpdateCalendarEventRequest extends $pb.GeneratedMessage {

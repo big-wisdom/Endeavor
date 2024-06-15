@@ -13,6 +13,50 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use createEndeavorBlockRequestDescriptor instead')
+const CreateEndeavorBlockRequest$json = {
+  '1': 'CreateEndeavorBlockRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+    {'1': 'endeavorBlock', '3': 2, '4': 1, '5': 11, '6': '.common_models.EndeavorBlock', '10': 'endeavorBlock'},
+  ],
+};
+
+/// Descriptor for `CreateEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createEndeavorBlockRequestDescriptor = $convert.base64Decode(
+    'ChpDcmVhdGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBJCCg'
+    '1lbmRlYXZvckJsb2NrGAIgASgLMhwuY29tbW9uX21vZGVscy5FbmRlYXZvckJsb2NrUg1lbmRl'
+    'YXZvckJsb2Nr');
+
+@$core.Deprecated('Use updateEndeavorBlockRequestDescriptor instead')
+const UpdateEndeavorBlockRequest$json = {
+  '1': 'UpdateEndeavorBlockRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+    {'1': 'updatedEndeavorBlock', '3': 2, '4': 1, '5': 11, '6': '.common_models.EndeavorBlock', '10': 'updatedEndeavorBlock'},
+  ],
+};
+
+/// Descriptor for `UpdateEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateEndeavorBlockRequestDescriptor = $convert.base64Decode(
+    'ChpVcGRhdGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBJQCh'
+    'R1cGRhdGVkRW5kZWF2b3JCbG9jaxgCIAEoCzIcLmNvbW1vbl9tb2RlbHMuRW5kZWF2b3JCbG9j'
+    'a1IUdXBkYXRlZEVuZGVhdm9yQmxvY2s=');
+
+@$core.Deprecated('Use deleteEndeavorBlockRequestDescriptor instead')
+const DeleteEndeavorBlockRequest$json = {
+  '1': 'DeleteEndeavorBlockRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+    {'1': 'endeavorBlockId', '3': 2, '4': 1, '5': 5, '10': 'endeavorBlockId'},
+  ],
+};
+
+/// Descriptor for `DeleteEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteEndeavorBlockRequestDescriptor = $convert.base64Decode(
+    'ChpEZWxldGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIoCg'
+    '9lbmRlYXZvckJsb2NrSWQYAiABKAVSD2VuZGVhdm9yQmxvY2tJZA==');
+
 @$core.Deprecated('Use listEndeavorsResponseDescriptor instead')
 const ListEndeavorsResponse$json = {
   '1': 'ListEndeavorsResponse',

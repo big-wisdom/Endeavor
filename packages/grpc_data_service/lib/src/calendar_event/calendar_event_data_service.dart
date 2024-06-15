@@ -16,9 +16,10 @@ class CalendarEventDataService {
       : _userId = userId,
         calendarEventStream = client
             .subscribeToCalendarEvents(
-                (StreamController<ListCalendarEventsRequest>()
-                      ..add(ListCalendarEventsRequest(userId: userId)))
-                    .stream)
+              (StreamController<ListCalendarEventsRequest>()
+                    ..add(ListCalendarEventsRequest(userId: userId)))
+                  .stream,
+            )
             .map(
               (listCalendarEventResponse) => listCalendarEventResponse.events
                   .map(
