@@ -18,9 +18,9 @@ import '../google/protobuf/timestamp.pb.dart' as $2;
 class RepeatingEvent extends $pb.GeneratedMessage {
   factory RepeatingEvent({
     $core.String? userId,
-    $core.String? id,
+    $core.int? id,
     $core.String? title,
-    $core.String? endeavorId,
+    $core.int? endeavorId,
     Time? startTime,
     Time? endTime,
     $2.Timestamp? startDate,
@@ -87,9 +87,9 @@ class RepeatingEvent extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RepeatingEvent', package: const $pb.PackageName(_omitMessageNames ? '' : 'common_models'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
-    ..aOS(2, _omitFieldNames ? '' : 'id')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(3, _omitFieldNames ? '' : 'title')
-    ..aOS(4, _omitFieldNames ? '' : 'endeavorId', protoName: 'endeavorId')
+    ..a<$core.int>(4, _omitFieldNames ? '' : 'endeavorId', $pb.PbFieldType.O3, protoName: 'endeavorId')
     ..aOM<Time>(5, _omitFieldNames ? '' : 'startTime', protoName: 'startTime', subBuilder: Time.create)
     ..aOM<Time>(6, _omitFieldNames ? '' : 'endTime', protoName: 'endTime', subBuilder: Time.create)
     ..aOM<$2.Timestamp>(7, _omitFieldNames ? '' : 'startDate', protoName: 'startDate', subBuilder: $2.Timestamp.create)
@@ -135,9 +135,9 @@ class RepeatingEvent extends $pb.GeneratedMessage {
   void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get id => $_getSZ(1);
+  $core.int get id => $_getIZ(1);
   @$pb.TagNumber(2)
-  set id($core.String v) { $_setString(1, v); }
+  set id($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
   $core.bool hasId() => $_has(1);
   @$pb.TagNumber(2)
@@ -153,9 +153,9 @@ class RepeatingEvent extends $pb.GeneratedMessage {
   void clearTitle() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get endeavorId => $_getSZ(3);
+  $core.int get endeavorId => $_getIZ(3);
   @$pb.TagNumber(4)
-  set endeavorId($core.String v) { $_setString(3, v); }
+  set endeavorId($core.int v) { $_setSignedInt32(3, v); }
   @$pb.TagNumber(4)
   $core.bool hasEndeavorId() => $_has(3);
   @$pb.TagNumber(4)
