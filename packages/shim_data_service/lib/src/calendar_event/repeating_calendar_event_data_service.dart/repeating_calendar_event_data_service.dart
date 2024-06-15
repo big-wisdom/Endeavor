@@ -10,17 +10,14 @@ class RepeatingCalendarEventDataService {
   editThisAndFollowingCalendarEvent({
     required CalendarEvent calendarEvent,
   }) async {
-    RepeatingCalendarEventDataServiceExtension
-        .editThisAndFollowingCalendarEvent(calendarEvent: calendarEvent);
+    GRPCDataService.instance.calendarEvents
+        .editThisAndFollowingCalendarEvents(calendarEvent);
   }
 
   deleteThisAndFollowingCalendarEvents({
-    required String repeatingCalendarEventId,
     required String selectedCalendarEventId,
   }) async {
-    RepeatingCalendarEventDataServiceExtension
-        .deleteThisAndFollowingCalendarEvents(
-            repeatingCalendarEventId: repeatingCalendarEventId,
-            selectedCalendarEventId: selectedCalendarEventId);
+    // GRPCDataService.instance.calendarEvents.del
+    print("can't do that yet");
   }
 }

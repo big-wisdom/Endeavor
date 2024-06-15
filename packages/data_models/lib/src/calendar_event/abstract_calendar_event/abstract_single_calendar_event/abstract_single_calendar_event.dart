@@ -9,5 +9,5 @@ abstract class AbstractSingleCalendarEvent extends AbstractCalendarEvent {
   }) : super(abstractEvent: event);
 
   final Event event;
-  final String? repeatingCalendarEventId;
+  final int? repeatingCalendarEventId;
 }
