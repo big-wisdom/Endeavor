@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'endeavor_selection_screen_state.dart';
@@ -10,7 +9,6 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
   final bool _nullable;
 
   EndeavorSelectionScreenCubit({
-    required DataRepository dataRepository,
     required EndeavorPickerRowInput initiallySelectedEndeavorInput,
     required void Function(Endeavor?) onChanged,
   })  : _nullable = initiallySelectedEndeavorInput.nullable,
@@ -20,14 +18,15 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
           selectedEndeavorInput: initiallySelectedEndeavorInput,
         )) {
     // get tree of life if it's not passed in
-    dataRepository.treeOfLifeStream.first.then(
-      (tree) => emit(
-        EndeavorSelectionScreenState(
-          treeOfLife: tree,
-          selectedEndeavorInput: state.selectedEndeavorInput,
-        ),
-      ),
-    );
+    // TODO: Need to get a tree of life stream back
+    // ShimDataService.endeavors.endeavorsStream.first.then(
+    //   (endeavors) => emit(
+    //     EndeavorSelectionScreenState(
+    //       treeOfLife: TreeOfLife.fromEndeavorsList(endeavors),
+    //       selectedEndeavorInput: state.selectedEndeavorInput,
+    //     ),
+    //   ),
+    // );
   }
 
   void endeavorSelected(Endeavor endeavor) {

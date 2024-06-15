@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -19,7 +18,6 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
   TaskScreenBloc({
     required this.initialEndeavorReference,
     required this.initialTaskReference,
-    required DataRepository dataRepository,
   }) : super(
           initialTaskReference != null
               ? LoadingEditTaskScreenState(
@@ -31,15 +29,16 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
                 ),
         ) {
     if (initialTaskReference != null) {
-      taskStreamSub =
-          dataRepository.getTaskStream(initialTaskReference!.id).listen(
-        (updatedTask) {
-          if (state is LoadingEditTaskScreenState) {
-            initialTask = updatedTask;
-          }
-          add(TaskChangedByServer(updatedTask));
-        },
-      );
+      // TODO: get task stream back
+      // taskStreamSub =
+      //     dataRepository.getTaskStream(initialTaskReference!.id).listen(
+      //   (updatedTask) {
+      //     if (state is LoadingEditTaskScreenState) {
+      //       initialTask = updatedTask;
+      //     }
+      //     add(TaskChangedByServer(updatedTask));
+      //   },
+      // );
     } else {
       taskStreamSub = null;
     }

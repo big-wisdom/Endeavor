@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:endeavor/util.dart';
 import 'package:equatable/equatable.dart';
@@ -12,11 +11,9 @@ part 'endeavors_screen_state.dart';
 
 class EndeavorsScreenBloc
     extends Bloc<EndeavorsScreenEvent, EndeavorsScreenState> {
-  final DataRepository _dataRepository;
   late final StreamSubscription<List<Endeavor>> _streamSubscription;
 
-  EndeavorsScreenBloc(this._dataRepository)
-      : super(const EndeavorsScreenState([])) {
+  EndeavorsScreenBloc() : super(const EndeavorsScreenState([])) {
     on<ReorderEndeavors>((event, emit) {
       final newPrimaryEndeavorsList = state.primaryEndeavors.reorderedCopy(
         event.oldIndex,
@@ -38,8 +35,8 @@ class EndeavorsScreenBloc
       },
     );
 
-    _streamSubscription = _dataRepository.orderedPrimaryEndeavorsStream
-        .listen((newPrimaryEndeavors) {
+    _streamSubscription =
+        ShimDataService.endeavors.endeavorsStream.listen((newPrimaryEndeavors) {
       add(NewPrimaryEndeavors(newPrimaryEndeavors));
     });
   }

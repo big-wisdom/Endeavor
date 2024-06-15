@@ -1,7 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,11 +22,7 @@ void main() async {
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
 
-  final dataRepository =
-      DataRepository(userStream: authenticationRepository.user);
-
   runApp(App(
     authenticationRepository: authenticationRepository,
-    dataRepository: dataRepository,
   ));
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,8 +12,7 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
   late final StreamSubscription _activeTreeSubscription;
   late final StreamSubscription _endeavorlessSubscription;
 
-  TasksScreenBloc(DataRepository dataRepository)
-      : super(LoadingTasksScreenState()) {
+  TasksScreenBloc() : super(LoadingTasksScreenState()) {
     on<ServerUpdate>(
       (event, emit) => emit(LoadedTasksScreenState(
         treeOfLife: event.treeOfLife,
@@ -31,27 +29,29 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       },
     );
 
-    _activeTreeSubscription =
-        dataRepository.activeTreeOfLifeStream.listen((event) {
-      add(ServerUpdate(
-        treeOfLife: event,
-        endeavorlessTasks: state is LoadedTasksScreenState
-            ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
-            : [],
-      ));
-    });
+    // TODO: Get tree of life stream back
+    // _activeTreeSubscription =
+    //     dataRepository.activeTreeOfLifeStream.listen((event) {
+    //   add(ServerUpdate(
+    //     treeOfLife: event,
+    //     endeavorlessTasks: state is LoadedTasksScreenState
+    //         ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
+    //         : [],
+    //   ));
+    // });
 
-    _endeavorlessSubscription =
-        dataRepository.endeavorlessTasksStream.listen((event) {
-      if (state is LoadedTasksScreenState) {
-        add(
-          ServerUpdate(
-            treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
-            endeavorlessTasks: event,
-          ),
-        );
-      }
-    });
+    // TODO: Get endeavorless task stream back
+    // _endeavorlessSubscription =
+    //     dataRepository.endeavorlessTasksStream.listen((event) {
+    //   if (state is LoadedTasksScreenState) {
+    //     add(
+    //       ServerUpdate(
+    //         treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
+    //         endeavorlessTasks: event,
+    //       ),
+    //     );
+    //   }
+    // });
   }
 
   @override

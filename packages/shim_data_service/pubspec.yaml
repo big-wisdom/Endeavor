@@ -11,10 +11,6 @@ dependencies:
     path: ../authentication_repository
   data_models:
     path: ../data_models
-  data_service:
-    path: ../data_service
   grpc_data_service:
     path: ../grpc_data_service
-  server_data_models:
-    path: ../server_data_models
   uuid: ^3.0.7

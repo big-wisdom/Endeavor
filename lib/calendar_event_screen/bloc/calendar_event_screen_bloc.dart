@@ -65,7 +65,6 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   }
 
   void onDeleteThisAndFollowing() {
-    print("calendarEventId: $calendarEventId");
     ShimDataService.calendarEvents.repeating
         .deleteThisAndFollowingCalendarEvents(
       selectedCalendarEventId: calendarEventId!,

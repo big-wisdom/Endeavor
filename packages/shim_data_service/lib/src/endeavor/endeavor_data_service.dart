@@ -1,64 +1,59 @@
 import 'dart:ui';
 
 import 'package:data_models/data_models.dart';
-import 'package:data_service/data_service.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
-import 'package:server_data_models/server_data_models.dart';
 
 class EndeavorDataService {
-  Stream<List<ServerEndeavor>> get serverEndeavorsStream =>
-      ServerEndeavorDataServiceExtension.serverEndeavorsStream;
+  EndeavorDataService() {
+    endeavorsStream
+        .listen((newEndeavorsList) => endeavorsSnapshot = newEndeavorsList);
+  }
+
+  Stream<List<Endeavor>> get endeavorsStream =>
+      GRPCDataService.instance.endeavors.endeavorsStream;
+
+  List<Endeavor> endeavorsSnapshot = [];
 
   void createPrimaryEndeavor(String endeavorTitle) async {
     GRPCDataService.instance.endeavors.createPrimaryEndeavor(endeavorTitle);
   }
 
   void reorderEndeavorTasks(String endeavorId, List<String> taskIds) async {
-    ServerEndeavorDataServiceExtension.reorderEndeavorTasks(
-        endeavorId, taskIds);
+    // ServerEndeavorDataServiceExtension.reorderEndeavorTasks(
+    //     endeavorId, taskIds);
   }
 
   void reorderSubEndeavors(
       String endeavorId, List<String> subEndeavorIds) async {
-    ServerEndeavorDataServiceExtension.reorderSubEndeavors(
-        endeavorId, subEndeavorIds);
+    // ServerEndeavorDataServiceExtension.reorderSubEndeavors(
+    //     endeavorId, subEndeavorIds);
   }
 
-  void reorderPrimaryEndeavors(List<String> primaryEndeavorIds) async {
-    ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
-        primaryEndeavorIds);
+  void reorderPrimaryEndeavors(List<int> primaryEndeavorIds) async {
+    // ServerEndeavorDataServiceExtension.reorderPrimaryEndeavors(
+    //     primaryEndeavorIds);
   }
 
-  void updateEndeavor(Endeavor endeavor) async {
-    ServerEndeavorDataServiceExtension.updateEndeavor(endeavor);
-  }
+  void updateEndeavor(Endeavor endeavor) async {}
 
-  planEndeavor(Endeavor endeavor) async {
-    ServerEndeavorDataServiceExtension.planEndeavor(endeavor);
-  }
+  planEndeavor(Endeavor endeavor) async {}
 
   void addSubEndeavor({
-    required String parentEndeavorId,
+    required int parentEndeavorId,
     required String endeavorTitle,
   }) {
-    ServerEndeavorDataServiceExtension.addSubEndeavor(
-        parentEndeavorId: parentEndeavorId, endeavorTitle: endeavorTitle);
+    // ServerEndeavorDataServiceExtension.addSubEndeavor(
+    //     parentEndeavorId: parentEndeavorId, endeavorTitle: endeavorTitle);
   }
 
   Future<bool> deletePrimaryEndeavor(Endeavor endeavor) async {
-    return await ServerEndeavorDataServiceExtension.deletePrimaryEndeavor(
-        endeavor);
+    return Future.value(false);
   }
 
-  void deleteSubEndeavor(EndeavorReference endeavorReference) {
-    ServerEndeavorDataServiceExtension.deleteSubEndeavor(endeavorReference);
-  }
+  void deleteSubEndeavor(EndeavorReference endeavorReference) {}
 
   void updateEndeavorColor({
     required String endeavorId,
     required Color color,
-  }) {
-    ServerEndeavorDataServiceExtension.updateEndeavorColor(
-        endeavorId: endeavorId, color: color);
-  }
+  }) {}
 }

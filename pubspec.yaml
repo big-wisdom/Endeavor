@@ -41,8 +41,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   data_models:
     path: packages/data_models
-  data_repository:
-    path: packages/data_repository
   shim_data_service:
     path: packages/shim_data_service
   date_and_time_utilities:

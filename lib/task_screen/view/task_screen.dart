@@ -1,5 +1,4 @@
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/task_screen/bloc/task_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +38,6 @@ class TaskScreen extends StatelessWidget {
       create: (context) => TaskScreenBloc(
         initialEndeavorReference: endeavorReference,
         initialTaskReference: taskReference,
-        dataRepository: context.read<DataRepository>(),
       ),
       child: const TaskScreenView(),
     );
