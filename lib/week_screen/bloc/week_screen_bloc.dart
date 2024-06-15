@@ -33,7 +33,9 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
                 backgroundColor: Colors.blue,
                 start: event.event.start,
                 end: event.event.end,
-                originalObject: event,
+                calendarEventId: event.id,
+                endeavorBlockId: null,
+                taskId: null,
               ),
             )
             .toList())

@@ -74,8 +74,10 @@ Back End: Firebase
 ## What I'm working on now
 
 1. DONE Create a shim with static aggregation
-2. Build out the new backend
-  * I was seeing some issues where the subscription endpoints were being called before the user was authenticated, and that's when I realized that there's really no reason to be initializing the data service before the authentication repository so I moved it after and simplified a lot of logic removing async things and late initializers.
-  * I also need to see what happens when the app is closed or moved into the background and brought back to see if the subscription survives or gets reinitialized.
-4. Remove server data types, data repository, transformers, and old data service
-5. This is when I can finally get around to implementing the Schedule
+2. MOSTLY DONE Build out the new backend
+3. I need to first make CalendarEvents and repeatingCalendarEvents depend on the new service
+4. Then I want to make all week view events depend on the new service
+5. I believe that it's time to start connecting the client. Eventually I think I can remove server data types, data repository, transformers, and old data service
+  - I need to remember that with the shim the client is still  mostly dependant on the other data service
+  - There is a pesky problem of how I've had to make changes to the Event data model. I've changed the ID to an int rather than a string
+6. This is when I can finally get around to implementing the Schedule

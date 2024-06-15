@@ -945,7 +945,7 @@ class UpdateCalendarEventRequest extends $pb.GeneratedMessage {
 class DeleteCalendarEventRequest extends $pb.GeneratedMessage {
   factory DeleteCalendarEventRequest({
     $core.String? userId,
-    $core.String? id,
+    $core.int? id,
   }) {
     final $result = create();
     if (userId != null) {
@@ -962,7 +962,7 @@ class DeleteCalendarEventRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteCalendarEventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
-    ..aOS(2, _omitFieldNames ? '' : 'id')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -997,9 +997,9 @@ class DeleteCalendarEventRequest extends $pb.GeneratedMessage {
   void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get id => $_getSZ(1);
+  $core.int get id => $_getIZ(1);
   @$pb.TagNumber(2)
-  set id($core.String v) { $_setString(1, v); }
+  set id($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
   $core.bool hasId() => $_has(1);
   @$pb.TagNumber(2)

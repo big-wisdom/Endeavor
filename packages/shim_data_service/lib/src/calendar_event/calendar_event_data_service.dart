@@ -1,8 +1,6 @@
 import 'package:data_models/data_models.dart';
-import 'package:data_service/data_service.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 // import 'package:server_data_models/server_data_models.dart';
-import 'package:uuid/uuid.dart';
 import './repeating_calendar_event_data_service.dart/repeating_calendar_event_data_service.dart';
 
 class CalendarEventDataService {
@@ -11,26 +9,23 @@ class CalendarEventDataService {
 
   Stream<List<CalendarEvent>> get calendarEventStream =>
       GRPCDataService.instance.calendarEvents.calendarEventStream;
-  // ServerCalendarEventDataServiceExtension.calendarEventStream;
 
-  createCalendarEvent(UnidentifiedCalendarEvent calendarEvent) {
-    final uuid = Uuid().v4();
-    ServerCalendarEventDataServiceExtension.createCalendarEvent(
-        calendarEvent, uuid);
-    GRPCDataService.instance.calendarEvents
-        .createCalendarEvent(calendarEvent, uuid);
+  CalendarEventDataService() {
+    calendarEventStream
+        .listen((calendarEvents) => calendarEventsSnapshot = calendarEvents);
   }
 
-  deleteCalendarEvent(String id, String? repeatingCalendarEventId) {
-    ServerCalendarEventDataServiceExtension.deleteCalendarEvent(
-      id,
-      repeatingCalendarEventId,
-    );
+  List<CalendarEvent> calendarEventsSnapshot = [];
+
+  createCalendarEvent(UnidentifiedCalendarEvent calendarEvent) {
+    GRPCDataService.instance.calendarEvents.createCalendarEvent(calendarEvent);
+  }
+
+  deleteCalendarEvent(int id, String? repeatingCalendarEventId) {
     GRPCDataService.instance.calendarEvents.deleteCalendarEvent(id);
   }
 
   updateCalendarEvent(CalendarEvent calendarEvent) {
-    ServerCalendarEventDataServiceExtension.updateCalendarEvent(calendarEvent);
     GRPCDataService.instance.calendarEvents.updateCalendarEvent(calendarEvent);
   }
 }

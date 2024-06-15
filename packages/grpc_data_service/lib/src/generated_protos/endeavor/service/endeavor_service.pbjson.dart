@@ -234,14 +234,14 @@ const DeleteCalendarEventRequest$json = {
   '1': 'DeleteCalendarEventRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'id', '3': 2, '4': 1, '5': 5, '10': 'id'},
   ],
 };
 
 /// Descriptor for `DeleteCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List deleteCalendarEventRequestDescriptor = $convert.base64Decode(
     'ChpEZWxldGVDYWxlbmRhckV2ZW50UmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCg'
-    'JpZBgCIAEoCVICaWQ=');
+    'JpZBgCIAEoBVICaWQ=');
 
 @$core.Deprecated('Use listCalendarEventsRequestDescriptor instead')
 const ListCalendarEventsRequest$json = {
