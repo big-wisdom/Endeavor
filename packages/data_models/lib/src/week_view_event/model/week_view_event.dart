@@ -10,7 +10,9 @@ class WeekViewEvent extends Equatable {
     required this.backgroundColor,
     required this.start,
     required this.end,
-    required this.originalObject,
+    required this.calendarEventId,
+    required this.endeavorBlockId,
+    required this.taskId,
   });
 
   /// The event title.
@@ -26,7 +28,9 @@ class WeekViewEvent extends Equatable {
   final Color? backgroundColor;
 
   /// The original object that this was created from
-  final Object originalObject;
+  final int? calendarEventId;
+  final int? endeavorBlockId;
+  final int? taskId;
 
   factory WeekViewEvent.fromEndeavorBlock({
     required ServerEndeavorBlock serverEndeavorBlock,
@@ -39,12 +43,9 @@ class WeekViewEvent extends Equatable {
       backgroundColor: backgroundColor,
       start: serverEndeavorBlock.serverEvent.start,
       end: serverEndeavorBlock.serverEvent.end,
-      originalObject: EndeavorBlock(
-        id: serverEndeavorBlock.id,
-        endeavorReference: endeavorReference,
-        event: Event.fromServerEvent(serverEndeavorBlock.serverEvent),
-        repeatingEndeavorBlockId: serverEndeavorBlock.repeatingEndeavorBlockId,
-      ),
+      endeavorBlockId: null, // TODO: actually populate these IDs
+      calendarEventId: null,
+      taskId: null,
     );
   }
 
@@ -59,15 +60,9 @@ class WeekViewEvent extends Equatable {
       backgroundColor: backgroundColor,
       start: serverCalendarEvent.serverEvent.start,
       end: serverCalendarEvent.serverEvent.end,
-      originalObject: CalendarEvent(
-        id: serverCalendarEvent.id,
-        title: serverCalendarEvent.title,
-        endeavorReference: endeavorReference,
-        event: Event.fromServerEvent(
-          serverCalendarEvent.serverEvent,
-        ),
-        repeatingCalendarEventId: repeatingCalendarEventId,
-      ),
+      calendarEventId: null, // TODO: actually populate these IDs
+      endeavorBlockId: null,
+      taskId: null,
     );
   }
 
@@ -84,11 +79,9 @@ class WeekViewEvent extends Equatable {
             backgroundColor: backgroundColor,
             start: e.start,
             end: e.end,
-            originalObject: TaskReference(
-              id: serverTask.id,
-              endeavorId: serverTask.endeavorId,
-              title: serverTask.title,
-            ),
+            endeavorBlockId: null, // TODO: actually populate there IDs
+            calendarEventId: null,
+            taskId: null,
           ),
         )
         .toList();
@@ -96,5 +89,5 @@ class WeekViewEvent extends Equatable {
 
   @override
   List<Object?> get props =>
-      [title, start, end, backgroundColor, originalObject];
+      [title, start, end, backgroundColor, endeavorBlockId, calendarEventId];
 }

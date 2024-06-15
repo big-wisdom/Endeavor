@@ -42,7 +42,12 @@ class WeekScreenView extends StatelessWidget {
                       description: '',
                       start: e.start,
                       end: e.end,
-                      onTap: () => _onTap(context, e.originalObject),
+                      onTap: () => _onTap(
+                        context,
+                        e.endeavorBlockId,
+                        e.calendarEventId,
+                        e.taskId,
+                      ),
                     ),
                   )
                   .toList(),
@@ -54,21 +59,35 @@ class WeekScreenView extends StatelessWidget {
     );
   }
 
-  void _onTap(BuildContext context, Object originalObject) {
+  void _onTap(BuildContext context, int? endeavorBlockId, int? calendarEventId,
+      int? taskId) {
     MaterialPageRoute route;
-    if (originalObject is EndeavorBlock) {
+    if (endeavorBlockId != null) {
       route = MaterialPageRoute(
-        builder: (context) => EndeavorBlockScreen.edit(originalObject),
+        builder: (context) => EndeavorBlockScreen.edit(
+          EndeavorBlock(
+            // USE THE ID instead
+            id: "abc",
+            event: Event.generic(const Duration(hours: 1)),
+            endeavorReference: const EndeavorReference(title: "eli", id: "abc"),
+          ),
+        ),
       );
-    } else if (originalObject is CalendarEvent) {
+    } else if (calendarEventId != null) {
       route = MaterialPageRoute(
         builder: (context) =>
-            CalendarEventScreen.edit(calendarEvent: originalObject),
+            CalendarEventScreen.edit(calendarEventId: calendarEventId),
       );
     } else {
       route = MaterialPageRoute(
-          builder: (context) =>
-              TaskScreen.edit(originalObject as TaskReference));
+        builder: (context) => TaskScreen.edit(
+          const TaskReference(
+            id: "abc",
+            endeavorId: "abc2",
+            title: "eli",
+          ),
+        ),
+      );
     }
     Navigator.push(context, route);
   }

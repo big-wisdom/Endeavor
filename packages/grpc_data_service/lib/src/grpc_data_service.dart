@@ -1,5 +1,5 @@
 import 'package:grpc/grpc.dart';
-import './generated_protos/calendar_event/service/calendar_event_service.pbgrpc.dart';
+import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 import './calendar_event/calendar_event_data_service.dart';
 
 // this is a singleton class that is meant to be initialized before it is ever
@@ -17,7 +17,7 @@ class GRPCDataService {
 
   init(String userId) async {
     calendarEvents = CalendarEventDataService(
-      CalendarEventClient(ClientChannel(
+      EndeavorClient(ClientChannel(
         _baseUrl,
         port: _port,
 

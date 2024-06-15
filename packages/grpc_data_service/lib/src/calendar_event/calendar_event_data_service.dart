@@ -1,15 +1,16 @@
 import 'dart:async';
 
+import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
+
 import '../generated_protos/common_models/event.pb.dart' as event_proto;
 import '../generated_protos/common_models/repeating_event.pb.dart'
     as repeating_event_proto;
 import 'package:data_models/data_models.dart';
 
-import '../generated_protos/calendar_event/service/calendar_event_service.pbgrpc.dart';
 import '../generated_protos/google/protobuf/timestamp.pb.dart';
 
 class CalendarEventDataService {
-  CalendarEventClient client;
+  EndeavorClient client;
   String _userId;
   CalendarEventDataService(this.client, String userId)
       : _userId = userId,
@@ -25,8 +26,8 @@ class CalendarEventDataService {
                       id: e.id,
                       title: e.title,
                       event: Event(
-                        start: e.startTime.toDateTime(),
-                        end: e.endTime.toDateTime(),
+                        start: e.startTime.toDateTime(toLocal: true),
+                        end: e.endTime.toDateTime(toLocal: true),
                       ),
                     ),
                   )
@@ -38,15 +39,13 @@ class CalendarEventDataService {
 
   void createCalendarEvent(
     UnidentifiedCalendarEvent calendarEvent,
-    String uuid,
   ) {
     client.createCalendarEvent(
       CreateCalendarEventRequest(
         event: event_proto.Event(
           userId: _userId,
-          id: uuid,
           title: calendarEvent.title,
-          endeavorId: calendarEvent.endeavorReference?.id,
+          endeavorId: null, // TODO: populate the actual endeavorId
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
         ),
@@ -61,7 +60,7 @@ class CalendarEventDataService {
           userId: _userId,
           id: calendarEvent.id,
           title: calendarEvent.title,
-          endeavorId: calendarEvent.endeavorReference?.id,
+          endeavorId: null, // TODO: update actual endeavorId
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
         ),
@@ -69,13 +68,11 @@ class CalendarEventDataService {
     );
   }
 
-  void deleteCalendarEvent(String id) {
-    client.deleteCalendarEvent(
-      DeleteCalendarEventRequest(
-        userId: _userId,
-        id: id,
-      ),
-    );
+  void deleteCalendarEvent(int id) {
+    client.deleteCalendarEvent(DeleteCalendarEventRequest(
+      userId: _userId,
+      id: id,
+    ));
   }
 
   void createRepeatingCalendarEvent(
@@ -84,7 +81,7 @@ class CalendarEventDataService {
       CreateRepeatingCalendarEventRequest(
         repeatingEvent: repeating_event_proto.RepeatingEvent(
           userId: _userId,
-          id: id,
+          id: null, // TODO: add ID back in
           title: urce.title,
           startTime: repeating_event_proto.Time(
               hours: urce.repeatingEvent.startTime.hour,
