@@ -4,7 +4,6 @@ import 'package:endeavor/util.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,39 +16,32 @@ class EditEndeavorScreenBloc
   late Endeavor currentEndeavor;
 
   factory EditEndeavorScreenBloc.fromEndeavor({
-    required DataRepository dataRepository,
     required Endeavor endeavor,
   }) {
     return EditEndeavorScreenBloc._(
-      dataRepository: dataRepository,
       endeavor: endeavor,
     );
   }
 
   factory EditEndeavorScreenBloc.fromEndeavorReference({
-    required DataRepository dataRepository,
     required EndeavorReference endeavorReference,
   }) {
     return EditEndeavorScreenBloc._(
-      dataRepository: dataRepository,
       endeavorReference: endeavorReference,
     );
   }
 
   EditEndeavorScreenBloc._({
-    required DataRepository dataRepository,
     EndeavorReference? endeavorReference,
     Endeavor? endeavor,
   }) : super(endeavor == null
             ? LoadingEditEndeavorScreenState(endeavorReference!)
             : LoadedEditEndeavorScreenState.fromEndeavor(endeavor)) {
     // Load endeavor if it's not already
-    _streamSubscription = dataRepository
-        .getEndeavorStream(
-      endeavorReference?.id ?? endeavor!.id,
-    )
-        .listen(
-      (newEndeavor) {
+    _streamSubscription = ShimDataService.endeavors.endeavorsStream.listen(
+      (newEndeavors) {
+        var newEndeavor = newEndeavors
+            .firstWhere((e) => e.id == (endeavorReference?.id ?? endeavor!.id));
         currentEndeavor = newEndeavor;
         add(EndeavorChangedByServer(newEndeavor));
       },
@@ -85,10 +77,11 @@ class EditEndeavorScreenBloc
       );
       emit(thisState.copyWith(
           newSubEndeavorReferencesList: newSubEndeavorIdsList));
-      ShimDataService.endeavors.reorderSubEndeavors(
-        currentEndeavor.id,
-        newSubEndeavorIdsList.map((e) => e.id).toList(),
-      );
+      // TODO: make sub endeavors reorderable
+      // ShimDataService.endeavors.reorderSubEndeavors(
+      //   currentEndeavor.id,
+      //   newSubEndeavorIdsList.map((e) => e.id).toList(),
+      // );
     });
 
     on<ReorderTasks>(
@@ -101,10 +94,11 @@ class EditEndeavorScreenBloc
             newTaskList: newTaskReferenceList,
           ),
         );
-        ShimDataService.endeavors.reorderEndeavorTasks(
-          currentEndeavor.id,
-          newTaskReferenceList.map((e) => e.id).toList(),
-        );
+        // TODO: Make tasks reorderable
+        // ShimDataService.endeavors.reorderEndeavorTasks(
+        //   currentEndeavor.id,
+        //   newTaskReferenceList.map((e) => e.id).toList(),
+        // );
       },
     );
 
@@ -115,10 +109,11 @@ class EditEndeavorScreenBloc
     );
 
     on<ColorChanged>((event, emit) {
-      ShimDataService.endeavors.updateEndeavorColor(
-        endeavorId: currentEndeavor.id,
-        color: event.newColor,
-      );
+      // TODO: Make color changeable
+      // ShimDataService.endeavors.updateEndeavorColor(
+      //   endeavorId: currentEndeavor.id,
+      //   color: event.newColor,
+      // );
     });
   }
 

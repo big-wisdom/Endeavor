@@ -1,5 +1,4 @@
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/edit_endeavor_screen/edit_endeavor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,11 +29,9 @@ class EditEndeavorScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => endeavor == null
           ? EditEndeavorScreenBloc.fromEndeavorReference(
-              dataRepository: context.read<DataRepository>(),
               endeavorReference: endeavorReference!,
             )
           : EditEndeavorScreenBloc.fromEndeavor(
-              dataRepository: context.read<DataRepository>(),
               endeavor: endeavor!,
             ),
       child: const EditEndeavorScreenView(),

@@ -64,14 +64,7 @@ class WeekScreenView extends StatelessWidget {
     MaterialPageRoute route;
     if (endeavorBlockId != null) {
       route = MaterialPageRoute(
-        builder: (context) => EndeavorBlockScreen.edit(
-          EndeavorBlock(
-            // USE THE ID instead
-            id: "abc",
-            event: Event.generic(const Duration(hours: 1)),
-            endeavorReference: const EndeavorReference(title: "eli", id: "abc"),
-          ),
-        ),
+        builder: (context) => EndeavorBlockScreen.edit("FAKE"),
       );
     } else if (calendarEventId != null) {
       route = MaterialPageRoute(
@@ -83,7 +76,7 @@ class WeekScreenView extends StatelessWidget {
         builder: (context) => TaskScreen.edit(
           const TaskReference(
             id: "abc",
-            endeavorId: "abc2",
+            endeavorId: 2,
             title: "eli",
           ),
         ),

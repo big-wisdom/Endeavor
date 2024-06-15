@@ -63,21 +63,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  cached_query:
-    dependency: transitive
-    description:
-      name: cached_query
-      sha256: "42ef02386f7af73313922458058889612c90d755a8f1eafb8074d511808f0e9a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  cached_query_data_service:
-    dependency: transitive
-    description:
-      path: "packages/cached_query_data_service"
-      relative: true
-    source: path
-    version: "1.0.0"
   characters:
     dependency: transitive
     description:
@@ -178,20 +163,6 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/data_models"
-      relative: true
-    source: path
-    version: "1.0.0"
-  data_repository:
-    dependency: "direct main"
-    description:
-      path: "packages/data_repository"
-      relative: true
-    source: path
-    version: "1.0.0"
-  data_service:
-    dependency: transitive
-    description:
-      path: "packages/data_service"
       relative: true
     source: path
     version: "1.0.0"
@@ -655,13 +626,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
-  server_data_models:
-    dependency: transitive
-    description:
-      path: "packages/server_data_models"
-      relative: true
-    source: path
-    version: "1.0.0"
   shim_data_service:
     dependency: "direct main"
     description:

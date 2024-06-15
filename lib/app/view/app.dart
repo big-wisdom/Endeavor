@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/home/home.dart';
 import 'package:endeavor/login/login.dart';
 import 'package:flutter/material.dart';
@@ -11,25 +10,19 @@ class App extends StatelessWidget {
   const App({
     super.key,
     required AuthenticationRepository authenticationRepository,
-    required DataRepository dataRepository,
-  })  : _authenticationRepository = authenticationRepository,
-        _dataRepository = dataRepository;
+  }) : _authenticationRepository = authenticationRepository;
 
   final AuthenticationRepository _authenticationRepository;
-  final DataRepository _dataRepository;
 
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: _dataRepository,
-      child: RepositoryProvider.value(
-        value: _authenticationRepository,
-        child: BlocProvider(
-          create: (_) => AppBloc(
-            authenticationRepository: _authenticationRepository,
-          ),
-          child: const AppView(),
+      value: _authenticationRepository,
+      child: BlocProvider(
+        create: (_) => AppBloc(
+          authenticationRepository: _authenticationRepository,
         ),
+        child: const AppView(),
       ),
     );
   }

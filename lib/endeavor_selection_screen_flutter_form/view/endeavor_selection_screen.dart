@@ -1,5 +1,4 @@
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'endeavor_selection_screen_view.dart';
@@ -21,7 +20,6 @@ class EndeavorSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => EndeavorSelectionScreenCubit(
-        dataRepository: context.read<DataRepository>(),
         initialValue: initialValue,
         onChanged: onChanged,
         nullable: nullable,

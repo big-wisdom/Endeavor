@@ -14,9 +14,9 @@ class Endeavor extends Equatable {
     required this.taskReferences,
   });
 
-  final String id;
+  final int id;
   final String title;
-  final String? parentEndeavorId;
+  final int? parentEndeavorId;
   final List<EndeavorReference> subEndeavorReferences;
   final List<TaskReference> taskReferences;
 
