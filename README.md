@@ -73,11 +73,22 @@ Back End: Firebase
 
 ## What I'm working on now
 
-1. DONE Create a shim with static aggregation
-2. MOSTLY DONE Build out the new backend
-3. I need to first make CalendarEvents and repeatingCalendarEvents depend on the new service
-4. Then I want to make all week view events depend on the new service
-5. I believe that it's time to start connecting the client. Eventually I think I can remove server data types, data repository, transformers, and old data service
-  - I need to remember that with the shim the client is still  mostly dependant on the other data service
-  - There is a pesky problem of how I've had to make changes to the Event data model. I've changed the ID to an int rather than a string
-6. This is when I can finally get around to implementing the Schedule
+* I realized one fundamental flaw is that I'm still thinking in terms of my old data streams when I could make this much easier on myself. 
+  * The week view screen needs a combined stream of WeekViewEvents, but then when either a calendar event, endeavorBlock or task is clicked from there, it needs to go to an edit screen for that individual item. 
+  * The Tasks screen needs an active tree of life and endeavorless tasks and also needs to be able to link to an edit task screen
+  * The endeavors screen needs a list of fully populated primary endeavors with tasks, sub-endeavors and all. That one needs to be able to launch an edit/create task screen.
+
+  * One solution would be to create the following streams
+    * WeekViewEvents
+      * I think that on the backend and in protos, I only really need the event and when it doesn't have an endeavorBlockId or taskId, the client can call it a calendar event.
+        * Edit the proto
+        * Edit the table if needed
+        * Edit the stream to be WeekViewEvents
+        * Edit the week view screen to accept it
+        * Edit the EditCalendarEventScreen to take it
+    * ActiveTreeOfLife
+    * EndeavorlessTasks
+    * PrimaryEndeavors
+    * Endeavors
+    * Tasks
+    * EndeavorBlocks

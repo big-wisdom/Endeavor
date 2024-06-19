@@ -47,7 +47,6 @@ class CalendarEventDataService {
         event: event_proto.Event(
           userId: _userId,
           title: calendarEvent.title,
-          endeavorId: null, // TODO: populate the actual endeavorId
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
         ),
@@ -62,7 +61,6 @@ class CalendarEventDataService {
           userId: _userId,
           id: calendarEvent.id,
           title: calendarEvent.title,
-          endeavorId: null, // TODO: update actual endeavorId
           repeatingEventId: calendarEvent.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
@@ -135,7 +133,6 @@ class CalendarEventDataService {
           userId: _userId,
           id: event.id,
           title: event.title,
-          endeavorId: null, // TODO: use the endeavor id when its an int
           repeatingEventId: event.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(event.event.start),
           endTime: Timestamp.fromDateTime(event.event.end),

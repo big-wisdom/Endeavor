@@ -4,15 +4,10 @@ import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 
 class EndeavorDataService {
-  EndeavorDataService() {
-    endeavorsStream
-        .listen((newEndeavorsList) => endeavorsSnapshot = newEndeavorsList);
-  }
+  EndeavorDataService() {}
 
   Stream<List<Endeavor>> get endeavorsStream =>
       GRPCDataService.instance.endeavors.endeavorsStream;
-
-  List<Endeavor> endeavorsSnapshot = [];
 
   void createPrimaryEndeavor(String endeavorTitle) async {
     GRPCDataService.instance.endeavors.createPrimaryEndeavor(endeavorTitle);
