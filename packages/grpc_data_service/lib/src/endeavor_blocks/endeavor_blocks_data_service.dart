@@ -17,7 +17,6 @@ class EndeavorBlocksDataService {
         endeavorId: null, // TODO: add endeavorId
         event: EventProto.Event(
           userId: _userId,
-          endeavorId: null, // TODO: add endeavorId
           title: endeavorBlock.endeavorReference.title,
           startTime: Timestamp.fromDateTime(endeavorBlock.event.start),
           endTime: Timestamp.fromDateTime(endeavorBlock.event.end),
