@@ -30,7 +30,8 @@ class CalendarEventDataService {
                         start: e.startTime.toDateTime(toLocal: true),
                         end: e.endTime.toDateTime(toLocal: true),
                       ),
-                      repeatingCalendarEventId: e.repeatingEventId,
+                      repeatingCalendarEventId:
+                          e.repeatingEventId == 0 ? null : e.repeatingEventId,
                     ),
                   )
                   .toList(),
