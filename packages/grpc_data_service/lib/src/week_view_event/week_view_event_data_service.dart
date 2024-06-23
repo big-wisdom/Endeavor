@@ -12,14 +12,22 @@ class WeekViewEventDataService {
   WeekViewEventDataService(this.client, String userId)
       : eventsStream = client
             .subscribeToEvents((StreamController<ListEventsRequest>()
-                  ..add(ListEventsRequest(
-                      userId:
-                          userId))) // TODO: see if we can make this server side streaming only
+                  ..add(
+                    ListEventsRequest(
+                      userId: userId,
+                    ),
+                  )) // TODO: see if we can make this server side streaming only
                 .stream)
             .map((resp) => resp.events
                 .map(
                   (e) => WeekViewEvent(
+                    id: e.id,
                     title: e.title,
+                    endeavorReference: EndeavorReference(
+                      title: e.endeavorReference.title,
+                      id: e.endeavorReference.id,
+                    ),
+                    repeatingEventId: e.repeatingEventId,
                     backgroundColor: Color(e.color),
                     start: e.startTime.toDateTime(),
                     end: e.endTime.toDateTime(),

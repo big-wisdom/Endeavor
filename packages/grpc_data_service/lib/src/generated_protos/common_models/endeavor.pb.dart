@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'endeavorReference.pb.dart' as $3;
+import 'endeavorReference.pb.dart' as $2;
 import 'task.pb.dart' as $5;
 
 class Endeavor extends $pb.GeneratedMessage {
@@ -22,7 +22,7 @@ class Endeavor extends $pb.GeneratedMessage {
     $core.int? id,
     $core.String? title,
     $core.int? parentEndeavorId,
-    $core.Iterable<$3.EndeavorReference>? subEndeavorReferences,
+    $core.Iterable<$2.EndeavorReference>? subEndeavorReferences,
     $core.Iterable<$5.Task>? task,
     $core.int? color,
   }) {
@@ -59,7 +59,7 @@ class Endeavor extends $pb.GeneratedMessage {
     ..a<$core.int>(2, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(3, _omitFieldNames ? '' : 'title')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'parentEndeavorId', $pb.PbFieldType.O3, protoName: 'parentEndeavorId')
-    ..pc<$3.EndeavorReference>(5, _omitFieldNames ? '' : 'subEndeavorReferences', $pb.PbFieldType.PM, protoName: 'subEndeavorReferences', subBuilder: $3.EndeavorReference.create)
+    ..pc<$2.EndeavorReference>(5, _omitFieldNames ? '' : 'subEndeavorReferences', $pb.PbFieldType.PM, protoName: 'subEndeavorReferences', subBuilder: $2.EndeavorReference.create)
     ..pc<$5.Task>(6, _omitFieldNames ? '' : 'task', $pb.PbFieldType.PM, subBuilder: $5.Task.create)
     ..a<$core.int>(7, _omitFieldNames ? '' : 'color', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
@@ -123,7 +123,7 @@ class Endeavor extends $pb.GeneratedMessage {
   void clearParentEndeavorId() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.List<$3.EndeavorReference> get subEndeavorReferences => $_getList(4);
+  $core.List<$2.EndeavorReference> get subEndeavorReferences => $_getList(4);
 
   @$pb.TagNumber(6)
   $core.List<$5.Task> get task => $_getList(5);

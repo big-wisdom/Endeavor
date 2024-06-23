@@ -13,7 +13,7 @@ class EndeavorBlockDataService {
     GRPCDataService.instance.endeavorBlocks.CreateEndeavorBlock(endeavorBlock);
   }
 
-  void deleteEndeavorBlock(String id) async {
+  void deleteEndeavorBlock(int id) async {
     // ServerEndeavorBlockDataServiceExtension.deleteEndeavorBlock(id);
   }
 

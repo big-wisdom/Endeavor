@@ -13,19 +13,19 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../google/protobuf/timestamp.pb.dart' as $2;
-import 'endeavorReference.pb.dart' as $3;
+import '../google/protobuf/timestamp.pb.dart' as $3;
+import 'endeavorReference.pb.dart' as $2;
 import 'event.pb.dart' as $4;
 
 class Task extends $pb.GeneratedMessage {
   factory Task({
     $core.int? id,
     $core.String? title,
-    $3.EndeavorReference? endeavorReference,
+    $2.EndeavorReference? endeavorReference,
     $core.Iterable<$4.Event>? events,
     $core.int? duration,
     $core.int? minnimumSchedulingDuration,
-    $2.Timestamp? dueDate,
+    $3.Timestamp? dueDate,
     $core.bool? divisible,
   }) {
     final $result = create();
@@ -62,11 +62,11 @@ class Task extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Task', package: const $pb.PackageName(_omitMessageNames ? '' : 'common_models'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'title')
-    ..aOM<$3.EndeavorReference>(3, _omitFieldNames ? '' : 'endeavorReference', protoName: 'endeavorReference', subBuilder: $3.EndeavorReference.create)
+    ..aOM<$2.EndeavorReference>(3, _omitFieldNames ? '' : 'endeavorReference', protoName: 'endeavorReference', subBuilder: $2.EndeavorReference.create)
     ..pc<$4.Event>(4, _omitFieldNames ? '' : 'events', $pb.PbFieldType.PM, subBuilder: $4.Event.create)
     ..a<$core.int>(5, _omitFieldNames ? '' : 'duration', $pb.PbFieldType.O3)
     ..a<$core.int>(6, _omitFieldNames ? '' : 'minnimumSchedulingDuration', $pb.PbFieldType.O3, protoName: 'minnimumSchedulingDuration')
-    ..aOM<$2.Timestamp>(7, _omitFieldNames ? '' : 'dueDate', protoName: 'dueDate', subBuilder: $2.Timestamp.create)
+    ..aOM<$3.Timestamp>(7, _omitFieldNames ? '' : 'dueDate', protoName: 'dueDate', subBuilder: $3.Timestamp.create)
     ..aOB(8, _omitFieldNames ? '' : 'divisible')
     ..hasRequiredFields = false
   ;
@@ -111,15 +111,15 @@ class Task extends $pb.GeneratedMessage {
   void clearTitle() => clearField(2);
 
   @$pb.TagNumber(3)
-  $3.EndeavorReference get endeavorReference => $_getN(2);
+  $2.EndeavorReference get endeavorReference => $_getN(2);
   @$pb.TagNumber(3)
-  set endeavorReference($3.EndeavorReference v) { setField(3, v); }
+  set endeavorReference($2.EndeavorReference v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasEndeavorReference() => $_has(2);
   @$pb.TagNumber(3)
   void clearEndeavorReference() => clearField(3);
   @$pb.TagNumber(3)
-  $3.EndeavorReference ensureEndeavorReference() => $_ensure(2);
+  $2.EndeavorReference ensureEndeavorReference() => $_ensure(2);
 
   @$pb.TagNumber(4)
   $core.List<$4.Event> get events => $_getList(3);
@@ -143,15 +143,15 @@ class Task extends $pb.GeneratedMessage {
   void clearMinnimumSchedulingDuration() => clearField(6);
 
   @$pb.TagNumber(7)
-  $2.Timestamp get dueDate => $_getN(6);
+  $3.Timestamp get dueDate => $_getN(6);
   @$pb.TagNumber(7)
-  set dueDate($2.Timestamp v) { setField(7, v); }
+  set dueDate($3.Timestamp v) { setField(7, v); }
   @$pb.TagNumber(7)
   $core.bool hasDueDate() => $_has(6);
   @$pb.TagNumber(7)
   void clearDueDate() => clearField(7);
   @$pb.TagNumber(7)
-  $2.Timestamp ensureDueDate() => $_ensure(6);
+  $3.Timestamp ensureDueDate() => $_ensure(6);
 
   @$pb.TagNumber(8)
   $core.bool get divisible => $_getBF(7);

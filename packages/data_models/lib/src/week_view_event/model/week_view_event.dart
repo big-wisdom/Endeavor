@@ -1,16 +1,29 @@
 import 'dart:ui';
 
+import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
 
 class WeekViewEvent extends Equatable {
   const WeekViewEvent({
+    required this.id,
     required this.title,
+    required this.endeavorReference,
+    required this.repeatingEventId,
     required this.backgroundColor,
     required this.start,
     required this.end,
     required this.isEndeavorBlock,
     required this.taskId,
   });
+
+  /// event Id
+  final int id;
+
+  // endeavorReference
+  final EndeavorReference? endeavorReference;
+
+  // repeatingEventId
+  final int repeatingEventId;
 
   /// The event title.
   final String title;

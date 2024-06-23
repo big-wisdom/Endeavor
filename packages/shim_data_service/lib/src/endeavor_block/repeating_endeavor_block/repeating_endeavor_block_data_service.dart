@@ -9,8 +9,8 @@ class RepeatingEndeavorBlockDataService {
   }
 
   void editThisAndFollowingEndeavorBlocks({
-    required String endeavorBlockId,
-    required String repeatingEndeavorBlockId,
+    required int endeavorBlockId,
+    required int repeatingEndeavorBlockId,
     required UnidentifiedEndeavorBlock unidentifiedEndeavorBlock,
   }) async {
     // AbstractRepeatingEndeavorBlockDataServiceExtension
@@ -21,8 +21,8 @@ class RepeatingEndeavorBlockDataService {
   }
 
   void deleteThisAndFollowing({
-    required String endeavorBlockId,
-    required String repeatingEndeavorBlockId,
+    required int endeavorBlockId,
+    required int repeatingEndeavorBlockId,
   }) async {
     // AbstractRepeatingEndeavorBlockDataServiceExtension.deleteThisAndFollowing(
     //     endeavorBlockId: endeavorBlockId,

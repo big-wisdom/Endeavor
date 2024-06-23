@@ -10,8 +10,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   InputFieldBloc<Event?, String> event;
   InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
-  final String? endeavorBlockId;
-  final String? repeatingEndeavorBlockId;
+  final int? endeavorBlockId;
+  final int? repeatingEndeavorBlockId;
 
   EndeavorBlockScreenBloc.create()
       : endeavorReference =
