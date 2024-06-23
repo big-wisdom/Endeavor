@@ -13,50 +13,6 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
-@$core.Deprecated('Use createEndeavorBlockRequestDescriptor instead')
-const CreateEndeavorBlockRequest$json = {
-  '1': 'CreateEndeavorBlockRequest',
-  '2': [
-    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'endeavorBlock', '3': 2, '4': 1, '5': 11, '6': '.common_models.EndeavorBlock', '10': 'endeavorBlock'},
-  ],
-};
-
-/// Descriptor for `CreateEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createEndeavorBlockRequestDescriptor = $convert.base64Decode(
-    'ChpDcmVhdGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBJCCg'
-    '1lbmRlYXZvckJsb2NrGAIgASgLMhwuY29tbW9uX21vZGVscy5FbmRlYXZvckJsb2NrUg1lbmRl'
-    'YXZvckJsb2Nr');
-
-@$core.Deprecated('Use updateEndeavorBlockRequestDescriptor instead')
-const UpdateEndeavorBlockRequest$json = {
-  '1': 'UpdateEndeavorBlockRequest',
-  '2': [
-    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'updatedEndeavorBlock', '3': 2, '4': 1, '5': 11, '6': '.common_models.EndeavorBlock', '10': 'updatedEndeavorBlock'},
-  ],
-};
-
-/// Descriptor for `UpdateEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateEndeavorBlockRequestDescriptor = $convert.base64Decode(
-    'ChpVcGRhdGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBJQCh'
-    'R1cGRhdGVkRW5kZWF2b3JCbG9jaxgCIAEoCzIcLmNvbW1vbl9tb2RlbHMuRW5kZWF2b3JCbG9j'
-    'a1IUdXBkYXRlZEVuZGVhdm9yQmxvY2s=');
-
-@$core.Deprecated('Use deleteEndeavorBlockRequestDescriptor instead')
-const DeleteEndeavorBlockRequest$json = {
-  '1': 'DeleteEndeavorBlockRequest',
-  '2': [
-    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-    {'1': 'endeavorBlockId', '3': 2, '4': 1, '5': 5, '10': 'endeavorBlockId'},
-  ],
-};
-
-/// Descriptor for `DeleteEndeavorBlockRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteEndeavorBlockRequestDescriptor = $convert.base64Decode(
-    'ChpEZWxldGVFbmRlYXZvckJsb2NrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIoCg'
-    '9lbmRlYXZvckJsb2NrSWQYAiABKAVSD2VuZGVhdm9yQmxvY2tJZA==');
-
 @$core.Deprecated('Use listEndeavorsResponseDescriptor instead')
 const ListEndeavorsResponse$json = {
   '1': 'ListEndeavorsResponse',
@@ -168,147 +124,147 @@ final $typed_data.Uint8List deleteTaskRequestDescriptor = $convert.base64Decode(
     'ChFEZWxldGVUYXNrUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIWCgZ0YXNrSWQYAi'
     'ABKAVSBnRhc2tJZA==');
 
-@$core.Deprecated('Use deleteThisAndFollowingCalendarEventsRequestDescriptor instead')
-const DeleteThisAndFollowingCalendarEventsRequest$json = {
-  '1': 'DeleteThisAndFollowingCalendarEventsRequest',
+@$core.Deprecated('Use deleteThisAndFollowingEventsRequestDescriptor instead')
+const DeleteThisAndFollowingEventsRequest$json = {
+  '1': 'DeleteThisAndFollowingEventsRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
     {'1': 'eventId', '3': 2, '4': 1, '5': 5, '10': 'eventId'},
   ],
 };
 
-/// Descriptor for `DeleteThisAndFollowingCalendarEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteThisAndFollowingCalendarEventsRequestDescriptor = $convert.base64Decode(
-    'CitEZWxldGVUaGlzQW5kRm9sbG93aW5nQ2FsZW5kYXJFdmVudHNSZXF1ZXN0EhYKBnVzZXJJZB'
-    'gBIAEoCVIGdXNlcklkEhgKB2V2ZW50SWQYAiABKAVSB2V2ZW50SWQ=');
+/// Descriptor for `DeleteThisAndFollowingEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteThisAndFollowingEventsRequestDescriptor = $convert.base64Decode(
+    'CiNEZWxldGVUaGlzQW5kRm9sbG93aW5nRXZlbnRzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBn'
+    'VzZXJJZBIYCgdldmVudElkGAIgASgFUgdldmVudElk');
 
-@$core.Deprecated('Use deleteRepeatingCalendarEventRequestDescriptor instead')
-const DeleteRepeatingCalendarEventRequest$json = {
-  '1': 'DeleteRepeatingCalendarEventRequest',
+@$core.Deprecated('Use deleteRepeatingEventRequestDescriptor instead')
+const DeleteRepeatingEventRequest$json = {
+  '1': 'DeleteRepeatingEventRequest',
   '2': [
-    {'1': 'repeatingCalendarEventId', '3': 1, '4': 1, '5': 9, '10': 'repeatingCalendarEventId'},
+    {'1': 'repeatingEventId', '3': 1, '4': 1, '5': 9, '10': 'repeatingEventId'},
   ],
 };
 
-/// Descriptor for `DeleteRepeatingCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteRepeatingCalendarEventRequestDescriptor = $convert.base64Decode(
-    'CiNEZWxldGVSZXBlYXRpbmdDYWxlbmRhckV2ZW50UmVxdWVzdBI6ChhyZXBlYXRpbmdDYWxlbm'
-    'RhckV2ZW50SWQYASABKAlSGHJlcGVhdGluZ0NhbGVuZGFyRXZlbnRJZA==');
+/// Descriptor for `DeleteRepeatingEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteRepeatingEventRequestDescriptor = $convert.base64Decode(
+    'ChtEZWxldGVSZXBlYXRpbmdFdmVudFJlcXVlc3QSKgoQcmVwZWF0aW5nRXZlbnRJZBgBIAEoCV'
+    'IQcmVwZWF0aW5nRXZlbnRJZA==');
 
-@$core.Deprecated('Use editThisAndFollowingCalendarEventsRequestDescriptor instead')
-const EditThisAndFollowingCalendarEventsRequest$json = {
-  '1': 'EditThisAndFollowingCalendarEventsRequest',
+@$core.Deprecated('Use editThisAndFollowingEventsRequestDescriptor instead')
+const EditThisAndFollowingEventsRequest$json = {
+  '1': 'EditThisAndFollowingEventsRequest',
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
   ],
 };
 
-/// Descriptor for `EditThisAndFollowingCalendarEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List editThisAndFollowingCalendarEventsRequestDescriptor = $convert.base64Decode(
-    'CilFZGl0VGhpc0FuZEZvbGxvd2luZ0NhbGVuZGFyRXZlbnRzUmVxdWVzdBIqCgVldmVudBgBIA'
-    'EoCzIULmNvbW1vbl9tb2RlbHMuRXZlbnRSBWV2ZW50');
+/// Descriptor for `EditThisAndFollowingEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List editThisAndFollowingEventsRequestDescriptor = $convert.base64Decode(
+    'CiFFZGl0VGhpc0FuZEZvbGxvd2luZ0V2ZW50c1JlcXVlc3QSKgoFZXZlbnQYASABKAsyFC5jb2'
+    '1tb25fbW9kZWxzLkV2ZW50UgVldmVudA==');
 
-@$core.Deprecated('Use editRepeatingCalendarEventRequestDescriptor instead')
-const EditRepeatingCalendarEventRequest$json = {
-  '1': 'EditRepeatingCalendarEventRequest',
+@$core.Deprecated('Use editRepeatingEventRequestDescriptor instead')
+const EditRepeatingEventRequest$json = {
+  '1': 'EditRepeatingEventRequest',
   '2': [
     {'1': 'repeatingEvent', '3': 1, '4': 1, '5': 11, '6': '.common_models.RepeatingEvent', '10': 'repeatingEvent'},
   ],
 };
 
-/// Descriptor for `EditRepeatingCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List editRepeatingCalendarEventRequestDescriptor = $convert.base64Decode(
-    'CiFFZGl0UmVwZWF0aW5nQ2FsZW5kYXJFdmVudFJlcXVlc3QSRQoOcmVwZWF0aW5nRXZlbnQYAS'
-    'ABKAsyHS5jb21tb25fbW9kZWxzLlJlcGVhdGluZ0V2ZW50Ug5yZXBlYXRpbmdFdmVudA==');
+/// Descriptor for `EditRepeatingEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List editRepeatingEventRequestDescriptor = $convert.base64Decode(
+    'ChlFZGl0UmVwZWF0aW5nRXZlbnRSZXF1ZXN0EkUKDnJlcGVhdGluZ0V2ZW50GAEgASgLMh0uY2'
+    '9tbW9uX21vZGVscy5SZXBlYXRpbmdFdmVudFIOcmVwZWF0aW5nRXZlbnQ=');
 
-@$core.Deprecated('Use createCalendarEventRequestDescriptor instead')
-const CreateCalendarEventRequest$json = {
-  '1': 'CreateCalendarEventRequest',
+@$core.Deprecated('Use createEventRequestDescriptor instead')
+const CreateEventRequest$json = {
+  '1': 'CreateEventRequest',
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
   ],
 };
 
-/// Descriptor for `CreateCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createCalendarEventRequestDescriptor = $convert.base64Decode(
-    'ChpDcmVhdGVDYWxlbmRhckV2ZW50UmVxdWVzdBIqCgVldmVudBgBIAEoCzIULmNvbW1vbl9tb2'
-    'RlbHMuRXZlbnRSBWV2ZW50');
+/// Descriptor for `CreateEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createEventRequestDescriptor = $convert.base64Decode(
+    'ChJDcmVhdGVFdmVudFJlcXVlc3QSKgoFZXZlbnQYASABKAsyFC5jb21tb25fbW9kZWxzLkV2ZW'
+    '50UgVldmVudA==');
 
-@$core.Deprecated('Use createCalendarEventResponseDescriptor instead')
-const CreateCalendarEventResponse$json = {
-  '1': 'CreateCalendarEventResponse',
+@$core.Deprecated('Use createEventResponseDescriptor instead')
+const CreateEventResponse$json = {
+  '1': 'CreateEventResponse',
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
   ],
 };
 
-/// Descriptor for `CreateCalendarEventResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createCalendarEventResponseDescriptor = $convert.base64Decode(
-    'ChtDcmVhdGVDYWxlbmRhckV2ZW50UmVzcG9uc2USKgoFZXZlbnQYASABKAsyFC5jb21tb25fbW'
-    '9kZWxzLkV2ZW50UgVldmVudA==');
+/// Descriptor for `CreateEventResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createEventResponseDescriptor = $convert.base64Decode(
+    'ChNDcmVhdGVFdmVudFJlc3BvbnNlEioKBWV2ZW50GAEgASgLMhQuY29tbW9uX21vZGVscy5Fdm'
+    'VudFIFZXZlbnQ=');
 
-@$core.Deprecated('Use createRepeatingCalendarEventRequestDescriptor instead')
-const CreateRepeatingCalendarEventRequest$json = {
-  '1': 'CreateRepeatingCalendarEventRequest',
+@$core.Deprecated('Use createRepeatingEventRequestDescriptor instead')
+const CreateRepeatingEventRequest$json = {
+  '1': 'CreateRepeatingEventRequest',
   '2': [
     {'1': 'repeatingEvent', '3': 1, '4': 1, '5': 11, '6': '.common_models.RepeatingEvent', '10': 'repeatingEvent'},
   ],
 };
 
-/// Descriptor for `CreateRepeatingCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createRepeatingCalendarEventRequestDescriptor = $convert.base64Decode(
-    'CiNDcmVhdGVSZXBlYXRpbmdDYWxlbmRhckV2ZW50UmVxdWVzdBJFCg5yZXBlYXRpbmdFdmVudB'
-    'gBIAEoCzIdLmNvbW1vbl9tb2RlbHMuUmVwZWF0aW5nRXZlbnRSDnJlcGVhdGluZ0V2ZW50');
+/// Descriptor for `CreateRepeatingEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createRepeatingEventRequestDescriptor = $convert.base64Decode(
+    'ChtDcmVhdGVSZXBlYXRpbmdFdmVudFJlcXVlc3QSRQoOcmVwZWF0aW5nRXZlbnQYASABKAsyHS'
+    '5jb21tb25fbW9kZWxzLlJlcGVhdGluZ0V2ZW50Ug5yZXBlYXRpbmdFdmVudA==');
 
-@$core.Deprecated('Use updateCalendarEventRequestDescriptor instead')
-const UpdateCalendarEventRequest$json = {
-  '1': 'UpdateCalendarEventRequest',
+@$core.Deprecated('Use updateEventRequestDescriptor instead')
+const UpdateEventRequest$json = {
+  '1': 'UpdateEventRequest',
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
   ],
 };
 
-/// Descriptor for `UpdateCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateCalendarEventRequestDescriptor = $convert.base64Decode(
-    'ChpVcGRhdGVDYWxlbmRhckV2ZW50UmVxdWVzdBIqCgVldmVudBgBIAEoCzIULmNvbW1vbl9tb2'
-    'RlbHMuRXZlbnRSBWV2ZW50');
+/// Descriptor for `UpdateEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateEventRequestDescriptor = $convert.base64Decode(
+    'ChJVcGRhdGVFdmVudFJlcXVlc3QSKgoFZXZlbnQYASABKAsyFC5jb21tb25fbW9kZWxzLkV2ZW'
+    '50UgVldmVudA==');
 
-@$core.Deprecated('Use deleteCalendarEventRequestDescriptor instead')
-const DeleteCalendarEventRequest$json = {
-  '1': 'DeleteCalendarEventRequest',
+@$core.Deprecated('Use deleteEventRequestDescriptor instead')
+const DeleteEventRequest$json = {
+  '1': 'DeleteEventRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
     {'1': 'id', '3': 2, '4': 1, '5': 5, '10': 'id'},
   ],
 };
 
-/// Descriptor for `DeleteCalendarEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deleteCalendarEventRequestDescriptor = $convert.base64Decode(
-    'ChpEZWxldGVDYWxlbmRhckV2ZW50UmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCg'
-    'JpZBgCIAEoBVICaWQ=');
+/// Descriptor for `DeleteEventRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteEventRequestDescriptor = $convert.base64Decode(
+    'ChJEZWxldGVFdmVudFJlcXVlc3QSFgoGdXNlcklkGAEgASgJUgZ1c2VySWQSDgoCaWQYAiABKA'
+    'VSAmlk');
 
-@$core.Deprecated('Use listCalendarEventsRequestDescriptor instead')
-const ListCalendarEventsRequest$json = {
-  '1': 'ListCalendarEventsRequest',
+@$core.Deprecated('Use listEventsRequestDescriptor instead')
+const ListEventsRequest$json = {
+  '1': 'ListEventsRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
   ],
 };
 
-/// Descriptor for `ListCalendarEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listCalendarEventsRequestDescriptor = $convert.base64Decode(
-    'ChlMaXN0Q2FsZW5kYXJFdmVudHNSZXF1ZXN0EhYKBnVzZXJJZBgBIAEoCVIGdXNlcklk');
+/// Descriptor for `ListEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listEventsRequestDescriptor = $convert.base64Decode(
+    'ChFMaXN0RXZlbnRzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
 
-@$core.Deprecated('Use listCalendarEventsResponseDescriptor instead')
-const ListCalendarEventsResponse$json = {
-  '1': 'ListCalendarEventsResponse',
+@$core.Deprecated('Use listEventsResponseDescriptor instead')
+const ListEventsResponse$json = {
+  '1': 'ListEventsResponse',
   '2': [
     {'1': 'events', '3': 1, '4': 3, '5': 11, '6': '.common_models.Event', '10': 'events'},
   ],
 };
 
-/// Descriptor for `ListCalendarEventsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listCalendarEventsResponseDescriptor = $convert.base64Decode(
-    'ChpMaXN0Q2FsZW5kYXJFdmVudHNSZXNwb25zZRIsCgZldmVudHMYASADKAsyFC5jb21tb25fbW'
-    '9kZWxzLkV2ZW50UgZldmVudHM=');
+/// Descriptor for `ListEventsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listEventsResponseDescriptor = $convert.base64Decode(
+    'ChJMaXN0RXZlbnRzUmVzcG9uc2USLAoGZXZlbnRzGAEgAygLMhQuY29tbW9uX21vZGVscy5Fdm'
+    'VudFIGZXZlbnRz');
 

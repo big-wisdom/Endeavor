@@ -20,21 +20,25 @@ const Event$json = {
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
     {'1': 'id', '3': 2, '4': 1, '5': 5, '10': 'id'},
     {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
-    {'1': 'endeavorBlockId', '3': 4, '4': 1, '5': 5, '10': 'endeavorBlockId'},
-    {'1': 'repeatingEventId', '3': 5, '4': 1, '5': 5, '10': 'repeatingEventId'},
-    {'1': 'taskId', '3': 6, '4': 1, '5': 5, '10': 'taskId'},
-    {'1': 'color', '3': 7, '4': 1, '5': 5, '10': 'color'},
-    {'1': 'start_time', '3': 8, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startTime'},
-    {'1': 'end_time', '3': 9, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endTime'},
+    {'1': 'endeavorId', '3': 4, '4': 1, '5': 5, '10': 'endeavorId'},
+    {'1': 'isEndeavorBlock', '3': 5, '4': 1, '5': 8, '10': 'isEndeavorBlock'},
+    {'1': 'endeavorBlockId', '3': 6, '4': 1, '5': 5, '10': 'endeavorBlockId'},
+    {'1': 'repeatingEventId', '3': 7, '4': 1, '5': 5, '10': 'repeatingEventId'},
+    {'1': 'taskId', '3': 8, '4': 1, '5': 5, '10': 'taskId'},
+    {'1': 'color', '3': 9, '4': 1, '5': 5, '10': 'color'},
+    {'1': 'start_time', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startTime'},
+    {'1': 'end_time', '3': 11, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endTime'},
   ],
 };
 
 /// Descriptor for `Event`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List eventDescriptor = $convert.base64Decode(
     'CgVFdmVudBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCgJpZBgCIAEoBVICaWQSFAoFdGl0bG'
-    'UYAyABKAlSBXRpdGxlEigKD2VuZGVhdm9yQmxvY2tJZBgEIAEoBVIPZW5kZWF2b3JCbG9ja0lk'
-    'EioKEHJlcGVhdGluZ0V2ZW50SWQYBSABKAVSEHJlcGVhdGluZ0V2ZW50SWQSFgoGdGFza0lkGA'
-    'YgASgFUgZ0YXNrSWQSFAoFY29sb3IYByABKAVSBWNvbG9yEjkKCnN0YXJ0X3RpbWUYCCABKAsy'
-    'Gi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUglzdGFydFRpbWUSNQoIZW5kX3RpbWUYCSABKA'
-    'syGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgdlbmRUaW1l');
+    'UYAyABKAlSBXRpdGxlEh4KCmVuZGVhdm9ySWQYBCABKAVSCmVuZGVhdm9ySWQSKAoPaXNFbmRl'
+    'YXZvckJsb2NrGAUgASgIUg9pc0VuZGVhdm9yQmxvY2sSKAoPZW5kZWF2b3JCbG9ja0lkGAYgAS'
+    'gFUg9lbmRlYXZvckJsb2NrSWQSKgoQcmVwZWF0aW5nRXZlbnRJZBgHIAEoBVIQcmVwZWF0aW5n'
+    'RXZlbnRJZBIWCgZ0YXNrSWQYCCABKAVSBnRhc2tJZBIUCgVjb2xvchgJIAEoBVIFY29sb3ISOQ'
+    'oKc3RhcnRfdGltZRgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXN0YXJ0VGlt'
+    'ZRI1CghlbmRfdGltZRgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB2VuZFRpbW'
+    'U=');
 
