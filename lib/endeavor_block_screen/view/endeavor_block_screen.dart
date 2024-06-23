@@ -11,13 +11,9 @@ class EndeavorBlockScreen extends StatelessWidget {
     );
   }
 
-  factory EndeavorBlockScreen.edit(String endeavorBlockId) {
+  factory EndeavorBlockScreen.edit(EndeavorBlock endeavorBlock) {
     return EndeavorBlockScreen._(
-      // TODO: get real endeavor block here
-      endeavorBlock: EndeavorBlock(
-          id: "abc",
-          event: Event.generic(const Duration(hours: 1)),
-          endeavorReference: const EndeavorReference(title: 'fake', id: 1)),
+      endeavorBlock: endeavorBlock,
     );
   }
 

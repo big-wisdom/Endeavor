@@ -20,7 +20,7 @@ const Event$json = {
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
     {'1': 'id', '3': 2, '4': 1, '5': 5, '10': 'id'},
     {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
-    {'1': 'endeavorId', '3': 4, '4': 1, '5': 5, '10': 'endeavorId'},
+    {'1': 'endeavorReference', '3': 4, '4': 1, '5': 11, '6': '.common_models.EndeavorReference', '10': 'endeavorReference'},
     {'1': 'isEndeavorBlock', '3': 5, '4': 1, '5': 8, '10': 'isEndeavorBlock'},
     {'1': 'endeavorBlockId', '3': 6, '4': 1, '5': 5, '10': 'endeavorBlockId'},
     {'1': 'repeatingEventId', '3': 7, '4': 1, '5': 5, '10': 'repeatingEventId'},
@@ -34,11 +34,11 @@ const Event$json = {
 /// Descriptor for `Event`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List eventDescriptor = $convert.base64Decode(
     'CgVFdmVudBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZBIOCgJpZBgCIAEoBVICaWQSFAoFdGl0bG'
-    'UYAyABKAlSBXRpdGxlEh4KCmVuZGVhdm9ySWQYBCABKAVSCmVuZGVhdm9ySWQSKAoPaXNFbmRl'
-    'YXZvckJsb2NrGAUgASgIUg9pc0VuZGVhdm9yQmxvY2sSKAoPZW5kZWF2b3JCbG9ja0lkGAYgAS'
-    'gFUg9lbmRlYXZvckJsb2NrSWQSKgoQcmVwZWF0aW5nRXZlbnRJZBgHIAEoBVIQcmVwZWF0aW5n'
-    'RXZlbnRJZBIWCgZ0YXNrSWQYCCABKAVSBnRhc2tJZBIUCgVjb2xvchgJIAEoBVIFY29sb3ISOQ'
-    'oKc3RhcnRfdGltZRgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXN0YXJ0VGlt'
-    'ZRI1CghlbmRfdGltZRgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB2VuZFRpbW'
-    'U=');
+    'UYAyABKAlSBXRpdGxlEk4KEWVuZGVhdm9yUmVmZXJlbmNlGAQgASgLMiAuY29tbW9uX21vZGVs'
+    'cy5FbmRlYXZvclJlZmVyZW5jZVIRZW5kZWF2b3JSZWZlcmVuY2USKAoPaXNFbmRlYXZvckJsb2'
+    'NrGAUgASgIUg9pc0VuZGVhdm9yQmxvY2sSKAoPZW5kZWF2b3JCbG9ja0lkGAYgASgFUg9lbmRl'
+    'YXZvckJsb2NrSWQSKgoQcmVwZWF0aW5nRXZlbnRJZBgHIAEoBVIQcmVwZWF0aW5nRXZlbnRJZB'
+    'IWCgZ0YXNrSWQYCCABKAVSBnRhc2tJZBIUCgVjb2xvchgJIAEoBVIFY29sb3ISOQoKc3RhcnRf'
+    'dGltZRgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXN0YXJ0VGltZRI1Cghlbm'
+    'RfdGltZRgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB2VuZFRpbWU=');
 

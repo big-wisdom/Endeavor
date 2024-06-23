@@ -13,7 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../google/protobuf/timestamp.pb.dart' as $2;
+import '../google/protobuf/timestamp.pb.dart' as $3;
 
 class RepeatingEvent extends $pb.GeneratedMessage {
   factory RepeatingEvent({
@@ -23,8 +23,8 @@ class RepeatingEvent extends $pb.GeneratedMessage {
     $core.int? endeavorId,
     Time? startTime,
     Time? endTime,
-    $2.Timestamp? startDate,
-    $2.Timestamp? endDate,
+    $3.Timestamp? startDate,
+    $3.Timestamp? endDate,
     $core.bool? m,
     $core.bool? t,
     $core.bool? w,
@@ -92,8 +92,8 @@ class RepeatingEvent extends $pb.GeneratedMessage {
     ..a<$core.int>(4, _omitFieldNames ? '' : 'endeavorId', $pb.PbFieldType.O3, protoName: 'endeavorId')
     ..aOM<Time>(5, _omitFieldNames ? '' : 'startTime', protoName: 'startTime', subBuilder: Time.create)
     ..aOM<Time>(6, _omitFieldNames ? '' : 'endTime', protoName: 'endTime', subBuilder: Time.create)
-    ..aOM<$2.Timestamp>(7, _omitFieldNames ? '' : 'startDate', protoName: 'startDate', subBuilder: $2.Timestamp.create)
-    ..aOM<$2.Timestamp>(8, _omitFieldNames ? '' : 'endDate', protoName: 'endDate', subBuilder: $2.Timestamp.create)
+    ..aOM<$3.Timestamp>(7, _omitFieldNames ? '' : 'startDate', protoName: 'startDate', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(8, _omitFieldNames ? '' : 'endDate', protoName: 'endDate', subBuilder: $3.Timestamp.create)
     ..aOB(9, _omitFieldNames ? '' : 'm')
     ..aOB(10, _omitFieldNames ? '' : 't')
     ..aOB(11, _omitFieldNames ? '' : 'w')
@@ -184,26 +184,26 @@ class RepeatingEvent extends $pb.GeneratedMessage {
   Time ensureEndTime() => $_ensure(5);
 
   @$pb.TagNumber(7)
-  $2.Timestamp get startDate => $_getN(6);
+  $3.Timestamp get startDate => $_getN(6);
   @$pb.TagNumber(7)
-  set startDate($2.Timestamp v) { setField(7, v); }
+  set startDate($3.Timestamp v) { setField(7, v); }
   @$pb.TagNumber(7)
   $core.bool hasStartDate() => $_has(6);
   @$pb.TagNumber(7)
   void clearStartDate() => clearField(7);
   @$pb.TagNumber(7)
-  $2.Timestamp ensureStartDate() => $_ensure(6);
+  $3.Timestamp ensureStartDate() => $_ensure(6);
 
   @$pb.TagNumber(8)
-  $2.Timestamp get endDate => $_getN(7);
+  $3.Timestamp get endDate => $_getN(7);
   @$pb.TagNumber(8)
-  set endDate($2.Timestamp v) { setField(8, v); }
+  set endDate($3.Timestamp v) { setField(8, v); }
   @$pb.TagNumber(8)
   $core.bool hasEndDate() => $_has(7);
   @$pb.TagNumber(8)
   void clearEndDate() => clearField(8);
   @$pb.TagNumber(8)
-  $2.Timestamp ensureEndDate() => $_ensure(7);
+  $3.Timestamp ensureEndDate() => $_ensure(7);
 
   @$pb.TagNumber(9)
   $core.bool get m => $_getBF(8);
