@@ -95,9 +95,9 @@ Back End: Firebase
         * DONE (for events and repeatingEvents) Fix Database functions
         * DONE (for events and repeatingEvents) Fix streams that pertain to the event
         * FRONT END
-          * First fix all the names due to the proto change
-          * Make a WeekViewEventDataService that handles the event stream
-          * Make the WeekViewPage handle that stream
+          * DONE First fix all the names due to the proto change
+          * DONE Make a WeekViewEventDataService that handles the event stream
+          * DONE Make the WeekViewPage handle that stream
           * Make the WeekViewEventPage able to launch
             * EditCalendarEvent page
             * EditEndeavorBlock page

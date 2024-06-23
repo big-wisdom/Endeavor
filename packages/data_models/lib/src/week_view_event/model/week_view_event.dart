@@ -8,8 +8,7 @@ class WeekViewEvent extends Equatable {
     required this.backgroundColor,
     required this.start,
     required this.end,
-    required this.calendarEventId,
-    required this.endeavorBlockId,
+    required this.isEndeavorBlock,
     required this.taskId,
   });
 
@@ -26,11 +25,10 @@ class WeekViewEvent extends Equatable {
   final Color? backgroundColor;
 
   /// The original object that this was created from
-  final int? calendarEventId;
-  final int? endeavorBlockId;
+  final bool isEndeavorBlock;
   final int? taskId;
 
   @override
   List<Object?> get props =>
-      [title, start, end, backgroundColor, endeavorBlockId, calendarEventId];
+      [title, start, end, backgroundColor, isEndeavorBlock];
 }

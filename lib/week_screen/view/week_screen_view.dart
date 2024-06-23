@@ -44,8 +44,7 @@ class WeekScreenView extends StatelessWidget {
                       end: e.end,
                       onTap: () => _onTap(
                         context,
-                        e.endeavorBlockId,
-                        e.calendarEventId,
+                        e.isEndeavorBlock,
                         e.taskId,
                       ),
                     ),
@@ -59,19 +58,13 @@ class WeekScreenView extends StatelessWidget {
     );
   }
 
-  void _onTap(BuildContext context, int? endeavorBlockId, int? calendarEventId,
-      int? taskId) {
+  void _onTap(BuildContext context, bool isEndeavorBlock, int? taskId) {
     MaterialPageRoute route;
-    if (endeavorBlockId != null) {
+    if (isEndeavorBlock) {
       route = MaterialPageRoute(
         builder: (context) => EndeavorBlockScreen.edit("FAKE"),
       );
-    } else if (calendarEventId != null) {
-      route = MaterialPageRoute(
-        builder: (context) =>
-            CalendarEventScreen.edit(calendarEventId: calendarEventId),
-      );
-    } else {
+    } else if (taskId != null) {
       route = MaterialPageRoute(
         builder: (context) => TaskScreen.edit(
           const TaskReference(
@@ -80,6 +73,10 @@ class WeekScreenView extends StatelessWidget {
             title: "eli",
           ),
         ),
+      );
+    } else {
+      route = MaterialPageRoute(
+        builder: (context) => CalendarEventScreen.edit(calendarEventId: 1),
       );
     }
     Navigator.push(context, route);

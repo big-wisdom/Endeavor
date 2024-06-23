@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 
 part 'week_screen_event.dart';
@@ -23,21 +22,8 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
       },
     );
 
-    _weekEventSubscription = ShimDataService.calendarEvents.calendarEventStream
-        .map((events) => events
-            .map(
-              (event) => WeekViewEvent(
-                title: event.title,
-                backgroundColor: Colors.blue,
-                start: event.event.start,
-                end: event.event.end,
-                calendarEventId: event.id,
-                endeavorBlockId: null,
-                taskId: null,
-              ),
-            )
-            .toList())
-        .listen((weekViewEvents) {
+    _weekEventSubscription =
+        ShimDataService.weekViewEvents.eventStream.listen((weekViewEvents) {
       add(NewEvents(weekViewEvents));
     });
   }
