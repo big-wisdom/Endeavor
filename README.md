@@ -98,9 +98,10 @@ Back End: Firebase
           * DONE First fix all the names due to the proto change
           * DONE Make a WeekViewEventDataService that handles the event stream
           * DONE Make the WeekViewPage handle that stream
-          * DONE Make the WeekViewEventPage able to launch. I'm realizing that I will need to add an endeavorReference and repeatingEventId to the WeekViewEvent in order to make that happen.
-            * EditCalendarEvent page
+          * Make the WeekViewEventPage able to launch. I'm realizing that I will need to add an endeavorReference and repeatingEventId to the WeekViewEvent in order to make that happen.
+            * DONE EditCalendarEvent page
             * EditEndeavorBlock page
+          
 
     * ActiveTreeOfLife
     * EndeavorlessTasks

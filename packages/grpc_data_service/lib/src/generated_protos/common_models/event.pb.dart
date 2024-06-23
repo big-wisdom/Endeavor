@@ -23,7 +23,6 @@ class Event extends $pb.GeneratedMessage {
     $core.String? title,
     $2.EndeavorReference? endeavorReference,
     $core.bool? isEndeavorBlock,
-    $core.int? endeavorBlockId,
     $core.int? repeatingEventId,
     $core.int? taskId,
     $core.int? color,
@@ -45,9 +44,6 @@ class Event extends $pb.GeneratedMessage {
     }
     if (isEndeavorBlock != null) {
       $result.isEndeavorBlock = isEndeavorBlock;
-    }
-    if (endeavorBlockId != null) {
-      $result.endeavorBlockId = endeavorBlockId;
     }
     if (repeatingEventId != null) {
       $result.repeatingEventId = repeatingEventId;
@@ -76,12 +72,11 @@ class Event extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'title')
     ..aOM<$2.EndeavorReference>(4, _omitFieldNames ? '' : 'endeavorReference', protoName: 'endeavorReference', subBuilder: $2.EndeavorReference.create)
     ..aOB(5, _omitFieldNames ? '' : 'isEndeavorBlock', protoName: 'isEndeavorBlock')
-    ..a<$core.int>(6, _omitFieldNames ? '' : 'endeavorBlockId', $pb.PbFieldType.O3, protoName: 'endeavorBlockId')
-    ..a<$core.int>(7, _omitFieldNames ? '' : 'repeatingEventId', $pb.PbFieldType.O3, protoName: 'repeatingEventId')
-    ..a<$core.int>(8, _omitFieldNames ? '' : 'taskId', $pb.PbFieldType.O3, protoName: 'taskId')
-    ..a<$core.int>(9, _omitFieldNames ? '' : 'color', $pb.PbFieldType.O3)
-    ..aOM<$3.Timestamp>(10, _omitFieldNames ? '' : 'startTime', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(11, _omitFieldNames ? '' : 'endTime', subBuilder: $3.Timestamp.create)
+    ..a<$core.int>(6, _omitFieldNames ? '' : 'repeatingEventId', $pb.PbFieldType.O3, protoName: 'repeatingEventId')
+    ..a<$core.int>(7, _omitFieldNames ? '' : 'taskId', $pb.PbFieldType.O3, protoName: 'taskId')
+    ..a<$core.int>(8, _omitFieldNames ? '' : 'color', $pb.PbFieldType.O3)
+    ..aOM<$3.Timestamp>(9, _omitFieldNames ? '' : 'startTime', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(10, _omitFieldNames ? '' : 'endTime', subBuilder: $3.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -154,62 +149,53 @@ class Event extends $pb.GeneratedMessage {
   void clearIsEndeavorBlock() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.int get endeavorBlockId => $_getIZ(5);
+  $core.int get repeatingEventId => $_getIZ(5);
   @$pb.TagNumber(6)
-  set endeavorBlockId($core.int v) { $_setSignedInt32(5, v); }
+  set repeatingEventId($core.int v) { $_setSignedInt32(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasEndeavorBlockId() => $_has(5);
+  $core.bool hasRepeatingEventId() => $_has(5);
   @$pb.TagNumber(6)
-  void clearEndeavorBlockId() => clearField(6);
+  void clearRepeatingEventId() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.int get repeatingEventId => $_getIZ(6);
+  $core.int get taskId => $_getIZ(6);
   @$pb.TagNumber(7)
-  set repeatingEventId($core.int v) { $_setSignedInt32(6, v); }
+  set taskId($core.int v) { $_setSignedInt32(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasRepeatingEventId() => $_has(6);
+  $core.bool hasTaskId() => $_has(6);
   @$pb.TagNumber(7)
-  void clearRepeatingEventId() => clearField(7);
+  void clearTaskId() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.int get taskId => $_getIZ(7);
+  $core.int get color => $_getIZ(7);
   @$pb.TagNumber(8)
-  set taskId($core.int v) { $_setSignedInt32(7, v); }
+  set color($core.int v) { $_setSignedInt32(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasTaskId() => $_has(7);
+  $core.bool hasColor() => $_has(7);
   @$pb.TagNumber(8)
-  void clearTaskId() => clearField(8);
+  void clearColor() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.int get color => $_getIZ(8);
+  $3.Timestamp get startTime => $_getN(8);
   @$pb.TagNumber(9)
-  set color($core.int v) { $_setSignedInt32(8, v); }
+  set startTime($3.Timestamp v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasColor() => $_has(8);
+  $core.bool hasStartTime() => $_has(8);
   @$pb.TagNumber(9)
-  void clearColor() => clearField(9);
+  void clearStartTime() => clearField(9);
+  @$pb.TagNumber(9)
+  $3.Timestamp ensureStartTime() => $_ensure(8);
 
   @$pb.TagNumber(10)
-  $3.Timestamp get startTime => $_getN(9);
+  $3.Timestamp get endTime => $_getN(9);
   @$pb.TagNumber(10)
-  set startTime($3.Timestamp v) { setField(10, v); }
+  set endTime($3.Timestamp v) { setField(10, v); }
   @$pb.TagNumber(10)
-  $core.bool hasStartTime() => $_has(9);
+  $core.bool hasEndTime() => $_has(9);
   @$pb.TagNumber(10)
-  void clearStartTime() => clearField(10);
+  void clearEndTime() => clearField(10);
   @$pb.TagNumber(10)
-  $3.Timestamp ensureStartTime() => $_ensure(9);
-
-  @$pb.TagNumber(11)
-  $3.Timestamp get endTime => $_getN(10);
-  @$pb.TagNumber(11)
-  set endTime($3.Timestamp v) { setField(11, v); }
-  @$pb.TagNumber(11)
-  $core.bool hasEndTime() => $_has(10);
-  @$pb.TagNumber(11)
-  void clearEndTime() => clearField(11);
-  @$pb.TagNumber(11)
-  $3.Timestamp ensureEndTime() => $_ensure(10);
+  $3.Timestamp ensureEndTime() => $_ensure(9);
 }
 
 

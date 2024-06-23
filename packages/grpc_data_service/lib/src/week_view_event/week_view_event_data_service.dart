@@ -27,12 +27,13 @@ class WeekViewEventDataService {
                       title: e.endeavorReference.title,
                       id: e.endeavorReference.id,
                     ),
-                    repeatingEventId: e.repeatingEventId,
-                    backgroundColor: Color(e.color),
-                    start: e.startTime.toDateTime(),
-                    end: e.endTime.toDateTime(),
+                    repeatingEventId:
+                        e.repeatingEventId == 0 ? null : e.repeatingEventId,
+                    backgroundColor: e.color == 0 ? null : Color(e.color),
+                    start: e.startTime.toDateTime(toLocal: true),
+                    end: e.endTime.toDateTime(toLocal: true),
                     isEndeavorBlock: e.isEndeavorBlock,
-                    taskId: e.taskId,
+                    taskId: e.taskId == 0 ? null : e.taskId,
                   ),
                 )
                 .toList());
