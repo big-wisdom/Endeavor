@@ -15,9 +15,9 @@ class CalendarEventDataService {
   CalendarEventDataService(this.client, String userId)
       : _userId = userId,
         calendarEventStream = client
-            .subscribeToCalendarEvents(
-              (StreamController<ListCalendarEventsRequest>()
-                    ..add(ListCalendarEventsRequest(userId: userId)))
+            .subscribeToEvents(
+              (StreamController<ListEventsRequest>()
+                    ..add(ListEventsRequest(userId: userId)))
                   .stream,
             )
             .map(
@@ -43,8 +43,8 @@ class CalendarEventDataService {
   void createCalendarEvent(
     UnidentifiedCalendarEvent calendarEvent,
   ) {
-    client.createCalendarEvent(
-      CreateCalendarEventRequest(
+    client.createEvent(
+      CreateEventRequest(
         event: event_proto.Event(
           userId: _userId,
           title: calendarEvent.title,
@@ -56,8 +56,8 @@ class CalendarEventDataService {
   }
 
   void updateCalendarEvent(CalendarEvent calendarEvent) {
-    client.updateCalendarEvent(
-      UpdateCalendarEventRequest(
+    client.updateEvent(
+      UpdateEventRequest(
         event: event_proto.Event(
           userId: _userId,
           id: calendarEvent.id,
@@ -71,7 +71,7 @@ class CalendarEventDataService {
   }
 
   void deleteCalendarEvent(int id) {
-    client.deleteCalendarEvent(DeleteCalendarEventRequest(
+    client.deleteEvent(DeleteEventRequest(
       userId: _userId,
       id: id,
     ));
@@ -101,8 +101,8 @@ class CalendarEventDataService {
     final utcStartDateTime = startDateTime.toUtc();
     final utcEndDateTime = endDateTime.toUtc();
 
-    client.createRepeatingCalendarEvent(
-      CreateRepeatingCalendarEventRequest(
+    client.createRepeatingEvent(
+      CreateRepeatingEventRequest(
         repeatingEvent: repeating_event_proto.RepeatingEvent(
           userId: _userId,
           title: urce.title,
@@ -128,8 +128,8 @@ class CalendarEventDataService {
   }
 
   void editThisAndFollowingCalendarEvents(CalendarEvent event) {
-    client.editThisAndFollowingCalendarEvents(
-      EditThisAndFollowingCalendarEventsRequest(
+    client.editThisAndFollowingEvents(
+      EditThisAndFollowingEventsRequest(
         event: event_proto.Event(
           userId: _userId,
           id: event.id,
@@ -143,8 +143,7 @@ class CalendarEventDataService {
   }
 
   void deleteThisAndFollowingCalendarEvents(int selectedEventId) {
-    client.deleteThisAndFollowingCalendarEvents(
-        DeleteThisAndFollowingCalendarEventsRequest(
+    client.deleteThisAndFollowingEvents(DeleteThisAndFollowingEventsRequest(
       userId: _userId,
       eventId: selectedEventId,
     ));
