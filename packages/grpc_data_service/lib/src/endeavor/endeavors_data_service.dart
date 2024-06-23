@@ -16,6 +16,7 @@ class EndeavorsDataService {
                     ..add(ListEndeavorsRequest(userId: userId)))
                   .stream,
             )
+            .asBroadcastStream()
             .map((listCalendarEventsResponse) =>
                 listCalendarEventsResponse.endeavors
                     .map(

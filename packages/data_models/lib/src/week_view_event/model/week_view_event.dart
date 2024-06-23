@@ -23,7 +23,7 @@ class WeekViewEvent extends Equatable {
   final EndeavorReference? endeavorReference;
 
   // repeatingEventId
-  final int repeatingEventId;
+  final int? repeatingEventId;
 
   /// The event title.
   final String title;
