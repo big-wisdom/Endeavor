@@ -2,6 +2,7 @@ import 'package:grpc/grpc.dart';
 import 'package:grpc_data_service/src/endeavor/endeavors_data_service.dart';
 import 'package:grpc_data_service/src/endeavor_blocks/endeavor_blocks_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
+import 'package:grpc_data_service/src/week_view_event/week_view_event_data_service.dart';
 import './calendar_event/calendar_event_data_service.dart';
 
 // this is a singleton class that is meant to be initialized before it is ever
@@ -15,6 +16,7 @@ class GRPCDataService {
   late CalendarEventDataService calendarEvents;
   late EndeavorBlocksDataService endeavorBlocks;
   late EndeavorsDataService endeavors;
+  late WeekViewEventDataService weekViewEvents;
 
   String _baseUrl = "localhost";
   int _port = 8080;
@@ -33,5 +35,6 @@ class GRPCDataService {
     calendarEvents = CalendarEventDataService(client, userId);
     endeavorBlocks = EndeavorBlocksDataService(client, userId);
     endeavors = EndeavorsDataService(client, userId);
+    weekViewEvents = WeekViewEventDataService(client, userId);
   }
 }
