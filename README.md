@@ -80,15 +80,25 @@ Back End: Firebase
 
   * One solution would be to create the following streams
     * WeekViewEvents
-      * I think that on the backend and in protos, I only really need the event and when it doesn't have an endeavorBlockId or taskId, the client can call it a calendar event.
-        * Edit the proto
-        * Edit the table if needed
-        * Edit the stream to be WeekViewEvents
-        * Edit the week view screen to accept it
-        * Edit the EditCalendarEventScreen to take it
+      * color is a similar problem. I think that maybe the event should have color on it but it could be initialized by the endeavor color?
+      * Right now I'm trying to figure out if endeavorIds need to be included in the event. Does an event inherently have an endeavor? I think that's actually one of the fundamental propositions upon which this concept is based, so I'm going to go ahead and add it as a field in the event and then for normalization purposes, I'll remove it from the endeavorBlock.
+        * DONE TESTED Add endeavorId field back into the event
+        * DONE TESTED Fix storedProcedures that pertain to the event
+        
+        * I made a distinction without more than a boolean difference between endeavorBlocks and events, they, at least at this phase, have everything in common besides how they will be populated with tasks which only requires a boolean difference.
+          * DONE Store the endeavorBlock in the events table by adding an endeavorBlock boolean
+          * DONE Store the repeatingEndeavorBlock in the repeatingEvents by adding an endeavorBlock boolean to it
+          * DONE TESTED Fix storedProcedures that pertain to the endeavorBlock
+
+        * DONE TESTED quick pit stop to make an end to end sql test rather than the scattered on I have rn
+
+        * DONE (for events and repeatingEvents) Fix Database functions
+        * DONE (for events and repeatingEvents) Fix streams that pertain to the event
+        *  on the app recieve the stream as a week view event stream
+        * on the app somehow open up the CalendarEvent page from the event itself?
+
     * ActiveTreeOfLife
     * EndeavorlessTasks
     * PrimaryEndeavors
     * Endeavors
     * Tasks
-    * EndeavorBlocks

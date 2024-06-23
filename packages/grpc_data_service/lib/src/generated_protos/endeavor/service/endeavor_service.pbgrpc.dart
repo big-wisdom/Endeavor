@@ -38,53 +38,41 @@ class EndeavorClient extends $grpc.Client {
       '/endeavor.service.Endeavor/SubscribeToEndeavorsStream',
       ($0.ListEndeavorsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ListEndeavorsResponse.fromBuffer(value));
-  static final _$createCalendarEvent = $grpc.ClientMethod<$0.CreateCalendarEventRequest, $0.CreateCalendarEventResponse>(
-      '/endeavor.service.Endeavor/CreateCalendarEvent',
-      ($0.CreateCalendarEventRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.CreateCalendarEventResponse.fromBuffer(value));
-  static final _$updateCalendarEvent = $grpc.ClientMethod<$0.UpdateCalendarEventRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/UpdateCalendarEvent',
-      ($0.UpdateCalendarEventRequest value) => value.writeToBuffer(),
+  static final _$createEvent = $grpc.ClientMethod<$0.CreateEventRequest, $0.CreateEventResponse>(
+      '/endeavor.service.Endeavor/CreateEvent',
+      ($0.CreateEventRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateEventResponse.fromBuffer(value));
+  static final _$updateEvent = $grpc.ClientMethod<$0.UpdateEventRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/UpdateEvent',
+      ($0.UpdateEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$deleteCalendarEvent = $grpc.ClientMethod<$0.DeleteCalendarEventRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/DeleteCalendarEvent',
-      ($0.DeleteCalendarEventRequest value) => value.writeToBuffer(),
+  static final _$deleteEvent = $grpc.ClientMethod<$0.DeleteEventRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/DeleteEvent',
+      ($0.DeleteEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$subscribeToCalendarEvents = $grpc.ClientMethod<$0.ListCalendarEventsRequest, $0.ListCalendarEventsResponse>(
-      '/endeavor.service.Endeavor/SubscribeToCalendarEvents',
-      ($0.ListCalendarEventsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListCalendarEventsResponse.fromBuffer(value));
-  static final _$createRepeatingCalendarEvent = $grpc.ClientMethod<$0.CreateRepeatingCalendarEventRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/CreateRepeatingCalendarEvent',
-      ($0.CreateRepeatingCalendarEventRequest value) => value.writeToBuffer(),
+  static final _$subscribeToEvents = $grpc.ClientMethod<$0.ListEventsRequest, $0.ListEventsResponse>(
+      '/endeavor.service.Endeavor/SubscribeToEvents',
+      ($0.ListEventsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListEventsResponse.fromBuffer(value));
+  static final _$createRepeatingEvent = $grpc.ClientMethod<$0.CreateRepeatingEventRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/CreateRepeatingEvent',
+      ($0.CreateRepeatingEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$editRepeatingCalendarEvent = $grpc.ClientMethod<$0.EditRepeatingCalendarEventRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/EditRepeatingCalendarEvent',
-      ($0.EditRepeatingCalendarEventRequest value) => value.writeToBuffer(),
+  static final _$editRepeatingEvent = $grpc.ClientMethod<$0.EditRepeatingEventRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/EditRepeatingEvent',
+      ($0.EditRepeatingEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$editThisAndFollowingCalendarEvents = $grpc.ClientMethod<$0.EditThisAndFollowingCalendarEventsRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/EditThisAndFollowingCalendarEvents',
-      ($0.EditThisAndFollowingCalendarEventsRequest value) => value.writeToBuffer(),
+  static final _$editThisAndFollowingEvents = $grpc.ClientMethod<$0.EditThisAndFollowingEventsRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/EditThisAndFollowingEvents',
+      ($0.EditThisAndFollowingEventsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$deleteRepeatingCalendarEvent = $grpc.ClientMethod<$0.DeleteRepeatingCalendarEventRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/DeleteRepeatingCalendarEvent',
-      ($0.DeleteRepeatingCalendarEventRequest value) => value.writeToBuffer(),
+  static final _$deleteRepeatingEvent = $grpc.ClientMethod<$0.DeleteRepeatingEventRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/DeleteRepeatingEvent',
+      ($0.DeleteRepeatingEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$deleteThisAndFollowingCalendarEvents = $grpc.ClientMethod<$0.DeleteThisAndFollowingCalendarEventsRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/DeleteThisAndFollowingCalendarEvents',
-      ($0.DeleteThisAndFollowingCalendarEventsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$createEndeavorBlock = $grpc.ClientMethod<$0.CreateEndeavorBlockRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/CreateEndeavorBlock',
-      ($0.CreateEndeavorBlockRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$updateEndeavorBlock = $grpc.ClientMethod<$0.UpdateEndeavorBlockRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/UpdateEndeavorBlock',
-      ($0.UpdateEndeavorBlockRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$deleteEndeavorBlock = $grpc.ClientMethod<$0.DeleteEndeavorBlockRequest, $1.Empty>(
-      '/endeavor.service.Endeavor/DeleteEndeavorBlock',
-      ($0.DeleteEndeavorBlockRequest value) => value.writeToBuffer(),
+  static final _$deleteThisAndFollowingEvents = $grpc.ClientMethod<$0.DeleteThisAndFollowingEventsRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/DeleteThisAndFollowingEvents',
+      ($0.DeleteThisAndFollowingEventsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
   static final _$createTask = $grpc.ClientMethod<$0.CreateTaskRequest, $1.Empty>(
       '/endeavor.service.Endeavor/CreateTask',
@@ -121,52 +109,40 @@ class EndeavorClient extends $grpc.Client {
     return $createStreamingCall(_$subscribeToEndeavorsStream, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.CreateCalendarEventResponse> createCalendarEvent($0.CreateCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$createCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$0.CreateEventResponse> createEvent($0.CreateEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createEvent, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> updateCalendarEvent($0.UpdateCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$updateCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> updateEvent($0.UpdateEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$updateEvent, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> deleteCalendarEvent($0.DeleteCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$deleteCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> deleteEvent($0.DeleteEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteEvent, request, options: options);
   }
 
-  $grpc.ResponseStream<$0.ListCalendarEventsResponse> subscribeToCalendarEvents($async.Stream<$0.ListCalendarEventsRequest> request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$subscribeToCalendarEvents, request, options: options);
+  $grpc.ResponseStream<$0.ListEventsResponse> subscribeToEvents($async.Stream<$0.ListEventsRequest> request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$subscribeToEvents, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> createRepeatingCalendarEvent($0.CreateRepeatingCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$createRepeatingCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> createRepeatingEvent($0.CreateRepeatingEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createRepeatingEvent, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> editRepeatingCalendarEvent($0.EditRepeatingCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$editRepeatingCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> editRepeatingEvent($0.EditRepeatingEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$editRepeatingEvent, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> editThisAndFollowingCalendarEvents($0.EditThisAndFollowingCalendarEventsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$editThisAndFollowingCalendarEvents, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> editThisAndFollowingEvents($0.EditThisAndFollowingEventsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$editThisAndFollowingEvents, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> deleteRepeatingCalendarEvent($0.DeleteRepeatingCalendarEventRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$deleteRepeatingCalendarEvent, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> deleteRepeatingEvent($0.DeleteRepeatingEventRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteRepeatingEvent, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.Empty> deleteThisAndFollowingCalendarEvents($0.DeleteThisAndFollowingCalendarEventsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$deleteThisAndFollowingCalendarEvents, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$1.Empty> createEndeavorBlock($0.CreateEndeavorBlockRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$createEndeavorBlock, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$1.Empty> updateEndeavorBlock($0.UpdateEndeavorBlockRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$updateEndeavorBlock, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$1.Empty> deleteEndeavorBlock($0.DeleteEndeavorBlockRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$deleteEndeavorBlock, request, options: options);
+  $grpc.ResponseFuture<$1.Empty> deleteThisAndFollowingEvents($0.DeleteThisAndFollowingEventsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$deleteThisAndFollowingEvents, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> createTask($0.CreateTaskRequest request, {$grpc.CallOptions? options}) {
@@ -215,89 +191,68 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         true,
         ($core.List<$core.int> value) => $0.ListEndeavorsRequest.fromBuffer(value),
         ($0.ListEndeavorsResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CreateCalendarEventRequest, $0.CreateCalendarEventResponse>(
-        'CreateCalendarEvent',
-        createCalendarEvent_Pre,
+    $addMethod($grpc.ServiceMethod<$0.CreateEventRequest, $0.CreateEventResponse>(
+        'CreateEvent',
+        createEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.CreateCalendarEventRequest.fromBuffer(value),
-        ($0.CreateCalendarEventResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.UpdateCalendarEventRequest, $1.Empty>(
-        'UpdateCalendarEvent',
-        updateCalendarEvent_Pre,
+        ($core.List<$core.int> value) => $0.CreateEventRequest.fromBuffer(value),
+        ($0.CreateEventResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.UpdateEventRequest, $1.Empty>(
+        'UpdateEvent',
+        updateEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.UpdateCalendarEventRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.UpdateEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.DeleteCalendarEventRequest, $1.Empty>(
-        'DeleteCalendarEvent',
-        deleteCalendarEvent_Pre,
+    $addMethod($grpc.ServiceMethod<$0.DeleteEventRequest, $1.Empty>(
+        'DeleteEvent',
+        deleteEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.DeleteCalendarEventRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.DeleteEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListCalendarEventsRequest, $0.ListCalendarEventsResponse>(
-        'SubscribeToCalendarEvents',
-        subscribeToCalendarEvents,
+    $addMethod($grpc.ServiceMethod<$0.ListEventsRequest, $0.ListEventsResponse>(
+        'SubscribeToEvents',
+        subscribeToEvents,
         true,
         true,
-        ($core.List<$core.int> value) => $0.ListCalendarEventsRequest.fromBuffer(value),
-        ($0.ListCalendarEventsResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CreateRepeatingCalendarEventRequest, $1.Empty>(
-        'CreateRepeatingCalendarEvent',
-        createRepeatingCalendarEvent_Pre,
+        ($core.List<$core.int> value) => $0.ListEventsRequest.fromBuffer(value),
+        ($0.ListEventsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateRepeatingEventRequest, $1.Empty>(
+        'CreateRepeatingEvent',
+        createRepeatingEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.CreateRepeatingCalendarEventRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.CreateRepeatingEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.EditRepeatingCalendarEventRequest, $1.Empty>(
-        'EditRepeatingCalendarEvent',
-        editRepeatingCalendarEvent_Pre,
+    $addMethod($grpc.ServiceMethod<$0.EditRepeatingEventRequest, $1.Empty>(
+        'EditRepeatingEvent',
+        editRepeatingEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.EditRepeatingCalendarEventRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.EditRepeatingEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.EditThisAndFollowingCalendarEventsRequest, $1.Empty>(
-        'EditThisAndFollowingCalendarEvents',
-        editThisAndFollowingCalendarEvents_Pre,
+    $addMethod($grpc.ServiceMethod<$0.EditThisAndFollowingEventsRequest, $1.Empty>(
+        'EditThisAndFollowingEvents',
+        editThisAndFollowingEvents_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.EditThisAndFollowingCalendarEventsRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.EditThisAndFollowingEventsRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.DeleteRepeatingCalendarEventRequest, $1.Empty>(
-        'DeleteRepeatingCalendarEvent',
-        deleteRepeatingCalendarEvent_Pre,
+    $addMethod($grpc.ServiceMethod<$0.DeleteRepeatingEventRequest, $1.Empty>(
+        'DeleteRepeatingEvent',
+        deleteRepeatingEvent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.DeleteRepeatingCalendarEventRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.DeleteRepeatingEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.DeleteThisAndFollowingCalendarEventsRequest, $1.Empty>(
-        'DeleteThisAndFollowingCalendarEvents',
-        deleteThisAndFollowingCalendarEvents_Pre,
+    $addMethod($grpc.ServiceMethod<$0.DeleteThisAndFollowingEventsRequest, $1.Empty>(
+        'DeleteThisAndFollowingEvents',
+        deleteThisAndFollowingEvents_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.DeleteThisAndFollowingCalendarEventsRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CreateEndeavorBlockRequest, $1.Empty>(
-        'CreateEndeavorBlock',
-        createEndeavorBlock_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.CreateEndeavorBlockRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.UpdateEndeavorBlockRequest, $1.Empty>(
-        'UpdateEndeavorBlock',
-        updateEndeavorBlock_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.UpdateEndeavorBlockRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.DeleteEndeavorBlockRequest, $1.Empty>(
-        'DeleteEndeavorBlock',
-        deleteEndeavorBlock_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) => $0.DeleteEndeavorBlockRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.DeleteThisAndFollowingEventsRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateTaskRequest, $1.Empty>(
         'CreateTask',
@@ -334,48 +289,36 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return deleteEndeavor(call, await request);
   }
 
-  $async.Future<$0.CreateCalendarEventResponse> createCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateCalendarEventRequest> request) async {
-    return createCalendarEvent(call, await request);
+  $async.Future<$0.CreateEventResponse> createEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateEventRequest> request) async {
+    return createEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> updateCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateCalendarEventRequest> request) async {
-    return updateCalendarEvent(call, await request);
+  $async.Future<$1.Empty> updateEvent_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateEventRequest> request) async {
+    return updateEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> deleteCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteCalendarEventRequest> request) async {
-    return deleteCalendarEvent(call, await request);
+  $async.Future<$1.Empty> deleteEvent_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteEventRequest> request) async {
+    return deleteEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> createRepeatingCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRepeatingCalendarEventRequest> request) async {
-    return createRepeatingCalendarEvent(call, await request);
+  $async.Future<$1.Empty> createRepeatingEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRepeatingEventRequest> request) async {
+    return createRepeatingEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> editRepeatingCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.EditRepeatingCalendarEventRequest> request) async {
-    return editRepeatingCalendarEvent(call, await request);
+  $async.Future<$1.Empty> editRepeatingEvent_Pre($grpc.ServiceCall call, $async.Future<$0.EditRepeatingEventRequest> request) async {
+    return editRepeatingEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> editThisAndFollowingCalendarEvents_Pre($grpc.ServiceCall call, $async.Future<$0.EditThisAndFollowingCalendarEventsRequest> request) async {
-    return editThisAndFollowingCalendarEvents(call, await request);
+  $async.Future<$1.Empty> editThisAndFollowingEvents_Pre($grpc.ServiceCall call, $async.Future<$0.EditThisAndFollowingEventsRequest> request) async {
+    return editThisAndFollowingEvents(call, await request);
   }
 
-  $async.Future<$1.Empty> deleteRepeatingCalendarEvent_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteRepeatingCalendarEventRequest> request) async {
-    return deleteRepeatingCalendarEvent(call, await request);
+  $async.Future<$1.Empty> deleteRepeatingEvent_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteRepeatingEventRequest> request) async {
+    return deleteRepeatingEvent(call, await request);
   }
 
-  $async.Future<$1.Empty> deleteThisAndFollowingCalendarEvents_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteThisAndFollowingCalendarEventsRequest> request) async {
-    return deleteThisAndFollowingCalendarEvents(call, await request);
-  }
-
-  $async.Future<$1.Empty> createEndeavorBlock_Pre($grpc.ServiceCall call, $async.Future<$0.CreateEndeavorBlockRequest> request) async {
-    return createEndeavorBlock(call, await request);
-  }
-
-  $async.Future<$1.Empty> updateEndeavorBlock_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateEndeavorBlockRequest> request) async {
-    return updateEndeavorBlock(call, await request);
-  }
-
-  $async.Future<$1.Empty> deleteEndeavorBlock_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteEndeavorBlockRequest> request) async {
-    return deleteEndeavorBlock(call, await request);
+  $async.Future<$1.Empty> deleteThisAndFollowingEvents_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteThisAndFollowingEventsRequest> request) async {
+    return deleteThisAndFollowingEvents(call, await request);
   }
 
   $async.Future<$1.Empty> createTask_Pre($grpc.ServiceCall call, $async.Future<$0.CreateTaskRequest> request) async {
@@ -394,18 +337,15 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $async.Future<$1.Empty> updateEndeavor($grpc.ServiceCall call, $0.UpdateEndeavorRequest request);
   $async.Future<$1.Empty> deleteEndeavor($grpc.ServiceCall call, $0.DeleteEndeavorRequest request);
   $async.Stream<$0.ListEndeavorsResponse> subscribeToEndeavorsStream($grpc.ServiceCall call, $async.Stream<$0.ListEndeavorsRequest> request);
-  $async.Future<$0.CreateCalendarEventResponse> createCalendarEvent($grpc.ServiceCall call, $0.CreateCalendarEventRequest request);
-  $async.Future<$1.Empty> updateCalendarEvent($grpc.ServiceCall call, $0.UpdateCalendarEventRequest request);
-  $async.Future<$1.Empty> deleteCalendarEvent($grpc.ServiceCall call, $0.DeleteCalendarEventRequest request);
-  $async.Stream<$0.ListCalendarEventsResponse> subscribeToCalendarEvents($grpc.ServiceCall call, $async.Stream<$0.ListCalendarEventsRequest> request);
-  $async.Future<$1.Empty> createRepeatingCalendarEvent($grpc.ServiceCall call, $0.CreateRepeatingCalendarEventRequest request);
-  $async.Future<$1.Empty> editRepeatingCalendarEvent($grpc.ServiceCall call, $0.EditRepeatingCalendarEventRequest request);
-  $async.Future<$1.Empty> editThisAndFollowingCalendarEvents($grpc.ServiceCall call, $0.EditThisAndFollowingCalendarEventsRequest request);
-  $async.Future<$1.Empty> deleteRepeatingCalendarEvent($grpc.ServiceCall call, $0.DeleteRepeatingCalendarEventRequest request);
-  $async.Future<$1.Empty> deleteThisAndFollowingCalendarEvents($grpc.ServiceCall call, $0.DeleteThisAndFollowingCalendarEventsRequest request);
-  $async.Future<$1.Empty> createEndeavorBlock($grpc.ServiceCall call, $0.CreateEndeavorBlockRequest request);
-  $async.Future<$1.Empty> updateEndeavorBlock($grpc.ServiceCall call, $0.UpdateEndeavorBlockRequest request);
-  $async.Future<$1.Empty> deleteEndeavorBlock($grpc.ServiceCall call, $0.DeleteEndeavorBlockRequest request);
+  $async.Future<$0.CreateEventResponse> createEvent($grpc.ServiceCall call, $0.CreateEventRequest request);
+  $async.Future<$1.Empty> updateEvent($grpc.ServiceCall call, $0.UpdateEventRequest request);
+  $async.Future<$1.Empty> deleteEvent($grpc.ServiceCall call, $0.DeleteEventRequest request);
+  $async.Stream<$0.ListEventsResponse> subscribeToEvents($grpc.ServiceCall call, $async.Stream<$0.ListEventsRequest> request);
+  $async.Future<$1.Empty> createRepeatingEvent($grpc.ServiceCall call, $0.CreateRepeatingEventRequest request);
+  $async.Future<$1.Empty> editRepeatingEvent($grpc.ServiceCall call, $0.EditRepeatingEventRequest request);
+  $async.Future<$1.Empty> editThisAndFollowingEvents($grpc.ServiceCall call, $0.EditThisAndFollowingEventsRequest request);
+  $async.Future<$1.Empty> deleteRepeatingEvent($grpc.ServiceCall call, $0.DeleteRepeatingEventRequest request);
+  $async.Future<$1.Empty> deleteThisAndFollowingEvents($grpc.ServiceCall call, $0.DeleteThisAndFollowingEventsRequest request);
   $async.Future<$1.Empty> createTask($grpc.ServiceCall call, $0.CreateTaskRequest request);
   $async.Future<$1.Empty> updateTask($grpc.ServiceCall call, $0.UpdateTaskRequest request);
   $async.Future<$1.Empty> deleteTask($grpc.ServiceCall call, $0.DeleteTaskRequest request);
