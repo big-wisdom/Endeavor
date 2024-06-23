@@ -20,7 +20,6 @@ class CalendarEventScreen extends StatelessWidget {
     final calendarEvent = ShimDataService.calendarEvents.calendarEventsSnapshot
         .firstWhereOrNull((e) => e.id == calendarEventId);
 
-    print("found calendarEvent: $calendarEvent");
     return BlocProvider(
       create: (context) => CalendarEventScreenBloc(initialEvent: calendarEvent),
       child: const CalendarEventScreenView(),
