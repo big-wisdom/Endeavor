@@ -1,16 +1,17 @@
 import 'dart:ui';
 
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 
 class EndeavorDataService {
   EndeavorDataService() {}
 
-  Stream<List<Endeavor>> get endeavorsStream =>
-      GRPCDataService.instance.endeavors.endeavorsStream;
+  Stream<QueryState<List<Endeavor>>> get primaryEndeavorsStream =>
+      GRPCDataService.instance.endeavors.primary.stream;
 
   void createPrimaryEndeavor(String endeavorTitle) async {
-    GRPCDataService.instance.endeavors.createPrimaryEndeavor(endeavorTitle);
+    GRPCDataService.instance.endeavors.primary.create(endeavorTitle);
   }
 
   void reorderEndeavorTasks(String endeavorId, List<String> taskIds) async {
