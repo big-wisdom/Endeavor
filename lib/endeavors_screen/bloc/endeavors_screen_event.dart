@@ -17,7 +17,7 @@ class ReorderEndeavors extends EndeavorsScreenEvent {
 class NewPrimaryEndeavors extends EndeavorsScreenEvent {
   const NewPrimaryEndeavors(this.newPrimaryEndeavors);
 
-  final List<Endeavor> newPrimaryEndeavors;
+  final QueryState<List<Endeavor>> newPrimaryEndeavors;
 
   @override
   List<Object?> get props => [newPrimaryEndeavors];

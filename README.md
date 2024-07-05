@@ -73,38 +73,6 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* I realized one fundamental flaw is that I'm still thinking in terms of my old data streams when I could make this much easier on myself. 
-  * The week view screen needs a combined stream of WeekViewEvents, but then when either a calendar event, endeavorBlock or task is clicked from there, it needs to go to an edit screen for that individual item. 
-  * The Tasks screen needs an active tree of life and endeavorless tasks and also needs to be able to link to an edit task screen
-  * The endeavors screen needs a list of fully populated primary endeavors with tasks, sub-endeavors and all. That one needs to be able to launch an edit/create task screen.
+* Okay so recent progress has been that in the database I combined the EndeavorBlocks into the Events table and the repeatingEndeavorBlocks into the repeatingEvents table. Events and repeating events are working all around and now I've been working on Endeavors. I did events with a server stream, but I've been realizing that, that isn't very durable so starting with endeavors I'm going to switch to a package called cached_query, inspired by react query which is a streaming server model that's implemented with queries and mutations.
 
-  * One solution would be to create the following streams
-    * WeekViewEvents
-      * color is a similar problem. I think that maybe the event should have color on it but it could be initialized by the endeavor color?
-      * Right now I'm trying to figure out if endeavorIds need to be included in the event. Does an event inherently have an endeavor? I think that's actually one of the fundamental propositions upon which this concept is based, so I'm going to go ahead and add it as a field in the event and then for normalization purposes, I'll remove it from the endeavorBlock.
-        * DONE TESTED Add endeavorId field back into the event
-        * DONE TESTED Fix storedProcedures that pertain to the event
-        
-        * I made a distinction without more than a boolean difference between endeavorBlocks and events, they, at least at this phase, have everything in common besides how they will be populated with tasks which only requires a boolean difference.
-          * DONE Store the endeavorBlock in the events table by adding an endeavorBlock boolean
-          * DONE Store the repeatingEndeavorBlock in the repeatingEvents by adding an endeavorBlock boolean to it
-          * DONE TESTED Fix storedProcedures that pertain to the endeavorBlock
-
-        * DONE TESTED quick pit stop to make an end to end sql test rather than the scattered on I have rn
-
-        * DONE (for events and repeatingEvents) Fix Database functions
-        * DONE (for events and repeatingEvents) Fix streams that pertain to the event
-        * FRONT END
-          * DONE First fix all the names due to the proto change
-          * DONE Make a WeekViewEventDataService that handles the event stream
-          * DONE Make the WeekViewPage handle that stream
-          * Make the WeekViewEventPage able to launch. I'm realizing that I will need to add an endeavorReference and repeatingEventId to the WeekViewEvent in order to make that happen.
-            * DONE EditCalendarEvent page
-            * EditEndeavorBlock page
-          
-
-    * ActiveTreeOfLife
-    * EndeavorlessTasks
-    * PrimaryEndeavors
-    * Endeavors
-    * Tasks
+My next goal will be to actually implement a GetPrimaryEndeavors rpc endpoint, actually use it in the client, and use the mutation on the CreateEndeavorsModal

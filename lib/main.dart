@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,14 @@ void main() async {
 
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
+
+  CachedQuery.instance.configFlutter(
+    config: QueryConfigFlutter(
+      refetchOnConnection: true,
+      refetchOnResume: true,
+      ignoreCacheDuration: true,
+    ),
+  );
 
   runApp(App(
     authenticationRepository: authenticationRepository,

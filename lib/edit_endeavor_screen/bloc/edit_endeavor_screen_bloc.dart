@@ -38,9 +38,10 @@ class EditEndeavorScreenBloc
             ? LoadingEditEndeavorScreenState(endeavorReference!)
             : LoadedEditEndeavorScreenState.fromEndeavor(endeavor)) {
     // Load endeavor if it's not already
-    _streamSubscription = ShimDataService.endeavors.endeavorsStream.listen(
+    _streamSubscription =
+        ShimDataService.endeavors.primaryEndeavorsStream.listen(
       (newEndeavors) {
-        var newEndeavor = newEndeavors
+        var newEndeavor = newEndeavors.data!
             .firstWhere((e) => e.id == (endeavorReference?.id ?? endeavor!.id));
         currentEndeavor = newEndeavor;
         add(EndeavorChangedByServer(newEndeavor));
