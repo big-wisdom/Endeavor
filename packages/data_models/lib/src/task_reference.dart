@@ -7,7 +7,7 @@ class TaskReference extends Equatable {
     required this.title,
   });
 
-  final String id;
+  final int id;
   final int? endeavorId;
   final String title;
 

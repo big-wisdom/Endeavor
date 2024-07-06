@@ -31,7 +31,7 @@ class _EndeavorTaskListState extends State<EndeavorTaskList> {
         ...widget.endeavorNode.endeavor.taskReferences
             .map((taskRef) => TaskListTile(
                   taskReference: taskRef,
-                  key: Key(taskRef.id),
+                  key: Key(taskRef.id.toString()),
                 ))
             .toList(),
         // subendeavors

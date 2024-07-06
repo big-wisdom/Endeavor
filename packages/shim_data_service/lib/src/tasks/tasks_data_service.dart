@@ -12,7 +12,7 @@ class TasksDataService {
     // TasksDataServiceExtension.deleteTask(taskReference);
   }
 
-  void updateTask(UnidentifiedTask unidentifiedTask, String id) {
+  void updateTask(UnidentifiedTask unidentifiedTask, int id) {
     // TasksDataServiceExtension.updateTask(unidentifiedTask, id);
   }
 }

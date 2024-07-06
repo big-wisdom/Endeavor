@@ -11,12 +11,32 @@ class PrimaryEndeavorsDataWrapper {
       : _client = client,
         _userId = userId;
 
-  Query<List<Endeavor>> _query = Query(
+  late Query<List<Endeavor>> _query = Query(
     key: _key,
-    queryFn: () {
-      print("Fake fetch primary endeavors");
-      return Future.value([]);
-    },
+    queryFn: () => _client
+        .getPrimaryEndeavors(GetPrimaryEndeavorsRequest(userId: _userId))
+        .then(
+          (res) => res.endeavors
+              .map(
+                (e) => Endeavor(
+                  id: e.id,
+                  title: e.title,
+                  subEndeavorReferences: e.subEndeavorReferences
+                      .map(
+                        (er) => EndeavorReference(
+                          title: er.title,
+                          id: er.id,
+                        ),
+                      )
+                      .toList(),
+                  taskReferences: e.task
+                      .map((t) => TaskReference(
+                          id: t.id, endeavorId: e.id, title: t.title))
+                      .toList(),
+                ),
+              )
+              .toList(),
+        ),
   );
 
   late Mutation<bool, CreateEndeavorRequest> _mutation = Mutation(
