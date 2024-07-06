@@ -25,8 +25,8 @@ class EndeavorsScreenBloc
     //   );
     // });
 
-    on<NewPrimaryEndeavors>((event, emit) {
-      emit(EndeavorsScreenState.fromQueryState(event.newPrimaryEndeavors));
+    on<StreamUpdate>((event, emit) {
+      emit(EndeavorsScreenState(event.primaryEndeavors ?? [], event.status));
     });
 
     on<DeleteEndeavor>(
@@ -37,7 +37,7 @@ class EndeavorsScreenBloc
 
     _streamSubscription = ShimDataService.endeavors.primaryEndeavorsStream
         .listen((newPrimaryEndeavors) {
-      add(NewPrimaryEndeavors(newPrimaryEndeavors));
+      add(StreamUpdate(newPrimaryEndeavors.data, newPrimaryEndeavors.status));
     });
   }
 
