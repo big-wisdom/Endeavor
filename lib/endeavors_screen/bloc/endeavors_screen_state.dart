@@ -1,10 +1,7 @@
 part of 'endeavors_screen_bloc.dart';
 
 class EndeavorsScreenState extends Equatable {
-  EndeavorsScreenState.fromQueryState(QueryState<List<Endeavor>> queryState)
-      : primaryEndeavors =
-            queryState.status == QueryStatus.success ? queryState.data! : [],
-        queryStatus = queryState.status;
+  EndeavorsScreenState(this.primaryEndeavors, this.queryStatus);
 
   EndeavorsScreenState.initial()
       : primaryEndeavors = [],
@@ -14,5 +11,5 @@ class EndeavorsScreenState extends Equatable {
   final QueryStatus queryStatus;
 
   @override
-  List<Object> get props => [primaryEndeavors];
+  List<Object> get props => [primaryEndeavors, queryStatus];
 }
