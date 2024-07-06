@@ -97,7 +97,6 @@ class _DurationSelector extends StatelessWidget {
                 final resultingDuration = await showDurationPicker(
                   context: context,
                   initialTime: state.duration.value ?? Duration.zero,
-                  snapToMins: 5.0,
                 );
 
                 if (resultingDuration != null) {
