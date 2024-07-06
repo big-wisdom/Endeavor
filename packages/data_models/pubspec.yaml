@@ -13,5 +13,5 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_form_bloc: ^0.30.1
+  flutter_form_bloc: ^0.31.0
   formz: ^0.4.0

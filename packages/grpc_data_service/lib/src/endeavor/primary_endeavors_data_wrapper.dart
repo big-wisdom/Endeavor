@@ -13,30 +13,33 @@ class PrimaryEndeavorsDataWrapper {
 
   late Query<List<Endeavor>> _query = Query(
     key: _key,
-    queryFn: () => _client
-        .getPrimaryEndeavors(GetPrimaryEndeavorsRequest(userId: _userId))
-        .then(
-          (res) => res.endeavors
-              .map(
-                (e) => Endeavor(
-                  id: e.id,
-                  title: e.title,
-                  subEndeavorReferences: e.subEndeavorReferences
-                      .map(
-                        (er) => EndeavorReference(
-                          title: er.title,
-                          id: er.id,
-                        ),
-                      )
-                      .toList(),
-                  taskReferences: e.task
-                      .map((t) => TaskReference(
-                          id: t.id, endeavorId: e.id, title: t.title))
-                      .toList(),
-                ),
-              )
-              .toList(),
-        ),
+    queryFn: () {
+      print("getting primary endeavors");
+      return _client
+          .getPrimaryEndeavors(GetPrimaryEndeavorsRequest(userId: _userId))
+          .then(
+            (res) => res.endeavors
+                .map(
+                  (e) => Endeavor(
+                    id: e.id,
+                    title: e.title,
+                    subEndeavorReferences: e.subEndeavorReferences
+                        .map(
+                          (er) => EndeavorReference(
+                            title: er.title,
+                            id: er.id,
+                          ),
+                        )
+                        .toList(),
+                    taskReferences: e.task
+                        .map((t) => TaskReference(
+                            id: t.id, endeavorId: e.id, title: t.title))
+                        .toList(),
+                  ),
+                )
+                .toList(),
+          );
+    },
   );
 
   late Mutation<bool, CreateEndeavorRequest> _mutation = Mutation(
@@ -46,6 +49,7 @@ class PrimaryEndeavorsDataWrapper {
 
   Stream<QueryState<List<Endeavor>>> get stream => _query.stream;
   void create(String endeavorTitle) {
+    print("Running create");
     _mutation.mutate(
       CreateEndeavorRequest(
         userId: _userId,

@@ -27,7 +27,7 @@ void main() async {
     config: QueryConfigFlutter(
       refetchOnConnection: true,
       refetchOnResume: true,
-      ignoreCacheDuration: true,
+      shouldRethrow: true,
     ),
   );
 
