@@ -71,7 +71,7 @@ class WeekScreenView extends StatelessWidget {
       route = MaterialPageRoute(
         builder: (context) => TaskScreen.edit(
           const TaskReference(
-            id: "abc",
+            id: 0,
             endeavorId: 2,
             title: "eli",
           ),

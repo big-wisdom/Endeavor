@@ -22,6 +22,10 @@ export 'endeavor_service.pb.dart';
 
 @$pb.GrpcServiceName('endeavor.service.Endeavor')
 class EndeavorClient extends $grpc.Client {
+  static final _$getPrimaryEndeavors = $grpc.ClientMethod<$0.GetPrimaryEndeavorsRequest, $0.GetPrimaryEndeavorsResponse>(
+      '/endeavor.service.Endeavor/GetPrimaryEndeavors',
+      ($0.GetPrimaryEndeavorsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetPrimaryEndeavorsResponse.fromBuffer(value));
   static final _$createEndeavor = $grpc.ClientMethod<$0.CreateEndeavorRequest, $1.Empty>(
       '/endeavor.service.Endeavor/CreateEndeavor',
       ($0.CreateEndeavorRequest value) => value.writeToBuffer(),
@@ -93,6 +97,10 @@ class EndeavorClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
+  $grpc.ResponseFuture<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors($0.GetPrimaryEndeavorsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getPrimaryEndeavors, request, options: options);
+  }
+
   $grpc.ResponseFuture<$1.Empty> createEndeavor($0.CreateEndeavorRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$createEndeavor, request, options: options);
   }
@@ -163,6 +171,13 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $core.String get $name => 'endeavor.service.Endeavor';
 
   EndeavorServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.GetPrimaryEndeavorsRequest, $0.GetPrimaryEndeavorsResponse>(
+        'GetPrimaryEndeavors',
+        getPrimaryEndeavors_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetPrimaryEndeavorsRequest.fromBuffer(value),
+        ($0.GetPrimaryEndeavorsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateEndeavorRequest, $1.Empty>(
         'CreateEndeavor',
         createEndeavor_Pre,
@@ -277,6 +292,10 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         ($1.Empty value) => value.writeToBuffer()));
   }
 
+  $async.Future<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors_Pre($grpc.ServiceCall call, $async.Future<$0.GetPrimaryEndeavorsRequest> request) async {
+    return getPrimaryEndeavors(call, await request);
+  }
+
   $async.Future<$1.Empty> createEndeavor_Pre($grpc.ServiceCall call, $async.Future<$0.CreateEndeavorRequest> request) async {
     return createEndeavor(call, await request);
   }
@@ -333,6 +352,7 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return deleteTask(call, await request);
   }
 
+  $async.Future<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors($grpc.ServiceCall call, $0.GetPrimaryEndeavorsRequest request);
   $async.Future<$1.Empty> createEndeavor($grpc.ServiceCall call, $0.CreateEndeavorRequest request);
   $async.Future<$1.Empty> updateEndeavor($grpc.ServiceCall call, $0.UpdateEndeavorRequest request);
   $async.Future<$1.Empty> deleteEndeavor($grpc.ServiceCall call, $0.DeleteEndeavorRequest request);

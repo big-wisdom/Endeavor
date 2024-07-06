@@ -30,8 +30,8 @@ class EndeavorViewTaskEditor extends StatelessWidget {
                   .read<EditEndeavorScreenBloc>()
                   .add(ReorderTasks(oldIndex, newIndex)),
               children: state.tasksInput.value
-                  .map((task) =>
-                      TaskListTile(taskReference: task, key: Key(task.id)))
+                  .map((task) => TaskListTile(
+                      taskReference: task, key: Key(task.id.toString())))
                   .toList(),
             ),
             ElevatedButton(

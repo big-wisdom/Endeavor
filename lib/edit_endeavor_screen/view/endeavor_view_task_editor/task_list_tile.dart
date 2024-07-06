@@ -19,14 +19,14 @@ class _TaskListTileState extends State<TaskListTile> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(widget.taskReference.id),
+      key: Key(widget.taskReference.id.toString()),
       onDismissed: (direction) {
         context
             .read<EditEndeavorScreenBloc>()
             .add(DeleteTask(widget.taskReference));
       },
       child: ListTile(
-        key: Key(widget.taskReference.id),
+        key: Key(widget.taskReference.id.toString()),
         title: Text(widget.taskReference.title),
         onTap: () {
           Navigator.of(context).push(
