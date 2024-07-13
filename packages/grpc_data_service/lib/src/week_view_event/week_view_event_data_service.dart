@@ -23,10 +23,12 @@ class WeekViewEventDataService {
                   (e) => WeekViewEvent(
                     id: e.id,
                     title: e.title,
-                    endeavorReference: EndeavorReference(
-                      title: e.endeavorReference.title,
-                      id: e.endeavorReference.id,
-                    ),
+                    endeavorReference: e.hasEndeavorReference()
+                        ? EndeavorReference(
+                            title: e.endeavorReference.title,
+                            id: e.endeavorReference.id,
+                          )
+                        : null,
                     repeatingEventId:
                         e.repeatingEventId == 0 ? null : e.repeatingEventId,
                     backgroundColor: e.color == 0 ? null : Color(e.color),
