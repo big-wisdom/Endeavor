@@ -59,13 +59,14 @@ void main() async {
   await authenticationRepository.user.first;
 
   CachedQuery.instance.configFlutter(
-      config: QueryConfigFlutter(
-        refetchOnConnection: true,
-        refetchOnResume: true,
-        shouldRethrow: true,
-        ignoreCacheDuration: true,
-      ),
-      observers: [Observer()]);
+    config: QueryConfigFlutter(
+      refetchOnConnection: true,
+      refetchOnResume: true,
+      shouldRethrow: true,
+      ignoreCacheDuration: true,
+    ),
+    // observers: [Observer()]
+  );
 
   runApp(App(
     authenticationRepository: authenticationRepository,

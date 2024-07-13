@@ -1,5 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
+import 'package:grpc_data_service/src/calendar_event/calendar_event_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 
 class EndeavorsDataService {
@@ -52,7 +53,10 @@ class EndeavorsDataService {
               .then((p0) => true),
         ),
         _deleteMutation = Mutation(
-          refetchQueries: [endeavorsKey],
+          refetchQueries: [
+            endeavorsKey,
+            CalendarEventDataService.eventsQueryId,
+          ],
           queryFn: (req) => client.deleteEndeavor(req).then((p0) => true),
         );
 
