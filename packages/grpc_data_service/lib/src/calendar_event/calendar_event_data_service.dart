@@ -8,6 +8,7 @@ import '../generated_protos/common_models/repeating_event.pb.dart'
 import 'package:data_models/data_models.dart';
 
 import '../generated_protos/google/protobuf/timestamp.pb.dart';
+import '../generated_protos/common_models/endeavorReference.pb.dart' as ProtoER;
 
 class CalendarEventDataService {
   EndeavorClient client;
@@ -48,6 +49,12 @@ class CalendarEventDataService {
         event: event_proto.Event(
           userId: _userId,
           title: calendarEvent.title,
+          endeavorReference: calendarEvent.endeavorReference != null
+              ? ProtoER.EndeavorReference(
+                  id: calendarEvent.endeavorReference!.id,
+                  title: calendarEvent.endeavorReference!.title,
+                )
+              : null,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
         ),

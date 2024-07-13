@@ -25,7 +25,7 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
       (treeOfLifeQueryState) => emit(
         EndeavorSelectionScreenState(
           treeOfLife: treeOfLifeQueryState.data,
-          status: QueryStatus.success,
+          status: treeOfLifeQueryState.status,
           selectedEndeavorInput: state.selectedEndeavorInput,
         ),
       ),

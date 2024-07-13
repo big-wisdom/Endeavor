@@ -66,8 +66,11 @@ class EndeavorsDataService {
           ));
 
   Stream<QueryState<TreeOfLife>> get treeOfLife => _query.stream.map(
-        (qs) => (qs as QueryState<TreeOfLife>).copyWith(
+        (qs) => QueryState(
+          timeCreated: DateTime.now(),
           data: TreeOfLife.fromEndeavorsList(qs.data ?? []),
+          status: qs.status,
+          error: qs.error,
         ),
       );
 
