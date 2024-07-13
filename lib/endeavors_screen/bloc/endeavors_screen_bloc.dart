@@ -31,7 +31,7 @@ class EndeavorsScreenBloc
 
     on<DeleteEndeavor>(
       (event, emit) {
-        ShimDataService.endeavors.deletePrimaryEndeavor(event.endeavor);
+        ShimDataService.endeavors.deleteEndeavor(id: event.endeavor.id);
       },
     );
 

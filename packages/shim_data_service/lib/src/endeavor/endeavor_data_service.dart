@@ -45,11 +45,9 @@ class EndeavorDataService {
     //     parentEndeavorId: parentEndeavorId, endeavorTitle: endeavorTitle);
   }
 
-  Future<bool> deletePrimaryEndeavor(Endeavor endeavor) async {
-    return Future.value(false);
+  Future<void> deleteEndeavor({required int id}) async {
+    await GRPCDataService.instance.endeavors.delete(id);
   }
-
-  void deleteSubEndeavor(EndeavorReference endeavorReference) {}
 
   void updateEndeavorColor({
     required String endeavorId,
