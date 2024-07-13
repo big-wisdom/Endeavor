@@ -59,7 +59,7 @@ class EditEndeavorScreenBloc
     });
 
     on<DeleteEndeavorRequested>((event, emit) {
-      ShimDataService.endeavors.deleteSubEndeavor(event.endeavorReference);
+      ShimDataService.endeavors.deleteEndeavor(id: event.endeavorReference.id);
     });
 
     on<CreateSubEndeavorRequested>(

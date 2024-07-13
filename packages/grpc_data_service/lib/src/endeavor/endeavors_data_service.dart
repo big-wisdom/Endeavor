@@ -3,7 +3,8 @@ import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 
 class EndeavorsDataService {
-  Mutation<bool, CreateEndeavorRequest> _mutation;
+  Mutation<bool, CreateEndeavorRequest> _createMutation;
+  Mutation<bool, DeleteEndeavorRequest> _deleteMutation;
   Query<List<Endeavor>> _query;
   static const String endeavorsKey = "endeavors";
 
@@ -37,7 +38,7 @@ class EndeavorsDataService {
                 );
           },
         ),
-        _mutation = Mutation(
+        _createMutation = Mutation(
           refetchQueries: [endeavorsKey],
           queryFn: (req) => client
               .createEndeavor(
@@ -49,6 +50,10 @@ class EndeavorsDataService {
                 ),
               )
               .then((p0) => true),
+        ),
+        _deleteMutation = Mutation(
+          refetchQueries: [endeavorsKey],
+          queryFn: (req) => client.deleteEndeavor(req).then((p0) => true),
         );
 
   Stream<QueryState<List<Endeavor>>> get primary =>
@@ -67,6 +72,10 @@ class EndeavorsDataService {
       );
 
   void create(String endeavorTitle) {
-    _mutation.mutate(CreateEndeavorRequest(endeavorTitle: endeavorTitle));
+    _createMutation.mutate(CreateEndeavorRequest(endeavorTitle: endeavorTitle));
+  }
+
+  Future<void> delete(int id) async {
+    await _deleteMutation.mutate(DeleteEndeavorRequest(endeavorId: id));
   }
 }
