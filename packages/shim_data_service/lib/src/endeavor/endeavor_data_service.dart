@@ -8,11 +8,14 @@ class EndeavorDataService {
   EndeavorDataService() {}
 
   Stream<QueryState<List<Endeavor>>> get primaryEndeavorsStream =>
-      GRPCDataService.instance.endeavors.primary.stream;
+      GRPCDataService.instance.endeavors.primary;
 
   void createPrimaryEndeavor(String endeavorTitle) async {
-    GRPCDataService.instance.endeavors.primary.create(endeavorTitle);
+    GRPCDataService.instance.endeavors.create(endeavorTitle);
   }
+
+  Stream<QueryState<TreeOfLife>> get endeavorsTreeOfLife =>
+      GRPCDataService.instance.endeavors.treeOfLife;
 
   void reorderEndeavorTasks(String endeavorId, List<String> taskIds) async {
     // ServerEndeavorDataServiceExtension.reorderEndeavorTasks(

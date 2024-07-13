@@ -22,10 +22,10 @@ export 'endeavor_service.pb.dart';
 
 @$pb.GrpcServiceName('endeavor.service.Endeavor')
 class EndeavorClient extends $grpc.Client {
-  static final _$getPrimaryEndeavors = $grpc.ClientMethod<$0.GetPrimaryEndeavorsRequest, $0.GetPrimaryEndeavorsResponse>(
-      '/endeavor.service.Endeavor/GetPrimaryEndeavors',
-      ($0.GetPrimaryEndeavorsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.GetPrimaryEndeavorsResponse.fromBuffer(value));
+  static final _$listEndeavors = $grpc.ClientMethod<$0.ListEndeavorsRequest, $0.ListEndeavorsResponse>(
+      '/endeavor.service.Endeavor/ListEndeavors',
+      ($0.ListEndeavorsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListEndeavorsResponse.fromBuffer(value));
   static final _$createEndeavor = $grpc.ClientMethod<$0.CreateEndeavorRequest, $1.Empty>(
       '/endeavor.service.Endeavor/CreateEndeavor',
       ($0.CreateEndeavorRequest value) => value.writeToBuffer(),
@@ -38,10 +38,6 @@ class EndeavorClient extends $grpc.Client {
       '/endeavor.service.Endeavor/DeleteEndeavor',
       ($0.DeleteEndeavorRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$subscribeToEndeavorsStream = $grpc.ClientMethod<$0.ListEndeavorsRequest, $0.ListEndeavorsResponse>(
-      '/endeavor.service.Endeavor/SubscribeToEndeavorsStream',
-      ($0.ListEndeavorsRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.ListEndeavorsResponse.fromBuffer(value));
   static final _$createEvent = $grpc.ClientMethod<$0.CreateEventRequest, $0.CreateEventResponse>(
       '/endeavor.service.Endeavor/CreateEvent',
       ($0.CreateEventRequest value) => value.writeToBuffer(),
@@ -97,8 +93,8 @@ class EndeavorClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors($0.GetPrimaryEndeavorsRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getPrimaryEndeavors, request, options: options);
+  $grpc.ResponseFuture<$0.ListEndeavorsResponse> listEndeavors($0.ListEndeavorsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listEndeavors, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> createEndeavor($0.CreateEndeavorRequest request, {$grpc.CallOptions? options}) {
@@ -111,10 +107,6 @@ class EndeavorClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$1.Empty> deleteEndeavor($0.DeleteEndeavorRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteEndeavor, request, options: options);
-  }
-
-  $grpc.ResponseStream<$0.ListEndeavorsResponse> subscribeToEndeavorsStream($async.Stream<$0.ListEndeavorsRequest> request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$subscribeToEndeavorsStream, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.CreateEventResponse> createEvent($0.CreateEventRequest request, {$grpc.CallOptions? options}) {
@@ -171,13 +163,13 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $core.String get $name => 'endeavor.service.Endeavor';
 
   EndeavorServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.GetPrimaryEndeavorsRequest, $0.GetPrimaryEndeavorsResponse>(
-        'GetPrimaryEndeavors',
-        getPrimaryEndeavors_Pre,
+    $addMethod($grpc.ServiceMethod<$0.ListEndeavorsRequest, $0.ListEndeavorsResponse>(
+        'ListEndeavors',
+        listEndeavors_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetPrimaryEndeavorsRequest.fromBuffer(value),
-        ($0.GetPrimaryEndeavorsResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.ListEndeavorsRequest.fromBuffer(value),
+        ($0.ListEndeavorsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateEndeavorRequest, $1.Empty>(
         'CreateEndeavor',
         createEndeavor_Pre,
@@ -199,13 +191,6 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteEndeavorRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ListEndeavorsRequest, $0.ListEndeavorsResponse>(
-        'SubscribeToEndeavorsStream',
-        subscribeToEndeavorsStream,
-        true,
-        true,
-        ($core.List<$core.int> value) => $0.ListEndeavorsRequest.fromBuffer(value),
-        ($0.ListEndeavorsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateEventRequest, $0.CreateEventResponse>(
         'CreateEvent',
         createEvent_Pre,
@@ -292,8 +277,8 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         ($1.Empty value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors_Pre($grpc.ServiceCall call, $async.Future<$0.GetPrimaryEndeavorsRequest> request) async {
-    return getPrimaryEndeavors(call, await request);
+  $async.Future<$0.ListEndeavorsResponse> listEndeavors_Pre($grpc.ServiceCall call, $async.Future<$0.ListEndeavorsRequest> request) async {
+    return listEndeavors(call, await request);
   }
 
   $async.Future<$1.Empty> createEndeavor_Pre($grpc.ServiceCall call, $async.Future<$0.CreateEndeavorRequest> request) async {
@@ -352,11 +337,10 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return deleteTask(call, await request);
   }
 
-  $async.Future<$0.GetPrimaryEndeavorsResponse> getPrimaryEndeavors($grpc.ServiceCall call, $0.GetPrimaryEndeavorsRequest request);
+  $async.Future<$0.ListEndeavorsResponse> listEndeavors($grpc.ServiceCall call, $0.ListEndeavorsRequest request);
   $async.Future<$1.Empty> createEndeavor($grpc.ServiceCall call, $0.CreateEndeavorRequest request);
   $async.Future<$1.Empty> updateEndeavor($grpc.ServiceCall call, $0.UpdateEndeavorRequest request);
   $async.Future<$1.Empty> deleteEndeavor($grpc.ServiceCall call, $0.DeleteEndeavorRequest request);
-  $async.Stream<$0.ListEndeavorsResponse> subscribeToEndeavorsStream($grpc.ServiceCall call, $async.Stream<$0.ListEndeavorsRequest> request);
   $async.Future<$0.CreateEventResponse> createEvent($grpc.ServiceCall call, $0.CreateEventRequest request);
   $async.Future<$1.Empty> updateEvent($grpc.ServiceCall call, $0.UpdateEventRequest request);
   $async.Future<$1.Empty> deleteEvent($grpc.ServiceCall call, $0.DeleteEventRequest request);
