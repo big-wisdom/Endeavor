@@ -11,7 +11,8 @@ class EndeavorDataService {
       GRPCDataService.instance.endeavors.primary;
 
   void createPrimaryEndeavor(String endeavorTitle) async {
-    GRPCDataService.instance.endeavors.create(endeavorTitle);
+    GRPCDataService.instance.endeavors
+        .create(endeavorTitle: endeavorTitle, parentEndeavorId: null);
   }
 
   Stream<QueryState<TreeOfLife>> get endeavorsTreeOfLife =>
@@ -41,8 +42,8 @@ class EndeavorDataService {
     required int parentEndeavorId,
     required String endeavorTitle,
   }) {
-    // ServerEndeavorDataServiceExtension.addSubEndeavor(
-    //     parentEndeavorId: parentEndeavorId, endeavorTitle: endeavorTitle);
+    GRPCDataService.instance.endeavors.create(
+        endeavorTitle: endeavorTitle, parentEndeavorId: parentEndeavorId);
   }
 
   Future<void> deleteEndeavor({required int id}) async {

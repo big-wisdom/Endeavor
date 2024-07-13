@@ -71,8 +71,13 @@ class EndeavorsDataService {
         ),
       );
 
-  void create(String endeavorTitle) {
-    _createMutation.mutate(CreateEndeavorRequest(endeavorTitle: endeavorTitle));
+  void create({required String endeavorTitle, required int? parentEndeavorId}) {
+    _createMutation.mutate(
+      CreateEndeavorRequest(
+        endeavorTitle: endeavorTitle,
+        parentEndeavorId: parentEndeavorId,
+      ),
+    );
   }
 
   Future<void> delete(int id) async {
