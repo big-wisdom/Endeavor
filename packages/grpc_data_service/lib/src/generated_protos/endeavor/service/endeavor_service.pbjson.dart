@@ -13,30 +13,17 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
-@$core.Deprecated('Use getPrimaryEndeavorsRequestDescriptor instead')
-const GetPrimaryEndeavorsRequest$json = {
-  '1': 'GetPrimaryEndeavorsRequest',
+@$core.Deprecated('Use listEndeavorsRequestDescriptor instead')
+const ListEndeavorsRequest$json = {
+  '1': 'ListEndeavorsRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
   ],
 };
 
-/// Descriptor for `GetPrimaryEndeavorsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getPrimaryEndeavorsRequestDescriptor = $convert.base64Decode(
-    'ChpHZXRQcmltYXJ5RW5kZWF2b3JzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
-
-@$core.Deprecated('Use getPrimaryEndeavorsResponseDescriptor instead')
-const GetPrimaryEndeavorsResponse$json = {
-  '1': 'GetPrimaryEndeavorsResponse',
-  '2': [
-    {'1': 'endeavors', '3': 1, '4': 3, '5': 11, '6': '.common_models.Endeavor', '10': 'endeavors'},
-  ],
-};
-
-/// Descriptor for `GetPrimaryEndeavorsResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getPrimaryEndeavorsResponseDescriptor = $convert.base64Decode(
-    'ChtHZXRQcmltYXJ5RW5kZWF2b3JzUmVzcG9uc2USNQoJZW5kZWF2b3JzGAEgAygLMhcuY29tbW'
-    '9uX21vZGVscy5FbmRlYXZvclIJZW5kZWF2b3Jz');
+/// Descriptor for `ListEndeavorsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listEndeavorsRequestDescriptor = $convert.base64Decode(
+    'ChRMaXN0RW5kZWF2b3JzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
 
 @$core.Deprecated('Use listEndeavorsResponseDescriptor instead')
 const ListEndeavorsResponse$json = {
@@ -50,18 +37,6 @@ const ListEndeavorsResponse$json = {
 final $typed_data.Uint8List listEndeavorsResponseDescriptor = $convert.base64Decode(
     'ChVMaXN0RW5kZWF2b3JzUmVzcG9uc2USNQoJZW5kZWF2b3JzGAEgAygLMhcuY29tbW9uX21vZG'
     'Vscy5FbmRlYXZvclIJZW5kZWF2b3Jz');
-
-@$core.Deprecated('Use listEndeavorsRequestDescriptor instead')
-const ListEndeavorsRequest$json = {
-  '1': 'ListEndeavorsRequest',
-  '2': [
-    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-  ],
-};
-
-/// Descriptor for `ListEndeavorsRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listEndeavorsRequestDescriptor = $convert.base64Decode(
-    'ChRMaXN0RW5kZWF2b3JzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
 
 @$core.Deprecated('Use createEndeavorRequestDescriptor instead')
 const CreateEndeavorRequest$json = {

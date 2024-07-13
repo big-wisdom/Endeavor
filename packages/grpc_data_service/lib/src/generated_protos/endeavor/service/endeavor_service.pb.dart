@@ -18,144 +18,6 @@ import '../../common_models/event.pb.dart' as $4;
 import '../../common_models/repeating_event.pb.dart' as $7;
 import '../../common_models/task.pb.dart' as $5;
 
-class GetPrimaryEndeavorsRequest extends $pb.GeneratedMessage {
-  factory GetPrimaryEndeavorsRequest({
-    $core.String? userId,
-  }) {
-    final $result = create();
-    if (userId != null) {
-      $result.userId = userId;
-    }
-    return $result;
-  }
-  GetPrimaryEndeavorsRequest._() : super();
-  factory GetPrimaryEndeavorsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetPrimaryEndeavorsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetPrimaryEndeavorsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetPrimaryEndeavorsRequest clone() => GetPrimaryEndeavorsRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetPrimaryEndeavorsRequest copyWith(void Function(GetPrimaryEndeavorsRequest) updates) => super.copyWith((message) => updates(message as GetPrimaryEndeavorsRequest)) as GetPrimaryEndeavorsRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetPrimaryEndeavorsRequest create() => GetPrimaryEndeavorsRequest._();
-  GetPrimaryEndeavorsRequest createEmptyInstance() => create();
-  static $pb.PbList<GetPrimaryEndeavorsRequest> createRepeated() => $pb.PbList<GetPrimaryEndeavorsRequest>();
-  @$core.pragma('dart2js:noInline')
-  static GetPrimaryEndeavorsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetPrimaryEndeavorsRequest>(create);
-  static GetPrimaryEndeavorsRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get userId => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set userId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUserId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUserId() => clearField(1);
-}
-
-class GetPrimaryEndeavorsResponse extends $pb.GeneratedMessage {
-  factory GetPrimaryEndeavorsResponse({
-    $core.Iterable<$6.Endeavor>? endeavors,
-  }) {
-    final $result = create();
-    if (endeavors != null) {
-      $result.endeavors.addAll(endeavors);
-    }
-    return $result;
-  }
-  GetPrimaryEndeavorsResponse._() : super();
-  factory GetPrimaryEndeavorsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetPrimaryEndeavorsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetPrimaryEndeavorsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..pc<$6.Endeavor>(1, _omitFieldNames ? '' : 'endeavors', $pb.PbFieldType.PM, subBuilder: $6.Endeavor.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  GetPrimaryEndeavorsResponse clone() => GetPrimaryEndeavorsResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  GetPrimaryEndeavorsResponse copyWith(void Function(GetPrimaryEndeavorsResponse) updates) => super.copyWith((message) => updates(message as GetPrimaryEndeavorsResponse)) as GetPrimaryEndeavorsResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static GetPrimaryEndeavorsResponse create() => GetPrimaryEndeavorsResponse._();
-  GetPrimaryEndeavorsResponse createEmptyInstance() => create();
-  static $pb.PbList<GetPrimaryEndeavorsResponse> createRepeated() => $pb.PbList<GetPrimaryEndeavorsResponse>();
-  @$core.pragma('dart2js:noInline')
-  static GetPrimaryEndeavorsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetPrimaryEndeavorsResponse>(create);
-  static GetPrimaryEndeavorsResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<$6.Endeavor> get endeavors => $_getList(0);
-}
-
-class ListEndeavorsResponse extends $pb.GeneratedMessage {
-  factory ListEndeavorsResponse({
-    $core.Iterable<$6.Endeavor>? endeavors,
-  }) {
-    final $result = create();
-    if (endeavors != null) {
-      $result.endeavors.addAll(endeavors);
-    }
-    return $result;
-  }
-  ListEndeavorsResponse._() : super();
-  factory ListEndeavorsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ListEndeavorsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListEndeavorsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
-    ..pc<$6.Endeavor>(1, _omitFieldNames ? '' : 'endeavors', $pb.PbFieldType.PM, subBuilder: $6.Endeavor.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  ListEndeavorsResponse clone() => ListEndeavorsResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ListEndeavorsResponse copyWith(void Function(ListEndeavorsResponse) updates) => super.copyWith((message) => updates(message as ListEndeavorsResponse)) as ListEndeavorsResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static ListEndeavorsResponse create() => ListEndeavorsResponse._();
-  ListEndeavorsResponse createEmptyInstance() => create();
-  static $pb.PbList<ListEndeavorsResponse> createRepeated() => $pb.PbList<ListEndeavorsResponse>();
-  @$core.pragma('dart2js:noInline')
-  static ListEndeavorsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListEndeavorsResponse>(create);
-  static ListEndeavorsResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<$6.Endeavor> get endeavors => $_getList(0);
-}
-
 class ListEndeavorsRequest extends $pb.GeneratedMessage {
   factory ListEndeavorsRequest({
     $core.String? userId,
@@ -204,6 +66,50 @@ class ListEndeavorsRequest extends $pb.GeneratedMessage {
   $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
   void clearUserId() => clearField(1);
+}
+
+class ListEndeavorsResponse extends $pb.GeneratedMessage {
+  factory ListEndeavorsResponse({
+    $core.Iterable<$6.Endeavor>? endeavors,
+  }) {
+    final $result = create();
+    if (endeavors != null) {
+      $result.endeavors.addAll(endeavors);
+    }
+    return $result;
+  }
+  ListEndeavorsResponse._() : super();
+  factory ListEndeavorsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ListEndeavorsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListEndeavorsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
+    ..pc<$6.Endeavor>(1, _omitFieldNames ? '' : 'endeavors', $pb.PbFieldType.PM, subBuilder: $6.Endeavor.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ListEndeavorsResponse clone() => ListEndeavorsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ListEndeavorsResponse copyWith(void Function(ListEndeavorsResponse) updates) => super.copyWith((message) => updates(message as ListEndeavorsResponse)) as ListEndeavorsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ListEndeavorsResponse create() => ListEndeavorsResponse._();
+  ListEndeavorsResponse createEmptyInstance() => create();
+  static $pb.PbList<ListEndeavorsResponse> createRepeated() => $pb.PbList<ListEndeavorsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static ListEndeavorsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListEndeavorsResponse>(create);
+  static ListEndeavorsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$6.Endeavor> get endeavors => $_getList(0);
 }
 
 class CreateEndeavorRequest extends $pb.GeneratedMessage {

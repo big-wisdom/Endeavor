@@ -3,10 +3,12 @@ part of 'endeavor_selection_screen_cubit.dart';
 class EndeavorSelectionScreenState extends Equatable {
   const EndeavorSelectionScreenState({
     required this.treeOfLife,
+    required this.status,
     required this.selectedEndeavorInput,
   });
 
   final TreeOfLife? treeOfLife;
+  final QueryStatus status;
   final EndeavorPickerRowInput selectedEndeavorInput;
 
   @override
@@ -14,6 +16,9 @@ class EndeavorSelectionScreenState extends Equatable {
 }
 
 class EndeavorSelectionScreenInitial extends EndeavorSelectionScreenState {
-  const EndeavorSelectionScreenInitial(
-      {required super.treeOfLife, required super.selectedEndeavorInput});
+  const EndeavorSelectionScreenInitial({
+    required super.treeOfLife,
+    required super.status,
+    required super.selectedEndeavorInput,
+  });
 }
