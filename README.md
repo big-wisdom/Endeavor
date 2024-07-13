@@ -75,6 +75,8 @@ Back End: Firebase
 
 * Major refactor: Starting back when we were babysitting for the Reynolds I've been switching out Firebase and switching in a new Microservice running in Cloud Run that connects to a Cloud SQL instance.
 
-* Recent progress has been that in the database I combined the EndeavorBlocks into the Events table and the repeatingEndeavorBlocks into the repeatingEvents table. Events and repeating events are working all around and now I've been working on Endeavors. I did events with a server stream, but I've been realizing that, that isn't very durable so starting with endeavors I'm going to switch to a package called cached_query, inspired by react query which is a streaming server model that's implemented with queries and mutations.
+* Recent progress has been that in the database I combined the EndeavorBlocks into the Events table and the repeatingEndeavorBlocks into the repeatingEvents table. Events and repeating events are working all around and now I've been working on Endeavors. 
 
-Just expanded the ListEndeavors rpc endpoint to include all endeavors, then on the frontend I just map/filter the streams to be either primary endeavors only or TreeOfLife. That way that same query can satisfy both the EndeavorsScreen and the EndeavorSelectionScreen.
+* I've just switched to a package called cached_query rather than using streaming endpoints, inspired by react query which is a streaming server model that's implemented with queries and mutations. It should be working for Endeavors, events and repeating events (with or without endeavors)
+
+* I think next would be to implement EndeavorBlocks with my shiny new endeavors infrastructure

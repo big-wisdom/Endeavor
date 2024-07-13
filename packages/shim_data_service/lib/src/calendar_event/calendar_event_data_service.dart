@@ -1,3 +1,4 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 // import 'package:server_data_models/server_data_models.dart';
@@ -7,12 +8,12 @@ class CalendarEventDataService {
   RepeatingCalendarEventDataService repeating =
       RepeatingCalendarEventDataService();
 
-  Stream<List<CalendarEvent>> get calendarEventStream =>
-      GRPCDataService.instance.calendarEvents.calendarEventStream;
+  Stream<QueryState<List<CalendarEvent>>> get calendarEventStream =>
+      GRPCDataService.instance.calendarEvents.stream;
 
   CalendarEventDataService() {
-    calendarEventStream
-        .listen((calendarEvents) => calendarEventsSnapshot = calendarEvents);
+    calendarEventStream.listen(
+        (calendarEvents) => calendarEventsSnapshot = calendarEvents.data ?? []);
   }
 
   List<CalendarEvent> calendarEventsSnapshot = [];

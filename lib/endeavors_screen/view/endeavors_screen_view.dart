@@ -17,7 +17,6 @@ class EndeavorsScreenView extends StatelessWidget {
               QueryStatus
                   .success, // TODO: this is not an ideal solution. I should handle loading and error
       builder: (context, state) {
-        print("Rebuilding with state: $state");
         return ReorderableListView(
           onReorder: (oldIndex, newIndex) =>
               endeavorsScreenBloc.add(ReorderEndeavors(oldIndex, newIndex)),

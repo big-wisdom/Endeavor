@@ -43,5 +43,5 @@ class WeekViewEvent extends Equatable {
 
   @override
   List<Object?> get props =>
-      [title, start, end, backgroundColor, isEndeavorBlock];
+      [title, start, end, endeavorReference, backgroundColor, isEndeavorBlock];
 }

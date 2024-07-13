@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shim_data_service/shim_data_service.dart';
@@ -10,7 +11,8 @@ part 'week_screen_state.dart';
 
 class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   DateTime selectedDay;
-  late final StreamSubscription<List<WeekViewEvent>> _weekEventSubscription;
+  late final StreamSubscription<QueryState<List<WeekViewEvent>>>
+      _weekEventSubscription;
 
   WeekScreenBloc({required this.selectedDay})
       : super(const WeekScreenInitial([])) {
@@ -24,7 +26,9 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
 
     _weekEventSubscription =
         ShimDataService.weekViewEvents.eventStream.listen((weekViewEvents) {
-      add(NewEvents(weekViewEvents));
+      if (weekViewEvents.data != null) {
+        add(NewEvents(weekViewEvents.data!));
+      }
     });
   }
 
