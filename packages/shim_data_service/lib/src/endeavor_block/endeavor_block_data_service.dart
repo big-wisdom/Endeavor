@@ -14,10 +14,17 @@ class EndeavorBlockDataService {
   }
 
   void deleteEndeavorBlock(int id) async {
-    // ServerEndeavorBlockDataServiceExtension.deleteEndeavorBlock(id);
+    GRPCDataService.instance.calendarEvents.deleteCalendarEvent(id);
   }
 
   void updateEndeavorBlock(EndeavorBlock eb) {
-    // ServerEndeavorBlockDataServiceExtension.updateEndeavorBlock(eb);
+    GRPCDataService.instance.calendarEvents.updateCalendarEvent(
+      CalendarEvent(
+        id: eb.id,
+        title: eb.title,
+        event: eb.event,
+        endeavorReference: eb.endeavorReference,
+      ),
+    );
   }
 }
