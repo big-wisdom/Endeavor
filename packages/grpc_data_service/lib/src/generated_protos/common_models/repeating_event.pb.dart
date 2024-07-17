@@ -20,6 +20,7 @@ class RepeatingEvent extends $pb.GeneratedMessage {
     $core.String? userId,
     $core.int? id,
     $core.String? title,
+    $core.bool? isEndeavorBlock,
     $core.int? endeavorId,
     Time? startTime,
     Time? endTime,
@@ -42,6 +43,9 @@ class RepeatingEvent extends $pb.GeneratedMessage {
     }
     if (title != null) {
       $result.title = title;
+    }
+    if (isEndeavorBlock != null) {
+      $result.isEndeavorBlock = isEndeavorBlock;
     }
     if (endeavorId != null) {
       $result.endeavorId = endeavorId;
@@ -89,18 +93,19 @@ class RepeatingEvent extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(3, _omitFieldNames ? '' : 'title')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'endeavorId', $pb.PbFieldType.O3, protoName: 'endeavorId')
-    ..aOM<Time>(5, _omitFieldNames ? '' : 'startTime', protoName: 'startTime', subBuilder: Time.create)
-    ..aOM<Time>(6, _omitFieldNames ? '' : 'endTime', protoName: 'endTime', subBuilder: Time.create)
-    ..aOM<$3.Timestamp>(7, _omitFieldNames ? '' : 'startDate', protoName: 'startDate', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(8, _omitFieldNames ? '' : 'endDate', protoName: 'endDate', subBuilder: $3.Timestamp.create)
-    ..aOB(9, _omitFieldNames ? '' : 'm')
-    ..aOB(10, _omitFieldNames ? '' : 't')
-    ..aOB(11, _omitFieldNames ? '' : 'w')
-    ..aOB(12, _omitFieldNames ? '' : 'th')
-    ..aOB(13, _omitFieldNames ? '' : 'f')
-    ..aOB(14, _omitFieldNames ? '' : 's')
-    ..aOB(15, _omitFieldNames ? '' : 'su')
+    ..aOB(4, _omitFieldNames ? '' : 'isEndeavorBlock', protoName: 'isEndeavorBlock')
+    ..a<$core.int>(5, _omitFieldNames ? '' : 'endeavorId', $pb.PbFieldType.O3, protoName: 'endeavorId')
+    ..aOM<Time>(6, _omitFieldNames ? '' : 'startTime', protoName: 'startTime', subBuilder: Time.create)
+    ..aOM<Time>(7, _omitFieldNames ? '' : 'endTime', protoName: 'endTime', subBuilder: Time.create)
+    ..aOM<$3.Timestamp>(8, _omitFieldNames ? '' : 'startDate', protoName: 'startDate', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(9, _omitFieldNames ? '' : 'endDate', protoName: 'endDate', subBuilder: $3.Timestamp.create)
+    ..aOB(10, _omitFieldNames ? '' : 'm')
+    ..aOB(11, _omitFieldNames ? '' : 't')
+    ..aOB(12, _omitFieldNames ? '' : 'w')
+    ..aOB(13, _omitFieldNames ? '' : 'th')
+    ..aOB(14, _omitFieldNames ? '' : 'f')
+    ..aOB(15, _omitFieldNames ? '' : 's')
+    ..aOB(16, _omitFieldNames ? '' : 'su')
     ..hasRequiredFields = false
   ;
 
@@ -153,120 +158,129 @@ class RepeatingEvent extends $pb.GeneratedMessage {
   void clearTitle() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.int get endeavorId => $_getIZ(3);
+  $core.bool get isEndeavorBlock => $_getBF(3);
   @$pb.TagNumber(4)
-  set endeavorId($core.int v) { $_setSignedInt32(3, v); }
+  set isEndeavorBlock($core.bool v) { $_setBool(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasEndeavorId() => $_has(3);
+  $core.bool hasIsEndeavorBlock() => $_has(3);
   @$pb.TagNumber(4)
-  void clearEndeavorId() => clearField(4);
+  void clearIsEndeavorBlock() => clearField(4);
 
   @$pb.TagNumber(5)
-  Time get startTime => $_getN(4);
+  $core.int get endeavorId => $_getIZ(4);
   @$pb.TagNumber(5)
-  set startTime(Time v) { setField(5, v); }
+  set endeavorId($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasStartTime() => $_has(4);
+  $core.bool hasEndeavorId() => $_has(4);
   @$pb.TagNumber(5)
-  void clearStartTime() => clearField(5);
-  @$pb.TagNumber(5)
-  Time ensureStartTime() => $_ensure(4);
+  void clearEndeavorId() => clearField(5);
 
   @$pb.TagNumber(6)
-  Time get endTime => $_getN(5);
+  Time get startTime => $_getN(5);
   @$pb.TagNumber(6)
-  set endTime(Time v) { setField(6, v); }
+  set startTime(Time v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasEndTime() => $_has(5);
+  $core.bool hasStartTime() => $_has(5);
   @$pb.TagNumber(6)
-  void clearEndTime() => clearField(6);
+  void clearStartTime() => clearField(6);
   @$pb.TagNumber(6)
-  Time ensureEndTime() => $_ensure(5);
+  Time ensureStartTime() => $_ensure(5);
 
   @$pb.TagNumber(7)
-  $3.Timestamp get startDate => $_getN(6);
+  Time get endTime => $_getN(6);
   @$pb.TagNumber(7)
-  set startDate($3.Timestamp v) { setField(7, v); }
+  set endTime(Time v) { setField(7, v); }
   @$pb.TagNumber(7)
-  $core.bool hasStartDate() => $_has(6);
+  $core.bool hasEndTime() => $_has(6);
   @$pb.TagNumber(7)
-  void clearStartDate() => clearField(7);
+  void clearEndTime() => clearField(7);
   @$pb.TagNumber(7)
-  $3.Timestamp ensureStartDate() => $_ensure(6);
+  Time ensureEndTime() => $_ensure(6);
 
   @$pb.TagNumber(8)
-  $3.Timestamp get endDate => $_getN(7);
+  $3.Timestamp get startDate => $_getN(7);
   @$pb.TagNumber(8)
-  set endDate($3.Timestamp v) { setField(8, v); }
+  set startDate($3.Timestamp v) { setField(8, v); }
   @$pb.TagNumber(8)
-  $core.bool hasEndDate() => $_has(7);
+  $core.bool hasStartDate() => $_has(7);
   @$pb.TagNumber(8)
-  void clearEndDate() => clearField(8);
+  void clearStartDate() => clearField(8);
   @$pb.TagNumber(8)
-  $3.Timestamp ensureEndDate() => $_ensure(7);
+  $3.Timestamp ensureStartDate() => $_ensure(7);
 
   @$pb.TagNumber(9)
-  $core.bool get m => $_getBF(8);
+  $3.Timestamp get endDate => $_getN(8);
   @$pb.TagNumber(9)
-  set m($core.bool v) { $_setBool(8, v); }
+  set endDate($3.Timestamp v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasM() => $_has(8);
+  $core.bool hasEndDate() => $_has(8);
   @$pb.TagNumber(9)
-  void clearM() => clearField(9);
+  void clearEndDate() => clearField(9);
+  @$pb.TagNumber(9)
+  $3.Timestamp ensureEndDate() => $_ensure(8);
 
   @$pb.TagNumber(10)
-  $core.bool get t => $_getBF(9);
+  $core.bool get m => $_getBF(9);
   @$pb.TagNumber(10)
-  set t($core.bool v) { $_setBool(9, v); }
+  set m($core.bool v) { $_setBool(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasT() => $_has(9);
+  $core.bool hasM() => $_has(9);
   @$pb.TagNumber(10)
-  void clearT() => clearField(10);
+  void clearM() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.bool get w => $_getBF(10);
+  $core.bool get t => $_getBF(10);
   @$pb.TagNumber(11)
-  set w($core.bool v) { $_setBool(10, v); }
+  set t($core.bool v) { $_setBool(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasW() => $_has(10);
+  $core.bool hasT() => $_has(10);
   @$pb.TagNumber(11)
-  void clearW() => clearField(11);
+  void clearT() => clearField(11);
 
   @$pb.TagNumber(12)
-  $core.bool get th => $_getBF(11);
+  $core.bool get w => $_getBF(11);
   @$pb.TagNumber(12)
-  set th($core.bool v) { $_setBool(11, v); }
+  set w($core.bool v) { $_setBool(11, v); }
   @$pb.TagNumber(12)
-  $core.bool hasTh() => $_has(11);
+  $core.bool hasW() => $_has(11);
   @$pb.TagNumber(12)
-  void clearTh() => clearField(12);
+  void clearW() => clearField(12);
 
   @$pb.TagNumber(13)
-  $core.bool get f => $_getBF(12);
+  $core.bool get th => $_getBF(12);
   @$pb.TagNumber(13)
-  set f($core.bool v) { $_setBool(12, v); }
+  set th($core.bool v) { $_setBool(12, v); }
   @$pb.TagNumber(13)
-  $core.bool hasF() => $_has(12);
+  $core.bool hasTh() => $_has(12);
   @$pb.TagNumber(13)
-  void clearF() => clearField(13);
+  void clearTh() => clearField(13);
 
   @$pb.TagNumber(14)
-  $core.bool get s => $_getBF(13);
+  $core.bool get f => $_getBF(13);
   @$pb.TagNumber(14)
-  set s($core.bool v) { $_setBool(13, v); }
+  set f($core.bool v) { $_setBool(13, v); }
   @$pb.TagNumber(14)
-  $core.bool hasS() => $_has(13);
+  $core.bool hasF() => $_has(13);
   @$pb.TagNumber(14)
-  void clearS() => clearField(14);
+  void clearF() => clearField(14);
 
   @$pb.TagNumber(15)
-  $core.bool get su => $_getBF(14);
+  $core.bool get s => $_getBF(14);
   @$pb.TagNumber(15)
-  set su($core.bool v) { $_setBool(14, v); }
+  set s($core.bool v) { $_setBool(14, v); }
   @$pb.TagNumber(15)
-  $core.bool hasSu() => $_has(14);
+  $core.bool hasS() => $_has(14);
   @$pb.TagNumber(15)
-  void clearSu() => clearField(15);
+  void clearS() => clearField(15);
+
+  @$pb.TagNumber(16)
+  $core.bool get su => $_getBF(15);
+  @$pb.TagNumber(16)
+  set su($core.bool v) { $_setBool(15, v); }
+  @$pb.TagNumber(16)
+  $core.bool hasSu() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearSu() => clearField(16);
 }
 
 class Time extends $pb.GeneratedMessage {

@@ -181,9 +181,8 @@ class CalendarEventDataService {
     ));
   }
 
-  void createRepeatingCalendarEvent(
-    UnidentifiedRepeatingCalendarEvent urce,
-  ) {
+  void createRepeatingCalendarEvent(UnidentifiedRepeatingCalendarEvent urce,
+      {bool isEndeavorBlock = false}) {
     // Convert TimeOfDay to DateTime using the current date
     final now = DateTime.now();
     final startDateTime = DateTime(
@@ -204,39 +203,43 @@ class CalendarEventDataService {
     // Convert local DateTime to UTC
     final utcStartDateTime = startDateTime.toUtc();
     final utcEndDateTime = endDateTime.toUtc();
-    _createRepeationMutation.mutate(
-      CreateRepeatingEventRequest(
-        repeatingEvent: repeating_event_proto.RepeatingEvent(
-          userId: _userId,
-          title: urce.title,
-          endeavorId: urce.endeavorReference?.id,
-          startTime: repeating_event_proto.Time(
-            hours: utcStartDateTime.hour,
-            minutes: utcStartDateTime.minute,
-          ),
-          endTime: repeating_event_proto.Time(
-              hours: utcEndDateTime.hour, minutes: utcEndDateTime.minute),
-          startDate: Timestamp.fromDateTime(urce.repeatingEvent.startDate),
-          endDate: Timestamp.fromDateTime(urce.repeatingEvent.endDate),
-          m: urce.repeatingEvent.daysOfWeek[0],
-          t: urce.repeatingEvent.daysOfWeek[1],
-          w: urce.repeatingEvent.daysOfWeek[2],
-          th: urce.repeatingEvent.daysOfWeek[3],
-          f: urce.repeatingEvent.daysOfWeek[4],
-          s: urce.repeatingEvent.daysOfWeek[5],
-          su: urce.repeatingEvent.daysOfWeek[6],
+    final req = CreateRepeatingEventRequest(
+      repeatingEvent: repeating_event_proto.RepeatingEvent(
+        userId: _userId,
+        title: urce.title,
+        isEndeavorBlock: isEndeavorBlock,
+        endeavorId: urce.endeavorReference?.id,
+        startTime: repeating_event_proto.Time(
+          hours: utcStartDateTime.hour,
+          minutes: utcStartDateTime.minute,
         ),
+        endTime: repeating_event_proto.Time(
+            hours: utcEndDateTime.hour, minutes: utcEndDateTime.minute),
+        startDate: Timestamp.fromDateTime(urce.repeatingEvent.startDate),
+        endDate: Timestamp.fromDateTime(urce.repeatingEvent.endDate),
+        m: urce.repeatingEvent.daysOfWeek[0],
+        t: urce.repeatingEvent.daysOfWeek[1],
+        w: urce.repeatingEvent.daysOfWeek[2],
+        th: urce.repeatingEvent.daysOfWeek[3],
+        f: urce.repeatingEvent.daysOfWeek[4],
+        s: urce.repeatingEvent.daysOfWeek[5],
+        su: urce.repeatingEvent.daysOfWeek[6],
       ),
+    );
+    _createRepeationMutation.mutate(
+      req,
     );
   }
 
-  void editThisAndFollowingCalendarEvents(CalendarEvent event) {
+  void editThisAndFollowingCalendarEvents(CalendarEvent event,
+      {bool isEndeavorBlock = false}) {
     _editThisAndFollowingMutation.mutate(
       EditThisAndFollowingEventsRequest(
         event: event_proto.Event(
           userId: _userId,
           id: event.id,
           title: event.title,
+          isEndeavorBlock: isEndeavorBlock,
           repeatingEventId: event.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(event.event.start),
           endTime: Timestamp.fromDateTime(event.event.end),
