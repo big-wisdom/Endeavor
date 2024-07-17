@@ -72,7 +72,6 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   void onDeleteThisAndFollowing() {
     ShimDataService.endeavorBlocks.repeating.deleteThisAndFollowing(
       endeavorBlockId: endeavorBlockId!,
-      repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
     );
   }
 
