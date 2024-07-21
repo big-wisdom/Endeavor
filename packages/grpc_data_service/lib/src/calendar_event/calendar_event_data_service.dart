@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:grpc_data_service/src/generated_protos/common_models/repeating_event.pb.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 
 import '../generated_protos/common_models/event.pb.dart' as event_proto;
@@ -81,27 +82,28 @@ class CalendarEventDataService {
 
   Stream<QueryState<List<CalendarEvent>>> get stream => _query.stream.map(
         (qs) => QueryState(
-            timeCreated: DateTime.now(),
-            data: qs.data
-                ?.map(
-                  (e) => CalendarEvent(
-                    id: e.id,
-                    title: e.title,
-                    endeavorReference: e.hasEndeavorReference()
-                        ? EndeavorReference(
-                            title: e.endeavorReference.title,
-                            id: e.endeavorReference.id,
-                          )
-                        : null,
-                    event: Event(
-                      start: e.startTime.toDateTime(toLocal: true),
-                      end: e.endTime.toDateTime(toLocal: true),
-                    ),
-                    repeatingCalendarEventId:
-                        e.repeatingEventId == 0 ? null : e.repeatingEventId,
+          timeCreated: DateTime.now(),
+          data: qs.data
+              ?.map(
+                (e) => CalendarEvent(
+                  id: e.id,
+                  title: e.title,
+                  endeavorReference: e.hasEndeavorReference()
+                      ? EndeavorReference(
+                          title: e.endeavorReference.title,
+                          id: e.endeavorReference.id,
+                        )
+                      : null,
+                  event: Event(
+                    start: e.startTime.toDateTime(toLocal: true),
+                    end: e.endTime.toDateTime(toLocal: true),
                   ),
-                )
-                .toList()),
+                  repeatingCalendarEventId:
+                      e.repeatingEventId == 0 ? null : e.repeatingEventId,
+                ),
+              )
+              .toList(),
+        ),
       );
 
   Stream<QueryState<List<WeekViewEvent>>> get weekViewEvents =>
@@ -122,8 +124,8 @@ class CalendarEventDataService {
                   repeatingEventId:
                       e.repeatingEventId == 0 ? null : e.repeatingEventId,
                   backgroundColor: e.color == 0 ? null : Color(e.color),
-                  start: e.startTime.toDateTime(toLocal: true),
-                  end: e.endTime.toDateTime(toLocal: true),
+                  start: e.startTime.toDateTime(),
+                  end: e.endTime.toDateTime(),
                   isEndeavorBlock: e.isEndeavorBlock,
                   taskId: e.taskId == 0 ? null : e.taskId,
                 ),
@@ -148,6 +150,7 @@ class CalendarEventDataService {
               : null,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
+          hoursOffset: calendarEvent.event.start.timeZoneOffset.inHours,
         ),
       ),
     );
@@ -169,6 +172,7 @@ class CalendarEventDataService {
           repeatingEventId: calendarEvent.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
+          hoursOffset: calendarEvent.event.start.timeZoneOffset.inHours,
         ),
       ),
     );
@@ -183,40 +187,31 @@ class CalendarEventDataService {
 
   void createRepeatingCalendarEvent(UnidentifiedRepeatingCalendarEvent urce,
       {bool isEndeavorBlock = false}) {
-    // Convert TimeOfDay to DateTime using the current date
-    final now = DateTime.now();
-    final startDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      urce.repeatingEvent.startTime.hour,
-      urce.repeatingEvent.endTime.minute,
-    );
-    final endDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      urce.repeatingEvent.endTime.hour,
-      urce.repeatingEvent.endTime.minute,
-    );
-
-    // Convert local DateTime to UTC
-    final utcStartDateTime = startDateTime.toUtc();
-    final utcEndDateTime = endDateTime.toUtc();
-    final req = CreateRepeatingEventRequest(
+    _createRepeationMutation.mutate(CreateRepeatingEventRequest(
       repeatingEvent: repeating_event_proto.RepeatingEvent(
         userId: _userId,
         title: urce.title,
         isEndeavorBlock: isEndeavorBlock,
         endeavorId: urce.endeavorReference?.id,
         startTime: repeating_event_proto.Time(
-          hours: utcStartDateTime.hour,
-          minutes: utcStartDateTime.minute,
+          hours: urce.repeatingEvent.startTime.hour,
+          minutes: urce.repeatingEvent.startTime.minute,
         ),
         endTime: repeating_event_proto.Time(
-            hours: utcEndDateTime.hour, minutes: utcEndDateTime.minute),
-        startDate: Timestamp.fromDateTime(urce.repeatingEvent.startDate),
-        endDate: Timestamp.fromDateTime(urce.repeatingEvent.endDate),
+          hours: urce.repeatingEvent.endTime.hour,
+          minutes: urce.repeatingEvent.endTime.minute,
+        ),
+        startDate: Date(
+          day: urce.repeatingEvent.startDate.day,
+          month: urce.repeatingEvent.startDate.month,
+          year: urce.repeatingEvent.startDate.year,
+        ),
+        endDate: Date(
+          day: urce.repeatingEvent.endDate.day,
+          month: urce.repeatingEvent.endDate.month,
+          year: urce.repeatingEvent.endDate.year,
+        ),
+        hoursOffset: urce.repeatingEvent.startDate.timeZoneOffset.inHours,
         m: urce.repeatingEvent.daysOfWeek[0],
         t: urce.repeatingEvent.daysOfWeek[1],
         w: urce.repeatingEvent.daysOfWeek[2],
@@ -225,10 +220,7 @@ class CalendarEventDataService {
         s: urce.repeatingEvent.daysOfWeek[5],
         su: urce.repeatingEvent.daysOfWeek[6],
       ),
-    );
-    _createRepeationMutation.mutate(
-      req,
-    );
+    ));
   }
 
   void editThisAndFollowingCalendarEvents(CalendarEvent event,
@@ -243,6 +235,7 @@ class CalendarEventDataService {
           repeatingEventId: event.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(event.event.start),
           endTime: Timestamp.fromDateTime(event.event.end),
+          hoursOffset: event.event.start.timeZoneOffset.inHours,
         ),
       ),
     );

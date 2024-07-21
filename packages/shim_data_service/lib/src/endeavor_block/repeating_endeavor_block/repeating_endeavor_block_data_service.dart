@@ -11,6 +11,7 @@ class RepeatingEndeavorBlockDataService {
         repeatingEvent: repeatingEndeavorBlock.repeatingEvent,
         endeavorReference: repeatingEndeavorBlock.endeavorReference,
       ),
+      isEndeavorBlock: true,
     );
   }
 

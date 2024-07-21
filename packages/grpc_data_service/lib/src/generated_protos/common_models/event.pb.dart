@@ -28,6 +28,7 @@ class Event extends $pb.GeneratedMessage {
     $core.int? color,
     $3.Timestamp? startTime,
     $3.Timestamp? endTime,
+    $core.int? hoursOffset,
   }) {
     final $result = create();
     if (userId != null) {
@@ -60,6 +61,9 @@ class Event extends $pb.GeneratedMessage {
     if (endTime != null) {
       $result.endTime = endTime;
     }
+    if (hoursOffset != null) {
+      $result.hoursOffset = hoursOffset;
+    }
     return $result;
   }
   Event._() : super();
@@ -77,6 +81,7 @@ class Event extends $pb.GeneratedMessage {
     ..a<$core.int>(8, _omitFieldNames ? '' : 'color', $pb.PbFieldType.O3)
     ..aOM<$3.Timestamp>(9, _omitFieldNames ? '' : 'startTime', subBuilder: $3.Timestamp.create)
     ..aOM<$3.Timestamp>(10, _omitFieldNames ? '' : 'endTime', subBuilder: $3.Timestamp.create)
+    ..a<$core.int>(11, _omitFieldNames ? '' : 'hoursOffset', $pb.PbFieldType.O3, protoName: 'hoursOffset')
     ..hasRequiredFields = false
   ;
 
@@ -196,6 +201,15 @@ class Event extends $pb.GeneratedMessage {
   void clearEndTime() => clearField(10);
   @$pb.TagNumber(10)
   $3.Timestamp ensureEndTime() => $_ensure(9);
+
+  @$pb.TagNumber(11)
+  $core.int get hoursOffset => $_getIZ(10);
+  @$pb.TagNumber(11)
+  set hoursOffset($core.int v) { $_setSignedInt32(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasHoursOffset() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearHoursOffset() => clearField(11);
 }
 
 

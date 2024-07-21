@@ -27,6 +27,7 @@ const Event$json = {
     {'1': 'color', '3': 8, '4': 1, '5': 5, '10': 'color'},
     {'1': 'start_time', '3': 9, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startTime'},
     {'1': 'end_time', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endTime'},
+    {'1': 'hoursOffset', '3': 11, '4': 1, '5': 5, '10': 'hoursOffset'},
   ],
 };
 
@@ -39,5 +40,5 @@ final $typed_data.Uint8List eventDescriptor = $convert.base64Decode(
     'ZWF0aW5nRXZlbnRJZBIWCgZ0YXNrSWQYByABKAVSBnRhc2tJZBIUCgVjb2xvchgIIAEoBVIFY2'
     '9sb3ISOQoKc3RhcnRfdGltZRgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXN0'
     'YXJ0VGltZRI1CghlbmRfdGltZRgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB2'
-    'VuZFRpbWU=');
+    'VuZFRpbWUSIAoLaG91cnNPZmZzZXQYCyABKAVSC2hvdXJzT2Zmc2V0');
 
