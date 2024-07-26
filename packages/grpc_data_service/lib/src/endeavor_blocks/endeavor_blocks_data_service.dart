@@ -34,6 +34,7 @@ class EndeavorBlocksDataService {
           title: endeavorBlock.endeavorReference.title,
           startTime: Timestamp.fromDateTime(endeavorBlock.event.start),
           endTime: Timestamp.fromDateTime(endeavorBlock.event.end),
+          hoursOffset: DateTime.now().timeZoneOffset.inHours,
         ),
       ),
     );
