@@ -150,7 +150,7 @@ class CalendarEventDataService {
               : null,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
-          hoursOffset: calendarEvent.event.start.timeZoneOffset.inHours,
+          hoursOffset: DateTime.now().timeZoneOffset.inHours,
         ),
       ),
     );
@@ -172,7 +172,7 @@ class CalendarEventDataService {
           repeatingEventId: calendarEvent.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(calendarEvent.event.start),
           endTime: Timestamp.fromDateTime(calendarEvent.event.end),
-          hoursOffset: calendarEvent.event.start.timeZoneOffset.inHours,
+          hoursOffset: DateTime.now().timeZoneOffset.inHours,
         ),
       ),
     );
@@ -211,7 +211,7 @@ class CalendarEventDataService {
           month: urce.repeatingEvent.endDate.month,
           year: urce.repeatingEvent.endDate.year,
         ),
-        hoursOffset: urce.repeatingEvent.startDate.timeZoneOffset.inHours,
+        hoursOffset: DateTime.now().timeZoneOffset.inHours,
         m: urce.repeatingEvent.daysOfWeek[0],
         t: urce.repeatingEvent.daysOfWeek[1],
         w: urce.repeatingEvent.daysOfWeek[2],
@@ -235,7 +235,7 @@ class CalendarEventDataService {
           repeatingEventId: event.repeatingCalendarEventId,
           startTime: Timestamp.fromDateTime(event.event.start),
           endTime: Timestamp.fromDateTime(event.event.end),
-          hoursOffset: event.event.start.timeZoneOffset.inHours,
+          hoursOffset: DateTime.now().timeZoneOffset.inHours,
         ),
       ),
     );
