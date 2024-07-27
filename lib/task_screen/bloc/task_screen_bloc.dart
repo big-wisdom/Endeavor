@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
@@ -29,16 +30,21 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
                 ),
         ) {
     if (initialTaskReference != null) {
-      // TODO: get task stream back
-      // taskStreamSub =
-      //     dataRepository.getTaskStream(initialTaskReference!.id).listen(
-      //   (updatedTask) {
-      //     if (state is LoadingEditTaskScreenState) {
-      //       initialTask = updatedTask;
-      //     }
-      //     add(TaskChangedByServer(updatedTask));
-      //   },
-      // );
+      taskStreamSub = ShimDataService.tasks.tasksStream.listen(
+        (updatedTask) {
+          if (updatedTask.status == QueryStatus.success) {
+            Task thisTask = updatedTask.data!.firstWhere(
+              (t) => t.id == initialTaskReference!.id,
+            );
+            if (state is LoadingEditTaskScreenState) {
+              initialTask = thisTask;
+            }
+            add(
+              TaskChangedByServer(thisTask),
+            );
+          }
+        },
+      );
     } else {
       taskStreamSub = null;
     }

@@ -11,15 +11,66 @@ import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor
 import 'package:grpc_data_service/src/generated_protos/google/protobuf/timestamp.pb.dart';
 
 class TasksDataService {
+  Query<List<task_proto.Task>> _query;
   Mutation<bool, CreateTaskRequest> _createMutation;
   String _userId;
 
+  static String tasksKey = "tasks";
+
   TasksDataService(EndeavorClient client, String userId)
       : _userId = userId,
+        _query = Query(
+          key: tasksKey,
+          queryFn: () {
+            return client.listTasks(ListTasksRequest(userId: userId)).then(
+              (listTasksResponse) {
+                return listTasksResponse.tasks.toList();
+              },
+            );
+          },
+        ),
         _createMutation = Mutation(
-          refetchQueries: [EndeavorsDataService.endeavorsKey],
+          refetchQueries: [EndeavorsDataService.endeavorsKey, tasksKey],
           queryFn: (req) => client.createTask(req).then((p0) => true),
         );
+
+  Stream<QueryState<List<Task>>> get stream => _query.stream.map(
+        (qs) => QueryState(
+            timeCreated: DateTime.now(),
+            data: qs.data
+                ?.map(
+                  (t) => Task(
+                    id: t.id,
+                    title: t.title,
+                    endeavorReference: t.hasEndeavorReference()
+                        ? EndeavorReference(
+                            title: t.endeavorReference.title,
+                            id: t.endeavorReference.id)
+                        : null,
+                    events: t.events
+                        .map(
+                          (e) => Event(
+                            start: e.startTime.toDateTime(toLocal: true),
+                            end: e.endTime.toDateTime(
+                              toLocal: true,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    duration:
+                        t.hasDuration() ? Duration(minutes: t.duration) : null,
+                    minnimumSchedulingDuration:
+                        t.hasMinnimumSchedulingDuration()
+                            ? Duration(minutes: t.minnimumSchedulingDuration)
+                            : null,
+                    dueDate: t.hasDueDate()
+                        ? t.dueDate.toDateTime(toLocal: true)
+                        : null,
+                    divisible: t.divisible,
+                  ),
+                )
+                .toList()),
+      );
 
   void create(UnidentifiedTask task) {
     _createMutation.mutate(

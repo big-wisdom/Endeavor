@@ -83,3 +83,7 @@ Back End: Firebase
 * Create tasks query
 * Use that for the tasks page
 * Use it for an endeavorless tasks stream as well
+
+* I did all of that but there is some problem with loading the endeavorless tasks on the tasks page
+
+* I also need to work on deleting and updating tasks
