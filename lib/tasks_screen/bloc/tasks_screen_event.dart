@@ -17,6 +17,11 @@ class ServerUpdate extends TasksScreenEvent {
   List<Object?> get props => [treeOfLife, endeavorlessTasks];
 }
 
+class ServerLoading extends TasksScreenEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class DeleteTask extends TasksScreenEvent {
   const DeleteTask(this.taskReference);
 
