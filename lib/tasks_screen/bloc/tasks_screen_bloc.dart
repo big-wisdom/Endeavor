@@ -41,7 +41,9 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
             add(
               ServerUpdate(
                 treeOfLife: queryState.data!,
-                endeavorlessTasks: const [],
+                endeavorlessTasks: state is LoadedTasksScreenState
+                    ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
+                    : const [],
               ),
             );
           }
@@ -54,18 +56,20 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       }
     });
 
-    // TODO: Get endeavorless task stream back
-    // _endeavorlessSubscription =
-    //     dataRepository.endeavorlessTasksStream.listen((event) {
-    //   if (state is LoadedTasksScreenState) {
-    //     add(
-    //       ServerUpdate(
-    //         treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
-    //         endeavorlessTasks: event,
-    //       ),
-    //     );
-    //   }
-    // });
+    _endeavorlessSubscription =
+        ShimDataService.tasks.tasksStream.listen((event) {
+      if (state is LoadedTasksScreenState &&
+          (event.status == QueryStatus.success ||
+              event.status == QueryStatus.initial)) {
+        add(
+          ServerUpdate(
+            treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
+            endeavorlessTasks:
+                event.data!.where((t) => t.endeavorReference == null).toList(),
+          ),
+        );
+      }
+    });
   }
 
   @override

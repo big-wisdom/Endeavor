@@ -1,9 +1,10 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 
 class TasksDataService {
-  // Stream<List<ServerTask>> get tasksStream =>
-  //     TasksDataServiceExtension.tasksStream;
+  Stream<QueryState<List<Task>>> get tasksStream =>
+      GRPCDataService.instance.tasks.stream;
 
   void createTask(UnidentifiedTask task) {
     GRPCDataService.instance.tasks.create(task);
