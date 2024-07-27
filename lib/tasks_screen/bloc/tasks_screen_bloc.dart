@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
@@ -19,6 +20,9 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
         tasksWithNoEndeavor: event.endeavorlessTasks,
       )),
     );
+
+    on<ServerLoading>((event, emit) => emit(LoadingTasksScreenState()));
+
     on<DeleteTask>(
       (event, emit) => ShimDataService.tasks.deleteTask(event.taskReference),
     );
@@ -29,16 +33,26 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
       },
     );
 
-    // TODO: Get tree of life stream back
-    // _activeTreeSubscription =
-    //     dataRepository.activeTreeOfLifeStream.listen((event) {
-    //   add(ServerUpdate(
-    //     treeOfLife: event,
-    //     endeavorlessTasks: state is LoadedTasksScreenState
-    //         ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
-    //         : [],
-    //   ));
-    // });
+    _activeTreeSubscription =
+        ShimDataService.endeavors.endeavorsTreeOfLife.listen((queryState) {
+      switch (queryState.status) {
+        case QueryStatus.success:
+          if (queryState.data != null) {
+            add(
+              ServerUpdate(
+                treeOfLife: queryState.data!,
+                endeavorlessTasks: const [],
+              ),
+            );
+          }
+        case QueryStatus.loading:
+          add(ServerLoading());
+        case QueryStatus.error:
+          add(ServerLoading()); // obviously not ideal
+        case QueryStatus.initial:
+          add(ServerLoading()); // also obviously not ideal
+      }
+    });
 
     // TODO: Get endeavorless task stream back
     // _endeavorlessSubscription =
