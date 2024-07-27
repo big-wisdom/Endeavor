@@ -68,7 +68,7 @@ dependencies:
     path: packages/login_form_inputs
   meta: ^1.7.0
   multiple_stream_builder: ^3.0.0
-  syncfusion_flutter_datepicker: ^20.4.50
+  syncfusion_flutter_datepicker: ^26.2.5
 
 dev_dependencies:
   flutter_test:
