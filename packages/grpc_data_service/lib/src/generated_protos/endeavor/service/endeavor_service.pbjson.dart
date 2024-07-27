@@ -13,6 +13,31 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use listTasksRequestDescriptor instead')
+const ListTasksRequest$json = {
+  '1': 'ListTasksRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+  ],
+};
+
+/// Descriptor for `ListTasksRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listTasksRequestDescriptor = $convert.base64Decode(
+    'ChBMaXN0VGFza3NSZXF1ZXN0EhYKBnVzZXJJZBgBIAEoCVIGdXNlcklk');
+
+@$core.Deprecated('Use listTasksResponseDescriptor instead')
+const ListTasksResponse$json = {
+  '1': 'ListTasksResponse',
+  '2': [
+    {'1': 'tasks', '3': 1, '4': 3, '5': 11, '6': '.common_models.Task', '10': 'tasks'},
+  ],
+};
+
+/// Descriptor for `ListTasksResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listTasksResponseDescriptor = $convert.base64Decode(
+    'ChFMaXN0VGFza3NSZXNwb25zZRIpCgV0YXNrcxgBIAMoCzITLmNvbW1vbl9tb2RlbHMuVGFza1'
+    'IFdGFza3M=');
+
 @$core.Deprecated('Use listEndeavorsRequestDescriptor instead')
 const ListEndeavorsRequest$json = {
   '1': 'ListEndeavorsRequest',

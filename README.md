@@ -79,6 +79,7 @@ Back End: Firebase
 
 * I've just switched to a package called cached_query rather than using streaming endpoints, inspired by react query which is a streaming server model that's implemented with queries and mutations. It should be working for Endeavors, events and repeating events (with or without endeavors)
 
-* I've decided that the client isn't going to worry about timezone at all other than to report its offset to the server where the server will deal with conversion.
-
-* I think next would be to implement EndeavorBlocks with my shiny new endeavors infrastructure
+* Create ListTasks endpoint
+* Create tasks query
+* Use that for the tasks page
+* Use it for an endeavorless tasks stream as well

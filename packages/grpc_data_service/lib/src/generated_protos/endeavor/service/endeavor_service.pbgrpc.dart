@@ -74,6 +74,10 @@ class EndeavorClient extends $grpc.Client {
       '/endeavor.service.Endeavor/DeleteThisAndFollowingEvents',
       ($0.DeleteThisAndFollowingEventsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
+  static final _$listTasks = $grpc.ClientMethod<$0.ListTasksRequest, $0.ListTasksResponse>(
+      '/endeavor.service.Endeavor/ListTasks',
+      ($0.ListTasksRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListTasksResponse.fromBuffer(value));
   static final _$createTask = $grpc.ClientMethod<$0.CreateTaskRequest, $1.Empty>(
       '/endeavor.service.Endeavor/CreateTask',
       ($0.CreateTaskRequest value) => value.writeToBuffer(),
@@ -143,6 +147,10 @@ class EndeavorClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$1.Empty> deleteThisAndFollowingEvents($0.DeleteThisAndFollowingEventsRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteThisAndFollowingEvents, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ListTasksResponse> listTasks($0.ListTasksRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listTasks, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> createTask($0.CreateTaskRequest request, {$grpc.CallOptions? options}) {
@@ -254,6 +262,13 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteThisAndFollowingEventsRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListTasksRequest, $0.ListTasksResponse>(
+        'ListTasks',
+        listTasks_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.ListTasksRequest.fromBuffer(value),
+        ($0.ListTasksResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateTaskRequest, $1.Empty>(
         'CreateTask',
         createTask_Pre,
@@ -329,6 +344,10 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return deleteThisAndFollowingEvents(call, await request);
   }
 
+  $async.Future<$0.ListTasksResponse> listTasks_Pre($grpc.ServiceCall call, $async.Future<$0.ListTasksRequest> request) async {
+    return listTasks(call, await request);
+  }
+
   $async.Future<$1.Empty> createTask_Pre($grpc.ServiceCall call, $async.Future<$0.CreateTaskRequest> request) async {
     return createTask(call, await request);
   }
@@ -354,6 +373,7 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $async.Future<$1.Empty> editThisAndFollowingEvents($grpc.ServiceCall call, $0.EditThisAndFollowingEventsRequest request);
   $async.Future<$1.Empty> deleteRepeatingEvent($grpc.ServiceCall call, $0.DeleteRepeatingEventRequest request);
   $async.Future<$1.Empty> deleteThisAndFollowingEvents($grpc.ServiceCall call, $0.DeleteThisAndFollowingEventsRequest request);
+  $async.Future<$0.ListTasksResponse> listTasks($grpc.ServiceCall call, $0.ListTasksRequest request);
   $async.Future<$1.Empty> createTask($grpc.ServiceCall call, $0.CreateTaskRequest request);
   $async.Future<$1.Empty> updateTask($grpc.ServiceCall call, $0.UpdateTaskRequest request);
   $async.Future<$1.Empty> deleteTask($grpc.ServiceCall call, $0.DeleteTaskRequest request);
