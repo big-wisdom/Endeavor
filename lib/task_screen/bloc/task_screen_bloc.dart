@@ -110,9 +110,15 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
     );
 
     on<EventCreated>(
-      (event, emit) => emit(state.copyWith(
-        newEventsList: [...state.scheduledEvents.value, event.event],
-      )),
+      (event, emit) {
+        if (initialTaskReference != null) {
+          ShimDataService.tasks
+              .addEventToTask(event.event, initialTaskReference!.id);
+        }
+        emit(state.copyWith(
+          newEventsList: [...state.scheduledEvents.value, event.event],
+        ));
+      },
     );
 
     on<EventDeleted>(
