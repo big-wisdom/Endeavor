@@ -17,4 +17,8 @@ class TasksDataService {
   void updateTask(UnidentifiedTask unidentifiedTask, int id) {
     GRPCDataService.instance.tasks.update(unidentifiedTask, id);
   }
+
+  void addEventToTask(Event event, int taskId) {
+    GRPCDataService.instance.tasks.addEventToTask(event, taskId);
+  }
 }

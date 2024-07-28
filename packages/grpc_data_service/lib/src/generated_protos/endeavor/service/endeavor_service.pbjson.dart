@@ -13,6 +13,19 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use addEventToTaskRequestDescriptor instead')
+const AddEventToTaskRequest$json = {
+  '1': 'AddEventToTaskRequest',
+  '2': [
+    {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.common_models.Event', '10': 'event'},
+  ],
+};
+
+/// Descriptor for `AddEventToTaskRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List addEventToTaskRequestDescriptor = $convert.base64Decode(
+    'ChVBZGRFdmVudFRvVGFza1JlcXVlc3QSKgoFZXZlbnQYASABKAsyFC5jb21tb25fbW9kZWxzLk'
+    'V2ZW50UgVldmVudA==');
+
 @$core.Deprecated('Use listTasksRequestDescriptor instead')
 const ListTasksRequest$json = {
   '1': 'ListTasksRequest',

@@ -18,6 +18,58 @@ import '../../common_models/event.pb.dart' as $4;
 import '../../common_models/repeating_event.pb.dart' as $7;
 import '../../common_models/task.pb.dart' as $5;
 
+class AddEventToTaskRequest extends $pb.GeneratedMessage {
+  factory AddEventToTaskRequest({
+    $4.Event? event,
+  }) {
+    final $result = create();
+    if (event != null) {
+      $result.event = event;
+    }
+    return $result;
+  }
+  AddEventToTaskRequest._() : super();
+  factory AddEventToTaskRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AddEventToTaskRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AddEventToTaskRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'endeavor.service'), createEmptyInstance: create)
+    ..aOM<$4.Event>(1, _omitFieldNames ? '' : 'event', subBuilder: $4.Event.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AddEventToTaskRequest clone() => AddEventToTaskRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AddEventToTaskRequest copyWith(void Function(AddEventToTaskRequest) updates) => super.copyWith((message) => updates(message as AddEventToTaskRequest)) as AddEventToTaskRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static AddEventToTaskRequest create() => AddEventToTaskRequest._();
+  AddEventToTaskRequest createEmptyInstance() => create();
+  static $pb.PbList<AddEventToTaskRequest> createRepeated() => $pb.PbList<AddEventToTaskRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AddEventToTaskRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AddEventToTaskRequest>(create);
+  static AddEventToTaskRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $4.Event get event => $_getN(0);
+  @$pb.TagNumber(1)
+  set event($4.Event v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEvent() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEvent() => clearField(1);
+  @$pb.TagNumber(1)
+  $4.Event ensureEvent() => $_ensure(0);
+}
+
 class ListTasksRequest extends $pb.GeneratedMessage {
   factory ListTasksRequest({
     $core.String? userId,

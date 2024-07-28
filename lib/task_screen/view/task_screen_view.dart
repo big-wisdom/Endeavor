@@ -250,7 +250,8 @@ class _TaskEventListEditor extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.scheduledEvents != current.scheduledEvents,
       builder: (context, state) {
-        if (state.scheduledEvents.value.isEmpty) return Container();
+        if (state.scheduledEvents.value.isEmpty ||
+            state is CreateTaskScreenState) return Container();
 
         return Column(
           mainAxisSize: MainAxisSize.min,

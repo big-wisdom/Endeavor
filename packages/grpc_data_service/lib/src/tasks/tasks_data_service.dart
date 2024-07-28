@@ -1,5 +1,6 @@
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
+import 'package:grpc_data_service/src/calendar_event/calendar_event_data_service.dart';
 import 'package:grpc_data_service/src/endeavor/endeavors_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/common_models/task.pb.dart'
     as task_proto;
@@ -15,6 +16,7 @@ class TasksDataService {
   Mutation<bool, CreateTaskRequest> _createMutation;
   Mutation<bool, DeleteTaskRequest> _deleteMutation;
   Mutation<bool, UpdateTaskRequest> _updateMutation;
+  Mutation<bool, AddEventToTaskRequest> _addEventMutation;
   String _userId;
 
   static String tasksKey = "tasks";
@@ -38,6 +40,14 @@ class TasksDataService {
         _updateMutation = Mutation(
           refetchQueries: [tasksKey, EndeavorsDataService.endeavorsKey],
           queryFn: (req) => client.updateTask(req).then((p) => true),
+        ),
+        _addEventMutation = Mutation(
+          refetchQueries: [
+            tasksKey,
+            EndeavorsDataService.endeavorsKey,
+            CalendarEventDataService.eventsQueryId
+          ],
+          queryFn: (arg) => client.addEventToTask(arg).then((p) => true),
         ),
         _deleteMutation = Mutation(
           refetchQueries: [tasksKey, EndeavorsDataService.endeavorsKey],
@@ -140,6 +150,19 @@ class TasksDataService {
           dueDate: task.dueDate != null
               ? Timestamp.fromDateTime(task.dueDate!)
               : null,
+        ),
+      ),
+    );
+  }
+
+  void addEventToTask(Event event, int taskId) {
+    _addEventMutation.mutate(
+      AddEventToTaskRequest(
+        event: event_proto.Event(
+          startTime: Timestamp.fromDateTime(event.start),
+          endTime: Timestamp.fromDateTime(event.end),
+          hoursOffset: DateTime.now().timeZoneOffset.inHours,
+          taskId: taskId,
         ),
       ),
     );

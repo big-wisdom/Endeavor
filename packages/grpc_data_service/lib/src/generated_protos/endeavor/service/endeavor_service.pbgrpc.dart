@@ -86,6 +86,10 @@ class EndeavorClient extends $grpc.Client {
       '/endeavor.service.Endeavor/UpdateTask',
       ($0.UpdateTaskRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
+  static final _$addEventToTask = $grpc.ClientMethod<$0.AddEventToTaskRequest, $1.Empty>(
+      '/endeavor.service.Endeavor/AddEventToTask',
+      ($0.AddEventToTaskRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
   static final _$deleteTask = $grpc.ClientMethod<$0.DeleteTaskRequest, $1.Empty>(
       '/endeavor.service.Endeavor/DeleteTask',
       ($0.DeleteTaskRequest value) => value.writeToBuffer(),
@@ -159,6 +163,10 @@ class EndeavorClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$1.Empty> updateTask($0.UpdateTaskRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$updateTask, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.Empty> addEventToTask($0.AddEventToTaskRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$addEventToTask, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> deleteTask($0.DeleteTaskRequest request, {$grpc.CallOptions? options}) {
@@ -283,6 +291,13 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.UpdateTaskRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.AddEventToTaskRequest, $1.Empty>(
+        'AddEventToTask',
+        addEventToTask_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.AddEventToTaskRequest.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.DeleteTaskRequest, $1.Empty>(
         'DeleteTask',
         deleteTask_Pre,
@@ -356,6 +371,10 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return updateTask(call, await request);
   }
 
+  $async.Future<$1.Empty> addEventToTask_Pre($grpc.ServiceCall call, $async.Future<$0.AddEventToTaskRequest> request) async {
+    return addEventToTask(call, await request);
+  }
+
   $async.Future<$1.Empty> deleteTask_Pre($grpc.ServiceCall call, $async.Future<$0.DeleteTaskRequest> request) async {
     return deleteTask(call, await request);
   }
@@ -376,5 +395,6 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $async.Future<$0.ListTasksResponse> listTasks($grpc.ServiceCall call, $0.ListTasksRequest request);
   $async.Future<$1.Empty> createTask($grpc.ServiceCall call, $0.CreateTaskRequest request);
   $async.Future<$1.Empty> updateTask($grpc.ServiceCall call, $0.UpdateTaskRequest request);
+  $async.Future<$1.Empty> addEventToTask($grpc.ServiceCall call, $0.AddEventToTaskRequest request);
   $async.Future<$1.Empty> deleteTask($grpc.ServiceCall call, $0.DeleteTaskRequest request);
 }
