@@ -13,6 +13,7 @@ import 'package:grpc_data_service/src/generated_protos/google/protobuf/timestamp
 class TasksDataService {
   Query<List<task_proto.Task>> _query;
   Mutation<bool, CreateTaskRequest> _createMutation;
+  Mutation<bool, DeleteTaskRequest> _deleteMutation;
   String _userId;
 
   static String tasksKey = "tasks";
@@ -32,6 +33,10 @@ class TasksDataService {
         _createMutation = Mutation(
           refetchQueries: [EndeavorsDataService.endeavorsKey, tasksKey],
           queryFn: (req) => client.createTask(req).then((p0) => true),
+        ),
+        _deleteMutation = Mutation(
+          refetchQueries: [tasksKey, EndeavorsDataService.endeavorsKey],
+          queryFn: (arg) => client.deleteTask(arg).then((p) => true),
         );
 
   Stream<QueryState<List<Task>>> get stream => _query.stream.map(
@@ -109,5 +114,9 @@ class TasksDataService {
         ),
       ),
     );
+  }
+
+  void delete(int taskId) {
+    _deleteMutation.mutate(DeleteTaskRequest(taskId: taskId));
   }
 }
