@@ -54,9 +54,9 @@ class MinnimumSchedulingDuration
       return MinnimumSchedulingDurationError.divisibilityUnspecified;
     }
 
-    if (divisible != null && !divisible!) {
-      return MinnimumSchedulingDurationError.notDivisible;
-    }
+    // if (divisible != null && !divisible!) {
+    //   return MinnimumSchedulingDurationError.notDivisible;
+    // }
 
     return null;
   }

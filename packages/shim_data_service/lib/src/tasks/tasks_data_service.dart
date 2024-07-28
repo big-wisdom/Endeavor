@@ -15,6 +15,6 @@ class TasksDataService {
   }
 
   void updateTask(UnidentifiedTask unidentifiedTask, int id) {
-    // TasksDataServiceExtension.updateTask(unidentifiedTask, id);
+    GRPCDataService.instance.tasks.update(unidentifiedTask, id);
   }
 }
