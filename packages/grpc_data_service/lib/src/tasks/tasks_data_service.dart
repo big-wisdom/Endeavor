@@ -14,6 +14,7 @@ class TasksDataService {
   Query<List<task_proto.Task>> _query;
   Mutation<bool, CreateTaskRequest> _createMutation;
   Mutation<bool, DeleteTaskRequest> _deleteMutation;
+  Mutation<bool, UpdateTaskRequest> _updateMutation;
   String _userId;
 
   static String tasksKey = "tasks";
@@ -33,6 +34,10 @@ class TasksDataService {
         _createMutation = Mutation(
           refetchQueries: [EndeavorsDataService.endeavorsKey, tasksKey],
           queryFn: (req) => client.createTask(req).then((p0) => true),
+        ),
+        _updateMutation = Mutation(
+          refetchQueries: [tasksKey, EndeavorsDataService.endeavorsKey],
+          queryFn: (req) => client.updateTask(req).then((p) => true),
         ),
         _deleteMutation = Mutation(
           refetchQueries: [tasksKey, EndeavorsDataService.endeavorsKey],
@@ -111,6 +116,30 @@ class TasksDataService {
           minnimumSchedulingDuration:
               task.minnimumSchedulingDuration?.inMinutes,
           divisible: task.divisible ?? false,
+        ),
+      ),
+    );
+  }
+
+  void update(UnidentifiedTask task, int id) {
+    _updateMutation.mutate(
+      UpdateTaskRequest(
+        userId: _userId,
+        task: task_proto.Task(
+          id: id,
+          title: task.title,
+          endeavorReference: task.endeavorReference != null
+              ? endeavor_ref_proto.EndeavorReference(
+                  id: task.endeavorReference!.id,
+                  title: task.endeavorReference!.title)
+              : null,
+          duration: task.duration?.inMinutes,
+          minnimumSchedulingDuration:
+              task.minnimumSchedulingDuration?.inMinutes,
+          divisible: task.divisible ?? false,
+          dueDate: task.dueDate != null
+              ? Timestamp.fromDateTime(task.dueDate!)
+              : null,
         ),
       ),
     );

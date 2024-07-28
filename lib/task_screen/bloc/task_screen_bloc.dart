@@ -32,7 +32,8 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
     if (initialTaskReference != null) {
       taskStreamSub = ShimDataService.tasks.tasksStream.listen(
         (updatedTask) {
-          if (updatedTask.status == QueryStatus.success) {
+          if (updatedTask.status == QueryStatus.success ||
+              updatedTask.status == QueryStatus.initial) {
             Task thisTask = updatedTask.data!.firstWhere(
               (t) => t.id == initialTaskReference!.id,
             );
