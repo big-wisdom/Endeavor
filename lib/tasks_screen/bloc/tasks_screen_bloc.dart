@@ -35,24 +35,15 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
 
     _activeTreeSubscription =
         ShimDataService.endeavors.endeavorsTreeOfLife.listen((queryState) {
-      switch (queryState.status) {
-        case QueryStatus.success:
-          if (queryState.data != null) {
-            add(
-              ServerUpdate(
-                treeOfLife: queryState.data!,
-                endeavorlessTasks: state is LoadedTasksScreenState
-                    ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
-                    : const [],
-              ),
-            );
-          }
-        case QueryStatus.loading:
-          add(ServerLoading());
-        case QueryStatus.error:
-          add(ServerLoading()); // obviously not ideal
-        case QueryStatus.initial:
-          add(ServerLoading()); // also obviously not ideal
+      if (queryState.status == QueryStatus.success && queryState.data != null) {
+        add(
+          ServerUpdate(
+            treeOfLife: queryState.data!,
+            endeavorlessTasks: state is LoadedTasksScreenState
+                ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
+                : const [],
+          ),
+        );
       }
     });
 

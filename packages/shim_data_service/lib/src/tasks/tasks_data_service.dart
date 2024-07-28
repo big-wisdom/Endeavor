@@ -11,7 +11,7 @@ class TasksDataService {
   }
 
   void deleteTask(TaskReference taskReference) {
-    // TasksDataServiceExtension.deleteTask(taskReference);
+    GRPCDataService.instance.tasks.delete(taskReference.id);
   }
 
   void updateTask(UnidentifiedTask unidentifiedTask, int id) {
