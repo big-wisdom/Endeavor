@@ -6,10 +6,20 @@ import 'package:shim_data_service/shim_data_service.dart';
 // without having a userID from the authentication service, as such, it's the
 // place to initialize/provide services/repositories that require
 // authentication, like the data service.
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   final String userId;
-  Home({required this.userId, super.key}) {
-    ShimDataService.initialize(userId: userId);
+
+  const Home({required this.userId, super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    ShimDataService.initialize(userId: widget.userId);
+    super.initState();
   }
 
   @override
