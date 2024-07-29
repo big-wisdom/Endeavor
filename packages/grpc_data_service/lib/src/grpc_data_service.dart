@@ -18,16 +18,17 @@ class GRPCDataService {
   late EndeavorsDataService endeavors;
   late TasksDataService tasks;
 
-  String _baseUrl = "localhost";
-  int _port = 8080;
+  String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
+  int _port = 443;
 
   init(String userId) async {
+    print("Initializing GRPC client to port: $_port");
     final client = EndeavorClient(ClientChannel(
       _baseUrl,
       port: _port,
 
       ///use credentials: ChannelCredentials.insecure() if you want to connect without Tls
-      options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+      // options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
 
       ///use this if you are connecting with Tls
       // options: const ChannelOptions(),
