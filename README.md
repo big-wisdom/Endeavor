@@ -73,7 +73,97 @@ Back End: Firebase
 
 ## What I'm working on now
 
+<<<<<<< HEAD
 * History
   * I researched and found out that my live service is already using TLS as google provides it
   * I then got endeavor switched over to my ecosystemAuth FirebaseAuth project
   * I then got it to send a user token to the Cloud Run service to authenticate all requests. So now I know I have encrypted network traffic, and I have authenticated endpoints with a central identity provider project. WOO HOO!
+=======
+----------------- HERE'S MY PLAN -----------------
+* Schedules
+  * Plan (~40 tasks)
+    * Prepare Existing Code
+      * Refactor current repeating events with GetRepeatingEvents(re RepeatingEvent, start Date, end Date) []*Event
+        * Created function to get events
+      * Refactor go database code to create repeating event differently with seperate calls within a transaction
+        * Refactor database go code to add row to repeatingEvents as a seperate call to the DB (possibly in a stored procedure)
+        * Refactor database go code to apply list of events (possibly adding or adjusting stored procedure)
+      * Adjust repeating event front end data type to include possibility of every _ [day] of each month
+      * Adjust repeating event editor to include possibility of every _ [day] of each picker
+      * Adjust GetRepeatingEvents to calculate events for _ [day] of each month
+    * Start with schedules proper
+      * Simple schedule creation and deletion
+        * Create Schedule DB table
+        * Create Schedule Endpoint
+        * Create Schedule UI
+        * Delete Schedule Endpoint
+        * Delete Schedule UI
+      * Add Repeating Event to Schedule
+        * Adjust repeatingEvents table to include scheduleId
+        * Create simple add repeating event to schedule endpoint that doesn't account for existing scheduled schedules
+        * Create Basic Edit Schedule Page
+        * Create Basic Editor Calendar Page that doesn't get data it only has a plus button that launches a repeating event creation screen that can call the new add repeating event to schedule endpoint
+        * GetEditorCalendarEvents Endpoint which gets hypothetical events for the editor calendar based off the scheduleId and the repeatingEvents added to it
+        * Edit RepeatingCalendarEvent endpoint
+        * Edit repeatingCalendarEvent within schedule in UI
+        * Delete RepeatingCalendarEvents endpoint
+        * Delete within UI
+        * Adjust ListSchedules to calculate the amount of time spent on each endeavor per week in the schedule object
+      * Schedule Schedule
+        * Create SceduleSchedule DB Table
+        * Create Simple ScheduleSchedule endpoint to add schedule schedule to the schedule, no need to add the events just yet, just warn the UI if a range of another schedule will be overwritten. Possibly add a confirm field. If the endpoint is called with a confirm field false, and there are no conflicts, then go through with it. If there is a conflict, return conflict details. If it's called with confirm, then overwrite.
+          * Or do the simple version first and go back and forth with the next UI step
+        * Create UI to display scheduled date ranges on the edit schedule page
+        * Create DeleteScheduleSchedule endpoint
+        * Create UI to select date range for schedule schedule
+        * Now adjust the ScheduleSchedule endpoint to actually create the events as well
+        * Fix add repeating event to schedule endpoint to add its events to future scheduleschedules as well
+      * Finishing touches on the editor calendar
+        * Add view filters to show only certain endeavors
+        * Add view filter to show existing events
+          * Adjust endpoint to optionally include existing non-schedule events
+      * Finishing touch on schedule creation
+        * Create by copying
+        * Create variant by copying
+          * Including a list a variant schedules
+          * Add parent schedule field
+          * Make schedules list endpoint heirarchical
+          * Make schedules page hierarchical
+
+  ----------------- HERE'S MY THINKING -----------------
+  * I'm also wondering if I should update to have more complicated repeating events
+    * On _ [day] of each month (on 3rd sunday of each month)
+  * Okay so right now I leave applying repeating events to the database storedProcedure. I feel like that might be more code than should be in the database and that I might want to extract that code for other use. On the editor calendar, I'm going to want to get a bunch of hypothetical events, so I might want code that can take in a repeating event, a date range, and return a grouping of events that could then be added to a database, or sent back to the client for hypothetical adjustment.
+    * GetEditorCalendarEvents(scheduleId string, start Date, end Date) []*Event
+    * GetRepeatingEventEvents(re RepeatingEvent, start Date, end Date) []*Event
+  * Backend
+    * Database
+      * Table for schedules
+        * ID
+        * Name
+      * Table for scheduled schedules
+        * scheduleId
+        * start date
+        * end date
+      * Field in repeating event for which schedule it belongs to and delete dependence
+    * Service
+      * Create endpoint. This one should be the simple. It should only involve creating an entry in the schedule table
+      * Delete endpoint. Simple delete of the schedule row
+      * Schedule schedule endpoint. This one is going to be complicated. This will need to account for several scenarios.
+        * There isn't any schedule in the way. This will be the easiest because it will just be implementing all the repeating events.
+        * There is a schedule in the way
+          * It is this schedule, but an old schedule schedule. We should probably just extend the one that's there
+          * It is another schedule. Whatever part of the schedule schedule will need to be blown away. Probably with the confirmation of the user. This means removing all events in it, and either adjusting the range of it's schedule schedule or deleting it entirely.
+      * Add repeating event endpoint. This will mean adding that repeatingEvent with now the proper scheduleId, and applying that repeating event to all already scheduled future schedule schedules
+      * Remove repeating event endpoint. Similarly, this will mean removing the repeatingEvent (possibly detaching it's old events first for history) and removing its events from all, already scheduled, schedule schedules
+  * UI
+    * Create with title in a bottom sheet like the endeavor
+    * Need an edit page. This would have a title field, a schedule field that has a list of date ranges for which it is scheduled, and a button to launch an editor calendar that is similar to the week view, but it's hypothetical. 
+    * It would also be cool to have a bar graph that shows amount of time that schedules spends on each endeavor
+    * It would also be cool if the editor calendar could toggle showing existing events or showing events for specific endeavors.
+
+
+  * M2
+    * Have sub variants
+    * Eventually create by copying
+>>>>>>> cc1b26d (Make a solid plan)
