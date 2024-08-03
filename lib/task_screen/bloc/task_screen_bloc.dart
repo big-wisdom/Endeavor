@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
@@ -19,7 +19,6 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
   TaskScreenBloc({
     required this.initialEndeavorReference,
     required this.initialTaskReference,
-    required DataRepository dataRepository,
   }) : super(
           initialTaskReference != null
               ? LoadingEditTaskScreenState(
@@ -31,13 +30,20 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
                 ),
         ) {
     if (initialTaskReference != null) {
-      taskStreamSub =
-          dataRepository.getTaskStream(initialTaskReference!.id).listen(
+      taskStreamSub = ShimDataService.tasks.tasksStream.listen(
         (updatedTask) {
-          if (state is LoadingEditTaskScreenState) {
-            initialTask = updatedTask;
+          if (updatedTask.status == QueryStatus.success ||
+              updatedTask.status == QueryStatus.initial) {
+            Task thisTask = updatedTask.data!.firstWhere(
+              (t) => t.id == initialTaskReference!.id,
+            );
+            if (state is LoadingEditTaskScreenState) {
+              initialTask = thisTask;
+            }
+            add(
+              TaskChangedByServer(thisTask),
+            );
           }
-          add(TaskChangedByServer(updatedTask));
         },
       );
     } else {
@@ -104,9 +110,15 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
     );
 
     on<EventCreated>(
-      (event, emit) => emit(state.copyWith(
-        newEventsList: [...state.scheduledEvents.value, event.event],
-      )),
+      (event, emit) {
+        if (initialTaskReference != null) {
+          ShimDataService.tasks
+              .addEventToTask(event.event, initialTaskReference!.id);
+        }
+        emit(state.copyWith(
+          newEventsList: [...state.scheduledEvents.value, event.event],
+        ));
+      },
     );
 
     on<EventDeleted>(
@@ -123,9 +135,9 @@ class TaskScreenBloc extends Bloc<TaskScreenEvent, TaskScreenState> {
       }
 
       if (state is CreateTaskScreenState) {
-        TasksDataServiceExtension.createTask(state.createUnidentifiedTask!);
+        ShimDataService.tasks.createTask(state.createUnidentifiedTask!);
       } else {
-        TasksDataServiceExtension.updateTask(
+        ShimDataService.tasks.updateTask(
           state.createUnidentifiedTask!,
           initialTask.id,
         );

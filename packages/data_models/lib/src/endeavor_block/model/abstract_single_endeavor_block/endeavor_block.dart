@@ -1,7 +1,7 @@
 import 'package:data_models/data_models.dart';
 
 class EndeavorBlock extends AbstractSingleEndeavorBlock {
-  final String id;
+  final int id;
 
   EndeavorBlock({
     required this.id,

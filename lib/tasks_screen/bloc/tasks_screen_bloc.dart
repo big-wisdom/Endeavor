@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'tasks_screen_event.dart';
@@ -13,42 +13,50 @@ class TasksScreenBloc extends Bloc<TasksScreenEvent, TasksScreenState> {
   late final StreamSubscription _activeTreeSubscription;
   late final StreamSubscription _endeavorlessSubscription;
 
-  TasksScreenBloc(DataRepository dataRepository)
-      : super(LoadingTasksScreenState()) {
+  TasksScreenBloc() : super(LoadingTasksScreenState()) {
     on<ServerUpdate>(
       (event, emit) => emit(LoadedTasksScreenState(
         treeOfLife: event.treeOfLife,
         tasksWithNoEndeavor: event.endeavorlessTasks,
       )),
     );
+
+    on<ServerLoading>((event, emit) => emit(LoadingTasksScreenState()));
+
     on<DeleteTask>(
-      (event, emit) =>
-          TasksDataServiceExtension.deleteTask(event.taskReference),
+      (event, emit) => ShimDataService.tasks.deleteTask(event.taskReference),
     );
 
     on<PlanRequested>(
       (event, emit) {
-        ServerEndeavorDataServiceExtension.planEndeavor(event.endeavor);
+        ShimDataService.endeavors.planEndeavor(event.endeavor);
       },
     );
 
     _activeTreeSubscription =
-        dataRepository.activeTreeOfLifeStream.listen((event) {
-      add(ServerUpdate(
-        treeOfLife: event,
-        endeavorlessTasks: state is LoadedTasksScreenState
-            ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
-            : [],
-      ));
+        ShimDataService.endeavors.endeavorsTreeOfLife.listen((queryState) {
+      if (queryState.status == QueryStatus.success && queryState.data != null) {
+        add(
+          ServerUpdate(
+            treeOfLife: queryState.data!,
+            endeavorlessTasks: state is LoadedTasksScreenState
+                ? (state as LoadedTasksScreenState).tasksWithNoEndeavor
+                : const [],
+          ),
+        );
+      }
     });
 
     _endeavorlessSubscription =
-        dataRepository.endeavorlessTasksStream.listen((event) {
-      if (state is LoadedTasksScreenState) {
+        ShimDataService.tasks.tasksStream.listen((event) {
+      if (state is LoadedTasksScreenState &&
+          (event.status == QueryStatus.success ||
+              event.status == QueryStatus.initial)) {
         add(
           ServerUpdate(
             treeOfLife: (state as LoadedTasksScreenState).treeOfLife,
-            endeavorlessTasks: event,
+            endeavorlessTasks:
+                event.data!.where((t) => t.endeavorReference == null).toList(),
           ),
         );
       }

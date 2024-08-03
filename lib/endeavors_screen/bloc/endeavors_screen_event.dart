@@ -14,13 +14,14 @@ class ReorderEndeavors extends EndeavorsScreenEvent {
   List<Object?> get props => [oldIndex, newIndex];
 }
 
-class NewPrimaryEndeavors extends EndeavorsScreenEvent {
-  const NewPrimaryEndeavors(this.newPrimaryEndeavors);
+class StreamUpdate extends EndeavorsScreenEvent {
+  const StreamUpdate(this.primaryEndeavors, this.status);
 
-  final List<Endeavor> newPrimaryEndeavors;
+  final List<Endeavor>? primaryEndeavors;
+  final QueryStatus status;
 
   @override
-  List<Object?> get props => [newPrimaryEndeavors];
+  List<Object?> get props => [primaryEndeavors, status];
 }
 
 class DeleteEndeavor extends EndeavorsScreenEvent {

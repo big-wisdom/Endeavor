@@ -35,7 +35,7 @@ class EndeavorSelectionTile extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         children: endeavorNode.subEndeavors.map(
           (e) {
-            final String? selectedId = context
+            final int? selectedId = context
                 .read<EndeavorSelectionScreenCubit>()
                 .state
                 .selectedEndeavorReference

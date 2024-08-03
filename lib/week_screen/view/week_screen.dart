@@ -1,4 +1,3 @@
-import 'package:data_repository/data_repository.dart';
 import 'package:endeavor/week_screen/bloc/week_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ class WeekScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => WeekScreenBloc(
-        dataRepository: context.read<DataRepository>(),
         selectedDay: DateTime.now(),
       ),
       child: const WeekScreenView(),

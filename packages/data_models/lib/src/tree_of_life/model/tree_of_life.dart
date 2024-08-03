@@ -4,73 +4,43 @@ import 'package:equatable/equatable.dart';
 class TreeOfLife extends Equatable {
   const TreeOfLife(this.primaryEndeavorNodes);
 
-  // factory TreeOfLife.fromEndeavorsList(
-  //   List<String> orderedPrimaryEndeavorIds,
-  //   List<Endeavor> endeavorList,
-  // ) {
-  //   // pick out primary endeavors and link others to a parent
-  //   final Map<String, List<Endeavor>> parentEndeavorIdToEndeavorList = {};
-  //   final List<Endeavor> primaryEndeavors = [];
-  //   for (final e in endeavorList) {
-  //     if (e.parentEndeavorId == null) {
-  //       primaryEndeavors.add(e);
-  //     } else {
-  //       if (parentEndeavorIdToEndeavorList[e.parentEndeavorId!] == null) {
-  //         parentEndeavorIdToEndeavorList[e.parentEndeavorId!] = [e];
-  //       } else {
-  //         parentEndeavorIdToEndeavorList[e.parentEndeavorId!]!.add(e);
-  //       }
-  //     }
-  //   }
+  static TreeOfLife fromEndeavorsList(List<Endeavor> endeavors) {
+    // create map of id to children
+    Map<int, List<Endeavor>> childMap = {};
+    // add each to its parent
+    endeavors.forEach((e) => childMap[e.parentEndeavorId]?.add(e));
 
-  //   // build tree of life
-  //   List<EndeavorNode> primaryEndeavorNodes = [];
-  //   for (final e in primaryEndeavors) {
-  //     primaryEndeavorNodes.add(
-  //       EndeavorNode(
-  //         endeavor: e,
-  //         subEndeavors: _recurseBuildTree(parentEndeavorIdToEndeavorList[e.id],
-  //             parentEndeavorIdToEndeavorList),
-  //       ),
-  //     );
-  //   }
+    // for each primary add children recursively
+    return TreeOfLife(
+      endeavors
+          .where((e) => e.parentEndeavorId == null || e.parentEndeavorId == 0)
+          .map((e) => recurseAddChildren(
+                EndeavorNode(endeavor: e, subEndeavors: []),
+                childMap,
+              ))
+          .toList(),
+    );
+  }
 
-  //   // reorder primaryEndeavorNodes
-  //   primaryEndeavorNodes.sort((e1, e2) {
-  //     final index1 = orderedPrimaryEndeavorIds.indexOf(e1.endeavor.id);
-  //     final index2 = orderedPrimaryEndeavorIds.indexOf(e2.endeavor.id);
-
-  //     if (index1 == -1 && index2 == -1) {
-  //       return 0;
-  //     } else if (index1 == -1) {
-  //       return 1;
-  //     } else if (index2 == -1) {
-  //       return -1;
-  //     } else {
-  //       return index1.compareTo(index2);
-  //     }
-  //   });
-
-  //   return TreeOfLife(primaryEndeavorNodes);
-  // }
-
-  // static List<EndeavorNode> _recurseBuildTree(
-  //   List<Endeavor>? currentGroupOfSubEndeavors,
-  //   Map<String, List<Endeavor>> parentEndeavorIdToEndeavorList,
-  // ) {
-  //   if (currentGroupOfSubEndeavors == null) return [];
-  //   return currentGroupOfSubEndeavors
-  //       .map(
-  //         (e) => EndeavorNode(
-  //           endeavor: e,
-  //           subEndeavors: _recurseBuildTree(
-  //             parentEndeavorIdToEndeavorList[e.id],
-  //             parentEndeavorIdToEndeavorList,
-  //           ),
-  //         ),
-  //       )
-  //       .toList();
-  // }
+  // takes in an endeavor node that has an endeavor in it but not the subendeavors yet.
+  // Then it uses the map to recursively add children to it.
+  static EndeavorNode recurseAddChildren(
+    EndeavorNode current,
+    Map<int, List<Endeavor>> childMap,
+  ) {
+    childMap[current.endeavor.id]?.forEach(
+      (child) => current.subEndeavors.add(
+        recurseAddChildren(
+          EndeavorNode(
+            endeavor: child,
+            subEndeavors: [],
+          ),
+          childMap,
+        ),
+      ),
+    );
+    return current;
+  }
 
   final List<EndeavorNode> primaryEndeavorNodes;
 

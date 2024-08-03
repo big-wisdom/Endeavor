@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 
 part 'endeavor_selection_screen_state.dart';
 
@@ -10,20 +11,21 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
   final bool _nullable;
 
   EndeavorSelectionScreenCubit({
-    required DataRepository dataRepository,
     required EndeavorPickerRowInput initiallySelectedEndeavorInput,
     required void Function(Endeavor?) onChanged,
   })  : _nullable = initiallySelectedEndeavorInput.nullable,
         _onChanged = onChanged,
         super(EndeavorSelectionScreenInitial(
           treeOfLife: null,
+          status: QueryStatus.initial,
           selectedEndeavorInput: initiallySelectedEndeavorInput,
         )) {
-    // get tree of life if it's not passed in
-    dataRepository.treeOfLifeStream.first.then(
-      (tree) => emit(
+    // get tree of life
+    ShimDataService.endeavors.endeavorsTreeOfLife.first.then(
+      (treeOfLifeQueryState) => emit(
         EndeavorSelectionScreenState(
-          treeOfLife: tree,
+          treeOfLife: treeOfLifeQueryState.data,
+          status: treeOfLifeQueryState.status,
           selectedEndeavorInput: state.selectedEndeavorInput,
         ),
       ),
@@ -44,6 +46,7 @@ class EndeavorSelectionScreenCubit extends Cubit<EndeavorSelectionScreenState> {
     emit(
       EndeavorSelectionScreenState(
         treeOfLife: state.treeOfLife,
+        status: QueryStatus.success,
         selectedEndeavorInput: newInput,
       ),
     );
