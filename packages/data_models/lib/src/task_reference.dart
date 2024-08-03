@@ -7,8 +7,8 @@ class TaskReference extends Equatable {
     required this.title,
   });
 
-  final String id;
-  final String? endeavorId;
+  final int id;
+  final int? endeavorId;
   final String title;
 
   @override

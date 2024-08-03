@@ -9,7 +9,7 @@ class CalendarEvent extends AbstractSingleCalendarEvent {
     super.repeatingCalendarEventId,
   });
 
-  final String id;
+  final int id;
 
   @override
   List<Object?> get props => [

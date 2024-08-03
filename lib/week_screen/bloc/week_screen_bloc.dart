@@ -1,19 +1,20 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:data_models/data_models.dart';
-import 'package:data_repository/data_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 
 part 'week_screen_event.dart';
 part 'week_screen_state.dart';
 
 class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   DateTime selectedDay;
-  late final StreamSubscription<List<WeekViewEvent>> _weekEventSubscription;
+  late final StreamSubscription<QueryState<List<WeekViewEvent>>>
+      _weekEventSubscription;
 
-  WeekScreenBloc(
-      {required DataRepository dataRepository, required this.selectedDay})
+  WeekScreenBloc({required this.selectedDay})
       : super(const WeekScreenInitial([])) {
     on<NewEvents>(
       (event, emit) {
@@ -24,8 +25,10 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
     );
 
     _weekEventSubscription =
-        dataRepository.weekViewEventStream.listen((weekViewEvents) {
-      add(NewEvents(weekViewEvents));
+        ShimDataService.weekViewEvents.eventStream.listen((weekViewEvents) {
+      if (weekViewEvents.data != null) {
+        add(NewEvents(weekViewEvents.data!));
+      }
     });
   }
 
@@ -45,8 +48,8 @@ class WeekScreenBloc extends Bloc<WeekScreenEvent, WeekScreenState> {
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     _weekEventSubscription.cancel();
-    return super.close();
+    await super.close();
   }
 }

@@ -63,7 +63,7 @@ class _SubEndeavorsList extends StatelessWidget {
               .add(ReorderSubEndeavors(oldIndex, newIndex)),
           children: state.subEndeavorsInput.value.map((endeavorReference) {
             return Dismissible(
-              key: Key(endeavorReference.id),
+              key: Key(endeavorReference.id.toString()),
               child: ListTile(
                 title: Text(endeavorReference.title),
                 onTap: () {

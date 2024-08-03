@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:data_models/data_models.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class EndeavorBlockScreenBloc extends FormBloc<String, String> {
@@ -10,8 +10,8 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   InputFieldBloc<Event?, String> event;
   InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
-  final String? endeavorBlockId;
-  final String? repeatingEndeavorBlockId;
+  final int? endeavorBlockId;
+  final int? repeatingEndeavorBlockId;
 
   EndeavorBlockScreenBloc.create()
       : endeavorReference =
@@ -63,16 +63,15 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
 
   @override
   void onDeleting() {
-    ServerEndeavorBlockDataServiceExtension.deleteEndeavorBlock(
+    ShimDataService.endeavorBlocks.deleteEndeavorBlock(
       endeavorBlockId!,
     );
     emitDeleteSuccessful();
   }
 
   void onDeleteThisAndFollowing() {
-    AbstractRepeatingEndeavorBlockDataServiceExtension.deleteThisAndFollowing(
+    ShimDataService.endeavorBlocks.repeating.deleteThisAndFollowing(
       endeavorBlockId: endeavorBlockId!,
-      repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
     );
   }
 
@@ -84,8 +83,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
   }
 
   void onThisAndFollowing() {
-    AbstractRepeatingEndeavorBlockDataServiceExtension
-        .editThisAndFollowingEndeavorBlocks(
+    ShimDataService.endeavorBlocks.repeating.editThisAndFollowingEndeavorBlocks(
       endeavorBlockId: endeavorBlockId!,
       repeatingEndeavorBlockId: repeatingEndeavorBlockId!,
       unidentifiedEndeavorBlock: UnidentifiedEndeavorBlock(
@@ -102,7 +100,7 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
     if (state.isValid()) {
       if (editing) {
         // if you've gotten here, then you don't want to update repeating
-        ServerEndeavorBlockDataServiceExtension.updateEndeavorBlock(
+        ShimDataService.endeavorBlocks.updateEndeavorBlock(
           EndeavorBlock(
             id: endeavorBlockId!,
             event: event.value!,
@@ -112,15 +110,14 @@ class EndeavorBlockScreenBloc extends FormBloc<String, String> {
         );
       } else {
         if (state.contains(repeatingEvent)) {
-          AbstractRepeatingEndeavorBlockDataServiceExtension
-              .createRepeatingEndeavorBlock(
+          ShimDataService.endeavorBlocks.repeating.createRepeatingEndeavorBlock(
             UnidentifiedRepeatingEndeavorBlock(
               endeavorReference: endeavorReference.value!,
               repeatingEvent: repeatingEvent.value!,
             ),
           );
         } else {
-          ServerEndeavorBlockDataServiceExtension.createEndeavorBlock(
+          ShimDataService.endeavorBlocks.createEndeavorBlock(
             UnidentifiedEndeavorBlock(
               repeatingEndeavorBlockId: null,
               endeavorReference: endeavorReference.value!,

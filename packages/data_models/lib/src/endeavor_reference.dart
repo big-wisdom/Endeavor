@@ -16,7 +16,7 @@ class EndeavorReference extends Equatable {
   }
 
   final String title;
-  final String id;
+  final int id;
 
   EndeavorReference copyWithNewTitle({
     required String newEndeavorTitle,

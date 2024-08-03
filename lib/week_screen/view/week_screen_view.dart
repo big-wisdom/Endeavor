@@ -42,7 +42,7 @@ class WeekScreenView extends StatelessWidget {
                       description: '',
                       start: e.start,
                       end: e.end,
-                      onTap: () => _onTap(context, e.originalObject),
+                      onTap: () => _onTap(context, e),
                     ),
                   )
                   .toList(),
@@ -54,21 +54,44 @@ class WeekScreenView extends StatelessWidget {
     );
   }
 
-  void _onTap(BuildContext context, Object originalObject) {
+  void _onTap(BuildContext context, WeekViewEvent event) {
     MaterialPageRoute route;
-    if (originalObject is EndeavorBlock) {
+    if (event.isEndeavorBlock) {
       route = MaterialPageRoute(
-        builder: (context) => EndeavorBlockScreen.edit(originalObject),
+        builder: (context) => EndeavorBlockScreen.edit(
+          EndeavorBlock(
+            id: event.id,
+            event: Event(start: event.start, end: event.end),
+            endeavorReference: event.endeavorReference!,
+            repeatingEndeavorBlockId: event.repeatingEventId,
+          ),
+        ),
       );
-    } else if (originalObject is CalendarEvent) {
+    } else if (event.taskId != null) {
       route = MaterialPageRoute(
-        builder: (context) =>
-            CalendarEventScreen.edit(calendarEvent: originalObject),
+        builder: (context) => TaskScreen.edit(
+          const TaskReference(
+            id: 0,
+            endeavorId: 2,
+            title: "eli",
+          ),
+        ),
       );
     } else {
       route = MaterialPageRoute(
-          builder: (context) =>
-              TaskScreen.edit(originalObject as TaskReference));
+        builder: (context) => CalendarEventScreen.edit(
+          calendarEvent: CalendarEvent(
+            id: event.id,
+            title: event.title,
+            event: Event(
+              start: event.start,
+              end: event.end,
+            ),
+            endeavorReference: event.endeavorReference,
+            repeatingCalendarEventId: event.repeatingEventId,
+          ),
+        ),
+      );
     }
     Navigator.push(context, route);
   }

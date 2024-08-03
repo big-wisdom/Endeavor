@@ -1,3 +1,4 @@
+import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:endeavor/endeavors_screen/endeavors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,14 +12,17 @@ class EndeavorsScreenView extends StatelessWidget {
     final endeavorsScreenBloc = context.read<EndeavorsScreenBloc>();
     return BlocBuilder<EndeavorsScreenBloc, EndeavorsScreenState>(
       buildWhen: (previous, current) =>
-          previous.primaryEndeavors != current.primaryEndeavors,
+          previous.primaryEndeavors != current.primaryEndeavors &&
+          current.queryStatus ==
+              QueryStatus
+                  .success, // TODO: this is not an ideal solution. I should handle loading and error
       builder: (context, state) {
         return ReorderableListView(
           onReorder: (oldIndex, newIndex) =>
               endeavorsScreenBloc.add(ReorderEndeavors(oldIndex, newIndex)),
-          children: endeavorsScreenBloc.state.primaryEndeavors.map((endeavor) {
+          children: state.primaryEndeavors.map((endeavor) {
             return Dismissible(
-              key: Key(endeavor.id),
+              key: Key(endeavor.id.toString()),
               onDismissed: (direction) {
                 // delete the endeavor
                 endeavorsScreenBloc.add(DeleteEndeavor(endeavor));

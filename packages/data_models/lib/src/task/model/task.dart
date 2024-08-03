@@ -12,7 +12,7 @@ class Task extends AbstractTask {
     required super.divisible,
   });
 
-  final String id;
+  final int id;
 
   @override
   List<Object?> get props => super.props..add(id);

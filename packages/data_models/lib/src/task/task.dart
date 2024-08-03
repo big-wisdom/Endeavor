@@ -1,5 +1,3 @@
-export 'transformers/task_transformers.dart';
-
 export 'model/abstract_task.dart';
 export 'model/task.dart';
 export 'model/unidentified_task.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:data_models/data_models.dart';
-import 'package:data_service/data_service.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class CalendarEventScreenBloc extends FormBloc<String, String> {
@@ -11,8 +11,8 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final InputFieldBloc<Event?, String> event;
   final InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
   final bool editing;
-  final String? calendarEventId;
-  final String? initialRepeatingCalendarEventId;
+  final int? calendarEventId;
+  final int? initialRepeatingCalendarEventId;
 
   CalendarEventScreenBloc({CalendarEvent? initialEvent})
       : title = TextFieldBloc(initialValue: initialEvent?.title ?? ''),
@@ -58,24 +58,21 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
 
   @override
   FutureOr<void> onDeleting() {
-    ServerCalendarEventDataServiceExtension.deleteCalendarEvent(
+    ShimDataService.calendarEvents.deleteCalendarEvent(
       calendarEventId!,
-      initialRepeatingCalendarEventId,
     );
     emitDeleteSuccessful();
   }
 
   void onDeleteThisAndFollowing() {
-    RepeatingCalendarEventDataServiceExtension
+    ShimDataService.calendarEvents.repeating
         .deleteThisAndFollowingCalendarEvents(
-      repeatingCalendarEventId: initialRepeatingCalendarEventId!,
       selectedCalendarEventId: calendarEventId!,
     );
   }
 
   void onEditThisAndFollowing() {
-    RepeatingCalendarEventDataServiceExtension
-        .editThisAndFollowingCalendarEvent(
+    ShimDataService.calendarEvents.repeating.editThisAndFollowingCalendarEvent(
       calendarEvent: CalendarEvent(
         id: calendarEventId!,
         title: title.value,
@@ -89,7 +86,7 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   @override
   FutureOr<void> onSubmitting() {
     if (editing) {
-      ServerCalendarEventDataServiceExtension.updateCalendarEvent(CalendarEvent(
+      ShimDataService.calendarEvents.updateCalendarEvent(CalendarEvent(
         id: calendarEventId!,
         title: title.value,
         event: event.value!,
@@ -98,14 +95,14 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
       ));
     } else {
       if (state.contains(repeatingEvent)) {
-        RepeatingCalendarEventDataServiceExtension.createRepeatingCalendarEvent(
-            UnidentifiedRepeatingCalendarEvent(
+        ShimDataService.calendarEvents.repeating
+            .createRepeatingCalendarEvent(UnidentifiedRepeatingCalendarEvent(
           title: title.value,
           repeatingEvent: repeatingEvent.value!,
           endeavorReference: endeavorReference.value,
         ));
       } else {
-        ServerCalendarEventDataServiceExtension.createCalendarEvent(
+        ShimDataService.calendarEvents.createCalendarEvent(
           UnidentifiedCalendarEvent(
             title: title.value,
             event: event.value!,

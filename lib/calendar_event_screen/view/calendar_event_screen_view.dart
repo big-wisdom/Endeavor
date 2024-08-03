@@ -185,7 +185,7 @@ class _DeleteButton extends StatelessWidget {
           return () => showDialog(
                 context: context,
                 builder: (ctx) => ThisAndFollowingDialogue(
-                  onThisOnly: bloc.submit,
+                  onThisOnly: bloc.delete,
                   onThisAndFollowing: bloc.onDeleteThisAndFollowing,
                   action: "delete",
                   type: "Calendar Event",

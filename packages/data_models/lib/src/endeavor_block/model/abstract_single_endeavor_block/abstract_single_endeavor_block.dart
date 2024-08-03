@@ -1,7 +1,7 @@
 import 'package:data_models/data_models.dart';
 
 abstract class AbstractSingleEndeavorBlock extends AbstractEndeavorBlock {
-  final String? repeatingEndeavorBlockId;
+  final int? repeatingEndeavorBlockId;
   final Event event;
 
   AbstractSingleEndeavorBlock({
