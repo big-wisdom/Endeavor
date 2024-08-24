@@ -41,6 +41,14 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
           ),
         );
         break;
+      case NavbarItem.schedules:
+        emit(
+          const PlanningScreenState(
+            navbarItem: NavbarItem.schedules,
+            index: 3,
+          ),
+        );
+        break;
     }
   }
 
@@ -56,5 +64,9 @@ class PlanningScreenCubit extends Cubit<PlanningScreenState> {
 
   void addPrimaryEndeavor(String title) {
     ShimDataService.endeavors.createPrimaryEndeavor(title);
+  }
+
+  void addSchedule(String title) {
+    ShimDataService.schedules.createSchedule(title);
   }
 }

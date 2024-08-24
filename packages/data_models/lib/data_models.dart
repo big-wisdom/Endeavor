@@ -8,3 +8,4 @@ export 'src/scheduled/scheduled.dart';
 export 'src/endeavor_block/endeavor_block.dart';
 export 'src/task/task.dart';
 export 'src/tree_of_life/tree_of_life.dart';
+export 'src/schedule/schedules.dart';

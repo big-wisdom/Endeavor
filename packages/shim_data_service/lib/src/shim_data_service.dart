@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 import 'package:shim_data_service/src/endeavor/endeavor_data_service.dart';
+import 'package:shim_data_service/src/schedule/schedule_data_service.dart';
 import 'package:shim_data_service/src/week_view_event/week_view_event_service.dart';
 import './tasks/tasks_data_service.dart';
 import './calendar_event/calendar_event_data_service.dart';
@@ -18,4 +19,5 @@ class ShimDataService {
   static CalendarEventDataService calendarEvents = CalendarEventDataService();
   static EndeavorDataService endeavors = EndeavorDataService();
   static WeekViewEventDataService weekViewEvents = WeekViewEventDataService();
+  static ScheduleDataService schedules = ScheduleDataService();
 }

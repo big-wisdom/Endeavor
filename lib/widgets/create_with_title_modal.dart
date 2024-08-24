@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CreateEndeavorModal extends StatelessWidget {
-  const CreateEndeavorModal({required this.onAdd, super.key});
+class CreateWithTitleModal extends StatelessWidget {
+  const CreateWithTitleModal({required this.onAdd, super.key});
 
   final Function(String) onAdd;
 

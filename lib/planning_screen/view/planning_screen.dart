@@ -2,9 +2,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:endeavor/calendar_screen/calendar_screen.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_dropdown.dart';
 import 'package:endeavor/planning_screen/view/calendar_view_plus_dialogue.dart';
+import 'package:endeavor/schedules_screen/schedules_screen.dart';
 import 'package:endeavor/task_screen/view/task_screen.dart';
 import 'package:endeavor/tasks_screen/tasks_screen.dart';
-import 'package:endeavor/widgets/create_endeavor_modal.dart';
+import 'package:endeavor/widgets/create_with_title_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:endeavor/planning_screen/planning_screen.dart';
@@ -51,6 +52,8 @@ class PlanningScreenView extends StatelessWidget {
               return const TasksScreen();
             } else if (state.navbarItem == NavbarItem.calendar) {
               return const CalendarScreen();
+            } else if (state.navbarItem == NavbarItem.schedules) {
+              return const SchedulesScreen();
             }
             return Container();
           }(),
@@ -63,7 +66,7 @@ class PlanningScreenView extends StatelessWidget {
                 case NavbarItem.endeavors:
                   showModalBottomSheet(
                     context: context,
-                    builder: (modalContext) => CreateEndeavorModal(
+                    builder: (modalContext) => CreateWithTitleModal(
                       onAdd: (title) => context
                           .read<PlanningScreenCubit>()
                           .addPrimaryEndeavor(title),
@@ -85,6 +88,14 @@ class PlanningScreenView extends StatelessWidget {
                     },
                   );
                   break;
+                case NavbarItem.schedules:
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (modalContext) => CreateWithTitleModal(
+                        onAdd: (title) => context
+                            .read<PlanningScreenCubit>()
+                            .addSchedule(title)),
+                  );
               }
             },
           ),
@@ -102,6 +113,7 @@ class _BottomNavBar extends StatelessWidget {
           previous.navbarItem != current.navbarItem,
       builder: (context, state) {
         return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: state.index,
           items: const [
             BottomNavigationBarItem(
@@ -109,6 +121,12 @@ class _BottomNavBar extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: "Tasks"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_month), label: "Calendar"),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.schedule,
+              ),
+              label: "Schedules",
+            ),
           ],
           onTap: (index) {
             switch (index) {
@@ -127,6 +145,10 @@ class _BottomNavBar extends StatelessWidget {
                     .read<PlanningScreenCubit>()
                     .getNavBarItem(NavbarItem.calendar);
                 break;
+              case 3:
+                context
+                    .read<PlanningScreenCubit>()
+                    .getNavBarItem(NavbarItem.schedules);
             }
           },
         );

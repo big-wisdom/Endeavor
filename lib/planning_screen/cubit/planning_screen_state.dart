@@ -4,6 +4,7 @@ enum NavbarItem {
   endeavors,
   tasks,
   calendar,
+  schedules,
 }
 
 class PlanningScreenState extends Equatable {

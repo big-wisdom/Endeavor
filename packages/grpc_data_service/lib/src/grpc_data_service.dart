@@ -4,6 +4,7 @@ import 'package:grpc_data_service/src/endeavor/endeavors_data_service.dart';
 import 'package:grpc_data_service/src/endeavor_blocks/endeavor_blocks_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 import 'package:grpc_data_service/src/auth_interceptor.dart';
+import 'package:grpc_data_service/src/schedule/schedule_data_service.dart';
 import 'package:grpc_data_service/src/tasks/tasks_data_service.dart';
 import './calendar_event/calendar_event_data_service.dart';
 
@@ -40,5 +41,6 @@ class GRPCDataService {
     endeavorBlocks = EndeavorBlocksDataService(client, user.id);
     endeavors = EndeavorsDataService(client, user.id);
     tasks = TasksDataService(client, user.id);
+    schedules = ScheduleDataService(client, user.id);
   }
 }

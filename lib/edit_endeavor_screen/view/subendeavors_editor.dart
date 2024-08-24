@@ -1,5 +1,5 @@
 import 'package:endeavor/edit_endeavor_screen/edit_endeavor_screen.dart';
-import 'package:endeavor/widgets/create_endeavor_modal.dart';
+import 'package:endeavor/widgets/create_with_title_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +29,7 @@ class SubEndeavorsEditor extends StatelessWidget {
                   showModalBottomSheet(
                     context: context,
                     builder: (newContext) {
-                      return CreateEndeavorModal(
+                      return CreateWithTitleModal(
                         onAdd: (newEndeavorTitle) => editEndeavorBloc.add(
                           CreateSubEndeavorRequested(newEndeavorTitle),
                         ),

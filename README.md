@@ -83,19 +83,17 @@ Back End: Firebase
 * Schedules
   * Plan (~40 tasks)
     * Prepare Existing Code
-      * Refactor current repeating events with GetRepeatingEvents(re RepeatingEvent, start Date, end Date) []*Event
-        * Created function to get events
-      * Refactor go database code to create repeating event differently with seperate calls within a transaction
-        * Refactor database go code to add row to repeatingEvents as a seperate call to the DB (possibly in a stored procedure)
-        * Refactor database go code to apply list of events (possibly adding or adjusting stored procedure)
-      * Adjust repeating event front end data type to include possibility of every _ [day] of each month
-      * Adjust repeating event editor to include possibility of every _ [day] of each picker
-      * Adjust GetRepeatingEvents to calculate events for _ [day] of each month
+      * DONE Refactor current repeating events with GetRepeatingEvents(re RepeatingEvent, start Date, end Date) []*Event
+        * DONE Created function to get events
+        * DONE Refactor go database code to create repeating event differently with seperate calls within a transaction
     * Start with schedules proper
       * Simple schedule creation and deletion
-        * Create Schedule DB table
-        * Create Schedule Endpoint
+        * DONE Create Schedule DB table
+        * DONE Create Schedule Endpoint
         * Create Schedule UI
+          * Add a tab to the bottom bar
+          * Add page
+          * Add plus handler that launches bottom modal like endeavors that calls create
         * Delete Schedule Endpoint
         * Delete Schedule UI
       * Add Repeating Event to Schedule
@@ -130,6 +128,10 @@ Back End: Firebase
           * Make schedules list endpoint heirarchical
           * Make schedules page hierarchical
 
+  * Not doing now
+    * Adjust repeating event front end data type to include possibility of every _ [day] of each month
+    * Adjust repeating event editor to include possibility of every _ [day] of each picker
+    * Adjust GetRepeatingEvents to calculate events for _ [day] of each month
   ----------------- HERE'S MY THINKING -----------------
   * I'm also wondering if I should update to have more complicated repeating events
     * On _ [day] of each month (on 3rd sunday of each month)

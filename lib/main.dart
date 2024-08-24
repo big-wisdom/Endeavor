@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 // import 'package:cloud_functions/cloud_functions.dart';
 import 'package:endeavor/firebase_options.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:endeavor/app/app.dart';
@@ -53,7 +53,7 @@ void main() async {
   );
   // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
   // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8081);
-  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
