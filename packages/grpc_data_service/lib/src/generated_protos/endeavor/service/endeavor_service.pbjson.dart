@@ -13,6 +13,20 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use createScheduleRequestDescriptor instead')
+const CreateScheduleRequest$json = {
+  '1': 'CreateScheduleRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+    {'1': 'title', '3': 2, '4': 1, '5': 9, '10': 'title'},
+  ],
+};
+
+/// Descriptor for `CreateScheduleRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createScheduleRequestDescriptor = $convert.base64Decode(
+    'ChVDcmVhdGVTY2hlZHVsZVJlcXVlc3QSFgoGdXNlcklkGAEgASgJUgZ1c2VySWQSFAoFdGl0bG'
+    'UYAiABKAlSBXRpdGxl');
+
 @$core.Deprecated('Use addEventToTaskRequestDescriptor instead')
 const AddEventToTaskRequest$json = {
   '1': 'AddEventToTaskRequest',
