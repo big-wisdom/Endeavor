@@ -19,6 +19,7 @@ class GRPCDataService {
   late EndeavorBlocksDataService endeavorBlocks;
   late EndeavorsDataService endeavors;
   late TasksDataService tasks;
+  late ScheduleDataService schedules;
 
   // String _baseUrl = "localhost";
   // int _port = 8080;
