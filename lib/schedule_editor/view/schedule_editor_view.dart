@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
 
 import '../../calendar_event_screen/view/calendar_event_screen.dart';
+import 'schedule_editor_plus_dialogue.dart';
 
 class ScheduleEditorView extends StatelessWidget {
   const ScheduleEditorView({super.key});
@@ -34,6 +35,13 @@ class ScheduleEditorView extends StatelessWidget {
               style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
             );
           },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => const ScheduleEditorPlusDialogue(),
         ),
       ),
     );
