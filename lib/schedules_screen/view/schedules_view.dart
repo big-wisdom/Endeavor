@@ -1,4 +1,5 @@
 import 'package:data_models/data_models.dart';
+import 'package:endeavor/schedule_screen/schedule_screen.dart';
 
 import '../cubit/schedules_cubit.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,11 @@ class _SchedulesList extends StatelessWidget {
             key: Key(schedule.id.toString()),
             child: ListTile(
               title: Text(schedule.title),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ScheduleScreen(schedule: schedule),
+                ),
+              ),
             ),
             onDismissed: (_) =>
                 context.read<SchedulesCubit>().deleteSchedule(schedule),
