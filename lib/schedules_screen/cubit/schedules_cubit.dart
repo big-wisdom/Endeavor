@@ -28,6 +28,10 @@ class SchedulesCubit extends Cubit<SchedulesState> {
     });
   }
 
+  void deleteSchedule(Schedule schedule) {
+    ShimDataService.schedules.delete(schedule.id);
+  }
+
   @override
   Future<void> close() {
     _streamSubscription.cancel();

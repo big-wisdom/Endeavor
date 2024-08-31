@@ -87,16 +87,7 @@ Back End: Firebase
         * DONE Created function to get events
         * DONE Refactor go database code to create repeating event differently with seperate calls within a transaction
     * Start with schedules proper
-      * Simple schedule creation and deletion
-        * DONE Create Schedule DB table
-        * DONE Create Schedule Endpoint
-        * DONE Create Schedule UI
-        * DONE Delete Schedule Endpoint
-        * DONE List Schedules Endpoint
-        * Create ListSchedules query
-        * Make Creation mutation
-        * Make Deletion mutation
-        * Make Delete Schedule UI
+      * DONE Simple schedule creation and deletion
       * Add Repeating Event to Schedule
         * Adjust repeatingEvents table to include scheduleId
         * Create simple add repeating event to schedule endpoint that doesn't account for existing scheduled schedules

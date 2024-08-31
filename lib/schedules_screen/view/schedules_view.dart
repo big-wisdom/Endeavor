@@ -37,8 +37,13 @@ class _SchedulesList extends StatelessWidget {
     return ListView(
       children: schedules.map(
         (schedule) {
-          return ListTile(
-            title: Text(schedule.title),
+          return Dismissible(
+            key: Key(schedule.id.toString()),
+            child: ListTile(
+              title: Text(schedule.title),
+            ),
+            onDismissed: (_) =>
+                context.read<SchedulesCubit>().deleteSchedule(schedule),
           );
         },
       ).toList(),
