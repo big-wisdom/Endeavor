@@ -90,12 +90,13 @@ Back End: Firebase
       * Simple schedule creation and deletion
         * DONE Create Schedule DB table
         * DONE Create Schedule Endpoint
-        * Create Schedule UI
-          * Add a tab to the bottom bar
-          * Add page
-          * Add plus handler that launches bottom modal like endeavors that calls create
-        * Delete Schedule Endpoint
-        * Delete Schedule UI
+        * DONE Create Schedule UI
+        * DONE Delete Schedule Endpoint
+        * DONE List Schedules Endpoint
+        * Create ListSchedules query
+        * Make Creation mutation
+        * Make Deletion mutation
+        * Make Delete Schedule UI
       * Add Repeating Event to Schedule
         * Adjust repeatingEvents table to include scheduleId
         * Create simple add repeating event to schedule endpoint that doesn't account for existing scheduled schedules

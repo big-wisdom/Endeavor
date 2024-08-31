@@ -27,6 +27,44 @@ final $typed_data.Uint8List createScheduleRequestDescriptor = $convert.base64Dec
     'ChVDcmVhdGVTY2hlZHVsZVJlcXVlc3QSFgoGdXNlcklkGAEgASgJUgZ1c2VySWQSFAoFdGl0bG'
     'UYAiABKAlSBXRpdGxl');
 
+@$core.Deprecated('Use listSchedulesRequestDescriptor instead')
+const ListSchedulesRequest$json = {
+  '1': 'ListSchedulesRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+  ],
+};
+
+/// Descriptor for `ListSchedulesRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listSchedulesRequestDescriptor = $convert.base64Decode(
+    'ChRMaXN0U2NoZWR1bGVzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
+
+@$core.Deprecated('Use listSchedulesResponseDescriptor instead')
+const ListSchedulesResponse$json = {
+  '1': 'ListSchedulesResponse',
+  '2': [
+    {'1': 'schedules', '3': 1, '4': 3, '5': 11, '6': '.common_models.Schedule', '10': 'schedules'},
+  ],
+};
+
+/// Descriptor for `ListSchedulesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listSchedulesResponseDescriptor = $convert.base64Decode(
+    'ChVMaXN0U2NoZWR1bGVzUmVzcG9uc2USNQoJc2NoZWR1bGVzGAEgAygLMhcuY29tbW9uX21vZG'
+    'Vscy5TY2hlZHVsZVIJc2NoZWR1bGVz');
+
+@$core.Deprecated('Use deleteScheduleRequestDescriptor instead')
+const DeleteScheduleRequest$json = {
+  '1': 'DeleteScheduleRequest',
+  '2': [
+    {'1': 'scheduleId', '3': 1, '4': 1, '5': 5, '10': 'scheduleId'},
+  ],
+};
+
+/// Descriptor for `DeleteScheduleRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deleteScheduleRequestDescriptor = $convert.base64Decode(
+    'ChVEZWxldGVTY2hlZHVsZVJlcXVlc3QSHgoKc2NoZWR1bGVJZBgBIAEoBVIKc2NoZWR1bGVJZA'
+    '==');
+
 @$core.Deprecated('Use addEventToTaskRequestDescriptor instead')
 const AddEventToTaskRequest$json = {
   '1': 'AddEventToTaskRequest',
