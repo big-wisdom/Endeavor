@@ -90,7 +90,11 @@ Back End: Firebase
       * DONE Simple schedule creation and deletion
       * Add Repeating Event to Schedule
         * DONE Create Basic Edit Schedule Page
+        * Create a ListRepeatingEvent endpoint so that I can populate the edit page
+        * Create a query for RepeatingEvents
+        * Create an invididual getter based on that query
         * Create Basic Editor Calendar Page that doesn't get data it only has a plus button that launches a repeating event creation screen that can call the add repeating event to schedule endpoint I'll create next
+          * This will also involve populating the repeatingEvent and repeatingEndeavorBlock editor screens with the repeating event. Something I've never had to do, and endpoints I've never created.
         * Adjust repeatingEvents table to include scheduleId
         * Create simple add repeating event to schedule endpoint that doesn't account for existing scheduled schedules
         * GetEditorCalendarEvents Endpoint which gets hypothetical events for the editor calendar based off the scheduleId and the repeatingEvents added to it

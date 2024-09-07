@@ -13,6 +13,31 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
+@$core.Deprecated('Use listRepeatingEventsRequestDescriptor instead')
+const ListRepeatingEventsRequest$json = {
+  '1': 'ListRepeatingEventsRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
+  ],
+};
+
+/// Descriptor for `ListRepeatingEventsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listRepeatingEventsRequestDescriptor = $convert.base64Decode(
+    'ChpMaXN0UmVwZWF0aW5nRXZlbnRzUmVxdWVzdBIWCgZ1c2VySWQYASABKAlSBnVzZXJJZA==');
+
+@$core.Deprecated('Use listRepeatingEventsResponseDescriptor instead')
+const ListRepeatingEventsResponse$json = {
+  '1': 'ListRepeatingEventsResponse',
+  '2': [
+    {'1': 'repeatingEvents', '3': 1, '4': 3, '5': 11, '6': '.common_models.RepeatingEvent', '10': 'repeatingEvents'},
+  ],
+};
+
+/// Descriptor for `ListRepeatingEventsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List listRepeatingEventsResponseDescriptor = $convert.base64Decode(
+    'ChtMaXN0UmVwZWF0aW5nRXZlbnRzUmVzcG9uc2USRwoPcmVwZWF0aW5nRXZlbnRzGAEgAygLMh'
+    '0uY29tbW9uX21vZGVscy5SZXBlYXRpbmdFdmVudFIPcmVwZWF0aW5nRXZlbnRz');
+
 @$core.Deprecated('Use createScheduleRequestDescriptor instead')
 const CreateScheduleRequest$json = {
   '1': 'CreateScheduleRequest',

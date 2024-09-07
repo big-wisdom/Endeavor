@@ -54,6 +54,10 @@ class EndeavorClient extends $grpc.Client {
       '/endeavor.service.Endeavor/DeleteEvent',
       ($0.DeleteEventRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
+  static final _$listRepeatingEvents = $grpc.ClientMethod<$0.ListRepeatingEventsRequest, $0.ListRepeatingEventsResponse>(
+      '/endeavor.service.Endeavor/ListRepeatingEvents',
+      ($0.ListRepeatingEventsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.ListRepeatingEventsResponse.fromBuffer(value));
   static final _$createRepeatingEvent = $grpc.ClientMethod<$0.CreateRepeatingEventRequest, $1.Empty>(
       '/endeavor.service.Endeavor/CreateRepeatingEvent',
       ($0.CreateRepeatingEventRequest value) => value.writeToBuffer(),
@@ -143,6 +147,10 @@ class EndeavorClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$1.Empty> deleteEvent($0.DeleteEventRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$deleteEvent, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ListRepeatingEventsResponse> listRepeatingEvents($0.ListRepeatingEventsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$listRepeatingEvents, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Empty> createRepeatingEvent($0.CreateRepeatingEventRequest request, {$grpc.CallOptions? options}) {
@@ -259,6 +267,13 @@ abstract class EndeavorServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.DeleteEventRequest.fromBuffer(value),
         ($1.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListRepeatingEventsRequest, $0.ListRepeatingEventsResponse>(
+        'ListRepeatingEvents',
+        listRepeatingEvents_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.ListRepeatingEventsRequest.fromBuffer(value),
+        ($0.ListRepeatingEventsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.CreateRepeatingEventRequest, $1.Empty>(
         'CreateRepeatingEvent',
         createRepeatingEvent_Pre,
@@ -384,6 +399,10 @@ abstract class EndeavorServiceBase extends $grpc.Service {
     return deleteEvent(call, await request);
   }
 
+  $async.Future<$0.ListRepeatingEventsResponse> listRepeatingEvents_Pre($grpc.ServiceCall call, $async.Future<$0.ListRepeatingEventsRequest> request) async {
+    return listRepeatingEvents(call, await request);
+  }
+
   $async.Future<$1.Empty> createRepeatingEvent_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRepeatingEventRequest> request) async {
     return createRepeatingEvent(call, await request);
   }
@@ -444,6 +463,7 @@ abstract class EndeavorServiceBase extends $grpc.Service {
   $async.Future<$0.CreateEventResponse> createEvent($grpc.ServiceCall call, $0.CreateEventRequest request);
   $async.Future<$1.Empty> updateEvent($grpc.ServiceCall call, $0.UpdateEventRequest request);
   $async.Future<$1.Empty> deleteEvent($grpc.ServiceCall call, $0.DeleteEventRequest request);
+  $async.Future<$0.ListRepeatingEventsResponse> listRepeatingEvents($grpc.ServiceCall call, $0.ListRepeatingEventsRequest request);
   $async.Future<$1.Empty> createRepeatingEvent($grpc.ServiceCall call, $0.CreateRepeatingEventRequest request);
   $async.Future<$1.Empty> editRepeatingEvent($grpc.ServiceCall call, $0.EditRepeatingEventRequest request);
   $async.Future<$1.Empty> editThisAndFollowingEvents($grpc.ServiceCall call, $0.EditThisAndFollowingEventsRequest request);
