@@ -4,6 +4,7 @@ import 'package:grpc_data_service/src/endeavor/endeavors_data_service.dart';
 import 'package:grpc_data_service/src/endeavor_blocks/endeavor_blocks_data_service.dart';
 import 'package:grpc_data_service/src/generated_protos/endeavor/service/endeavor_service.pbgrpc.dart';
 import 'package:grpc_data_service/src/auth_interceptor.dart';
+import 'package:grpc_data_service/src/repeating_event/repeating_event_data_service.dart';
 import 'package:grpc_data_service/src/schedule/schedule_data_service.dart';
 import 'package:grpc_data_service/src/tasks/tasks_data_service.dart';
 import './calendar_event/calendar_event_data_service.dart';
@@ -17,6 +18,7 @@ class GRPCDataService {
   static GRPCDataService instance = GRPCDataService._internal(); // init once
 
   late CalendarEventDataService calendarEvents;
+  late RepeatingCalendarEventDataService repeatingCalendarEvents;
   late EndeavorBlocksDataService endeavorBlocks;
   late EndeavorsDataService endeavors;
   late TasksDataService tasks;
@@ -38,6 +40,8 @@ class GRPCDataService {
       interceptors: [AuthInterceptor(user.accessToken)],
     );
     calendarEvents = CalendarEventDataService(client, user.id);
+    repeatingCalendarEvents =
+        RepeatingCalendarEventDataService(client, user.id);
     endeavorBlocks = EndeavorBlocksDataService(client, user.id);
     endeavors = EndeavorsDataService(client, user.id);
     tasks = TasksDataService(client, user.id);

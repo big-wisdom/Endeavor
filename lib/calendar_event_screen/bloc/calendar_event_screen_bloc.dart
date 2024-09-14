@@ -14,6 +14,21 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final int? calendarEventId;
   final int? initialRepeatingCalendarEventId;
 
+  CalendarEventScreenBloc.repeatingOnly(RepeatingCalendarEvent? rce)
+      : title = TextFieldBloc(initialValue: rce?.title ?? ''),
+        endeavorReference =
+            InputFieldBloc(initialValue: rce?.endeavorReference),
+        repeating = BooleanFieldBloc(name: "Repeating", initialValue: true),
+        event =
+            InputFieldBloc<Event, String>(initialValue: Event.generic(null)),
+        repeatingEvent = InputFieldBloc<RepeatingEvent?, String>(
+            initialValue: rce?.repeatingEvent),
+        editing = rce != null,
+        calendarEventId = null,
+        initialRepeatingCalendarEventId = rce?.id {
+    // TODO
+  }
+
   CalendarEventScreenBloc({CalendarEvent? initialEvent})
       : title = TextFieldBloc(initialValue: initialEvent?.title ?? ''),
         endeavorReference = InputFieldBloc<EndeavorReference?, dynamic>(

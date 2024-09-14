@@ -80,6 +80,10 @@ Back End: Firebase
   * I then got it to send a user token to the Cloud Run service to authenticate all requests. So now I know I have encrypted network traffic, and I have authenticated endpoints with a central identity provider project. WOO HOO!
 =======
 ----------------- HERE'S MY PLAN -----------------
+
+* Make the CalendarEventScreen handle a .repeatingOnly(RepeatingCalendarEvent? rce) constructor in create mode
+  * 
+
 * Schedules
   * Plan (~40 tasks)
     * Prepare Existing Code
@@ -90,19 +94,23 @@ Back End: Firebase
       * DONE Simple schedule creation and deletion
       * Add Repeating Event to Schedule
         * DONE Create Basic Edit Schedule Page
-        * Create a ListRepeatingEvent endpoint so that I can populate the edit page
-        * Create a query for RepeatingEvents
-        * Create an invididual getter based on that query
-        * Create Basic Editor Calendar Page that doesn't get data it only has a plus button that launches a repeating event creation screen that can call the add repeating event to schedule endpoint I'll create next
-          * This will also involve populating the repeatingEvent and repeatingEndeavorBlock editor screens with the repeating event. Something I've never had to do, and endpoints I've never created.
+        * These two were probably a waste of time. I'm not going to bother undoing them because who knows
+          * DONE Create a ListRepeatingEvent endpoint so that I can populate the edit page
+          * DONE Create a query for RepeatingCalendarEvents
+        --------------
+        * Make the CalendarEventScreen handle a .repeatingOnly(RepeatingCalendarEvent? rce) constructor in create mode
+        --------------
         * Adjust repeatingEvents table to include scheduleId
         * Create simple add repeating event to schedule endpoint that doesn't account for existing scheduled schedules
-        * GetEditorCalendarEvents Endpoint which gets hypothetical events for the editor calendar based off the scheduleId and the repeatingEvents added to it
+      * Show the repeating event in the editor
+        * Make ListSchedules endpoint
+        * GetEditorCalendarEvents Endpoint which gets hypothetical events for the editor calendar based off the scheduleId
+      * Edit the repeating event from the editor
+        * Make the CalendarEventScreen.repeatingOnly(RepeatingCalendarEvent? rce) constructor handle non-null rce
         * Edit RepeatingCalendarEvent endpoint
-        * Edit repeatingCalendarEvent within schedule in UI
-        * Delete RepeatingCalendarEvents endpoint
+      * Delete repeatingCalendarEvent
+        * Delete RepeatingCalendarEvent endpoint
         * Delete within UI
-        * Adjust ListSchedules to calculate the amount of time spent on each endeavor per week in the schedule object
       * Schedule Schedule
         * Create SceduleSchedule DB Table
         * Create Simple ScheduleSchedule endpoint to add schedule schedule to the schedule, no need to add the events just yet, just warn the UI if a range of another schedule will be overwritten. Possibly add a confirm field. If the endpoint is called with a confirm field false, and there are no conflicts, then go through with it. If there is a conflict, return conflict details. If it's called with confirm, then overwrite.

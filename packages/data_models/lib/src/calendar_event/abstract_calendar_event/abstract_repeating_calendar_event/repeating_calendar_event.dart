@@ -8,7 +8,7 @@ class RepeatingCalendarEvent extends AbstractRepeatingCalendarEvent {
     super.endeavorReference,
   });
 
-  final String id;
+  final int id;
 
   @override
   List<Object?> get props => [
