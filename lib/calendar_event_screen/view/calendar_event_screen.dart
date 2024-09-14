@@ -7,17 +7,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CalendarEventScreen extends StatelessWidget {
   final CalendarEvent? calendarEvent;
 
+  final bool repeatingOnly;
+  final RepeatingCalendarEvent? repeatingCalendarEvent;
+
   const CalendarEventScreen.edit({
     required CalendarEvent this.calendarEvent,
     super.key,
-  });
+  })  : repeatingCalendarEvent = null,
+        repeatingOnly = false;
 
-  const CalendarEventScreen.create({super.key}) : calendarEvent = null;
+  const CalendarEventScreen.create({super.key})
+      : calendarEvent = null,
+        repeatingCalendarEvent = null,
+        repeatingOnly = false;
+
+  const CalendarEventScreen.repeatingOnly({
+    required this.repeatingCalendarEvent,
+    super.key,
+  })  : calendarEvent = null,
+        repeatingOnly = true;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CalendarEventScreenBloc(initialEvent: calendarEvent),
+      create: (context) => repeatingOnly
+          ? CalendarEventScreenBloc.repeatingOnly(
+              repeatingCalendarEvent,
+            )
+          : CalendarEventScreenBloc(initialEvent: calendarEvent),
       child: const CalendarEventScreenView(),
     );
   }

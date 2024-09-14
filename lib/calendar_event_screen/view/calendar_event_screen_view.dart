@@ -29,7 +29,7 @@ class CalendarEventScreenView extends StatelessWidget {
                 children: [
                   _TitleField(bloc),
                   _EndeavorPickerRow(bloc),
-                  _RepeatingCheckbox(bloc),
+                  if (!bloc.repeatingOnly) _RepeatingCheckbox(bloc),
                   _OneTimeEventPicker(bloc),
 
                   _RepeatingEventPicker(bloc),

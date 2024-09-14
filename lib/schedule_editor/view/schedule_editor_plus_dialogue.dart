@@ -33,7 +33,9 @@ class ScheduleEditorPlusDialogue extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const CalendarEventScreen.create();
+                    return const CalendarEventScreen.repeatingOnly(
+                      repeatingCalendarEvent: null,
+                    );
                   }),
                 );
               },

@@ -1,32 +1,53 @@
 import 'dart:async';
 
 import 'package:data_models/data_models.dart';
+import 'package:date_and_time_utilities/date_and_time_utilities.dart';
+import 'package:flutter/material.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class CalendarEventScreenBloc extends FormBloc<String, String> {
+  // Field blocs
   final TextFieldBloc title;
   final InputFieldBloc<EndeavorReference?, dynamic> endeavorReference;
   final BooleanFieldBloc repeating;
   final InputFieldBloc<Event?, String> event;
   final InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
+
+  // variables
   final bool editing;
+  final bool repeatingOnly;
+  // have to save these IDs here because the data models for events don't have ID's
   final int? calendarEventId;
   final int? initialRepeatingCalendarEventId;
 
   CalendarEventScreenBloc.repeatingOnly(RepeatingCalendarEvent? rce)
-      : title = TextFieldBloc(initialValue: rce?.title ?? ''),
+      : repeatingOnly = true,
+        title = TextFieldBloc(initialValue: rce?.title ?? ''),
         endeavorReference =
             InputFieldBloc(initialValue: rce?.endeavorReference),
         repeating = BooleanFieldBloc(name: "Repeating", initialValue: true),
         event =
             InputFieldBloc<Event, String>(initialValue: Event.generic(null)),
         repeatingEvent = InputFieldBloc<RepeatingEvent?, String>(
-            initialValue: rce?.repeatingEvent),
+          initialValue: rce?.repeatingEvent ??
+              RepeatingEvent(
+                startDate: DateTime.now(),
+                endDate: DateTime.now().add(const Duration(days: 7)),
+                startTime: TimeOfDay.now(),
+                endTime: TimeOfDay.now().add(const Duration(hours: 1)),
+              ),
+        ),
         editing = rce != null,
         calendarEventId = null,
         initialRepeatingCalendarEventId = rce?.id {
-    // TODO
+    addFieldBlocs(fieldBlocs: [
+      title,
+      endeavorReference,
+      repeatingEvent,
+    ]);
+    title.addValidators([_titleValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
   }
 
   CalendarEventScreenBloc({CalendarEvent? initialEvent})
@@ -41,7 +62,8 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
         editing = initialEvent != null,
         calendarEventId = initialEvent?.id,
         initialRepeatingCalendarEventId =
-            initialEvent?.repeatingCalendarEventId {
+            initialEvent?.repeatingCalendarEventId,
+        repeatingOnly = false {
     repeating.onValueChanges(onData: ((previous, current) async* {
       if (current.value) {
         addFieldBlocs(fieldBlocs: [repeatingEvent]);
