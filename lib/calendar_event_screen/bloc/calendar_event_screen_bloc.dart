@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:data_models/data_models.dart';
 import 'package:date_and_time_utilities/date_and_time_utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:shim_data_service/shim_data_service.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class CalendarEventScreenBloc extends FormBloc<String, String> {
@@ -14,33 +13,42 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final InputFieldBloc<Event?, String> event;
   final InputFieldBloc<RepeatingEvent?, String> repeatingEvent;
 
+  // handlers
+  final void Function(UnidentifiedRepeatingCalendarEvent)?
+      onSaveRepeatingCalendarEvent;
+  final void Function(UnidentifiedCalendarEvent)? onSaveCalendarEvent;
+
+  final void Function(UnidentifiedCalendarEvent)? _onEditThisAndFollowing;
+  final void Function()? _onDeleteThisAndFollowing;
+
+  final void Function()? onDelete;
+
   // variables
   final bool editing;
   final bool repeatingOnly;
-  // have to save these IDs here because the data models for events don't have ID's
-  final int? calendarEventId;
-  final int? initialRepeatingCalendarEventId;
 
-  CalendarEventScreenBloc.repeatingOnly(RepeatingCalendarEvent? rce)
-      : repeatingOnly = true,
-        title = TextFieldBloc(initialValue: rce?.title ?? ''),
-        endeavorReference =
-            InputFieldBloc(initialValue: rce?.endeavorReference),
+  CalendarEventScreenBloc.createRepeatingOnly({
+    required void Function(UnidentifiedRepeatingCalendarEvent) onSave,
+  })  : repeatingOnly = true,
+        title = TextFieldBloc(initialValue: ''),
+        endeavorReference = InputFieldBloc(initialValue: null),
         repeating = BooleanFieldBloc(name: "Repeating", initialValue: true),
         event =
             InputFieldBloc<Event, String>(initialValue: Event.generic(null)),
         repeatingEvent = InputFieldBloc<RepeatingEvent?, String>(
-          initialValue: rce?.repeatingEvent ??
-              RepeatingEvent(
-                startDate: DateTime.now(),
-                endDate: DateTime.now().add(const Duration(days: 7)),
-                startTime: TimeOfDay.now(),
-                endTime: TimeOfDay.now().add(const Duration(hours: 1)),
-              ),
+          initialValue: RepeatingEvent(
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(const Duration(days: 7)),
+            startTime: TimeOfDay.now(),
+            endTime: TimeOfDay.now().add(const Duration(hours: 1)),
+          ),
         ),
-        editing = rce != null,
-        calendarEventId = null,
-        initialRepeatingCalendarEventId = rce?.id {
+        editing = false,
+        onSaveRepeatingCalendarEvent = onSave,
+        onSaveCalendarEvent = null,
+        _onEditThisAndFollowing = null,
+        onDelete = null,
+        _onDeleteThisAndFollowing = null {
     addFieldBlocs(fieldBlocs: [
       title,
       endeavorReference,
@@ -50,20 +58,90 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
     repeatingEvent.addValidators([repeatingEventValidator()]);
   }
 
-  CalendarEventScreenBloc({CalendarEvent? initialEvent})
-      : title = TextFieldBloc(initialValue: initialEvent?.title ?? ''),
-        endeavorReference = InputFieldBloc<EndeavorReference?, dynamic>(
-            initialValue: initialEvent?.endeavorReference),
+  CalendarEventScreenBloc.editRepeatingOnly({
+    required RepeatingCalendarEvent rce,
+    required void Function(UnidentifiedRepeatingCalendarEvent) onSave,
+    required void Function() onDeleteRepeatingEvent,
+  })  : repeatingOnly = true,
+        title = TextFieldBloc(initialValue: rce.title),
+        endeavorReference = InputFieldBloc(initialValue: rce.endeavorReference),
+        repeating = BooleanFieldBloc(initialValue: true),
+        event = InputFieldBloc(initialValue: null),
+        repeatingEvent = InputFieldBloc(initialValue: rce.repeatingEvent),
+        editing = true,
+        onSaveRepeatingCalendarEvent = onSave,
+        onSaveCalendarEvent = null,
+        _onEditThisAndFollowing = null,
+        onDelete = onDeleteRepeatingEvent,
+        _onDeleteThisAndFollowing = null {
+    addFieldBlocs(fieldBlocs: [
+      title,
+      endeavorReference,
+      repeatingEvent,
+    ]);
+    title.addValidators([_titleValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
+  }
+
+  CalendarEventScreenBloc.create({
+    required void Function(UnidentifiedCalendarEvent) onSaveEvent,
+    required void Function(UnidentifiedRepeatingCalendarEvent)
+        onSaveRepeatingEvent,
+  })  : title = TextFieldBloc(initialValue: ''),
+        endeavorReference =
+            InputFieldBloc<EndeavorReference?, dynamic>(initialValue: null),
         repeating = BooleanFieldBloc(name: "Repeating", initialValue: false),
-        event = InputFieldBloc<Event, String>(
-            initialValue: initialEvent?.event ?? Event.generic(null)),
+        event =
+            InputFieldBloc<Event, String>(initialValue: Event.generic(null)),
         repeatingEvent =
             InputFieldBloc<RepeatingEvent?, String>(initialValue: null),
-        editing = initialEvent != null,
-        calendarEventId = initialEvent?.id,
-        initialRepeatingCalendarEventId =
-            initialEvent?.repeatingCalendarEventId,
-        repeatingOnly = false {
+        editing = false,
+        repeatingOnly = false,
+        onSaveCalendarEvent = onSaveEvent,
+        onSaveRepeatingCalendarEvent = onSaveRepeatingEvent,
+        onDelete = null,
+        _onDeleteThisAndFollowing = null,
+        _onEditThisAndFollowing = null {
+    repeating.onValueChanges(onData: ((previous, current) async* {
+      if (current.value) {
+        addFieldBlocs(fieldBlocs: [repeatingEvent]);
+        removeFieldBlocs(fieldBlocs: [event]);
+      } else {
+        addFieldBlocs(fieldBlocs: [event]);
+        removeFieldBlocs(fieldBlocs: [repeatingEvent]);
+      }
+    }));
+    addFieldBlocs(fieldBlocs: [
+      title,
+      endeavorReference,
+      if (!editing) repeating,
+      event,
+    ]);
+    title.addValidators([_titleValidator()]);
+    repeatingEvent.addValidators([repeatingEventValidator()]);
+    event.addValidators([eventValidator()]);
+  }
+
+  CalendarEventScreenBloc.edit({
+    required CalendarEvent initialEvent,
+    required void Function(UnidentifiedCalendarEvent) onSave,
+    required void Function() onDeleteCalendarEvent,
+    required void Function() onDeleteThisAndFollowingEvents,
+    required void Function(UnidentifiedCalendarEvent)
+        onEditThisAndFollwingEvents,
+  })  : title = TextFieldBloc(initialValue: initialEvent.title),
+        endeavorReference =
+            InputFieldBloc(initialValue: initialEvent.endeavorReference),
+        repeating = BooleanFieldBloc(initialValue: false),
+        event = InputFieldBloc(initialValue: initialEvent.event),
+        repeatingEvent = InputFieldBloc(initialValue: null),
+        editing = true,
+        repeatingOnly = false,
+        onSaveCalendarEvent = onSave,
+        onSaveRepeatingCalendarEvent = null,
+        onDelete = onDeleteCalendarEvent,
+        _onDeleteThisAndFollowing = onDeleteThisAndFollowingEvents,
+        _onEditThisAndFollowing = onEditThisAndFollwingEvents {
     repeating.onValueChanges(onData: ((previous, current) async* {
       if (current.value) {
         addFieldBlocs(fieldBlocs: [repeatingEvent]);
@@ -95,59 +173,34 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
 
   @override
   FutureOr<void> onDeleting() {
-    ShimDataService.calendarEvents.deleteCalendarEvent(
-      calendarEventId!,
-    );
+    if (onDelete != null) onDelete!();
     emitDeleteSuccessful();
   }
 
   void onDeleteThisAndFollowing() {
-    ShimDataService.calendarEvents.repeating
-        .deleteThisAndFollowingCalendarEvents(
-      selectedCalendarEventId: calendarEventId!,
-    );
+    if (_onDeleteThisAndFollowing != null) _onDeleteThisAndFollowing();
   }
 
   void onEditThisAndFollowing() {
-    ShimDataService.calendarEvents.repeating.editThisAndFollowingCalendarEvent(
-      calendarEvent: CalendarEvent(
-        id: calendarEventId!,
-        title: title.value,
-        event: event.value!,
-        repeatingCalendarEventId: initialRepeatingCalendarEventId!,
-        endeavorReference: endeavorReference.value,
-      ),
-    );
+    if (_onEditThisAndFollowing != null) {
+      _onEditThisAndFollowing(
+        UnidentifiedCalendarEvent(
+          title: title.value,
+          event: event.value!,
+          endeavorReference: endeavorReference.value,
+        ),
+      );
+    }
   }
 
   @override
   FutureOr<void> onSubmitting() {
-    if (editing) {
-      ShimDataService.calendarEvents.updateCalendarEvent(CalendarEvent(
-        id: calendarEventId!,
-        title: title.value,
-        event: event.value!,
-        endeavorReference: endeavorReference.value,
-        repeatingCalendarEventId: null,
-      ));
+    if (state.contains(repeatingEvent)) {
+      onSaveRepeatingCalendarEvent!(UnidentifiedRepeatingCalendarEvent(
+          title: title.value, repeatingEvent: repeatingEvent.value!));
     } else {
-      if (state.contains(repeatingEvent)) {
-        ShimDataService.calendarEvents.repeating
-            .createRepeatingCalendarEvent(UnidentifiedRepeatingCalendarEvent(
-          title: title.value,
-          repeatingEvent: repeatingEvent.value!,
-          endeavorReference: endeavorReference.value,
-        ));
-      } else {
-        ShimDataService.calendarEvents.createCalendarEvent(
-          UnidentifiedCalendarEvent(
-            title: title.value,
-            event: event.value!,
-            endeavorReference: endeavorReference.value,
-            repeatingCalendarEventId: null,
-          ),
-        );
-      }
+      onSaveCalendarEvent!(
+          UnidentifiedCalendarEvent(title: title.value, event: event.value!));
     }
     emitSuccess();
   }

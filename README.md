@@ -82,7 +82,10 @@ Back End: Firebase
 ----------------- HERE'S MY PLAN -----------------
 
 * Make the CalendarEventScreen handle a .repeatingOnly(RepeatingCalendarEvent? rce) constructor in create mode
-  * 
+  * Made the screen pop up with only repeating event available
+  * Now I need to make the screen actually be able to create one and add it to a schedule. I'm thinking that if I'm reusing the CalendarEventScreen, it actually might be wise to pass in the various handlers rather then keep them in the CalendarEventScreenBloc. This would also get rid of the need to store various IDs on the bloc
+    * I decided on this, even though it's a bit of refactoring work. I think it will be worth it. Just finished making the editing constructors for the bloc, now I just have to implement them.
+
 
 * Schedules
   * Plan (~40 tasks)
