@@ -44,40 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB3d6hgM8k8waUoMatHpaCe6O6mmZa7ACc',
-    appId: '1:550787291975:web:13923c1b6dbe4c4fee8a62',
-    messagingSenderId: '550787291975',
-    projectId: 'endeavor-75fc7',
-    authDomain: 'endeavor-75fc7.firebaseapp.com',
-    storageBucket: 'endeavor-75fc7.appspot.com',
-    measurementId: 'G-SSCBED9WQC',
+    apiKey: 'AIzaSyCAc4DApbzvVY2sOt-pva4lDluHkbusaOw',
+    appId: '1:219055418613:web:222b5a6c7d084f05b6a9bc',
+    messagingSenderId: '219055418613',
+    projectId: 'ecosystemauth',
+    authDomain: 'ecosystemauth.firebaseapp.com',
+    storageBucket: 'ecosystemauth.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD6cvggjMzNtmvI3vgrq3MWeIduQdyVseM',
-    appId: '1:550787291975:android:08a8b1c637ca3479ee8a62',
-    messagingSenderId: '550787291975',
-    projectId: 'endeavor-75fc7',
-    storageBucket: 'endeavor-75fc7.appspot.com',
+    apiKey: 'AIzaSyAnv3RyhZLBmPvlzBP_QsWsgJYkCX7xRT4',
+    appId: '1:219055418613:android:17624a02076c7e40b6a9bc',
+    messagingSenderId: '219055418613',
+    projectId: 'ecosystemauth',
+    storageBucket: 'ecosystemauth.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAcvm6ahH4RY3882FP9r03538_WB7rblQk',
-    appId: '1:550787291975:ios:d08e5c913def773dee8a62',
-    messagingSenderId: '550787291975',
-    projectId: 'endeavor-75fc7',
-    storageBucket: 'endeavor-75fc7.appspot.com',
-    iosClientId: '550787291975-fd8m2629641uufbdd9mqli7b15o93pfj.apps.googleusercontent.com',
-    iosBundleId: 'com.Endeavor.RunnerTests',
+    apiKey: 'AIzaSyCD16Wfgu99KtvS43ciHuTdwFeM47JjxcQ',
+    appId: '1:219055418613:ios:28000fd086d2cc70b6a9bc',
+    messagingSenderId: '219055418613',
+    projectId: 'ecosystemauth',
+    storageBucket: 'ecosystemauth.appspot.com',
+    iosBundleId: 'com.example.endeavor',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAcvm6ahH4RY3882FP9r03538_WB7rblQk',
-    appId: '1:550787291975:ios:49194d425c747a3cee8a62',
-    messagingSenderId: '550787291975',
-    projectId: 'endeavor-75fc7',
-    storageBucket: 'endeavor-75fc7.appspot.com',
-    iosClientId: '550787291975-1ib9pelrjlmlri27gku1i8nhgqcpkvfu.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCD16Wfgu99KtvS43ciHuTdwFeM47JjxcQ',
+    appId: '1:219055418613:ios:28000fd086d2cc70b6a9bc',
+    messagingSenderId: '219055418613',
+    projectId: 'ecosystemauth',
+    storageBucket: 'ecosystemauth.appspot.com',
     iosBundleId: 'com.example.endeavor',
   );
 }

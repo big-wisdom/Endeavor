@@ -1,43 +1,26 @@
 {
   "project_info": {
-    "project_number": "550787291975",
-    "project_id": "endeavor-75fc7",
-    "storage_bucket": "endeavor-75fc7.appspot.com"
+    "project_number": "219055418613",
+    "project_id": "ecosystemauth",
+    "storage_bucket": "ecosystemauth.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:550787291975:android:08a8b1c637ca3479ee8a62",
+        "mobilesdk_app_id": "1:219055418613:android:17624a02076c7e40b6a9bc",
         "android_client_info": {
           "package_name": "com.example.endeavor"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "550787291975-48p7lqfr9u6ub04fguk3pslfusqtendo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD6cvggjMzNtmvI3vgrq3MWeIduQdyVseM"
+          "current_key": "AIzaSyAnv3RyhZLBmPvlzBP_QsWsgJYkCX7xRT4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "550787291975-48p7lqfr9u6ub04fguk3pslfusqtendo.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "550787291975-1ib9pelrjlmlri27gku1i8nhgqcpkvfu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.endeavor"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
