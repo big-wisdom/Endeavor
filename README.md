@@ -73,17 +73,4 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* Major refactor: Starting back when we were babysitting for the Reynolds I've been switching out Firebase and switching in a new Microservice running in Cloud Run that connects to a Cloud SQL instance.
-
-* Recent progress has been that in the database I combined the EndeavorBlocks into the Events table and the repeatingEndeavorBlocks into the repeatingEvents table. Events and repeating events are working all around and now I've been working on Endeavors. 
-
-* I've just switched to a package called cached_query rather than using streaming endpoints, inspired by react query which is a streaming server model that's implemented with queries and mutations. It should be working for Endeavors, events and repeating events (with or without endeavors)
-
-* Create ListTasks endpoint
-* Create tasks query
-* Use that for the tasks page
-* Use it for an endeavorless tasks stream as well
-
-* I did all of that but there is some problem with loading the endeavorless tasks on the tasks page
-
-* I also need to work on deleting and updating tasks
+* This branch will be where I switch to using the ecosystemAuth firebase project as the unified source of authentication for all my apps. Can't wait!
