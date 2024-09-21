@@ -73,4 +73,21 @@ Back End: Firebase
 
 ## What I'm working on now
 
-* This branch will be where I switch to using the ecosystemAuth firebase project as the unified source of authentication for all my apps. Can't wait!
+* Desired
+  * I'd like secure network communication
+  * I'd like to have a unified identity provider between all apps
+  * I'd like my various resource servers to authenticate all requests using the identity providers authentication server
+
+* Current State
+  * DONE Authentication using the FirebaseAuth SDK uses secure network communication
+  * I'm not sure if communication between my app and my microservice (resource server) is TLS encrypted
+  * currently, resource server requests are not authenticated at all, they currently rely on the call not being made unless you are authenticated
+
+* Desired State
+  * I'd like to know that communication between my app and microservice is TLS encrypted
+  * I'd like all requests made to resource servers to be authenticated by my identity providers auth server
+
+* Development
+  * Figure out TLS communication
+  * Then get token from authenticated user, and send that with every request. Possibly also secure the channel?
+  * Then, actually use that token to authenticate in the resource server
