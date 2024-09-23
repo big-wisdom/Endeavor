@@ -20,17 +20,19 @@ class GRPCDataService {
   late EndeavorsDataService endeavors;
   late TasksDataService tasks;
 
-  String _baseUrl = "localhost";
-  int _port = 8080;
-  // String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
-  // int _port = 443;
+  // String _baseUrl = "localhost";
+  // int _port = 8080;
+  String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
+  int _port = 443;
 
   init(User user) async {
     print("Initializing GRPC client to port: $_port");
     final client = EndeavorClient(
-      ClientChannel(_baseUrl,
-          port: _port,
-          options: ChannelOptions(credentials: ChannelCredentials.insecure())),
+      ClientChannel(
+        _baseUrl,
+        port: _port,
+        options: ChannelOptions(credentials: ChannelCredentials.secure()),
+      ),
       interceptors: [AuthInterceptor(user.accessToken)],
     );
     calendarEvents = CalendarEventDataService(client, user.id);
