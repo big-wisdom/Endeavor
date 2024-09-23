@@ -38,7 +38,7 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
           if (state is AuthenticatedAppState) {
-            return Home(userId: state.user.id);
+            return Home(user: state.user);
           } else {
             return const LoginPage();
           }

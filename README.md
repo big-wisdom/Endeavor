@@ -74,20 +74,21 @@ Back End: Firebase
 ## What I'm working on now
 
 * Desired
-  * I'd like secure network communication
   * I'd like to have a unified identity provider between all apps
   * I'd like my various resource servers to authenticate all requests using the identity providers authentication server
 
 * Current State
+  * I have encrypted network traffic, woo hoo
+    * DONE ALREADY Implement TLS communication in GRPc (GPT thread https://chatgpt.com/share/66ef0254-e364-8000-ba59-4fa15b45a0a2)
+      * What I learned is that I likely don't need the TLS encryption in my app for server authentication and traffic encryption because google run
+      already provides the https endpoint
   * DONE Authentication using the FirebaseAuth SDK uses secure network communication
-  * I'm not sure if communication between my app and my microservice (resource server) is TLS encrypted
   * currently, resource server requests are not authenticated at all, they currently rely on the call not being made unless you are authenticated
 
 * Desired State
-  * I'd like to know that communication between my app and microservice is TLS encrypted
   * I'd like all requests made to resource servers to be authenticated by my identity providers auth server
 
 * Development
-  * Figure out TLS communication
   * Then get token from authenticated user, and send that with every request. Possibly also secure the channel?
+    * Got the app to send a bearer token, and the calendar_service to intercept it
   * Then, actually use that token to authenticate in the resource server
