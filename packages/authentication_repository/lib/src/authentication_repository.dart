@@ -121,8 +121,14 @@ class AuthenticationRepository {
   ///
   /// Emits [User.empty] if the user is not authenticated.
   Stream<User> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
+    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
+      final user = firebaseUser == null
+          ? User.empty
+          : User(
+              id: firebaseUser.uid,
+              accessToken: (await firebaseUser.getIdToken(true))!,
+              email: firebaseUser.email,
+            );
       _cache.write(key: userCacheKey, value: user);
       return user;
     });
@@ -181,11 +187,5 @@ class AuthenticationRepository {
     } catch (_) {
       throw LogOutFailure();
     }
-  }
-}
-
-extension on firebase_auth.User {
-  User get toUser {
-    return User(id: uid, email: email);
   }
 }
