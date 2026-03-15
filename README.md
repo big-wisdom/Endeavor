@@ -73,12 +73,11 @@ Back End: Firebase
 
 ## What I'm working on now
 
-<<<<<<< HEAD
 * History
   * I researched and found out that my live service is already using TLS as google provides it
   * I then got endeavor switched over to my ecosystemAuth FirebaseAuth project
   * I then got it to send a user token to the Cloud Run service to authenticate all requests. So now I know I have encrypted network traffic, and I have authenticated endpoints with a central identity provider project. WOO HOO!
-=======
+
 ----------------- HERE'S MY PLAN -----------------
 
 * Make the CalendarEventScreen handle a .repeatingOnly(RepeatingCalendarEvent? rce) constructor in create mode
@@ -175,4 +174,4 @@ Back End: Firebase
   * M2
     * Have sub variants
     * Eventually create by copying
->>>>>>> cc1b26d (Make a solid plan)
+
