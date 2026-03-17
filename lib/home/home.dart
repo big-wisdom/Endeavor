@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:endeavor/planning_screen/planning_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shim_data_service/shim_data_service.dart';
 
 // This widget is the highest authenticated parent widget. You can't get here
@@ -19,7 +20,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    ShimDataService.initialize(user: widget.user);
+    final authRepository = context.read<AuthenticationRepository>();
+    ShimDataService.initialize(
+      user: widget.user,
+      refreshToken: authRepository.refreshToken,
+    );
     super.initState();
   }
 

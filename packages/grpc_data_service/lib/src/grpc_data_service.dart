@@ -29,7 +29,7 @@ class GRPCDataService {
   // String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
   // int _port = 443;
 
-  init(User user) async {
+  init(User user, Future<String> Function() refreshToken) async {
     print("Initializing GRPC client to port: $_port");
     final client = EndeavorClient(
       ClientChannel(
@@ -37,7 +37,7 @@ class GRPCDataService {
         port: _port,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()),
       ),
-      interceptors: [AuthInterceptor(user.accessToken)],
+      interceptors: [AuthInterceptor(user.accessToken, refreshToken)],
     );
     calendarEvents = CalendarEventDataService(client, user.id);
     repeatingCalendarEvents =

@@ -140,6 +140,23 @@ class AuthenticationRepository {
     return _cache.read<User>(key: userCacheKey) ?? User.empty;
   }
 
+  /// Forces a Firebase token refresh, updates the user cache, and returns the
+  /// new token. Call this after an unauthenticated error so subsequent requests
+  /// use a fresh token.
+  Future<String> refreshToken() async {
+    final firebaseUser = _firebaseAuth.currentUser;
+    if (firebaseUser == null) return '';
+    final token = await firebaseUser.getIdToken(true) ?? '';
+    if (token.isNotEmpty) {
+      final cached = currentUser;
+      _cache.write(
+        key: userCacheKey,
+        value: User(id: cached.id, accessToken: token, email: cached.email),
+      );
+    }
+    return token;
+  }
+
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpWithEmailAndPasswordFailure] if an exception occurs.

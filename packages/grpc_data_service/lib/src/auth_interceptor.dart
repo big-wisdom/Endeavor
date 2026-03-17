@@ -1,9 +1,22 @@
 import 'package:grpc/grpc.dart';
 
 class AuthInterceptor extends ClientInterceptor {
-  final String authToken;
+  String _authToken;
+  final Future<String> Function() _onRefresh;
 
-  AuthInterceptor(this.authToken);
+  AuthInterceptor(this._authToken, this._onRefresh);
+
+  CallOptions _buildOptions(CallOptions options) => options.mergedWith(
+        CallOptions(metadata: {'authorization': 'Bearer $_authToken'}),
+      );
+
+  void _refreshOnAuthError(Object error) {
+    if (error is GrpcError && error.code == StatusCode.unauthenticated) {
+      _onRefresh().then((token) {
+        if (token.isNotEmpty) _authToken = token;
+      });
+    }
+  }
 
   @override
   ResponseFuture<R> interceptUnary<Q, R>(
@@ -12,10 +25,9 @@ class AuthInterceptor extends ClientInterceptor {
     CallOptions options,
     invoker,
   ) {
-    final updatedOptions = options.mergedWith(
-      CallOptions(metadata: {'authorization': 'Bearer $authToken'}),
-    );
-    return invoker(method, request, updatedOptions);
+    final response = invoker(method, request, _buildOptions(options));
+    response.then((_) {}, onError: _refreshOnAuthError);
+    return response;
   }
 
   @override
@@ -25,9 +37,8 @@ class AuthInterceptor extends ClientInterceptor {
     CallOptions options,
     invoker,
   ) {
-    final updatedOptions = options.mergedWith(
-      CallOptions(metadata: {'authorization': 'Bearer $authToken'}),
-    );
-    return invoker(method, requests, updatedOptions);
+    final response = invoker(method, requests, _buildOptions(options));
+    response.listen((_) {}, onError: _refreshOnAuthError);
+    return response;
   }
 }

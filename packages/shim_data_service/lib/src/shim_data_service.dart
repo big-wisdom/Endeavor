@@ -9,8 +9,11 @@ import './endeavor_block/endeavor_block_data_service.dart';
 
 class ShimDataService {
   // initialize data service
-  static initialize({required User user}) {
-    GRPCDataService().init(user);
+  static initialize({
+    required User user,
+    required Future<String> Function() refreshToken,
+  }) {
+    GRPCDataService().init(user, refreshToken);
   }
 
   // Static aggregates
