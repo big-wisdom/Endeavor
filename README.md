@@ -62,7 +62,11 @@ Back End: Firebase
   * [documentation](https://dart.dev/tutorials/language/streams) for streams
   * Interesting [article](https://medium.com/codechai/effective-bloc-pattern-45c36d76d5fe) that made me think I should switch to stateful widgets for initialization and disposing of BLoCs
 
+## Vendored Packages
+`packages/flutter_form_bloc` is a local copy of `flutter_form_bloc 0.31.0` with a patch applied to fix a breaking change in Flutter 3.27+ where `ThemeData.inputDecorationTheme` changed its return type from `InputDecorationTheme` to `InputDecorationThemeData`. The three affected files (`field_theme_resolver.dart`, `form_bloc_theme.dart`, `style.dart`) have all `InputDecorationTheme` type annotations replaced with `InputDecorationThemeData`. It is referenced via `dependency_overrides` in `pubspec.yaml`. Once `flutter_form_bloc` releases a fix, delete `packages/flutter_form_bloc` and remove the override.
+
 ## Backlog
+* Replace vendored `flutter_form_bloc` patch with an official package release once one is available
 * get seperator lines back in between the endeavors in the EndeavorsScreen
 * Rework task model to include repeating tasks
 * I might want to create an endeavorlessTask

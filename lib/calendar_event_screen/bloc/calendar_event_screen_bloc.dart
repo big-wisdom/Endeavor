@@ -27,6 +27,8 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   final bool editing;
   final bool repeatingOnly;
 
+  bool get hasThisAndFollowingActions => _onEditThisAndFollowing != null;
+
   CalendarEventScreenBloc.createRepeatingOnly({
     required void Function(UnidentifiedRepeatingCalendarEvent) onSave,
   })  : repeatingOnly = true,
@@ -197,7 +199,9 @@ class CalendarEventScreenBloc extends FormBloc<String, String> {
   FutureOr<void> onSubmitting() {
     if (state.contains(repeatingEvent)) {
       onSaveRepeatingCalendarEvent!(UnidentifiedRepeatingCalendarEvent(
-          title: title.value, repeatingEvent: repeatingEvent.value!));
+          title: title.value,
+          repeatingEvent: repeatingEvent.value!,
+          endeavorReference: endeavorReference.value));
     } else {
       onSaveCalendarEvent!(
           UnidentifiedCalendarEvent(title: title.value, event: event.value!));

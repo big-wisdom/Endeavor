@@ -24,10 +24,10 @@ class GRPCDataService {
   late TasksDataService tasks;
   late ScheduleDataService schedules;
 
-  // String _baseUrl = "localhost";
-  // int _port = 8080;
-  String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
-  int _port = 443;
+  String _baseUrl = "localhost";
+  int _port = 8080;
+  // String _baseUrl = "endeavor-go-wtqda5pveq-uc.a.run.app";
+  // int _port = 443;
 
   init(User user) async {
     print("Initializing GRPC client to port: $_port");
@@ -35,7 +35,7 @@ class GRPCDataService {
       ClientChannel(
         _baseUrl,
         port: _port,
-        options: ChannelOptions(credentials: ChannelCredentials.secure()),
+        options: ChannelOptions(credentials: ChannelCredentials.insecure()),
       ),
       interceptors: [AuthInterceptor(user.accessToken)],
     );

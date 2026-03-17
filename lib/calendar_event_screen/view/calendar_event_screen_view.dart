@@ -151,7 +151,7 @@ class _SaveButton extends StatelessWidget {
           onPressed: () {
             if (!state.isValid()) {
               return null;
-            } else if (bloc.initialRepeatingCalendarEventId != null) {
+            } else if (bloc.hasThisAndFollowingActions) {
               return () => showDialog(
                     context: context,
                     builder: (ctx) => ThisAndFollowingDialogue(
@@ -181,7 +181,7 @@ class _DeleteButton extends StatelessWidget {
         backgroundColor: MaterialStatePropertyAll(Colors.red),
       ),
       onPressed: () {
-        if (bloc.initialRepeatingCalendarEventId != null) {
+        if (bloc.hasThisAndFollowingActions) {
           return () => showDialog(
                 context: context,
                 builder: (ctx) => ThisAndFollowingDialogue(

@@ -1,6 +1,7 @@
 import 'package:endeavor/calendar_event_screen/calendar_event_screen.dart';
 import 'package:endeavor/endeavor_block_screen/endeavor_block_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 
 class ScheduleEditorPlusDialogue extends StatelessWidget {
   const ScheduleEditorPlusDialogue({super.key});
@@ -33,8 +34,10 @@ class ScheduleEditorPlusDialogue extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return const CalendarEventScreen.repeatingOnly(
+                    return CalendarEventScreen.repeatingOnly(
                       repeatingCalendarEvent: null,
+                      onSave: (re) => ShimDataService.calendarEvents.repeating
+                          .createRepeatingCalendarEvent(re),
                     );
                   }),
                 );

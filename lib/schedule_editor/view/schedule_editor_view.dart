@@ -4,6 +4,7 @@ import 'package:endeavor/endeavor_block_screen/endeavor_block_screen.dart';
 import 'package:endeavor/task_screen/view/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 
 import '../../calendar_event_screen/view/calendar_event_screen.dart';
 import 'schedule_editor_plus_dialogue.dart';
@@ -25,13 +26,13 @@ class ScheduleEditorView extends StatelessWidget {
                   },
                 );
               },
-              hoursColumnStyle: HoursColumnStyle(
+              hourColumnStyle: HourColumnStyle(
                 timeFormatter: (time) =>
                     "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')}",
               ),
               // generate a list of the days of the week for the selected date
               dates: monthRange(DateTime.now()),
-              events: const [],
+              events: const <FlutterWeekViewEvent>[],
               style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
             );
           },
@@ -71,18 +72,44 @@ class ScheduleEditorView extends StatelessWidget {
         ),
       );
     } else {
+      final ce = CalendarEvent(
+        id: event.id,
+        title: event.title,
+        event: Event(start: event.start, end: event.end),
+        endeavorReference: event.endeavorReference,
+        repeatingCalendarEventId: event.repeatingEventId,
+      );
       route = MaterialPageRoute(
         builder: (context) => CalendarEventScreen.edit(
-          calendarEvent: CalendarEvent(
-            id: event.id,
-            title: event.title,
-            event: Event(
-              start: event.start,
-              end: event.end,
+          calendarEvent: ce,
+          onSave: (e) => ShimDataService.calendarEvents.updateCalendarEvent(
+            CalendarEvent(
+              id: ce.id,
+              title: e.title,
+              event: e.event,
+              endeavorReference: e.endeavorReference,
+              repeatingCalendarEventId: ce.repeatingCalendarEventId,
             ),
-            endeavorReference: event.endeavorReference,
-            repeatingCalendarEventId: event.repeatingEventId,
           ),
+          onDelete: () =>
+              ShimDataService.calendarEvents.deleteCalendarEvent(ce.id),
+          onDeleteThisAndFollowing: ce.repeatingCalendarEventId != null
+              ? () => ShimDataService.calendarEvents.repeating
+                  .deleteThisAndFollowingCalendarEvents(
+                      selectedCalendarEventId: ce.id)
+              : null,
+          onEditThisAndFollowing: ce.repeatingCalendarEventId != null
+              ? (e) => ShimDataService.calendarEvents.repeating
+                  .editThisAndFollowingCalendarEvent(
+                    calendarEvent: CalendarEvent(
+                      id: ce.id,
+                      title: e.title,
+                      event: e.event,
+                      endeavorReference: e.endeavorReference,
+                      repeatingCalendarEventId: ce.repeatingCalendarEventId,
+                    ),
+                  )
+              : null,
         ),
       );
     }

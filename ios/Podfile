@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '12.0'
+platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -40,5 +40,18 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+  end
+
+  # Remove -GCC_WARN_INHIBIT_ALL_WARNINGS from per-file COMPILER_FLAGS in BoringSSL-GRPC.
+  # Clang parses it as -G (unsupported on Apple targets); -w already suppresses warnings.
+  installer.pods_project.targets.each do |target|
+    target.build_phases.each do |phase|
+      next unless phase.respond_to?(:files)
+      phase.files.each do |build_file|
+        next unless build_file.settings&.key?('COMPILER_FLAGS')
+        build_file.settings['COMPILER_FLAGS'] =
+          build_file.settings['COMPILER_FLAGS'].gsub('-GCC_WARN_INHIBIT_ALL_WARNINGS', '').strip
+      end
+    end
   end
 end

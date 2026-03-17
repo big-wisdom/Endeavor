@@ -5,36 +5,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalendarEventScreen extends StatelessWidget {
-  final CalendarEvent? calendarEvent;
+  final CalendarEvent? _calendarEvent;
+  final bool _repeatingOnly;
+  final RepeatingCalendarEvent? _repeatingCalendarEvent;
 
-  final bool repeatingOnly;
-  final RepeatingCalendarEvent? repeatingCalendarEvent;
+  final void Function(UnidentifiedCalendarEvent)? _onSaveCalendarEvent;
+  final void Function(UnidentifiedRepeatingCalendarEvent)?
+      _onSaveRepeatingCalendarEvent;
+  final void Function()? _onDelete;
+  final void Function()? _onDeleteThisAndFollowing;
+  final void Function(UnidentifiedCalendarEvent)? _onEditThisAndFollowing;
 
-  const CalendarEventScreen.edit({
-    required CalendarEvent this.calendarEvent,
+  CalendarEventScreen.create({
+    required void Function(UnidentifiedCalendarEvent) onSaveEvent,
+    required void Function(UnidentifiedRepeatingCalendarEvent)
+        onSaveRepeatingEvent,
     super.key,
-  })  : repeatingCalendarEvent = null,
-        repeatingOnly = false;
+  })  : _calendarEvent = null,
+        _repeatingOnly = false,
+        _repeatingCalendarEvent = null,
+        _onSaveCalendarEvent = onSaveEvent,
+        _onSaveRepeatingCalendarEvent = onSaveRepeatingEvent,
+        _onDelete = null,
+        _onDeleteThisAndFollowing = null,
+        _onEditThisAndFollowing = null;
 
-  const CalendarEventScreen.create({super.key})
-      : calendarEvent = null,
-        repeatingCalendarEvent = null,
-        repeatingOnly = false;
-
-  const CalendarEventScreen.repeatingOnly({
-    required this.repeatingCalendarEvent,
+  CalendarEventScreen.edit({
+    required CalendarEvent calendarEvent,
+    required void Function(UnidentifiedCalendarEvent) onSave,
+    required void Function() onDelete,
+    void Function()? onDeleteThisAndFollowing,
+    void Function(UnidentifiedCalendarEvent)? onEditThisAndFollowing,
     super.key,
-  })  : calendarEvent = null,
-        repeatingOnly = true;
+  })  : _calendarEvent = calendarEvent,
+        _repeatingOnly = false,
+        _repeatingCalendarEvent = null,
+        _onSaveCalendarEvent = onSave,
+        _onSaveRepeatingCalendarEvent = null,
+        _onDelete = onDelete,
+        _onDeleteThisAndFollowing = onDeleteThisAndFollowing,
+        _onEditThisAndFollowing = onEditThisAndFollowing;
+
+  CalendarEventScreen.repeatingOnly({
+    required RepeatingCalendarEvent? repeatingCalendarEvent,
+    required void Function(UnidentifiedRepeatingCalendarEvent) onSave,
+    void Function()? onDelete,
+    super.key,
+  })  : _calendarEvent = null,
+        _repeatingOnly = true,
+        _repeatingCalendarEvent = repeatingCalendarEvent,
+        _onSaveCalendarEvent = null,
+        _onSaveRepeatingCalendarEvent = onSave,
+        _onDelete = onDelete,
+        _onDeleteThisAndFollowing = null,
+        _onEditThisAndFollowing = null;
 
   @override
   Widget build(BuildContext context) {
+    final CalendarEventScreenBloc bloc;
+
+    if (_repeatingOnly) {
+      final rce = _repeatingCalendarEvent;
+      if (rce != null) {
+        bloc = CalendarEventScreenBloc.editRepeatingOnly(
+          rce: rce,
+          onSave: _onSaveRepeatingCalendarEvent!,
+          onDeleteRepeatingEvent: _onDelete!,
+        );
+      } else {
+        bloc = CalendarEventScreenBloc.createRepeatingOnly(
+          onSave: _onSaveRepeatingCalendarEvent!,
+        );
+      }
+    } else if (_calendarEvent != null) {
+      bloc = CalendarEventScreenBloc.edit(
+        initialEvent: _calendarEvent,
+        onSave: _onSaveCalendarEvent!,
+        onDeleteCalendarEvent: _onDelete!,
+        onDeleteThisAndFollowingEvents: _onDeleteThisAndFollowing ?? () {},
+        onEditThisAndFollwingEvents: _onEditThisAndFollowing ?? (_) {},
+      );
+    } else {
+      bloc = CalendarEventScreenBloc.create(
+        onSaveEvent: _onSaveCalendarEvent!,
+        onSaveRepeatingEvent: _onSaveRepeatingCalendarEvent!,
+      );
+    }
+
     return BlocProvider(
-      create: (context) => repeatingOnly
-          ? CalendarEventScreenBloc.repeatingOnly(
-              repeatingCalendarEvent,
-            )
-          : CalendarEventScreenBloc(initialEvent: calendarEvent),
+      create: (_) => bloc,
       child: const CalendarEventScreenView(),
     );
   }

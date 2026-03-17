@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_week_view/flutter_week_view.dart';
 
 import '../../calendar_event_screen/view/calendar_event_screen.dart';
+import 'package:shim_data_service/shim_data_service.dart';
 
 class WeekScreenView extends StatelessWidget {
   const WeekScreenView({super.key});
@@ -19,7 +20,7 @@ class WeekScreenView extends StatelessWidget {
       builder: (context, constraints) {
         return BlocBuilder<WeekScreenBloc, WeekScreenState>(
           builder: (context, state) {
-            return WeekView(
+            return WeekView<FlutterWeekViewEventWithValue<WeekViewEvent>>(
               dayBarStyleBuilder: (date) {
                 return DayBarStyle(
                   dateFormatter: (year, month, day) {
@@ -27,7 +28,7 @@ class WeekScreenView extends StatelessWidget {
                   },
                 );
               },
-              hoursColumnStyle: HoursColumnStyle(
+              hourColumnStyle: HourColumnStyle(
                 timeFormatter: (time) =>
                     "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')}",
               ),
@@ -35,17 +36,25 @@ class WeekScreenView extends StatelessWidget {
               dates: weekBloc.monthRange,
               events: state.events
                   .map(
-                    (e) => FlutterWeekViewEvent(
-                      backgroundColor:
-                          e.backgroundColor ?? Theme.of(context).primaryColor,
+                    (e) => FlutterWeekViewEventWithValue(
                       title: e.title,
                       description: '',
                       start: e.start,
                       end: e.end,
-                      onTap: () => _onTap(context, e),
+                      value: e,
                     ),
                   )
                   .toList(),
+              eventWidgetBuilder: (event, height, width) => GestureDetector(
+                onTap: () => _onTap(context, event.value),
+                child: FlutterWeekViewEventWidget(
+                  event: event,
+                  height: height,
+                  width: width,
+                  backgroundColor: event.value.backgroundColor ??
+                      Theme.of(context).primaryColor,
+                ),
+              ),
               style: WeekViewStyle(dayViewWidth: constraints.maxWidth),
             );
           },
@@ -78,18 +87,44 @@ class WeekScreenView extends StatelessWidget {
         ),
       );
     } else {
+      final ce = CalendarEvent(
+        id: event.id,
+        title: event.title,
+        event: Event(start: event.start, end: event.end),
+        endeavorReference: event.endeavorReference,
+        repeatingCalendarEventId: event.repeatingEventId,
+      );
       route = MaterialPageRoute(
         builder: (context) => CalendarEventScreen.edit(
-          calendarEvent: CalendarEvent(
-            id: event.id,
-            title: event.title,
-            event: Event(
-              start: event.start,
-              end: event.end,
+          calendarEvent: ce,
+          onSave: (e) => ShimDataService.calendarEvents.updateCalendarEvent(
+            CalendarEvent(
+              id: ce.id,
+              title: e.title,
+              event: e.event,
+              endeavorReference: e.endeavorReference,
+              repeatingCalendarEventId: ce.repeatingCalendarEventId,
             ),
-            endeavorReference: event.endeavorReference,
-            repeatingCalendarEventId: event.repeatingEventId,
           ),
+          onDelete: () =>
+              ShimDataService.calendarEvents.deleteCalendarEvent(ce.id),
+          onDeleteThisAndFollowing: ce.repeatingCalendarEventId != null
+              ? () => ShimDataService.calendarEvents.repeating
+                  .deleteThisAndFollowingCalendarEvents(
+                      selectedCalendarEventId: ce.id)
+              : null,
+          onEditThisAndFollowing: ce.repeatingCalendarEventId != null
+              ? (e) => ShimDataService.calendarEvents.repeating
+                  .editThisAndFollowingCalendarEvent(
+                    calendarEvent: CalendarEvent(
+                      id: ce.id,
+                      title: e.title,
+                      event: e.event,
+                      endeavorReference: e.endeavorReference,
+                      repeatingCalendarEventId: ce.repeatingCalendarEventId,
+                    ),
+                  )
+              : null,
         ),
       );
     }

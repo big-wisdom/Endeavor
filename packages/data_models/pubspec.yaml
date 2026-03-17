@@ -7,7 +7,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  cloud_firestore: ^4.7.0
+  cloud_firestore: ^5.0.0
   date_and_time_utilities:
     path: ../date_and_time_utilities
   equatable: ^2.0.5
