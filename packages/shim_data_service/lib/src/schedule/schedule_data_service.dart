@@ -3,7 +3,7 @@ import 'package:data_models/data_models.dart';
 import 'package:grpc_data_service/grpc_data_service.dart';
 
 class ScheduleDataService {
-  Stream<QueryState<List<Schedule>>> stream =
+  Stream<QueryState<List<Schedule>>> get stream =>
       GRPCDataService.instance.schedules.stream;
 
   void createSchedule(String title) {
